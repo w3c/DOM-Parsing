@@ -1,0 +1,968 @@
+﻿<!doctype html>
+<meta charset=UTF-8>
+<title>DOM Parsing and Serialization</title>
+<link rel=stylesheet href=http://www.whatwg.org/style/specification>
+<style>
+ pre, code { font-family:monospace, sans-serif; }
+ h2 code, h3 code, h4 code,
+ h2 :link, h3 :link, h4 :link,
+ h2 :visited, h3 :visited, h4 :visited
+ { font:inherit; color:inherit; font-style:italic; }
+ @media print {
+   [data-anolis-spec]::after {
+     content: "[" attr(data-anolis-spec) "]";
+     font-size: 0.6em;
+     vertical-align: super;
+     text-transform: uppercase;
+   }
+ }
+</style>
+<body class=draft>
+<div class=head id=head>
+<h1>DOM Parsing and Serialization</h1>
+<h2 class="no-num no-toc">Work in Progress &mdash; Last Update <!--[DATE: 01 Jan 1901]-->3 April 2012</h2>
+<dl>
+  <dt>This Version:
+  <dd><a href="http://html5.org/specs/dom-parsing.html">http://html5.org/specs/dom-parsing.html</a>
+
+  <dt>Participate:
+  <dd><a href="http://www.whatwg.org/mailing-list">whatwg@whatwg.org</a>
+  <dd><a href="https://www.w3.org/Bugs/Public/enter_bug.cgi?product=WebAppsWG&amp;component=DOM%20Parsing%20and%20Serialization">File a bug</a>
+  <dd><a href="http://wiki.whatwg.org/wiki/IRC">IRC: #whatwg on Freenode</a>
+
+  <dt>Editors:
+  <dd>Ms2ger &lt;ms2ger@gmail.com>
+  <dd>Travis Leithead &lt;Travis.Leithead@microsoft.com> (newly joining...)</dd>
+
+  <dt>Previous Home:
+  <dd><a href="http://html5.org/specs/dom-parsing.html">http://html5.org/specs/dom-parsing.html</a>
+</dl>
+</div>
+
+
+
+<h2 class="no-num no-toc">Abstract</h2>
+<p>
+
+
+
+<h2 class="no-num no-toc">Table of contents</h2>
+<!--toc-->
+
+
+
+<h2 class=no-num>Issues</h2>
+<p>Various issues are listed in the rest of the document.
+
+<p class=XXX>This specification currently requires using the XML Parser for
+some APIs, when in an XML document. It is unclear whether consensus can be
+found for this approach.
+
+
+
+<h2>Conformance</h2>
+<p>All diagrams, examples, and notes in this specification are
+non-normative, as are all sections explicitly marked non-normative.
+Everything else in this specification is normative.</p>
+
+<p>The key words "MUST", "MUST NOT", "REQUIRED", <!--"SHALL", "SHALL
+NOT",--> "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+"OPTIONAL" in the normative parts of this document are to be
+interpreted as described in RFC2119. For readability, these words do
+not appear in all uppercase letters in this specification. <span
+data-anolis-ref>RFC2119</span></p>
+
+<p>Requirements phrased in the imperative as part of algorithms
+(such as "strip any leading space characters" or "return false and
+terminate these steps") are to be interpreted with the meaning of the
+key word ("must", "should", "may", etc) used in introducing the
+algorithm.</p>
+
+<p>Conformance requirements phrased as algorithms or specific steps
+may be implemented in any manner, so long as the end result is
+equivalent. (In particular, the algorithms defined in this
+specification are intended to be easy to follow, and not intended to
+be performant.)</p>
+
+<p id="hardwareLimitations">User agents may impose
+implementation-specific limits on otherwise unconstrained inputs,
+e.g. to prevent denial of service attacks, to guard against running
+out of memory, or to work around platform-specific limitations.</p>
+
+<p>When a method or an attribute is said to call another method or attribute, the user agent must invoke its internal API for that attribute or method so that e.g. the author can't change the behavior by overriding attributes or methods with custom properties or functions in ECMAScript.
+
+<p>Unless otherwise stated, string comparisons are done in a <span
+data-anolis-spec=dom>case-sensitive</span> manner.
+
+<p>If an algorithm calls into another algorithm, any exception that is thrown
+by the latter (unless it is explicitly caught), must cause the former to
+terminate, and the exception to be propagated up to <em>its</em> caller.
+
+
+<h3>Dependencies</h3>
+<p>The IDL fragments in this specification must be interpreted as
+required for conforming IDL fragments, as described in the Web IDL
+specification. <span data-anolis-ref>WEBIDL</span>
+
+<p>Some of the terms used in this specification are defined in
+<cite>DOM4</cite> and <cite>HTML</cite>.
+<span data-anolis-ref>DOM</span>
+<span data-anolis-ref>HTML</span>
+
+
+<h3>Extensibility</h3>
+<p>Vendor-specific proprietary extensions to this specification are
+strongly discouraged. Authors must not use such extensions, as
+doing so reduces interoperability and fragments the user base,
+allowing only users of specific user agents to access the content in
+question.</p>
+
+<p>If vendor-specific extensions are needed, the members should be
+prefixed by vendor-specific strings to prevent clashes with future
+versions of this specification. Extensions must be defined so that
+the use of extensions neither contradicts nor causes the
+non-conformance of functionality defined in the specification.</p>
+<!-- thanks to QA Framework -->
+
+<p>When vendor-neutral extensions to this specification are needed,
+either this specification can be updated accordingly, or an
+extension specification can be written that overrides the
+requirements in this specification. When someone applying this
+specification to their activities decides that they will recognise
+the requirements of such an extension specification, it becomes an
+<dfn title="other applicable specifications">applicable
+specification</dfn> for the purposes of conformance requirements in
+this specification.</p>
+<!-- http://www.w3.org/mid/17E341CD-E790-422C-9F9A-69347EE01CEB@iki.fi -->
+
+
+
+<h2>Terminology</h2>
+<p>The term <dfn>context object</dfn> means the object on which the method or
+attribute being discussed was called.
+
+
+
+<h2>Parsing and serializing <code data-anolis-spec=dom>Node</code>s</h2>
+<h3>Parsing</h3>
+<p>The following steps form the
+<dfn title=concept-parse-fragment>fragment parsing algorithm</dfn>, whose
+arguments are a <var title>markup</var> string and a
+<var title>context element</var>.
+
+<ol>
+  <li>
+    <p>If the <var title>context element</var>'s
+    <span data-anolis-spec=dom title=concept-node-document>node document</span>
+    is an <span data-anolis-spec=dom>HTML document</span>: let
+    <var title>algorithm</var> be the
+    <span data-anolis-spec=html>HTML fragment parsing algorithm</span>.
+
+    <p>If the <var title>context element</var>'s
+    <span data-anolis-spec=dom title=concept-node-document>node document</span>
+    is an <span data-anolis-spec=dom>XML document</span>: let
+    <var title>algorithm</var> be the
+    <span data-anolis-spec=html>XML fragment parsing algorithm</span>.
+
+  <li>
+    <p>Invoke <var title>algorithm</var> with <var title>markup</var> as
+    the <var title>input</var>, and <var title>context element</var> as the
+    <var data-anolis-spec=html title=concept-frag-parse-context>context</var>
+    element.
+
+  <li>
+    <p>Let <var title>new children</var> be the nodes returned.
+
+  <li>
+    <p>Let <var title>fragment</var> be a new
+    <code data-anolis-spec=dom>DocumentFragment</code> whose
+    <span data-anolis-spec=dom title=concept-node-document>node document</span>
+    is <var title>context element</var>'s
+    <span data-anolis-spec=dom title=concept-node-document>node document</span>.
+
+  <li>
+    <p><span data-anolis-spec=dom title=concept-node-append>Append</span>
+    each <span data-anolis-spec=dom title=concept-node>node</span> in
+    <var title>new children</var> to <var title>fragment</var> (in order).
+
+    <p class=note>This ensures the
+    <span data-anolis-spec=dom title=concept-node-document>node document</span>
+    for the new <span data-anolis-spec=dom title=concept-node>nodes</span>
+    is correct.
+
+  <li>
+    <p>Return <var title>fragment</var>.
+</ol>
+
+<h3>Serializing</h3>
+<p>To <dfn title=concept-serialize>serialize</dfn> a
+<code data-anolis-spec=dom>Node</code> <var title>node</var>, the user agent
+must run the following steps:
+
+<ol>
+  <li>Let <var title>document</var> be <var title>node</var>'s
+  <span data-anolis-spec=dom title=concept-node-document>node document</span>.
+
+  <li>If <var title>document</var> is an
+  <span data-anolis-spec=dom>HTML document</span>, return an
+  <span title=concept-serialize-html>HTML serialization</span> of
+  <var title>node</var>.
+
+  <li>Otherwise, <var title>document</var> is an
+  <span data-anolis-spec=dom>XML document</span>. Return an
+  <span title=concept-serialize-xml>XML serialization</span> of
+  <var title>node</var>.
+</ol>
+
+<p>To <dfn title=concept-serialize-html>produce an HTML serialization</dfn> of a
+<code data-anolis-spec=dom>Node</code> <var title>node</var>, the user agent
+must run the appropriate steps, depending on <var title>node</var>'s interface:
+<dl class=switch>
+  <dt><code data-anolis-spec=dom>Element</code>
+  <dt><code data-anolis-spec=dom>Document</code>
+  <dt><code data-anolis-spec=dom>DocumentFragment</code>
+  <dd><p>Run the
+  <span data-anolis-spec=html>HTML fragment serialization algorithm</span> on
+  <var title>node</var>. Return the returned string.
+
+  <dt><code data-anolis-spec=dom>Comment</code>
+  <dt><code data-anolis-spec=dom>Text</code>
+  <dt><code data-anolis-spec=dom>DocumentType</code>
+  <dt><code data-anolis-spec=dom>ProcessingInstruction</code>
+  <dd class=XXX>You tell me.
+</dl>
+
+<p>To <dfn title=concept-serialize-xml>produce an XML serialization</dfn> of a
+<code data-anolis-spec=dom>Node</code> <var title>node</var>, the user agent
+must run the appropriate steps, depending on <var title>node</var>'s interface:
+<dl class=switch>
+  <dt><code data-anolis-spec=dom>Element</code>
+  <dd>
+    <p>Return the concatenation of the following strings:
+    <ul>
+      <li>"<code title>&lt;</code>" (U+003C LESS-THAN SIGN);
+      <li>the value of <var title>node</var>'s
+      <code title=dom-Element-tagName data-anolis-spec=dom>tagName</code>
+      attribute;
+      <p class=XXX>escaping / throwing
+      <li>the <span title=concept-serialize-xml-attributes>XML serialization of
+      <var title>node</var>'s attributes</span>;
+      <li>"<code title>&gt;</code>" (U+003E GREATER-THAN SIGN);
+      <li>the <span title=concept-serialize-xml>serialization</span> of
+      <var title>node</var>'s
+      <span title=concept-tree-child data-anolis-spec=dom>children</span>, in
+      order;
+      <li>"<code title>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS);
+      <li>the value of <var title>node</var>'s
+      <code title=dom-Element-tagName data-anolis-spec=dom>tagName</code>
+      attribute;
+      <li>"<code title>&gt;</code>" (U+003E GREATER-THAN SIGN).
+    </ul>
+
+  <dt><code data-anolis-spec=dom>Document</code>
+  <dd><p>Run the
+  <span data-anolis-spec=html>XML fragment serialization algorithm</span> on
+  <var title>node</var>. Return the string this produced.
+
+  <dt><code data-anolis-spec=dom>Comment</code>
+  <dd>
+    <p>Let <var title>markup</var> the concatenation of
+    "<code title>&lt;!--</code>", <var title>node</var>'s
+    <code title=dom-characterdata-data data-anolis-spec=dom>data</code>, and
+    "<code title>--></code>".
+
+    <p>If <var title>markup</var> matches the
+    <code data-anolis-spec=xml>Comment</code> production, return
+    <var title>markup</var>. Otherwise, throw an
+    <code title=dom-DOMException-INVALID_STATE_ERR data-anolis-spec=dom>INVALID_STATE_ERR</code>
+    exception.
+
+  <dt><code data-anolis-spec=dom>Text</code>
+  <dd>
+    <p>Let <var title>data</var> be <var title>node</var>'s
+    <code title=dom-characterdata-data data-anolis-spec=dom>data</code>.
+
+    <p>If <var title>node</var> has its <span>serialize as CDATA flag</span>
+    set, run the following steps:
+    <ol>
+      <li>If <var title>data</var> doesn't match the
+      <code data-anolis-spec=xml>CData</code> production, throw an
+      <code title=dom-DOMException-INVALID_STATE_ERR data-anolis-spec=dom>INVALID_STATE_ERR</code>
+      exception and terminate the entire algorithm.
+
+      <li>Let <var title>markup</var> be the concatenation of
+      "<code title>&lt;![CDATA[</code>", <var title>data</var>, and
+      "<code title>]]></code>".
+
+      <li>Return <var title>markup</var>.
+    </ol>
+
+    <p>Otherwise, return <var title>data</var>.
+
+  <dt><code data-anolis-spec=dom>DocumentFragment</code>
+  <dd>
+    <p>Let <var title>markup</var> the empty string.
+
+    <p>For each
+    <span title=concept-tree-child data-anolis-spec=dom>child</span> of
+    <var title>node</var>, in order,
+    <span title=concept-serialize-xml>produce an XML serialization</span>
+    of the child and concatenate the result to <var title>markup</var>.
+
+    <p>Return <var title>markup</var>.
+
+  <dt><code data-anolis-spec=dom>DocumentType</code>
+  <dt><code data-anolis-spec=dom>ProcessingInstruction</code>
+  <dd class=XXX>You tell me.
+</dl>
+
+<p>The <dfn title=concept-serialize-xml-attributes>XML serialization of the
+attributes</dfn> of an
+<span title=concept-element data-anolis-spec=dom>element</span>
+<var title>element</var> is the result of the following algorithm:
+<ol>
+  <li>Let <var title>result</var> be the empty string.
+  <li>
+    <p>For each
+    <span title=concept-attribute data-anolis-spec=dom>attribute</span>
+    <var title>attr</var> in <var title>element</var>
+    <span title=concept-element-attribute data-anolis-spec=dom>attributes</span>,
+    in order, append the following strings to <var title>result</var>:
+    <ol>
+      <li>"<code title> </code>" (U+0020 SPACE);
+      <li><var title>attr</var>'s
+      <span title=concept-attribute-name data-anolis-spec=dom>name</span>;
+      <p class=XXX>escaping / throwing
+      <li>"<code title>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
+      <li><var title>attr</var>'s
+      <span title=concept-attribute-value data-anolis-spec=dom>value</span>;
+      <p class=XXX>escaping / throwing
+      <li>"<code title>"</code>" (U+0022 QUOTATION MARK).
+    </ol>
+  <li>Return <var title>result</var>.
+</ol>
+
+
+
+<h2>The <code>DOMParser</code> interface</h2>
+<pre class=idl>enum <dfn>SupportedType</dfn> {
+  "text/html",
+  "text/xml",
+  "application/xml",
+  "application/xhtml+xml",
+  "image/svg+xml"
+};
+
+[<span title=dom-DOMParser>Constructor</span>]
+interface <dfn>DOMParser</dfn> {
+  <span data-anolis-spec=dom>Document</span> <!--
+  --><span title=dom-DOMParser-parseFromString>parseFromString</span>(<!--
+  -->DOMString <var title>str</var>, <!--
+  --><span>SupportedType</span> <var title>type</var>);
+};</pre>
+
+<p>The <dfn title=dom-DOMParser><code>DOMParser()</code></dfn> constructor
+must return a new <code>DOMParser</code> object.
+
+<p>The
+<dfn title=dom-DOMParser-parseFromString><code>parseFromString(<var title>str</var>, <var title>type</var>)</code></dfn>
+method must run these steps, depending on <var title>type</var>:
+<dl class=switch>
+  <dt>"<code title>text/html</code>"
+  <dd>
+    <p>Parse <var title>str</var> with an
+    <span data-anolis-spec=html>HTML parser</span>, and return the newly
+    created <span title=concept-document data-anolis-spec=dom>document</span>.
+
+    <p>The <span data-anolis-spec=html>scripting flag</span> must be set to
+    "disabled".
+
+    <p class=note><code data-anolis-spec=html>meta</code> elements are not
+    taken into account for the encoding used, as a Unicode stream is passed into
+    the parser.
+
+    <p class=note><code data-anolis-spec=html>script</code> elements get marked
+    unexecutable and the contents of <code data-anolis-spec=html>noscript</code>
+    get parsed as markup.
+
+  <dt>"<code title>text/xml</code>"
+  <dt>"<code title>application/xml</code>"
+  <dt>"<code title>application/xhtml+xml</code>"
+  <dt>"<code title>image/svg+xml</code>"
+  <dd>
+    <ol>
+      <li><p>Parse <var title>str</var> with a namespace-enabled
+      <span data-anolis-spec=html>XML parser</span>.
+
+      <li><p>If the previous step didn't return an error, return the newly
+      created <span title=concept-document data-anolis-spec=dom>document</span>
+      and terminate these steps.
+
+      <li><p>Let <var title>document</var> be a newly-created
+      <code data-anolis-spec=dom>XMLDocument</code>.
+
+      <li>
+        <p>Let <var title>root</var> be a new
+        <code data-anolis-spec=dom>Element</code>, with its
+        <span title=concept-element-local-name data-anolis-spec=dom>local name</span>
+        set to "<code title>parsererror</code>" and its
+        <span title=concept-element-namespace data-anolis-spec=dom>namespace</span>
+        set to
+        "<code title>http://www.mozilla.org/newlayout/xml/parsererror.xml</code>".
+
+        <p>At this point user agents may
+        <span data-anolis-spec=dom title=concept-node-append>append</span> nodes
+        to <var title>root</var>, for example to describe the nature of the
+        error.
+
+      <li><p><span data-anolis-spec=dom title=concept-node-append>Append</span>
+      <var title>root</var> to <var title>document</var>.
+
+      <li><p>Return <var title>document</var>.
+    </ol>
+</dl>
+
+<p>In any case, the returned
+<span title=concept-document data-anolis-spec=dom>document</span>'s
+<span title=concept-document-content-type data-anolis-spec=dom>content type</span>
+must be the <var title>type</var> argument.
+
+<div class=XXX>
+<p>It is currently unclear what the
+<span title=concept-document-url data-anolis-spec=dom>URL</span> of the returned
+<span title=concept-document data-anolis-spec=dom>document</span> should be.
+
+<p>Results for a <a href="http://software.hixie.ch/utilities/js/live-dom-viewer/saved/1322">test case</a>:
+<table>
+<thead>
+  <tr>
+    <th><th>Gecko<th>Opera<th>Chrome
+<tbody>
+  <tr>
+    <th>document.location <td colspan=3>null
+  <tr>
+    <th>document.URL <td>unsupported <td>unsupported <td>""
+  <tr>
+    <th>document.documentURI <td>Page URL <td>null <td>null
+</table>
+
+<p>Anne van Kesteren suggests using the default, about:blank.
+</div>
+
+<p class=note>The returned
+<span title=concept-document data-anolis-spec=dom>document</span>'s
+<span title=concept-document-encoding data-anolis-spec=dom>encoding</span> is
+the default, UTF-8.
+
+
+
+<h2>The <code>XMLSerializer</code> interface</h2>
+
+<pre class=idl>[<span title=dom-XMLSerializer>Constructor</span>]
+interface <dfn>XMLSerializer</dfn> {
+  DOMString <span title=dom-XMLSerializer-serializeToString>serializeToString</span>(<span data-anolis-spec=dom>Node</span> <var title>root</var>);
+};</pre>
+
+<p>The <dfn title=dom-XMLSerializer><code>XMLSerializer()</code></dfn>
+constructor must return a new <code>XMLSerializer</code> object.
+
+<p>The
+<dfn title=dom-XMLSerializer-serializeToString><code>serializeToString(<var title>root</var>)</code></dfn>
+method must
+<span title=concept-serialize-xml>produce an XML serialization</span> of
+<var title>root</var> and return the result.
+
+
+<h2>Extensions to the <code data-anolis-spec=dom>Element</code> interface</h2>
+
+<pre class=idl>enum insertAdjacentHTMLPosition {
+  "beforebegin",
+  "afterbegin",
+  "beforeend",
+  "afterend"
+};
+
+partial interface <span data-anolis-spec=dom>Element</span> {
+  attribute DOMString <span title=dom-Element-innerHTML>innerHTML</span>;
+  attribute DOMString <span title=dom-Element-outerHTML>outerHTML</span>;
+  void <span title=dom-Element-insertAdjacentHTML>insertAdjacentHTML</span>(insertAdjacentHTMLPosition <var title>position</var>, DOMString <var title>text</var>);
+};</pre>
+
+
+<h3><code title=dom-Element-innerHTML>innerHTML</code></h3>
+<p>The <dfn title=dom-Element-innerHTML><code>innerHTML</code></dfn> IDL
+attribute represents the markup of the
+<code data-anolis-spec=dom>Element</code>'s contents.
+
+<dl class=domintro>
+  <!--doc.ih
+  <dt><var title>document</var> . <code title=dom-Document-innerHTML>innerHTML</code> [ = <var title>value</var> ]
+  <dd>
+    <p>Returns a fragment of HTML or XML that represents the
+    <code data-anolis-spec=dom>Document</code>.
+
+    <p>Can be set, to replace the
+    <code data-anolis-spec=dom>Document</code>'s contents with the result of
+    parsing the given string.
+
+    <p>In the case of an <span data-anolis-spec=dom>XML document</span>,
+    will throw an
+    <code data-anolis-spec=dom title=dom-DOMException-INVALID_STATE_ERR>INVALID_STATE_ERR</code>
+    if the <code data-anolis-spec=dom>Document</code> cannot be serialized
+    to XML, and a
+    <code data-anolis-spec=dom title=dom-DOMException-SYNTAX_ERR>SYNTAX_ERR</code>
+    if the given string is not well-formed.
+  -->
+
+  <dt><var title>element</var> . <code title=dom-Element-innerHTML>innerHTML</code> [ = <var title>value</var> ]
+  <dd>
+    <p>Returns a fragment of HTML or XML that represents the element's
+    contents.
+
+    <p>Can be set, to replace the contents of the element with nodes
+    parsed from the given string.
+
+    <p>In the case of an <span data-anolis-spec=dom>XML document</span>,
+    will throw an
+    <code data-anolis-spec=dom title=dom-DOMException-INVALID_STATE_ERR>INVALID_STATE_ERR</code>
+    if the <code data-anolis-spec=dom>Element</code> cannot be serialized
+    to XML, and a
+    <code data-anolis-spec=dom title=dom-DOMException-SYNTAX_ERR>SYNTAX_ERR</code>
+    if the given string is not well-formed.
+</dl>
+
+<div class=impl>
+
+<p>On getting, if the <span>context object</span>'s
+<span data-anolis-spec=dom title=concept-node-document>node document</span>
+is an <span data-anolis-spec=dom>HTML document</span>, then the attribute
+must return the result of running the
+<span data-anolis-spec=html>HTML fragment serialization algorithm</span> on the
+<span>context object</span>; otherwise, the <span>context object</span>'s
+<span data-anolis-spec=dom title=concept-node-document>node document</span>
+is an <span data-anolis-spec=dom>XML document</span>, and the attribute must
+return the result of running the
+<span data-anolis-spec=html>XML fragment serialization algorithm</span> on the
+<span>context object</span> instead (this might throw an
+exception instead of returning a string).
+
+<p>On setting, these steps must be run:
+
+<ol>
+ <li>
+  <p>Let <var title>fragment</var> be the result of invoking the
+  <span title=concept-parse-fragment>fragment parsing algorithm</span> with
+  the new value as <var title>markup</var>, and the
+  <span>context object</span> as the <var title>context element</var>.
+
+ <li><p><span data-anolis-spec=dom title=concept-node-replace-all>Replace all</span>
+ with <var title>fragment</var> within the <span>context object</span>.
+</ol>
+
+</div>
+
+
+<h3><code title=dom-Element-outerHTML>outerHTML</code></h3>
+
+<p>The <dfn title=dom-Element-outerHTML><code>outerHTML</code></dfn> IDL
+attribute represents the markup of the
+<code data-anolis-spec=dom>Element</code> and its contents.
+
+<dl class=domintro>
+  <dt><var title>element</var> . <code title=dom-Element-outerHTML>outerHTML</code> [ = <var title>value</var> ]
+  <dd>
+    <p>Returns a fragment of HTML or XML that represents the element and its
+    contents.
+
+    <p>Can be set, to replace the element with nodes parsed from the given
+    string.
+
+    <p>In the case of an <span data-anolis-spec=dom>XML document</span>,
+    will throw an
+    <code data-anolis-spec=dom title=dom-DOMException-INVALID_STATE_ERR>INVALID_STATE_ERR</code>
+    if the element cannot be serialized to XML, and a
+    <code data-anolis-spec=dom title=dom-DOMException-SYNTAX_ERR>SYNTAX_ERR</code>
+    if the given string is not well-formed.
+
+    <p>Throws a
+    <code data-anolis-spec=dom title=dom-DOMException-NO_MODIFICATION_ALLOWED_ERR>NO_MODIFICATION_ALLOWED_ERR</code>
+    exception if the parent of the element is the
+    <code data-anolis-spec=dom>Document</code> node.
+</dl>
+
+<div class=impl>
+
+<p>On getting, if the <span>context object</span>'s
+<span data-anolis-spec=dom title=concept-node-document>node document</span>
+is an <span data-anolis-spec=dom>HTML document</span>, then the attribute
+must return the result of running the
+<span data-anolis-spec=html>HTML fragment serialization algorithm</span> on a
+fictional node whose only child is <span>context object</span>; otherwise, the
+<span>context object</span>'s
+<span data-anolis-spec=dom title=concept-node-document>node document</span>
+is an <span data-anolis-spec=dom>XML document</span>, and the attribute must
+return the result of running the
+<span data-anolis-spec=html>XML fragment serialization algorithm</span> on that
+fictional node instead (this might throw an exception instead of returning a
+string).
+
+<p>On setting, the following steps must be run:
+
+<ol>
+  <li>
+    <p>Let <var title>parent</var> be the <span>context object</span>'s
+    <span data-anolis-spec=dom title=concept-tree-parent>parent</span>.
+
+  <li>
+    <p>If <var title>parent</var> is null, terminate these steps. There would be no
+    way to obtain a reference to the nodes created even if the remaining steps
+    were run.
+
+  <li>
+    <p>If <var title>parent</var> is a
+    <code data-anolis-spec=dom>Document</code>, throw a
+    <code data-anolis-spec=dom title=dom-DOMException-NO_MODIFICATION_ALLOWED_ERR>NO_MODIFICATION_ALLOWED_ERR</code>
+    exception and terminate these steps.
+
+  <li>
+    <p>If <var title>parent</var> is a
+    <code data-anolis-spec=dom>DocumentFragment</code>, let
+    <var title>parent</var> be a new
+    <code data-anolis-spec=dom>Element</code> with
+    <ul>
+      <li><code title>body</code> as its
+      <span data-anolis-spec=dom title=concept-element-local-name>local name</span>,
+      <li>the <span data-anolis-spec=dom>HTML namespace</span> as its
+      <span data-anolis-spec=dom title=concept-element-namespace>namespace</span>, and
+      <li>the <span>context object</span>'s
+      <span data-anolis-spec=dom title=concept-node-document>node document</span>
+      as its
+      <span data-anolis-spec=dom title=concept-node-document>node document</span>.
+    </ul>
+
+  <li>
+    <p>Let <var title>fragment</var> be the result of invoking the
+    <span title=concept-parse-fragment>fragment parsing algorithm</span> with
+    the new value as <var title>markup</var>, and <var title>parent</var> as
+    the <var title>context element</var>.
+
+  <li>
+    <p><span data-anolis-spec=dom title=concept-node-replace>Replace</span>
+    the <span>context object</span> with <var title>fragment</var> within
+    the <span>context object</span>'s
+    <span data-anolis-spec=dom title=concept-tree-parent>parent</span>.
+</ol>
+
+</div>
+
+
+<h3><code title=dom-Element-insertAdjacentHTML>insertAdjacentHTML()</code></h3>
+
+<dl class=domintro>
+  <dt><var title>element</var> . <code title=dom-Element-insertAdjacentHTML>insertAdjacentHTML</code>(<var title>position</var>, <var title>text</var>)
+
+  <dd>
+    <p>Parses the given string <var title>text</var> as HTML or XML and inserts
+    the resulting nodes into the tree in the position given by the
+    <var title>position</var> argument, as follows:
+
+    <dl>
+      <dt>"beforebegin"
+      <dd>Before the element itself.
+
+      <dt>"afterbegin"
+      <dd>Just inside the element, before its first child.
+
+      <dt>"beforeend"
+      <dd>Just inside the element, after its last child.
+
+      <dt>"afterend"
+      <dd>After the element itself.
+    </dl>
+
+    <p>Throws a TypeError exception if the <var title>position</var> argument
+    has an invalid value.
+
+    <p>In <span data-anolis-spec=dom title="XML document">XML documents</span>,
+    throws a
+    <code data-anolis-spec=dom title=dom-DOMException-SYNTAX_ERR>SYNTAX_ERR</code>
+    exception if the given string is not well-formed.
+
+    <p>Throws a
+    <code data-anolis-spec=dom title=dom-DOMException-NO_MODIFICATION_ALLOWED_ERR>NO_MODIFICATION_ALLOWED_ERR</code>
+    exception if the given position isn't possible (e.g. inserting elements
+    after the root element of a <code data-anolis-spec=dom>Document</code>).
+</dl>
+
+<div class=impl>
+
+<p>The
+<dfn title=dom-Element-insertAdjacentHTML><code>insertAdjacentHTML(<var title>position</var>, <var title>text</var>)</code></dfn>
+method must run these steps:
+
+<ol>
+  <li>
+    <p>Use the first matching item from this list:
+
+    <dl class=switch>
+      <dt>If <var title>position</var> is an
+      <span data-anolis-spec=dom>ASCII case-insensitive</span> match for
+      the string "beforebegin"
+      <dt>If <var title>position</var> is an
+      <span data-anolis-spec=dom>ASCII case-insensitive</span> match for
+      the string "afterend"
+      <dd>
+        <p>Let <var title>context</var> be the <span>context object</span>'s
+        <span data-anolis-spec=dom title=concept-tree-parent>parent</span>.
+
+        <p>If <var title>context</var> is null or a
+        <span data-anolis-spec=dom title=concept-document>document</span>, throw
+        a
+        <code data-anolis-spec=dom title=dom-DOMException-NO_MODIFICATION_ALLOWED_ERR>NO_MODIFICATION_ALLOWED_ERR</code>
+        and terminate these steps.
+
+      <dt>If <var title>position</var> is an
+      <span data-anolis-spec=dom>ASCII case-insensitive</span> match for
+      the string "afterbegin"
+      <dt>If <var title>position</var> is an
+      <span data-anolis-spec=dom>ASCII case-insensitive</span> match for
+      the string "beforeend"
+      <dd>
+        <p>Let <var title>context</var> be the <span>context object</span>.
+    </dl>
+
+  <li>
+    <p>If <var title>context</var> is not an
+    <code data-anolis-spec=dom>Element</code> or the following are all true:
+
+    <ul>
+      <li><var title>context</var>'s
+      <span data-anolis-spec=dom title=concept-node-document>node document</span>
+      is an <span data-anolis-spec=dom>HTML document</span>,
+
+      <li><var title>context</var>'s
+      <span data-anolis-spec=dom title=concept-element-local-name>local name</span>
+      is "<code title>html</code>", and
+
+      <li><var title>context</var>'s
+      <span data-anolis-spec=dom title=concept-element-namespace>namespace</span>
+      is the <span data-anolis-spec=dom>HTML namespace</span>;
+    </ul>
+
+    <p>let <var title>context</var> be a new
+    <code data-anolis-spec=dom>Element</code> with
+    <ul>
+      <li><code title>body</code> as its
+      <span data-anolis-spec=dom title=concept-element-local-name>local name</span>,
+      <li>the <span data-anolis-spec=dom>HTML namespace</span> as its
+      <span data-anolis-spec=dom title=concept-element-namespace>namespace</span>, and
+      <li>the <span>context object</span>'s
+      <span data-anolis-spec=dom title=concept-node-document>node document</span>
+      as its
+      <span data-anolis-spec=dom title=concept-node-document>node document</span>.
+    </ul>
+
+  <li>
+    <p>Let <var title>fragment</var> be the result of invoking the
+    <span title=concept-parse-fragment>fragment parsing algorithm</span> with
+    <var title>text</var> as <var title>markup</var>, and
+    <var title>parent</var> as the <var title>context element</var>.
+
+  <li>
+    <p>Use the first matching item from this list:
+
+    <dl class=switch>
+      <dt>If <var title>position</var> is an
+      <span data-anolis-spec=dom>ASCII case-insensitive</span> match for
+      the string "beforebegin"
+      <dd>
+        <p><span data-anolis-spec=dom title=concept-node-insert>Insert</span>
+        <var title>fragment</var> into the <span>context object</span>'s
+        <span data-anolis-spec=dom title=concept-tree-parent>parent</span>
+        before the <span>context object</span>.
+
+      <dt>If <var title>position</var> is an
+      <span data-anolis-spec=dom>ASCII case-insensitive</span> match for
+      the string "afterbegin"
+      <dd>
+        <p><span data-anolis-spec=dom title=concept-node-insert>Insert</span>
+        <var title>fragment</var> into the <span>context object</span>
+        before its
+        <span data-anolis-spec=dom title=concept-tree-first-child>first child</span>.
+
+      <dt>If <var title>position</var> is an
+      <span data-anolis-spec=dom>ASCII case-insensitive</span> match for
+      the string "beforeend"
+      <dd>
+        <p><span data-anolis-spec=dom title=concept-node-append>Append</span>
+        <var title>fragment</var> to the <span>context object</span>.
+
+      <dt>If <var title>position</var> is an
+      <span data-anolis-spec=dom>ASCII case-insensitive</span> match for
+      the string "afterend"
+      <dd>
+        <p><span data-anolis-spec=dom title=concept-node-insert>Insert</span>
+        <var title>fragment</var> into the <span>context object</span>'s
+        <span data-anolis-spec=dom title=concept-tree-parent>parent</span>
+        before the <span>context object</span>'s
+        <span data-anolis-spec=dom title=concept-tree-next-sibling>next sibling</span>.
+    </dl>
+</ol>
+
+</div>
+
+
+
+<h2>Extensions to the <code data-anolis-spec=dom>Text</code> interface</h2>
+
+<pre class=idl>partial interface <span data-anolis-spec=dom>Text</span> {
+  attribute boolean <span title=dom-Text-serializeAsCDATA>serializeAsCDATA</span>;
+};</pre>
+
+<dl class=domintro>
+  <dt><var title>text</var> .
+      <code title=dom-Text-serializeAsCDATA>serializeAsCDATA</code> [ = <var title>value</var> ]
+  <dd>Controls whether, in XML, this node is serialized as a CDATA section.
+</dl>
+
+<div class=impl>
+
+<p><code data-anolis-spec=dom>Text</code> nodes have an additional
+associated flag, the <dfn>serialize as CDATA flag</dfn>.
+
+<p>The
+<dfn title=dom-Text-serializeAsCDATA><code>serializeAsCDATA</code></dfn>
+attribute must return true if the <span>context object</span> has its
+<span>serialize as CDATA flag</span> set, or false otherwise.
+
+<p>Setting the <code title=dom-Text-serializeAsCDATA>serializeAsCDATA</code>
+attribute must, if the new value is true, set the
+<span>context object</span>'s <span>serialize as CDATA flag</span>, or unset
+it otherwise.
+
+</div>
+
+
+
+<h2>Extensions to the <code data-anolis-spec=dom>Range</code> interface</h2>
+
+<pre class=idl>partial interface <span data-anolis-spec=dom>Range</span> {
+  <span data-anolis-spec=dom>DocumentFragment</span> <span title=dom-Range-createContextualFragment>createContextualFragment</span>(DOMString <var title>fragment</var>);
+};</pre>
+
+<dl class=domintro>
+  <dt><var title>fragment</var> = <var title>range</var> . <code title=dom-Range-createContextualFragment>createContextualFragment</code>(<var title>fragment</var>)
+  <dd>
+    <p>Returns a <code data-anolis-spec=dom>DocumentFragment</code>, created
+    from the markup string given.
+</dl>
+
+<div class=impl>
+
+<p>The
+<dfn title=dom-Range-createContextualFragment><code>createContextualFragment(<var title>fragment</var>)</code></dfn>
+method must run these steps:
+
+<ol>
+  <li>
+    <p>If the <span>context object</span>'s
+    <span data-anolis-spec=dom title=concept-range-detached>detached flag</span>
+    is set, throw an
+    <code data-anolis-spec=dom title=dom-DOMException-INVALID_STATE_ERR>INVALID_STATE_ERR</code>
+    exception and terminate these steps.
+
+  <li>
+    <p>Let <var title>node</var> the <span>context object</span>'s
+    <span data-anolis-spec=dom title=concept-range-start-node>start node</span>.
+
+    <p>Let <var title>element</var> be as follows, depending on
+    <var title>node</var>'s interface:
+    <dl class=switch>
+      <dt><code data-anolis-spec=dom>Document</code>
+      <dt><code data-anolis-spec=dom>DocumentFragment</code>
+      <dd>null
+
+      <dt><code data-anolis-spec=dom>Element</code>
+      <dd><var title>node</var>
+
+      <dt><code data-anolis-spec=dom>Text</code>
+      <dt><code data-anolis-spec=dom>Comment</code>
+      <dd><var title>node</var>'s
+      <span data-anolis-spec=dom>parent element</span>
+
+      <dt><code data-anolis-spec=dom>DocumentType</code>
+      <dt><code data-anolis-spec=dom>ProcessingInstruction</code>
+      <dd>DOM4 prevents this case. <span data-anolis-ref>DOM</span>
+    </dl>
+
+  <li>
+    <p>If either <var title>element</var> is null or the following are all true:
+
+    <ul>
+      <li><var title>element</var>'s
+      <span data-anolis-spec=dom title=concept-node-document>node document</span>
+      is an <span data-anolis-spec=dom>HTML document</span>,
+
+      <li><var title>element</var>'s
+      <span data-anolis-spec=dom title=concept-element-local-name>local name</span>
+      is "<code title>html</code>", and
+
+      <li><var title>element</var>'s
+      <span data-anolis-spec=dom title=concept-element-namespace>namespace</span>
+      is the <span data-anolis-spec=dom>HTML namespace</span>;
+    </ul>
+
+    <p>let <var title>element</var> be a new
+    <span data-anolis-spec=dom title=concept-element>element</span> with
+    <ul>
+      <li>"<code title>body</code>" as its
+      <span data-anolis-spec=dom title=concept-element-local-name>local name</span>,
+      <li>the <span data-anolis-spec=dom>HTML namespace</span> as its
+      <span data-anolis-spec=dom title=concept-element-namespace>namespace</span>, and
+      <li>the <span>context object</span>'s
+      <span data-anolis-spec=dom title=concept-node-document>node document</span>
+      as its
+      <span data-anolis-spec=dom title=concept-node-document>node document</span>.
+    </ul>
+
+  <li>
+    <p>Let <var title>fragment node</var> be the result of invoking the
+    <span title=concept-parse-fragment>fragment parsing algorithm</span> with
+    <var title>fragment</var> as <var title>markup</var>, and
+    <var title>element</var> as the <var title>context element</var>.
+
+  <li>
+    <p>Unmark all scripts in <var title>fragment node</var> as
+    "already started".
+
+  <li>
+    <p>Return <var title>fragment node</var>.
+</ol>
+
+</div>
+
+
+
+<h2 class=no-num>References</h2>
+<p>All references are normative unless marked "Non-normative".</p>
+
+<div id=anolis-references></div>
+
+
+
+<h2 class=no-num>Acknowledgements</h2>
+<p>Thanks to Ms2ger for maintaining the initial drafts of this specification.
+<p>Thanks to
+Anne van Kesteren, Aryeh Gregor, Henri Sivonen, Simon Pieters and timeless
+for their useful comments.
+
+<p>Special thanks to Ian Hickson for defining the
+<code title=dom-Element-innerHTML>innerHTML</code> and
+<code title=dom-Element-outerHTML>outerHTML</code> attributes, and the
+<code title=dom-Element-insertAdjacentHTML>insertAdjacentHTML()</code> method in
+<cite>HTML</cite> and his useful comments.
+<span data-anolis-ref class=informative>HTML</span>
+
+
+<script src="http://www.whatwg.org/specs/web-apps/current-work/dfn.js"></script>
+
