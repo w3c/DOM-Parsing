@@ -88,7 +88,7 @@
     </section>
 
 
-    <section class="introductory">
+    <section id="issues" class="introductory">
         <h1>Issues</h1>
         
         <p>Various issues are listed in the rest of the document.</p>
@@ -268,7 +268,7 @@
           <dt><code><a title="text" data-spec="DOM4" class="externalDFN">Text</a></code>
           <dt><code><a title="documenttype" data-spec="DOM4" class="externalDFN">DocumentType</a></code>
           <dt><code><a title="processinginstruction" data-spec="DOM4" class="externalDFN">ProcessingInstruction</a></code>
-          <dd class="issue">Define how these are serialized...
+          <dd class="issue">Define how these are serialized...</dd>
         </dl>
 
         <p>To <dfn title=concept-serialize-xml>produce an XML serialization</dfn> of a
@@ -447,7 +447,7 @@
                     <a title=concept-element-namespace data-spec="DOM4" class="externalDFN">namespace</a>
                     set to
                     "<code>http://www.mozilla.org/newlayout/xml/parsererror.xml</code>".
-
+                    <!-- see https://bugzilla.mozilla.org/show_bug.cgi?id=45566 -->
                     <p>At this point user agents may
                     <a data-spec="DOM4" title=concept-node-append class="externalDFN">append</a> nodes
                     to <var>root</var>, for example to describe the nature of the
