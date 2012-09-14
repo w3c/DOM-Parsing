@@ -1,0 +1,1437 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Parsing and Serialization</title>
+    <style>
+        /* Make these stand-out more... */
+        .externalDFN {
+            font-style: italic;
+            background-color: #fff9d6;
+        }
+        /* Switch statement */
+        dl.switch dt::before {
+            content: "↪ ";
+            margin-left: 1em;
+        }
+        /* Better spacing around various lists (implied paragraph children) */
+        ol > li, section:not(#toc) ul > li, section dl > dt {
+            margin: 1em 0;
+        }
+        /* domintro styling */
+        dl.domintro {
+            background-color: rgb(221, 255, 221);
+            padding: 1em 0.5em 1em 2em;
+            clear: both;
+        }
+        dl.domintro dt {
+            color: black;
+        }
+        dl.domintro > dd {
+            color: green;
+        }
+        dl.domintro::before {
+            float: right;
+            background-color: white;
+            display: block;
+            border: 2px solid black;
+            color: green;
+            margin-top: -20px;
+            padding: 2px;
+            content: "This box is non-normative. Implementation requirements are given below this box.";
+        }
+        /* Fancy table stuff */
+        table {
+            border-collapse: collapse;
+        }
+        thead tr {
+            border-bottom: 2px solid black;
+        }
+        tbody tr:not(:last-child) {
+            border-bottom: 1px solid black;
+        }
+        td {
+            border-left: 1px solid black;
+            padding: 4px;
+        }
+        /* Extra IDL :-) */
+        .extraidl {
+            line-height: 120%;
+            padding: 1em;
+            border-top: 1px solid #90b8de;
+            border-bottom: 1px solid #90b8de;
+        }
+        .extraidl:before {
+            width: 150px;
+            color: #fff;
+            padding: 3px;
+            font-weight: bold;
+            font-family: initial;
+            margin: -1em 0 1em -1em;
+            display: block;
+            content: "WebIDL";
+            background-color: rgb(144, 184, 222);
+        }
+    </style>
+    
+    
+<style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- --- */
+ol.algorithm { counter-reset:numsection; list-style-type: none; }
+ol.algorithm li { margin: 0.5em 0; }
+ol.algorithm li:before { font-weight: bold; counter-increment: numsection; content: counters(numsection, ".") ") "; }
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #52e052; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><style>/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID, .idlCallbackID, .idlEnumID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #005a9c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType, .idlCallbackType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.attributes dd, .methods dd, .constants dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+</style><link href="http://www.w3.org/StyleSheets/TR/W3C-WD" rel="stylesheet"><!--[if lt IE 9]><script src='undefined://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+<body><div class="head">
+  <p>
+    
+      <a href="http://www.w3.org/"><img width="72" height="48" alt="W3C" src="http://www.w3.org/Icons/w3c_home"></a>
+    
+  </p>
+  <h1 class="title" id="title">DOM Parsing and Serialization</h1>
+  
+  <h2 id="w3c-working-draft-20-september-2012"><abbr title="World Wide Web Consortium">W3C</abbr> Working Draft 20 September 2012</h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a href="http://www.w3.org/TR/2012/WD-DOM-Parsing-20120920/">http://www.w3.org/TR/2012/WD-DOM-Parsing-20120920/</a></dd>
+      <dt>Latest published version:</dt>
+      <dd><a href="http://www.w3.org/TR/DOM-Parsing/">http://www.w3.org/TR/DOM-Parsing/</a></dd>
+    
+    
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="http://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html">http://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html</a></dd>
+    
+    
+    
+    
+    
+    
+    <dt>Editors:</dt>
+    <dd><a href="mailto:travis.leithead@microsoft.com?subject=[DOMParsing] Spec Feedback">Travis Leithead</a>, <a href="http://www.microsoft.com">Microsoft Corp.</a></dd>
+<dd><a href="mailto:ms2ger@gmail.com">Ms2ger</a></dd>
+
+    
+  </dl>
+  
+  
+  
+  
+    
+      <p class="copyright">
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 
+        2012
+        
+        <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> 
+        (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
+        <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
+        <a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved.
+        <abbr title="World Wide Web Consortium">W3C</abbr> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and
+        <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply.
+      </p>
+    
+  
+  <hr>
+</div>
+
+    <section class="introductory" id="abstract"><h2>Abstract</h2>
+       <p>This specification defines various APIs for programmatic access to 
+          HTML and generic XML parsers by web applications for use in parsing 
+          and serializing DOM nodes</p>
+    </section><section class="introductory" id="sotd"><h2>Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication. Other
+          documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the latest revision
+          of this technical report can be found in the <a href="http://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports
+          index</a> at http://www.w3.org/TR/.</em>
+        </p>
+        
+    
+        <p>
+          This document was published by the <a href="http://www.w3.org/2008/webapps/">Web Applications Working Group</a> as a First Public Working Draft.
+          
+            This document is intended to become a <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation.
+          
+          If you wish to make comments regarding this document, please send them to 
+          <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a> 
+          (<a href="mailto:public-webapps-request@w3.org?subject=subscribe">subscribe</a>,
+          <a href="http://lists.w3.org/Archives/Public/public-webapps/">archives</a>).
+          
+          
+          All feedback is welcome.
+        </p>
+        
+          <p>
+            Publication as a Working Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr> Membership.
+            This is a draft document and may be updated, replaced or obsoleted by other documents at 
+            any time. It is inappropriate to cite this document as other than work in progress.
+          </p>
+        
+        
+        <p>
+          
+            This document was produced by a group operating under the 
+            <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+          
+          
+          
+            
+              <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="http://www.w3.org/2004/01/pp-impl/42538/status" rel="disclosure">public list of any patent disclosures</a> 
+            
+            made in connection with the deliverables of the group; that page also includes instructions for 
+            disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains
+            <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> must disclose the
+            information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
+            6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+          
+          
+        </p>
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a class="tocxref" href="#conformance"><span class="secno">1. </span>Conformance</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#dependencies"><span class="secno">1.1 </span>Dependencies</a></li><li class="tocline"><a class="tocxref" href="#extensibility"><span class="secno">1.2 </span>Extensibility</a></li></ul></li><li class="tocline"><a class="tocxref" href="#terminology"><span class="secno">2. </span>Terminology</a></li><li class="tocline"><a class="tocxref" href="#parsing-and-serializing-nodes"><span class="secno">3. </span>Parsing and serializing <span title="node" class="formerLink" data-spec="DOM4">Node</span>s</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#parsing"><span class="secno">3.1 </span>Parsing</a></li><li class="tocline"><a class="tocxref" href="#serializing"><span class="secno">3.2 </span>Serializing</a></li></ul></li><li class="tocline"><a class="tocxref" href="#the-domparser-interface"><span class="secno">4. </span>The <code>DOMParser</code> interface</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#methods"><span class="secno">4.1 </span>Methods</a></li></ul></li><li class="tocline"><a class="tocxref" href="#the-xmlserializer-interface"><span class="secno">5. </span>The <code>XMLSerializer</code> interface</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#methods-1"><span class="secno">5.1 </span>Methods</a></li></ul></li><li class="tocline"><a class="tocxref" href="#extensions-to-the-element-interface"><span class="secno">6. </span>Extensions to the <code><span title="element" class="formerLink" data-spec="DOM4">Element</span></code> interface</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#attributes"><span class="secno">6.1 </span>Attributes</a></li><li class="tocline"><a class="tocxref" href="#methods-2"><span class="secno">6.2 </span>Methods</a></li></ul></li><li class="tocline"><a class="tocxref" href="#extensions-to-the-text-interface"><span class="secno">7. </span>Extensions to the <code><span title="text" class="formerLink" data-spec="DOM4">Text</span></code> interface</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#attributes-1"><span class="secno">7.1 </span>Attributes</a></li></ul></li><li class="tocline"><a class="tocxref" href="#extensions-to-the-range-interface"><span class="secno">8. </span>Extensions to the <code><span title="range" class="formerLink" data-spec="DOM4">Range</span></code> interface</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#methods-3"><span class="secno">8.1 </span>Methods</a></li></ul></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><span class="secno">A. </span>Acknowledgements</a></li><li class="tocline"><a class="tocxref" href="#references"><span class="secno">B. </span>References</a><ul class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><span class="secno">B.1 </span>Normative references</a></li><li class="tocline"><a class="tocxref" href="#informative-references"><span class="secno">B.2 </span>Informative references</a></li></ul></li></ul></section>
+
+    
+
+
+    <section class="introductory">
+        <h1>Issues</h1>
+        
+        <p>Various issues are listed in the rest of the document.</p>
+        
+        <div class="issue"><div class="issue-title"><span>Issue 1</span></div><p>This specification currently requires using the XML 
+        Parser for some APIs, when in an XML document. It is unclear whether 
+        consensus can be found for this approach.</p></div>
+    </section>
+
+    <section id="conformance"><!--OddPage--><h2><span class="secno">1. </span>Conformance</h2>
+<p>
+  As well as sections marked as non-normative, all authoring guidelines, diagrams, examples,
+  and notes in this specification are non-normative. Everything else in this specification is
+  normative.
+</p>
+<p>
+  The key words <em title="must" class="rfc2119">must</em>, <em title="must not" class="rfc2119">must not</em>, <em title="required" class="rfc2119">required</em>, <em title="should" class="rfc2119">should</em>, <em title="should not" class="rfc2119">should not</em>, <em title="recommended" class="rfc2119">recommended</em>, <em title="may" class="rfc2119">may</em>,
+  and <em title="optional" class="rfc2119">optional</em> in this specification are to be interpreted as described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].
+</p>
+
+        <p>Requirements phrased in the imperative as part of algorithms
+        (such as "strip any leading space characters" or "return false and
+        terminate these steps") are to be interpreted with the meaning of the
+        key word ("must", "should", "may", etc) used in introducing the
+        algorithm.</p>
+
+        <p>Conformance requirements phrased as algorithms or specific steps
+        may be implemented in any manner, so long as the end result is
+        equivalent. (In particular, the algorithms defined in this
+        specification are intended to be easy to follow, and not intended to
+        be performant.)</p>
+
+        <p id="hardwareLimitations">User agents may impose
+        implementation-specific limits on otherwise unconstrained inputs,
+        e.g. to prevent denial of service attacks, to guard against running
+        out of memory, or to work around platform-specific limitations.</p>
+
+        <p>When a method or an attribute is said to call another method or 
+        attribute, the user agent must invoke its internal API for that 
+        attribute or method so that e.g. the author can't change the behavior 
+        by overriding attributes or methods with custom properties or functions 
+        in ECMAScript.</p>
+
+        <p>Unless otherwise stated, string comparisons are done in a <a title="case-sensitive" class="externalDFN" data-spec="DOM4">
+        case-sensitive</a> manner.</p>
+
+        <p>If an algorithm calls into another algorithm, any exception that is 
+        thrown by the latter (unless it is explicitly caught), must cause the 
+        former to terminate, and the exception to be propagated up to 
+        <em>its</em> caller.</p>
+    
+        <section id="dependencies">
+            <h3><span class="secno">1.1 </span>Dependencies</h3>
+
+            <p>The IDL fragments in this specification must be interpreted as
+            required for conforming IDL fragments, as described in the Web IDL
+            specification. [<cite><a class="bibref" href="#bib-WEBIDL">WEBIDL</a></cite>]</p>
+
+            <p>Some of the terms used in this specification are defined in
+            [<cite><a class="bibref" href="#bib-DOM4">DOM4</a></cite>], [<cite><a class="bibref" href="#bib-HTML5">HTML5</a></cite>], and [<cite><a class="bibref" href="#bib-XML10">XML10</a></cite>].
+        </p></section>
+
+        <section id="extensibility">
+            <h3><span class="secno">1.2 </span>Extensibility</h3>
+
+            <p>Vendor-specific proprietary extensions to this specification are
+            strongly discouraged. Authors must not use such extensions, as
+            doing so reduces interoperability and fragments the user base,
+            allowing only users of specific user agents to access the content in
+            question.</p>
+
+            <p>If vendor-specific extensions are needed, the members should be
+            prefixed by vendor-specific strings to prevent clashes with future
+            versions of this specification. Extensions must be defined so that
+            the use of extensions neither contradicts nor causes the
+            non-conformance of functionality defined in the specification.</p>
+
+            <p>When vendor-neutral extensions to this specification are needed,
+            either this specification can be updated accordingly, or an
+            extension specification can be written that overrides the
+            requirements in this specification. When someone applying this
+            specification to their activities decides that they will recognise
+            the requirements of such an extension specification, it becomes an
+            <dfn title="other applicable specifications" id="dfn-other-applicable-specifications">applicable
+            specification</dfn> for the purposes of conformance requirements in
+            this specification.</p>
+            <!-- http://www.w3.org/mid/17E341CD-E790-422C-9F9A-69347EE01CEB@iki.fi -->
+        </section>
+    </section>
+
+    <section id="terminology">
+        <!--OddPage--><h2><span class="secno">2. </span>Terminology</h2>
+
+        <p>The term <dfn id="dfn-context-object">context object</dfn> means the object on which the method or
+        attribute being discussed was called.
+    </p></section>
+
+
+    <section id="parsing-and-serializing-nodes">
+        <!--OddPage--><h2><span class="secno">3. </span>Parsing and serializing <a title="node" class="externalDFN" data-spec="DOM4">Node</a>s</h2>
+
+        <section id="parsing">
+            <h3><span class="secno">3.1 </span>Parsing</h3>
+
+            <p>The following steps form the
+            <dfn title="concept-parse-fragment" id="dfn-concept-parse-fragment">fragment parsing algorithm</dfn>, whose
+            arguments are a <var>markup</var> string and a
+            <var>context element</var>.
+
+            <ol>
+              <li>
+                <p>If the <var>context element</var>'s
+                <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+                is an <a title="html-document" class="externalDFN" data-spec="DOM4">HTML document</a>: let
+                <var>algorithm</var> be the
+                <a title="html-fragment-parsing-algorithm" class="externalDFN" data-spec="HTML5">HTML 
+                fragment parsing algorithm</a>.</p>
+
+                <p>If the <var>context element</var>'s
+                <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+                is an <a title="xml-document" class="externalDFN" data-spec="DOM4">XML document</a>: let
+                <var>algorithm</var> be the
+                <a title="xml-fragment-parsing-algorithm" class="externalDFN" data-spec="HTML5">XML 
+                fragment parsing algorithm</a>.</p>
+              </li>
+
+              <li>Invoke <var>algorithm</var> with <var>markup</var> as
+              the <var>input</var>, and <var>context element</var> as the
+              <var><a title="concept-frag-parse-context" class="externalDFN" data-spec="HTML5">context</a></var>
+              element.</li>
+
+              <li>Let <var>new children</var> be the nodes returned.</li>
+
+              <li>Let <var>fragment</var> be a new
+              <code><a title="documentfragment" class="externalDFN" data-spec="DOM4">DocumentFragment</a></code> whose
+              <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+              is <var>context element</var>'s
+              <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>.
+
+              <li><a title="concept-node-append" class="externalDFN" data-spec="DOM4">Append</a>
+              each <a title="concept-node" class="externalDFN" data-spec="DOM4">node</a> in
+              <var>new children</var> to <var>fragment</var> (in order).
+
+              <div class="note"><div class="note-title"><span>Note</span></div><p>This ensures the
+              <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+              for the new <a title="concept-node" class="externalDFN" data-spec="DOM4">nodes</a> is correct.
+
+              </p></div><li>Return <var>fragment</var>.
+            </li></ol>
+    </section>
+
+    <section id="serializing">
+        <h3><span class="secno">3.2 </span>Serializing</h3>
+        <p>To <dfn title="concept-serialize" id="dfn-concept-serialize">serialize</dfn> a
+        <a title="node" class="externalDFN" data-spec="DOM4">Node</a> <var>node</var>, the user agent
+        must run the following steps:
+
+        <ol>
+          <li>Let <var>document</var> be <var>node</var>'s
+          <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>.
+
+          <li>If <var>document</var> is an
+          <a title="html-document" class="externalDFN" data-spec="DOM4">HTML document</a>, return an
+          <a title="concept-serialize-html" class="internalDFN" href="#dfn-concept-serialize-html">HTML serialization</a> of
+          <var>node</var>.
+
+          <li>Otherwise, <var>document</var> is an
+          <a title="xml-document" class="externalDFN" data-spec="DOM4">XML document</a>. Return an
+          <a title="concept-serialize-xml" class="internalDFN" href="#dfn-concept-serialize-xml">XML serialization</a> of
+          <var>node</var>.
+        </li></ol>
+
+        <p>To <dfn title="concept-serialize-html" id="dfn-concept-serialize-html">produce an HTML serialization</dfn> of a
+        <a title="node" class="externalDFN" data-spec="DOM4">Node</a> <var>node</var>, the user agent
+        must run the appropriate steps, depending on <var>node</var>'s interface:
+
+        <dl class="switch">
+          <dt><code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code>
+          <dt><code><a title="document" class="externalDFN" data-spec="DOM4">Document</a></code>
+          <dt><code><a title="documentfragment" class="externalDFN" data-spec="DOM4">DocumentFragment</a></code>
+          <dd><p>Run the
+          <a title="html-fragment-serialization-algorithm" class="externalDFN" data-spec="HTML5">HTML fragment serialization algorithm</a> on
+          <var>node</var>. Return the returned string.
+
+          </p><dt><code><a title="comment" class="externalDFN" data-spec="DOM4">Comment</a></code>
+          <dt><code><a title="text" class="externalDFN" data-spec="DOM4">Text</a></code>
+          <dt><code><a title="documenttype" class="externalDFN" data-spec="DOM4">DocumentType</a></code>
+          <dt><code><a title="processinginstruction" class="externalDFN" data-spec="DOM4">ProcessingInstruction</a></code>
+          </dt><div class="issue"><div class="issue-title"><span>Issue 2</span></div><dd>Define how these are serialized...
+        </dd></div></dl>
+
+        <p>To <dfn title="concept-serialize-xml" id="dfn-concept-serialize-xml">produce an XML serialization</dfn> of a
+        <a title="node" class="externalDFN" data-spec="DOM4">Node</a> <var>node</var>, the user agent
+        must run the appropriate steps, depending on <var>node</var>'s interface:</p>
+
+        <dl class="switch">
+            <dt><code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code>
+            <dd>
+                <p>Return the concatenation of the following strings:
+                <ol>
+                  <li>"<code>&lt;</code>" (U+003C LESS-THAN SIGN);
+                  <li>the value of <var>node</var>'s
+                  <code><a title="dom-Element-tagName" class="externalDFN" data-spec="DOM4">tagName</a></code>
+                  attribute;
+                  <div class="issue"><div class="issue-title"><span>Issue 3</span></div><p>escaping / throwing
+                  </p></div><li>the <a title="concept-serialize-xml-attributes" class="internalDFN" href="#dfn-concept-serialize-xml-attributes">XML serialization of
+                  <var>node</var>'s attributes</a>;
+                  <li>"<code>&gt;</code>" (U+003E GREATER-THAN SIGN);
+                  <li>the <a title="concept-serialize-xml" class="internalDFN" href="#dfn-concept-serialize-xml">serialization</a> of
+                  <var>node</var>'s
+                  <a title="concept-tree-child" class="externalDFN" data-spec="DOM4">children</a>, in
+                  order;
+                  <li>"<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS);
+                  <li>the value of <var>node</var>'s
+                  <code><a title="dom-Element-tagName" class="externalDFN" data-spec="DOM4">tagName</a></code>
+                  attribute;
+                  <li>"<code>&gt;</code>" (U+003E GREATER-THAN SIGN).
+                </li></ol>
+
+            <dt><code><a title="document" class="externalDFN" data-spec="DOM4">Document</a></code>
+            <dd>
+                <p>Run the
+                <a title="xml-fragment-serialization-algorithm" class="externalDFN" data-spec="HTML5">XML fragment serialization algorithm</a> on
+                <var>node</var>. Return the string this produced.
+
+            </p><dt><code><a title="comment" class="externalDFN" data-spec="DOM4">Comment</a></code>
+            <dd>
+                <p>Let <var>markup</var> the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
+                <code><a title="dom-characterdata-data" class="externalDFN" data-spec="DOM4">data</a></code>, and
+                "<code>--&gt;</code>".
+
+                <p>If <var>markup</var> matches the
+                <code><a title="comment" class="externalDFN" data-spec="XML10">Comment</a></code> production, return
+                <var>markup</var>. Otherwise, throw a
+                <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code>
+                with name <code>InvalidStateError</code>.
+
+            </p><dt><code><a title="text" class="externalDFN" data-spec="DOM4">Text</a></code>
+            <dd>
+                <p>Let <var>data</var> be <var>node</var>'s
+                <code><a title="dom-characterdata-data" class="externalDFN" data-spec="DOM4">data</a></code>.
+
+                <p>If <var>node</var> has its <a class="internalDFN" href="#dfn-serialize-as-cdata-flag">serialize as CDATA flag</a>
+                set, run the following steps:
+
+                <ol>
+                  <li>If <var>data</var> doesn't match the
+                  <code><a title="NT-CData" class="externalDFN" data-spec="XML10">CData</a></code> production, throw a
+                  <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code>
+                  with name <code>InvalidStateError</code> and terminate the entire algorithm.
+
+                  <li>Let <var>markup</var> be the concatenation of
+                  "<code>&lt;![CDATA[</code>", <var>data</var>, and
+                  "<code>]]&gt;</code>".
+
+                  <li>Return <var>markup</var>.
+                </li></ol>
+
+                <p>Otherwise, return <var>data</var>.
+
+            </p><dt><code><a title="documentfragment" class="externalDFN" data-spec="DOM4">DocumentFragment</a></code>
+            <dd>
+                <p>Let <var>markup</var> the empty string.
+
+                <p>For each
+                <a title="concept-tree-child" class="externalDFN" data-spec="DOM4">child</a> of
+                <var>node</var>, in order,
+                <a title="concept-serialize-xml" class="internalDFN" href="#dfn-concept-serialize-xml">produce an XML serialization</a>
+                of the child and concatenate the result to <var>markup</var>.
+
+                <p>Return <var>markup</var>.
+
+            </p><dt><code><a title="documenttype" class="externalDFN" data-spec="DOM4">DocumentType</a></code>
+            <dt><code><a title="processinginstruction" class="externalDFN" data-spec="DOM4">ProcessingInstruction</a></code>
+            </dt><div class="issue"><div class="issue-title"><span>Issue 4</span></div><dd>TODO</dd></div>
+        </dl>
+
+        <p>The <dfn title="concept-serialize-xml-attributes" id="dfn-concept-serialize-xml-attributes">XML serialization of the attributes</dfn> of an
+        <a title="concept-element" class="externalDFN" data-spec="DOM4">element</a>
+        <var>element</var> is the result of the following algorithm:
+
+        <ol>
+          <li>Let <var>result</var> be the empty string.
+          <li>For each
+            <a title="concept-attribute" class="externalDFN" data-spec="DOM4">attribute</a>
+            <var>attr</var> in <var>element</var>
+            <a title="concept-element-attribute" class="externalDFN" data-spec="DOM4">attributes</a>,
+            in order, append the following strings to <var>result</var>:
+            <ol>
+              <li>"<code> </code>" (U+0020 SPACE);
+              <li><var>attr</var>'s
+              <a title="concept-attribute-name" class="externalDFN" data-spec="DOM4">name</a>;
+              <div class="issue"><div class="issue-title"><span>Issue 5</span></div><p>escaping / throwing
+              </p></div><li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
+              <li><var>attr</var>'s
+              <a title="concept-attribute-value" class="externalDFN" data-spec="DOM4">value</a>;
+              <div class="issue"><div class="issue-title"><span>Issue 6</span></div><p>escaping / throwing
+              </p></div><li>"<code>"</code>" (U+0022 QUOTATION MARK).
+            </li></ol>
+          <li>Return <var>result</var>.
+        </li></ol>
+    </section>
+</section>
+
+<section id="the-domparser-interface">
+    <!--OddPage--><h2><span class="secno">4. </span>The <code>DOMParser</code> interface</h2>
+    
+<pre class="extraidl">enum <span class="idlInterfaceID">SupportedType</span> {
+    "text/html",
+    "text/xml",
+    "application/xml",
+    "application/xhtml+xml",
+    "image/svg+xml"
+};</pre>
+
+    <p>The <dfn title="dom-DOMParser" id="dfn-dom-domparser"><code>DOMParser()</code></dfn> constructor
+    must return a new <code>DOMParser</code> object.
+
+    <pre class="idl"><span class="idlInterface" id="idl-def-DOMParser">[<span class="extAttr">Constructor</span>]
+interface <span class="idlInterfaceID">DOMParser</span> {
+<span class="idlMethod">    <span class="idlMethType"><a>Document</a></span> <span class="idlMethName"><a href="#widl-DOMParser-parseFromString-Document-DOMString-str-SupportedType-type">parseFromString</a></span> (<span class="idlParam"><span class="idlParamType"><a>DOMString</a></span> <span class="idlParamName">str</span></span>, <span class="idlParam"><span class="idlParamType"><a>SupportedType</a></span> <span class="idlParamName">type</span></span>);</span>
+};</span></pre><section id="methods"><h3><span class="secno">4.1 </span>Methods</h3><dl class="methods"><dt id="widl-DOMParser-parseFromString-Document-DOMString-str-SupportedType-type"><code>parseFromString</code></dt><dd>
+            <p>The
+            <dfn title="dom-DOMParser-parseFromString" id="dfn-dom-domparser-parsefromstring"><code>parseFromString(<var>str</var>, <var>type</var>)</code></dfn>
+            method must run these steps, depending on <var>type</var>:
+
+            <dl class="switch">
+                <dt>"<code>text/html</code>"
+                <dd>
+                <p>Parse <var>str</var> with an
+                <code><a title="html-parser" class="externalDFN" data-spec="HTML5">HTML parser</a></code>, and return the newly
+                created <a title="concept-document" class="externalDFN" data-spec="DOM4">document</a>.
+
+                <p>The <a title="scripting-flag" class="externalDFN" data-spec="HTML5">scripting flag</a> must be set to
+                "disabled".
+
+                <div class="note"><div class="note-title"><span>Note</span></div><p><code><a title="meta" class="externalDFN" data-spec="HTML5">meta</a></code> elements are not
+                taken into account for the encoding used, as a Unicode stream is passed into
+                the parser.
+
+                </p></div><div class="note"><div class="note-title"><span>Note</span></div><p><code><a title="script" class="externalDFN" data-spec="HTML5">script</a></code> elements get marked
+                unexecutable and the contents of <code><a title="noscript" class="externalDFN" data-spec="HTML5">noscript</a></code>
+                get parsed as markup.
+
+                </p></div><dt>"<code>text/xml</code>"
+                <dt>"<code>application/xml</code>"
+                <dt>"<code>application/xhtml+xml</code>"
+                <dt>"<code>image/svg+xml</code>"
+                <dd>
+                <ol>
+                    <li>Parse <var>str</var> with a namespace-enabled
+                    <code><a title="xml-parser" class="externalDFN" data-spec="HTML5">XML parser</a></code>.
+
+                    <li>If the previous step didn't return an error, return the newly
+                    created <a title="concept-document" class="externalDFN" data-spec="DOM4">document</a>
+                    and terminate these steps.
+
+                    <li>Let <var>document</var> be a newly-created
+                    <code><a title="xmldocument" class="externalDFN" data-spec="DOM4">XMLDocument</a></code>.
+
+                    <li>
+                    <p>Let <var>root</var> be a new
+                    <code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code>, with its
+                    <a title="concept-element-local-name" class="externalDFN" data-spec="DOM4">local name</a>
+                    set to "<code>parsererror</code>" and its
+                    <a title="concept-element-namespace" class="externalDFN" data-spec="DOM4">namespace</a>
+                    set to
+                    "<code>http://www.mozilla.org/newlayout/xml/parsererror.xml</code>".
+
+                    <p>At this point user agents may
+                    <a title="concept-node-append" class="externalDFN" data-spec="DOM4">append</a> nodes
+                    to <var>root</var>, for example to describe the nature of the
+                    error.
+
+                    </p><li><a title="concept-node-append" class="externalDFN" data-spec="DOM4">Append</a>
+                    <var>root</var> to <var>document</var>.
+
+                    <li>Return <var>document</var>.
+                </li></ol>
+            </dd></dl>
+
+            <p>In any case, the returned
+            <a title="concept-document" class="externalDFN" data-spec="DOM4">document</a>'s
+            <a title="concept-document-content-type" class="externalDFN" data-spec="DOM4">content type</a>
+            must be the <var>type</var> argument.
+
+            <div class="issue"><div class="issue-title"><span>Issue 7</span></div><div>
+                <p>It is currently unclear what the
+                <a title="concept-document-url" class="externalDFN" data-spec="DOM4">URL</a> of the returned
+                <a title="concept-document" class="externalDFN" data-spec="DOM4">document</a> should be.
+
+                <p>Results for a <a href="http://software.hixie.ch/utilities/js/live-dom-viewer/saved/1322">test case</a>:
+                <table>
+                <thead>
+                    <tr>
+                    <th><th>Gecko<th>Opera<th>Chrome
+                </tr><tbody>
+                    <tr>
+                    <th>document.location <td colspan="3">null
+                    <tr>
+                    <th>document.URL <td>unsupported <td>unsupported <td>""
+                    <tr>
+                    <th>document.documentURI <td>Page URL <td>null <td>null
+                </tr></tbody></table>
+
+                <p>Anne van Kesteren suggests using the default, about:blank.
+            </p></div></div>
+
+            <div class="note"><div class="note-title"><span>Note</span></div><p>The returned
+            <a title="concept-document" class="externalDFN" data-spec="DOM4">document</a>'s
+            <a title="concept-document-encoding" class="externalDFN" data-spec="DOM4">encoding</a> is
+            the default, UTF-8.
+        </p></div><table class="parameters"><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">str</td><td class="prmType"><code><a>DOMString</a></code></td><td class="prmNullFalse">✘</td><td class="prmOptFalse">✘</td><td class="prmDesc"></td></tr><tr><td class="prmName">type</td><td class="prmType"><code><a>SupportedType</a></code></td><td class="prmNullFalse">✘</td><td class="prmOptFalse">✘</td><td class="prmDesc"></td></tr></table><div><em>Return type: </em><code><a>Document</a></code></div></dd></dl></section>
+</section>
+
+<section id="the-xmlserializer-interface">
+    <!--OddPage--><h2><span class="secno">5. </span>The <code>XMLSerializer</code> interface</h2>
+
+    <p>The <dfn title="dom-XMLSerializer" id="dfn-dom-xmlserializer"><code>XMLSerializer()</code></dfn>
+    constructor must return a new <code>XMLSerializer</code> object.
+
+    <pre class="idl"><span class="idlInterface" id="idl-def-XMLSerializer">[<span class="extAttr">Constructor</span>]
+interface <span class="idlInterfaceID">XMLSerializer</span> {
+<span class="idlMethod">    <span class="idlMethType"><a>DOMString</a></span> <span class="idlMethName"><a href="#widl-XMLSerializer-serializeToString-DOMString-Node-root">serializeToString</a></span> (<span class="idlParam"><span class="idlParamType"><a>Node</a></span> <span class="idlParamName">root</span></span>);</span>
+};</span></pre><section id="methods-1"><h3><span class="secno">5.1 </span>Methods</h3><dl class="methods"><dt id="widl-XMLSerializer-serializeToString-DOMString-Node-root"><code>serializeToString</code></dt><dd>The <code>serializeToString(<var>root</var>)</code>
+        method must <a title="concept-serialize-xml" class="internalDFN" href="#dfn-concept-serialize-xml">produce an XML serialization</a> of <var>root</var> and return the result.<table class="parameters"><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">root</td><td class="prmType"><code><a>Node</a></code></td><td class="prmNullFalse">✘</td><td class="prmOptFalse">✘</td><td class="prmDesc"></td></tr></table><div><em>Return type: </em><code><a>DOMString</a></code></div></dd></dl></section>
+</section>
+
+<section id="extensions-to-the-element-interface">
+    <!--OddPage--><h2><span class="secno">6. </span>Extensions to the <code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code> interface</h2>
+
+<!-- Remove the following pre when the enum parsing becomes available in WebIDL -->
+<pre class="extraidl">enum <span class="idlInterfaceID">insertAdjacentHTMLPosition</span> {
+    "beforebegin",
+    "afterbegin",
+    "beforeend",
+    "afterend"
+};</pre>
+
+    <pre class="idl"><span class="idlInterface" id="idl-def-Element">partial interface <span class="idlInterfaceID">Element</span> {
+<span class="idlAttribute">             attribute <span class="idlAttrType"><a>DOMString</a></span> <span class="idlAttrName"><a href="#widl-Element-innerHTML">innerHTML</a></span>;</span>
+<span class="idlAttribute">             attribute <span class="idlAttrType"><a>DOMString</a></span> <span class="idlAttrName"><a href="#widl-Element-outerHTML">outerHTML</a></span>;</span>
+<span class="idlMethod">    <span class="idlMethType"><a>void</a></span> <span class="idlMethName"><a href="#widl-Element-insertAdjacentHTML-void-insertAdjacentHTMLPosition-position-DOMString-text">insertAdjacentHTML</a></span> (<span class="idlParam"><span class="idlParamType"><a>insertAdjacentHTMLPosition</a></span> <span class="idlParamName">position</span></span>, <span class="idlParam"><span class="idlParamType"><a>DOMString</a></span> <span class="idlParamName">text</span></span>);</span>
+};</span></pre><section id="attributes"><h3><span class="secno">6.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-Element-innerHTML"><code>innerHTML</code> of type <span class="idlAttrType"><a>DOMString</a></span></dt><dd>
+            <p>The <dfn title="dom-Element-innerHTML" id="dfn-dom-element-innerhtml"><code>innerHTML</code></dfn> IDL
+            attribute represents the markup of the
+            <code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code>'s contents.
+
+            <dl class="domintro">
+                <!--doc.ih
+                <dt><var>document</var> . <code title=dom-Document-innerHTML>innerHTML</code> [ = <var>value</var> ]
+                <dd>
+                <p>Returns a fragment of HTML or XML that represents the
+                <code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code>.
+
+                <p>Can be set, to replace the
+                <code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code>'s contents with the result of
+                parsing the given string.
+
+                <p>In the case of an <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>,
+                will throw an
+                <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>InvalidStateError</code>
+                if the <code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code> cannot be serialized
+                to XML, and a
+                <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>SyntaxError</code>
+                if the given string is not well-formed.
+                -->
+
+                <dt><var>element</var> . <code title="dom-Element-innerHTML">innerHTML</code> [ = <var>value</var> ]
+                <dd>
+                <p>Returns a fragment of HTML or XML that represents the element's
+                contents.
+
+                <p>Can be set, to replace the contents of the element with nodes
+                parsed from the given string.
+
+                <p>In the case of an <a title="xml-document" class="externalDFN" data-spec="DOM4">XML document</a>,
+                will throw a
+                <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code> with name <code>InvalidStateError</code>
+                if the <code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code> cannot be serialized
+                to XML, and a
+                <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code> with name <code>SyntaxError</code>
+                if the given string is not well-formed.
+            </p></dd></dl>
+
+            <p>On getting, if the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+            <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+            is an <a title="html-document" class="externalDFN" data-spec="DOM4">HTML document</a>, then the attribute
+            must return the result of running the
+            <a title="html-fragment-serialization-algorithm" class="externalDFN" data-spec="HTML5">HTML fragment serialization algorithm</a> on the
+            <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>; otherwise, the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+            <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+            is an <a title="xml-document" class="externalDFN" data-spec="DOM4">XML document</a>, and the attribute must
+            return the result of running the        
+            <a title="xml-fragment-serialization-algorithm" class="externalDFN" data-spec="HTML5">XML fragment serialization algorithm</a> on the
+            <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a> instead (this might throw an
+            exception instead of returning a string).
+
+            <p>On setting, these steps must be run:
+
+            <ol>
+                <li>Let <var>fragment</var> be the result of invoking the
+                <a title="concept-parse-fragment" class="internalDFN" href="#dfn-concept-parse-fragment">fragment parsing algorithm</a> with
+                the new value as <var>markup</var>, and the
+                <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a> as the <var>context element</var>.
+
+                <li><a title="concept-node-replace-all" class="externalDFN" data-spec="DOM4">Replace all</a>
+                with <var>fragment</var> within the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>.
+            </li></ol>
+        </dd><dt id="widl-Element-outerHTML"><code>outerHTML</code> of type <span class="idlAttrType"><a>DOMString</a></span></dt><dd>
+            <p>The <dfn title="dom-Element-outerHTML" id="dfn-dom-element-outerhtml"><code>outerHTML</code></dfn> IDL
+            attribute represents the markup of the
+            <code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code> and its contents.
+
+            <dl class="domintro">
+              <dt><var>element</var> . <code title="dom-Element-outerHTML">outerHTML</code> [ = <var>value</var> ]
+              <dd>
+                <p>Returns a fragment of HTML or XML that represents the element and its
+                contents.
+
+                <p>Can be set, to replace the element with nodes parsed from the given
+                string.
+
+                <p>In the case of an <a title="xml-document" class="externalDFN" data-spec="DOM4">XML document</a>,
+                will throw a
+                <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code> with name <code>InvalidStateError</code>
+                if the element cannot be serialized to XML, and a
+                <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code> with name <code>SyntaxError</code>
+                if the given string is not well-formed.
+
+                <p>Throws a
+                <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code> with name <code>NoModificationAllowedError</code>
+                if the parent of the element is the
+                <code><a title="document" class="externalDFN" data-spec="DOM4">Document</a></code> node.
+            </p></dd></dl>
+
+            <p>On getting, if the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+            <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+            is an <a title="html-document" class="externalDFN" data-spec="DOM4">HTML document</a>, then the attribute
+            must return the result of running the
+            <a title="html-fragment-serialization-algorithm" class="externalDFN" data-spec="HTML5">HTML fragment serialization algorithm</a> on a
+            fictional node whose only child is <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>; otherwise, the
+            <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+            <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+            is an <a title="xml-document" class="externalDFN" data-spec="DOM4">XML document</a>, and the attribute must
+            return the result of running the
+            <a title="xml-fragment-serialization-algorithm" class="externalDFN" data-spec="HTML5">XML fragment serialization algorithm</a> on that
+            fictional node instead (this might throw an exception instead of returning a
+            string).
+
+            <p>On setting, the following steps must be run:
+
+            <ol>
+                <li>Let <var>parent</var> be the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                <a title="concept-tree-parent" class="externalDFN" data-spec="DOM4">parent</a>.
+
+                <li>If <var>parent</var> is null, terminate these steps. There would be no
+                way to obtain a reference to the nodes created even if the remaining steps
+                were run.
+
+                <li>If <var>parent</var> is a
+                <code><a title="document" class="externalDFN" data-spec="DOM4">Document</a></code>, throw a
+                <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code> with name <code>NoModificationAllowedError</code>
+                exception and terminate these steps.
+
+                <li>If <var>parent</var> is a
+                <code><a title="documentfragment" class="externalDFN" data-spec="DOM4">DocumentFragment</a></code>, let
+                <var>parent</var> be a new
+                <code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code> with
+
+                <ul>
+                    <li><code>body</code> as its
+                    <a title="concept-element-local-name" class="externalDFN" data-spec="DOM4">local name</a>,
+
+                    <li>the <a title="html-namespace" class="externalDFN" data-spec="DOM4">HTML namespace</a> as its
+                    <a title="concept-element-namespace" class="externalDFN" data-spec="DOM4">namespace</a>, and
+                    <li>the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                    <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+                    as its
+                    <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>.
+                </li></ul>
+
+                <li>Let <var>fragment</var> be the result of invoking the
+                <a title="concept-parse-fragment" class="internalDFN" href="#dfn-concept-parse-fragment">fragment parsing algorithm</a> with
+                the new value as <var>markup</var>, and <var>parent</var> as
+                the <var>context element</var>.
+
+                <li><a title="concept-node-replace" class="externalDFN" data-spec="DOM4">Replace</a>
+                the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a> with <var>fragment</var> within
+                the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                <a title="concept-tree-parent" class="externalDFN" data-spec="DOM4">parent</a>.
+            </li></ol>
+        </dd></dl></section><section id="methods-2"><h3><span class="secno">6.2 </span>Methods</h3><dl class="methods"><dt id="widl-Element-insertAdjacentHTML-void-insertAdjacentHTMLPosition-position-DOMString-text"><code>insertAdjacentHTML</code></dt><dd>
+             <dl class="domintro">
+                  <dt><var>element</var> . <code title="dom-Element-insertAdjacentHTML">insertAdjacentHTML</code>(<var>position</var>, <var>text</var>)
+
+                  <dd>
+                    <p>Parses the given string <var>text</var> as HTML or XML and inserts
+                    the resulting nodes into the tree in the position given by the
+                    <var>position</var> argument, as follows:
+
+                    <dl>
+                      <dt>"beforebegin"
+                      <dd>Before the element itself.
+
+                      <dt>"afterbegin"
+                      <dd>Just inside the element, before its first child.
+
+                      <dt>"beforeend"
+                      <dd>Just inside the element, after its last child.
+
+                      <dt>"afterend"
+                      <dd>After the element itself.
+                    </dd></dl>
+
+                    <p>Throws a <code>TypeError</code> exception if the <var>position</var> argument
+                    has an invalid value.
+
+                    <p>In <a title="XML-document" class="externalDFN" data-spec="DOM4">XML documents</a>,
+                    throws a
+                    <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code> with name <code>SyntaxError</code>
+                    if the given string is not well-formed.
+
+                    <p>Throws a
+                    <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code> with name <code>NoModificationAllowedError</code>
+                    if the given position isn't possible (e.g. inserting elements
+                    after the root element of a <code><a title="document" class="externalDFN" data-spec="DOM4">Document</a></code>).
+                </p></dd></dl>
+
+                <p>The
+                <dfn title="dom-Element-insertAdjacentHTML" id="dfn-dom-element-insertadjacenthtml"><code>insertAdjacentHTML(<var>position</var>, <var>text</var>)</code></dfn>
+                method must run these steps:
+
+                <ol>
+                    <li>Use the first matching item from this list:
+
+                    <dl class="switch">
+                        <dt>If <var>position</var> is an
+                        <a title="ascii-case-insensitive" class="externalDFN" data-spec="DOM4">ASCII case-insensitive</a> match for
+                        the string "beforebegin"
+
+                        <dt>If <var>position</var> is an
+                        <a title="ascii-case-insensitive" class="externalDFN" data-spec="DOM4">ASCII case-insensitive</a> match for
+                        the string "afterend"
+
+                        <dd>
+                            <p>Let <var>context</var> be the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                            <a title="concept-tree-parent" class="externalDFN" data-spec="DOM4">parent</a>.
+
+                            <p>If <var>context</var> is null or a
+                            <a title="concept-document" class="externalDFN" data-spec="DOM4">document</a>, throw
+                            a
+                            <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code> with name <code>NoModificationAllowedError</code>
+                            and terminate these steps.
+
+                        </p><dt>If <var>position</var> is an
+                        <a title="ascii-case-insensitive" class="externalDFN" data-spec="DOM4">ASCII case-insensitive</a> match for
+                        the string "afterbegin"
+
+                        <dt>If <var>position</var> is an
+                        <a title="ascii-case-insensitive" class="externalDFN" data-spec="DOM4">ASCII case-insensitive</a> match for
+                        the string "beforeend"
+
+                        <dd>Let <var>context</var> be the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>.
+                    </dd></dl>
+
+                  <li>If <var>context</var> is not an
+                    <code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code> or the following are all true:
+
+                    <ul>
+                      <li><var>context</var>'s
+                      <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+                      is an <a title="html-document" class="externalDFN" data-spec="DOM4">HTML document</a>,
+
+                      <li><var>context</var>'s
+                      <a title="concept-element-local-name" class="externalDFN" data-spec="DOM4">local name</a>
+                      is "<code>html</code>", and
+
+                      <li><var>context</var>'s
+                      <a title="concept-element-namespace" class="externalDFN" data-spec="DOM4">namespace</a>
+                      is the <a title="html-namespace" class="externalDFN" data-spec="DOM4">HTML namespace</a>;
+                    </li></ul>
+
+                    <p>let <var>context</var> be a new
+                    <code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code> with
+
+                    <ul>
+                      <li><code>body</code> as its
+                      <a title="concept-element-local-name" class="externalDFN" data-spec="DOM4">local name</a>,
+
+                      <li>the <a title="html-namespace" class="externalDFN" data-spec="DOM4">HTML namespace</a> as its
+                      <a title="concept-element-namespace" class="externalDFN" data-spec="DOM4">namespace</a>, and
+
+                      <li>the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                      <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+                      as its
+                      <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>.
+                    </li></ul>
+
+                <li>Let <var>fragment</var> be the result of invoking the
+                <a title="concept-parse-fragment" class="internalDFN" href="#dfn-concept-parse-fragment">fragment parsing algorithm</a> with <var>text</var> as 
+                <var>markup</var>, and <var>parent</var> as the <var>context element</var>.
+
+                <li>Use the first matching item from this list:
+
+                <dl class="switch">
+                    <dt>If <var>position</var> is an
+                    <a title="ascii-case-insensitive" class="externalDFN" data-spec="DOM4">ASCII case-insensitive</a> match for
+                    the string "beforebegin"
+            
+                    <dd><a title="concept-node-insert" class="externalDFN" data-spec="DOM4">Insert</a>
+                    <var>fragment</var> into the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                    <a title="concept-tree-parent" class="externalDFN" data-spec="DOM4">parent</a>
+                    before the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>.
+
+                    <dt>If <var>position</var> is an
+                    <a title="ascii-case-insensitive" class="externalDFN" data-spec="DOM4">ASCII case-insensitive</a> match for
+                    the string "afterbegin"
+
+                    <dd><a title="concept-node-insert" class="externalDFN" data-spec="DOM4">Insert</a>
+                    <var>fragment</var> into the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>
+                    before its
+                    <a title="concept-tree-first-child" class="externalDFN" data-spec="DOM4">first child</a>.
+
+                    <dt>If <var>position</var> is an
+                    <a title="ascii-case-insensitive" class="externalDFN" data-spec="DOM4">ASCII case-insensitive</a> match for
+                    the string "beforeend"
+
+                    <dd><a title="concept-node-append" class="externalDFN" data-spec="DOM4">Append</a>
+                    <var>fragment</var> to the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>.
+
+                    <dt>If <var>position</var> is an
+                    <a title="ascii-case-insensitive" class="externalDFN" data-spec="DOM4">ASCII case-insensitive</a> match for
+                    the string "afterend"
+
+                    <dd><a title="concept-node-insert" class="externalDFN" data-spec="DOM4">Insert</a>
+                    <var>fragment</var> into the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                    <a title="concept-tree-parent" class="externalDFN" data-spec="DOM4">parent</a>
+                    before the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                    <a title="concept-tree-next-sibling" class="externalDFN" data-spec="DOM4">next sibling</a>.
+                </dd></dl>
+            </li></ol>
+        <table class="parameters"><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">position</td><td class="prmType"><code><a>insertAdjacentHTMLPosition</a></code></td><td class="prmNullFalse">✘</td><td class="prmOptFalse">✘</td><td class="prmDesc"></td></tr><tr><td class="prmName">text</td><td class="prmType"><code><a>DOMString</a></code></td><td class="prmNullFalse">✘</td><td class="prmOptFalse">✘</td><td class="prmDesc"></td></tr></table><div><em>Return type: </em><code><a>void</a></code></div></dd></dl></section>
+</section>
+
+<section id="extensions-to-the-text-interface">
+    <!--OddPage--><h2><span class="secno">7. </span>Extensions to the <code><a title="text" class="externalDFN" data-spec="DOM4">Text</a></code> interface</h2>
+
+    <pre class="idl"><span class="idlInterface" id="idl-def-Text">partial interface <span class="idlInterfaceID">Text</span> {
+<span class="idlAttribute">             attribute <span class="idlAttrType"><a>boolean</a></span> <span class="idlAttrName"><a href="#widl-Text-serializeAsCDATA">serializeAsCDATA</a></span>;</span>
+};</span></pre><section id="attributes-1"><h3><span class="secno">7.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-Text-serializeAsCDATA"><code>serializeAsCDATA</code> of type <span class="idlAttrType"><a>boolean</a></span></dt><dd>
+            <dl class="domintro">
+              <dt><var>text</var> .
+                  <code title="dom-Text-serializeAsCDATA">serializeAsCDATA</code> [ = <var>value</var> ]
+              <dd>Controls whether, in XML, this node is serialized as a CDATA section.
+            </dd></dl>
+
+            <p><code><a title="text" class="externalDFN" data-spec="DOM4">Text</a></code> nodes have an additional
+            associated flag, the <dfn id="dfn-serialize-as-cdata-flag">serialize as CDATA flag</dfn>.
+
+            <p>The
+            <dfn title="dom-Text-serializeAsCDATA" id="dfn-dom-text-serializeascdata"><code>serializeAsCDATA</code></dfn>
+            attribute must return true if the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a> has its
+            <a class="internalDFN" href="#dfn-serialize-as-cdata-flag">serialize as CDATA flag</a> set, or false otherwise.
+
+            <p>Setting the <code title="dom-Text-serializeAsCDATA">serializeAsCDATA</code>
+            attribute must, if the new value is true, set the
+            <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s <a class="internalDFN" href="#dfn-serialize-as-cdata-flag">serialize as CDATA flag</a>, or unset
+            it otherwise.
+        </p></dd></dl></section>
+</section>
+
+<section id="extensions-to-the-range-interface">
+    <!--OddPage--><h2><span class="secno">8. </span>Extensions to the <code><a title="range" class="externalDFN" data-spec="DOM4">Range</a></code> interface</h2>
+
+    <pre class="idl"><span class="idlInterface" id="idl-def-Range">partial interface <span class="idlInterfaceID">Range</span> {
+<span class="idlMethod">    <span class="idlMethType"><a>DocumentFragment</a></span> <span class="idlMethName"><a href="#widl-Range-createContextualFragment-DocumentFragment-DOMString-fragment">createContextualFragment</a></span> (<span class="idlParam"><span class="idlParamType"><a>DOMString</a></span> <span class="idlParamName">fragment</span></span>);</span>
+};</span></pre><section id="methods-3"><h3><span class="secno">8.1 </span>Methods</h3><dl class="methods"><dt id="widl-Range-createContextualFragment-DocumentFragment-DOMString-fragment"><code>createContextualFragment</code></dt><dd>
+            <dl class="domintro">
+              <dt><var>fragment</var> = <var>range</var> . <code title="dom-Range-createContextualFragment">createContextualFragment</code>(<var>fragment</var>)
+              <dd>Returns a <code><a title="documentfragment" class="externalDFN" data-spec="DOM4">DocumentFragment</a></code>, created
+                from the markup string given.
+            </dd></dl>
+
+            <p>The
+            <dfn title="dom-Range-createContextualFragment" id="dfn-dom-range-createcontextualfragment"><code>createContextualFragment(<var>fragment</var>)</code></dfn>
+            method must run these steps:
+
+            <ol>
+                <li>If the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                <a title="concept-range-detached" class="externalDFN" data-spec="DOM4">detached flag</a>
+                is set, throw a
+                <code><a title="domexception" class="externalDFN" data-spec="DOM4">DOMException</a></code> with name <code>InvalidStateError</code>
+                and terminate these steps.
+
+                <li>Let <var>node</var> the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                <a title="concept-range-start-node" class="externalDFN" data-spec="DOM4">start node</a>.
+
+                <p>Let <var>element</var> be as follows, depending on <var>node</var>'s interface:
+
+                <dl class="switch">
+                    <dt><code><a title="document" class="externalDFN" data-spec="DOM4">Document</a></code>
+                    <dt><code><a title="documentfragment" class="externalDFN" data-spec="DOM4">DocumentFragment</a></code>
+                    <dd>null
+
+                    <dt><code><a title="element" class="externalDFN" data-spec="DOM4">Element</a></code>
+                    <dd><var>node</var>
+
+                    <dt><code><a title="text" class="externalDFN" data-spec="DOM4">Text</a></code>
+                    <dt><code><a title="comment" class="externalDFN" data-spec="DOM4">Comment</a></code>
+                    <dd><var>node</var>'s
+                    <a title="parent-element" class="externalDFN" data-spec="DOM4">parent element</a>
+
+                    <dt><code><a title="documenttype" class="externalDFN" data-spec="DOM4">DocumentType</a></code>
+                    <dt><code><a title="processinginstruction" class="externalDFN" data-spec="DOM4">ProcessingInstruction</a></code>
+                    <dd>[<cite><a class="bibref" href="#bib-DOM4">DOM4</a></cite>] prevents this case.
+                </dd></dl>
+
+                <li>If either <var>element</var> is null or the following are all true:
+
+                    <ul>
+                      <li><var>element</var>'s
+                      <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+                      is an <a title="html-document" class="externalDFN" data-spec="DOM4">HTML document</a>,
+
+                      <li><var>element</var>'s
+                      <a title="concept-element-local-name" class="externalDFN" data-spec="DOM4">local name</a>
+                      is "<code>html</code>", and
+
+                      <li><var>element</var>'s
+                      <a title="concept-element-namespace" class="externalDFN" data-spec="DOM4">namespace</a>
+                      is the <a title="html-namespace" class="externalDFN" data-spec="DOM4">HTML namespace</a>;
+                    </li></ul>
+
+                    <p>let <var>element</var> be a new
+                    <a title="concept-element" class="externalDFN" data-spec="DOM4">element</a> with
+
+                    <ul>
+                      <li>"<code>body</code>" as its
+                      <a title="concept-element-local-name" class="externalDFN" data-spec="DOM4">local name</a>,
+
+                      <li>the <a title="html-namespace" class="externalDFN" data-spec="DOM4">HTML namespace</a> as its
+                      <a title="concept-element-namespace" class="externalDFN" data-spec="DOM4">namespace</a>, and
+
+                      <li>the <a title="context object" class="internalDFN" href="#dfn-context-object">context object</a>'s
+                      <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>
+                      as its
+                      <a title="concept-node-document" class="externalDFN" data-spec="DOM4">node document</a>.
+                    </li></ul>
+
+                <li>Let <var>fragment node</var> be the result of invoking the
+                <a title="concept-parse-fragment" class="internalDFN" href="#dfn-concept-parse-fragment">fragment parsing algorithm</a> with <var>fragment</var> as 
+                <var>markup</var>, and <var>element</var> as the <var>context element</var>.
+
+                <li>Unmark all scripts in <var>fragment node</var> as "already started".
+
+                <li>Return <var>fragment node</var>.
+            </li></ol>
+        <table class="parameters"><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">fragment</td><td class="prmType"><code><a>DOMString</a></code></td><td class="prmNullFalse">✘</td><td class="prmOptFalse">✘</td><td class="prmDesc"></td></tr></table><div><em>Return type: </em><code><a>DocumentFragment</a></code></div></dd></dl></section>
+</section>
+
+<section class="appendix" id="acknowledgements">
+    <!--OddPage--><h2><span class="secno">A. </span>Acknowledgements</h2>
+    <p>Thanks to Ms2ger for maintaining the initial drafts of this specification.
+
+    <p>Thanks to Anne van Kesteren, Aryeh Gregor, Henri Sivonen, Simon Pieters and timeless
+    for their useful comments.
+
+    <p>Special thanks to Ian Hickson for defining the
+    <code title="dom-Element-innerHTML">innerHTML</code> and
+    <code title="dom-Element-outerHTML">outerHTML</code> attributes, and the
+    <code title="dom-Element-insertAdjacentHTML">insertAdjacentHTML()</code> method in
+    [<cite><a class="bibref" href="#bib-HTML5">HTML5</a></cite>] and his useful comments.
+</p></section>
+
+
+<section class="appendix" id="references"><!--OddPage--><h2><span class="secno">B. </span>References</h2><section id="normative-references"><h3><span class="secno">B.1 </span>Normative references</h3><dl class="bibliography"><dt id="bib-RFC2119">[RFC2119]</dt><dd>S. Bradner. <a href="http://www.ietf.org/rfc/rfc2119.txt"><cite>Key words for use in RFCs to Indicate Requirement Levels.</cite></a> March 1997. Internet RFC 2119.  URL: <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> 
+</dd><dt id="bib-WEBIDL">[WEBIDL]</dt><dd>Cameron McCormack. <a href="http://www.w3.org/TR/2011/WD-WebIDL-20110927/"><cite>Web IDL.</cite></a> 27 September 2011. W3C Working Draft. (Work in progress.) URL: <a href="http://www.w3.org/TR/2011/WD-WebIDL-20110927/">http://www.w3.org/TR/2011/WD-WebIDL-20110927/</a> 
+</dd></dl></section><section id="informative-references"><h3><span class="secno">B.2 </span>Informative references</h3><dl class="bibliography"><dt id="bib-DOM4">[DOM4]</dt><dd>Anne van Kesteren; Aryeh Gregor; Ms2ger. <a href="http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/"><cite>DOM4.</cite></a> URL: <a href="http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/">http://dvcs.w3.org/hg/domcore/raw-file/tip/Overview.html/</a> 
+</dd><dt id="bib-HTML5">[HTML5]</dt><dd>Ian Hickson; David Hyatt. <a href="http://www.w3.org/TR/html5"><cite>HTML5.</cite></a> 29 March 2012. W3C Working Draft. (Work in progress.) URL: <a href="http://www.w3.org/TR/html5">http://www.w3.org/TR/html5</a> 
+</dd><dt id="bib-XML10">[XML10]</dt><dd>C. M. Sperberg-McQueen; et al. <a href="http://www.w3.org/TR/2008/REC-xml-20081126/"><cite>Extensible Markup Language (XML) 1.0 (Fifth Edition).</cite></a> 26 November 2008. W3C Recommendation. URL: <a href="http://www.w3.org/TR/2008/REC-xml-20081126/">http://www.w3.org/TR/2008/REC-xml-20081126/</a> 
+</dd></dl></section></section></body></html>
