@@ -6,7 +6,7 @@ var respecConfig = {
 	    {
 			name: "Travis Leithead", 
             company: "Microsoft Corp.",
-            url: "mailto:travis.leithead@microsoft.com?subject=[DOMParsing]%20Spec%20Feedback",
+            url: "mailto:travis.leithead@microsoft.com?subject=%5BDOMParsing%5D%20Spec%20Feedback",
             companyURL: "http://www.microsoft.com"
 		},
         {
