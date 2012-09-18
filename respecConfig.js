@@ -14,7 +14,7 @@ var respecConfig = {
             url: "mailto:ms2ger@gmail.com"
 		}
 	],
-    //publishDate:  "2012-03-06",
+    //publishDate:  "2012-09-20",
 	edDraftURI: "http://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html",
 	previousPublishDate: null,
     prevED: "http://html5.org/specs/dom-parsing.html",
@@ -25,6 +25,6 @@ var respecConfig = {
     extraCSS: ["http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css"],
     wg:         ["Web Applications Working Group"],
     wgURI:    ["http://www.w3.org/2008/webapps/"],
-    wgPublicList: "public-webapps",
+    wgPublicList: "www-dom",
     wgPatentURI:  ["http://www.w3.org/2004/01/pp-impl/42538/status"]
 };
