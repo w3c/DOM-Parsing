@@ -25,6 +25,6 @@ var respecConfig = {
     extraCSS: ["http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css"],
     wg:         ["Web Applications Working Group"],
     wgURI:    ["http://www.w3.org/2008/webapps/"],
-    wgPublicList: "public-webapps",
+    wgPublicList: "www-dom",
     wgPatentURI:  ["http://www.w3.org/2004/01/pp-impl/42538/status"]
 };
