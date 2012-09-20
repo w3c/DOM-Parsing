@@ -8,10 +8,6 @@ var respecConfig = {
             company: "Microsoft Corp.",
             url: "mailto:travis.leithead@microsoft.com?subject=%5BDOMParsing%5D%20Spec%20Feedback",
             companyURL: "http://www.microsoft.com"
-		},
-        {
-			name: "Ms2ger",
-            url: "mailto:ms2ger@gmail.com"
 		}
 	],
     //publishDate:  "2012-09-20",
