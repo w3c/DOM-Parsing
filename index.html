@@ -517,14 +517,6 @@
 <section>
     <h1>Extensions to the <code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code> interface</h1>
 
-<!-- Remove the following pre when the enum parsing becomes available in WebIDL -->
-<pre class=extraidl>enum <span class=idlInterfaceID>insertAdjacentHTMLPosition</span> {
-    "beforebegin",
-    "afterbegin",
-    "beforeend",
-    "afterend"
-};</pre>
-
     <dl class="idl" title="partial interface Element">
         <dt>attribute DOMString innerHTML</dt>
         <dd>
@@ -683,7 +675,7 @@
         </dd>
 
         <!-- insertAdjacentHTML -->
-        <dt>void insertAdjacentHTML(insertAdjacentHTMLPosition position, DOMString text)</dt>
+        <dt>void insertAdjacentHTML(DOMString position, DOMString text)</dt>
         <dd>
              <dl class=domintro>
                   <dt><var>element</var> . <code title=dom-Element-insertAdjacentHTML>insertAdjacentHTML</code>(<var>position</var>, <var>text</var>)
@@ -707,13 +699,9 @@
                       <dd>After the element itself.
                     </dl>
 
-                    <p>Throws a <code>TypeError</code> exception if the <var>position</var> argument
-                    has an invalid value.
-
-                    <p>In <a data-spec="DOM4" title="XML-document" class="externalDFN">XML documents</a>,
-                    throws a
-                    <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>SyntaxError</code>
-                    if the given string is not well-formed.
+                    <p>Throws a <code>SyntaxError</code> exception if the arguments have invalid values (e.g., in the case of an
+                    <a data-spec="DOM4" title="XML-document" class="externalDFN">XML document</a>, if the given string is
+                    not well-formed).
 
                     <p>Throws a
                     <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>NoModificationAllowedError</code>
@@ -756,6 +744,10 @@
                         the string "beforeend"
 
                         <dd>Let <var>context</var> be the <a title="context object">context object</a>.
+
+                        <dt>Otherwise
+                        <dd>
+                            <p>Throw a <code>SyntaxError</code> exception.
                     </dl>
 
                   <li>If <var>context</var> is not an

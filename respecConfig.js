@@ -18,7 +18,6 @@ var respecConfig = {
     inlineCSS:  true,
     //noRecTrack:  true,
     shortName:  "innerhtml",
-    extraCSS: ["http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css"],
     wg:         ["Web Applications Working Group"],
     wgURI:    ["http://www.w3.org/2008/webapps/"],
     wgPublicList: "www-dom",
