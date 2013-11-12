@@ -309,7 +309,7 @@
 
             <dt><code><a title="comment" data-spec="DOM4" class="externalDFN">Comment</a></code>
             <dd>
-                <p>Let <var>markup</var> the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
+                <p>Let <var>markup</var> be the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
                 <code><a title="dom-characterdata-data" data-spec="DOM4" class="externalDFN">data</a></code>, and
                 "<code>--></code>".
 
@@ -319,29 +319,34 @@
                 <code><a title=domexception data-spec="DOM4" class="externalDFN">DOMException</a></code>
                 with name <code>InvalidStateError</code>.
 
+            <dt><code><a title="cdata" data-spec="DOML2" class="externalDFN">CDATASection</a></code>
+            <dd>
+                <p>Let <var>markup</var> be the concatenation of "<code>&lt;![CDATA[</code>", 
+                <var>node</var>'s
+                <code><a title="dom-characterdata-data" data-spec="DOM4" class="externalDFN">data</a></code>, 
+                and "<code>]]></code>".
+
+                <!-- This does not actually appear to be the case in implementations today.
+                <p>If <var>data</var> doesn't match the
+                  <code><a title="NT-CData" data-spec="XML10" class="externalDFN">CData</a></code> production, throw a
+                  <code><a title=domexception data-spec="DOM4" class="externalDFN">DOMException</a></code>
+                  with name <code>InvalidStateError</code> and terminate the entire algorithm.
+                -->
+                
+                <p>Return <var>markup</var>.
+                
+                <p class=note>CDATASection objects may be created by the historical 
+                <code>document.createCDATASection</code> API, or as a result of parsing an
+                <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
+                
+
             <dt><code><a title="text" data-spec="DOM4" class="externalDFN">Text</a></code>
             <dd>
                 <p>Let <var>data</var> be <var>node</var>'s
                 <code><a title="dom-characterdata-data" data-spec="DOM4" class="externalDFN">data</a></code>.
 
-                <p>If <var>node</var> has its <a>serialize as CDATA flag</a>
-                set, run the following steps:
-
-                <ol>
-                  <li>If <var>data</var> doesn't match the
-                  <code><a title="NT-CData" data-spec="XML10" class="externalDFN">CData</a></code> production, throw a
-                  <code><a title=domexception data-spec="DOM4" class="externalDFN">DOMException</a></code>
-                  with name <code>InvalidStateError</code> and terminate the entire algorithm.
-
-                  <li>Let <var>markup</var> be the concatenation of
-                  "<code>&lt;![CDATA[</code>", <var>data</var>, and
-                  "<code>]]></code>".
-
-                  <li>Return <var>markup</var>.
-                </ol>
-
-                <p>Otherwise, return <var>data</var>.
-
+                <p>Return <var>data</var>.
+                
             <dt><code><a title="documentfragment" data-spec="DOM4" class="externalDFN">DocumentFragment</a></code>
             <dd>
                 <p>Let <var>markup</var> the empty string.
@@ -828,6 +833,9 @@
     </dl>
 </section>
 
+<!-- Dropping this extention as it is not implemented, nor does it appear that any browser
+     is currently interested in supporting it. Perhaps it can come back in a V2 of this spec
+     if browsers become interested.
 <section>
     <h1>Extensions to the <code><a title="text" data-spec="DOM4" class="externalDFN">Text</a></code> interface</h1>
 
@@ -855,6 +863,7 @@
         </dd>
     </dl>
 </section>
+-->
 
 <section>
     <h1>Extensions to the <code><a data-spec="DOM4" title="range" class="externalDFN">Range</a></code> interface</h1>
