@@ -518,7 +518,7 @@
     <h1>Extensions to the <code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code> interface</h1>
 
     <dl class="idl" title="partial interface Element">
-        <dt>attribute DOMString innerHTML</dt>
+        <dt>[TreatNullAs=EmptyString] attribute DOMString innerHTML</dt>
         <dd>
             <p>The <dfn title=dom-Element-innerHTML><code>innerHTML</code></dfn> IDL
             attribute represents the markup of the
@@ -588,7 +588,7 @@
         </dd>
 
         <!-- outerHTML -->
-        <dt>attribute DOMString outerHTML</dt>
+        <dt>[TreatNullAs=EmptyString] attribute DOMString outerHTML</dt>
         <dd>
             <p>The <dfn title=dom-Element-outerHTML><code>outerHTML</code></dfn> IDL
             attribute represents the markup of the
@@ -945,9 +945,9 @@
 
 <section class="appendix">
     <h1>Acknowledgements</h1>
-    <p>Thanks to Ms2ger for maintaining the initial drafts of this specification.
+    <p>Thanks to Ms2ger for maintaining the initial drafts of this specification and for its continued improvement.
 
-    <p>Thanks to Anne van Kesteren, Aryeh Gregor, Henri Sivonen, Simon Pieters and timeless
+    <p>Thanks to Anne van Kesteren, Aryeh Gregor, Boris Zbarsky, Henri Sivonen, Simon Pieters and timeless
     for their useful comments.
 
     <p>Special thanks to Ian Hickson for defining the
