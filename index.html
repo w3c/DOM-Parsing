@@ -308,59 +308,151 @@
                 <var>node</var>. Return the string this produced.
 
             <dt><code><a title="comment" data-spec="DOM4" class="externalDFN">Comment</a></code>
-            <dd>
-                <p>Let <var>markup</var> be the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
+            <dd><ol>
+                <li>Let <var>markup</var> be the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
                 <code><a title="dom-characterdata-data" data-spec="DOM4" class="externalDFN">data</a></code>, and
                 "<code>--></code>".
 
-                <p>If <var>markup</var> matches the
+                <li>If <var>markup</var> matches the
                 <code><a data-spec="XML10" title="comment" class="externalDFN">Comment</a></code> production, return
                 <var>markup</var>. Otherwise, throw a
                 <code><a title=domexception data-spec="DOM4" class="externalDFN">DOMException</a></code>
                 with name <code>InvalidStateError</code>.
-
+              </ol>
             <dt><code><a title="cdata" data-spec="DOML2" class="externalDFN">CDATASection</a></code>
-            <dd>
-                <p>Let <var>markup</var> be the concatenation of "<code>&lt;![CDATA[</code>", 
+            <dd><ol>
+                <li>Let <var>markup</var> be the concatenation of "<code>&lt;![CDATA[</code>", 
                 <var>node</var>'s
                 <code><a title="dom-characterdata-data" data-spec="DOM4" class="externalDFN">data</a></code>, 
                 and "<code>]]></code>".
 
                 <!-- This does not actually appear to be the case in implementations today.
                 <p>If <var>data</var> doesn't match the
-                  <code><a title="NT-CData" data-spec="XML10" class="externalDFN">CData</a></code> production, throw a
+                  <code><a title="NT-CData" data-spec="XML10" class="externalDFN">CDSect</a></code> production, throw a
                   <code><a title=domexception data-spec="DOM4" class="externalDFN">DOMException</a></code>
                   with name <code>InvalidStateError</code> and terminate the entire algorithm.
                 -->
                 
-                <p>Return <var>markup</var>.
-                
-                <p class=note>CDATASection objects may be created by the historical 
-                <code>document.createCDATASection</code> API, or as a result of parsing an
-                <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
-                
+                <li>Return <var>markup</var>.
+              </ol>
+
+              <p class=note>CDATASection objects may be created by the historical 
+            <code>document.createCDATASection</code> API, or as a result of parsing an
+            <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
 
             <dt><code><a title="text" data-spec="DOM4" class="externalDFN">Text</a></code>
-            <dd>
-                <p>Let <var>data</var> be <var>node</var>'s
+            <dd><ol>
+                <li>Let <var>markup</var> be <var>node</var>'s
                 <code><a title="dom-characterdata-data" data-spec="DOM4" class="externalDFN">data</a></code>.
 
-                <p>Return <var>data</var>.
+                <li>Replace any occurrences of "<code>&amp;</code>" in <var>markup</var> by
+                "<code>&amp;amp;</code>".
                 
+                <li>Replace any occurrences of "<code>&lt;</code>" in <var>markup</var> by
+                "<code>&amp;lt;</code>".
+                
+                <li>Replace any occurrences of "<code>&gt;</code>" in <var>markup</var> by
+                "<code>&amp;gt;</code>".
+                
+                <li>Return <var>data</var>.
+              </ol>
             <dt><code><a title="documentfragment" data-spec="DOM4" class="externalDFN">DocumentFragment</a></code>
-            <dd>
-                <p>Let <var>markup</var> the empty string.
+            <dd><ol>
+                <li>Let <var>markup</var> the empty string.
 
-                <p>For each
+                <li>For each
                 <a title=concept-tree-child data-spec="DOM4" class="externalDFN">child</a> of
                 <var>node</var>, in order,
                 <a title=concept-serialize-xml>produce an XML serialization</a>
                 of the child and concatenate the result to <var>markup</var>.
 
-                <p>Return <var>markup</var>.
-
+                <li>Return <var>markup</var>.
+              </ol>
             <dt><code><a title="documenttype" data-spec="DOM4" class="externalDFN">DocumentType</a></code>
+            <dd>
+                <p> Return the result of the following algorithm:
+                
+                <ol>
+                    <li>Let <var>markup</var> be an empty string.
+                    <li>Append the string "<code>&lt;!DOCTYPE</code>" to <var>markup</var>.
+                    <li>Append "<code> </code>" (U+0020 SPACE) to <var>markup</var>.
+                    <li>Append the value of the <var>node</var>'s 
+                        <code><a title="dom-documenttype-name" data-spec="DOM4" class="externalDFN">name</a></code>
+                        attribute to <var>markup</var>.
+                    <li>If the <var>node</var>'s 
+                        <code><a title="dom-documenttype-publicid" data-spec="DOM4" class="externalDFN">publicId</a></code>
+                        is not the empty string then append the following, in order, to <var>markup</var>:
+                        <ol>
+                            <li>"<code> </code>" (U+0020 SPACE);
+                            <li>The string "<code>PUBLIC</code>";
+                            <li>"<code> </code>" (U+0020 SPACE);
+                            <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                            <li>The value of the <var>node</var>'s 
+                                <code><a title="dom-documenttype-publicid" data-spec="DOM4" class="externalDFN">publicId</a></code>
+                                attribute;
+                            <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                        </ol>
+                    </li>
+                    <li>If the <var>node</var>'s 
+                        <code><a title="dom-documenttype-systemid" data-spec="DOM4" class="externalDFN">systemId</a></code>
+                        is not the empty string and the <var>node</var>'s 
+                        <code><a title="dom-documenttype-publicid" data-spec="DOM4" class="externalDFN">publicId</a></code>
+                        is set to the empty string, then append the following, in order, to <var>markup</var>:
+                        <ol>
+                            <li>"<code> </code>" (U+0020 SPACE);
+                            <li>The string "<code>SYSTEM</code>";
+                        </ol>
+                    </li>
+                    <li>If the <var>node</var>'s 
+                        <code><a title="dom-documenttype-systemid" data-spec="DOM4" class="externalDFN">systemId</a></code>
+                        is not the empty string then append the following, in order, to <var>markup</var>:
+                        <ol>
+                            <li>"<code> </code>" (U+0020 SPACE);
+                            <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                            <li>The value of the <var>node</var>'s 
+                                <code><a title="dom-documenttype-systemid" data-spec="DOM4" class="externalDFN">systemId</a></code>
+                                attribute;
+                            <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                        </ol>
+                    </li>
+                    <li>Optional: if the <var>node</var> has an (historical) 
+                        <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
+                        and the
+                        <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
+                        attribute's value is a non-empty string, then append the following,
+                        in order, to <var>markup</var>:
+                        <ol>
+                            <li>"<code> </code>" (U+0020 SPACE);
+                            <li>"<code>[</code>" (U+005B LEFT SQUARE BRACKET);
+                            <li>The value of the <var>node</var>'s 
+                                <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
+                                attribute;
+                            <li>"<code>]</code>" (U+005D RIGHT SQUARE BRACKET);
+                        </ol>
+                    </li>
+                    <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
+                </ol>
+            
             <dt><code><a title="processinginstruction" data-spec="DOM4" class="externalDFN">ProcessingInstruction</a></code>
+            <dd><ol>
+                <li>Let <var>markup</var> be the concatenation of "<code>&lt;?</code>", 
+                <var>node</var>'s
+                <code><a title="dom-characterdata-data" data-spec="DOM4" class="externalDFN">data</a></code>, 
+                and "<code>?></code>".
+
+                <!-- This does not actually appear to be the case in implementations today.
+                <p>If <var>data</var> doesn't match the
+                  <code><a title="NT-PI" data-spec="XML10" class="externalDFN">PI</a></code> production, throw a
+                  <code><a title=domexception data-spec="DOM4" class="externalDFN">DOMException</a></code>
+                  with name <code>InvalidStateError</code> and terminate the entire algorithm.
+                -->
+                
+                <li>Return <var>markup</var>.
+              </ol>
+            <p class=note>ProcessingInstruction objects may be created by the historical 
+            <code>document.createProcessingInstruction</code> API, or as a result of parsing an
+            <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
+                    
             <dd class="issue">TODO</dd>
         </dl>
 
