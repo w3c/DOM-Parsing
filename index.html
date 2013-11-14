@@ -269,6 +269,8 @@
           <dt><code><a title="comment" data-spec="DOM4" class="externalDFN">Comment</a></code>
           <dt><code><a title="text" data-spec="DOM4" class="externalDFN">Text</a></code>
           <dt><code><a title="documenttype" data-spec="DOM4" class="externalDFN">DocumentType</a></code>
+          <dd><p>Run the steps to <a title=concept-serialize-doctype>produce a DocumentType 
+                serialization</a> of <var>node</var> and return the string this produced.</p>
           <dt><code><a title="processinginstruction" data-spec="DOM4" class="externalDFN">ProcessingInstruction</a></code>
           <dd class="issue">Define how these are serialized...</dd>
         </dl>
@@ -369,69 +371,9 @@
                 <li>Return <var>markup</var>.
               </ol>
             <dt><code><a title="documenttype" data-spec="DOM4" class="externalDFN">DocumentType</a></code>
-            <dd>
-                <p> Return the result of the following algorithm:
-                
-                <ol>
-                    <li>Let <var>markup</var> be an empty string.
-                    <li>Append the string "<code>&lt;!DOCTYPE</code>" to <var>markup</var>.
-                    <li>Append "<code> </code>" (U+0020 SPACE) to <var>markup</var>.
-                    <li>Append the value of the <var>node</var>'s 
-                        <code><a title="dom-documenttype-name" data-spec="DOM4" class="externalDFN">name</a></code>
-                        attribute to <var>markup</var>.
-                    <li>If the <var>node</var>'s 
-                        <code><a title="dom-documenttype-publicid" data-spec="DOM4" class="externalDFN">publicId</a></code>
-                        is not the empty string then append the following, in order, to <var>markup</var>:
-                        <ol>
-                            <li>"<code> </code>" (U+0020 SPACE);
-                            <li>The string "<code>PUBLIC</code>";
-                            <li>"<code> </code>" (U+0020 SPACE);
-                            <li>"<code>"</code>" (U+0022 QUOTATION MARK);
-                            <li>The value of the <var>node</var>'s 
-                                <code><a title="dom-documenttype-publicid" data-spec="DOM4" class="externalDFN">publicId</a></code>
-                                attribute;
-                            <li>"<code>"</code>" (U+0022 QUOTATION MARK);
-                        </ol>
-                    </li>
-                    <li>If the <var>node</var>'s 
-                        <code><a title="dom-documenttype-systemid" data-spec="DOM4" class="externalDFN">systemId</a></code>
-                        is not the empty string and the <var>node</var>'s 
-                        <code><a title="dom-documenttype-publicid" data-spec="DOM4" class="externalDFN">publicId</a></code>
-                        is set to the empty string, then append the following, in order, to <var>markup</var>:
-                        <ol>
-                            <li>"<code> </code>" (U+0020 SPACE);
-                            <li>The string "<code>SYSTEM</code>";
-                        </ol>
-                    </li>
-                    <li>If the <var>node</var>'s 
-                        <code><a title="dom-documenttype-systemid" data-spec="DOM4" class="externalDFN">systemId</a></code>
-                        is not the empty string then append the following, in order, to <var>markup</var>:
-                        <ol>
-                            <li>"<code> </code>" (U+0020 SPACE);
-                            <li>"<code>"</code>" (U+0022 QUOTATION MARK);
-                            <li>The value of the <var>node</var>'s 
-                                <code><a title="dom-documenttype-systemid" data-spec="DOM4" class="externalDFN">systemId</a></code>
-                                attribute;
-                            <li>"<code>"</code>" (U+0022 QUOTATION MARK);
-                        </ol>
-                    </li>
-                    <li>Optional: if the <var>node</var> has an (historical) 
-                        <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
-                        and the
-                        <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
-                        attribute's value is a non-empty string, then append the following,
-                        in order, to <var>markup</var>:
-                        <ol>
-                            <li>"<code> </code>" (U+0020 SPACE);
-                            <li>"<code>[</code>" (U+005B LEFT SQUARE BRACKET);
-                            <li>The value of the <var>node</var>'s 
-                                <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
-                                attribute;
-                            <li>"<code>]</code>" (U+005D RIGHT SQUARE BRACKET);
-                        </ol>
-                    </li>
-                    <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
-                </ol>
+            <dd>Run the steps to <a title=concept-serialize-doctype>produce a DocumentType 
+                serialization</a> of <var>node</var>
+                and return the string this produced.           
             
             <dt><code><a title="processinginstruction" data-spec="DOM4" class="externalDFN">ProcessingInstruction</a></code>
             <dd><ol>
@@ -452,10 +394,83 @@
             <p class=note>ProcessingInstruction objects may be created by the historical 
             <code>document.createProcessingInstruction</code> API, or as a result of parsing an
             <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
-                    
-            <dd class="issue">TODO</dd>
+         
         </dl>
 
+        <p>To <dfn title=concept-serialize-doctype>produce a DocumentType serialization</dfn> of a
+        <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
+        must return the result of the following algorithm:</p>
+                
+        <ol>
+            <li>Let <var>markup</var> be an empty string.
+            <li>Append the string "<code>&lt;!DOCTYPE</code>" to <var>markup</var>.
+            <li>Append "<code> </code>" (U+0020 SPACE) to <var>markup</var>.
+            <li>Append the value of the <var>node</var>'s 
+                <code><a title="dom-documenttype-name" data-spec="DOM4" class="externalDFN">name</a></code>
+                attribute to <var>markup</var>. For a <var>node</var> belonging to an
+                <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>,
+                the value will be all lowercase.
+            <li>If the <var>node</var>'s 
+                <code><a title="dom-documenttype-publicid" data-spec="DOM4" class="externalDFN">publicId</a></code>
+                is not the empty string then append the following, in order, to <var>markup</var>:
+                <ol>
+                    <li>"<code> </code>" (U+0020 SPACE);
+                    <li>The string "<code>PUBLIC</code>";
+                    <li>"<code> </code>" (U+0020 SPACE);
+                    <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                    <li>The value of the <var>node</var>'s 
+                        <code><a title="dom-documenttype-publicid" data-spec="DOM4" class="externalDFN">publicId</a></code>
+                        attribute;
+                    <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                </ol>
+            </li>
+            <li>If the <var>node</var>'s 
+                <code><a title="dom-documenttype-systemid" data-spec="DOM4" class="externalDFN">systemId</a></code>
+                is not the empty string and the <var>node</var>'s 
+                <code><a title="dom-documenttype-publicid" data-spec="DOM4" class="externalDFN">publicId</a></code>
+                is set to the empty string, then append the following, in order, to <var>markup</var>:
+                <ol>
+                    <li>"<code> </code>" (U+0020 SPACE);
+                    <li>The string "<code>SYSTEM</code>";
+                </ol>
+            </li>
+            <li>If the <var>node</var>'s 
+                <code><a title="dom-documenttype-systemid" data-spec="DOM4" class="externalDFN">systemId</a></code>
+                is not the empty string then append the following, in order, to <var>markup</var>:
+                <ol>
+                    <li>"<code> </code>" (U+0020 SPACE);
+                    <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                    <li>The value of the <var>node</var>'s 
+                        <code><a title="dom-documenttype-systemid" data-spec="DOM4" class="externalDFN">systemId</a></code>
+                        attribute;
+                    <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                </ol>
+            </li>
+            <li>Optional: if the <var>node</var> has an (historical) 
+                <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
+                and the
+                <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
+                attribute's value is a non-empty string, then append the following,
+                in order, to <var>markup</var>:
+                <ol>
+                    <li>"<code> </code>" (U+0020 SPACE);
+                    <li>"<code>[</code>" (U+005B LEFT SQUARE BRACKET);
+                    <li>The value of the <var>node</var>'s 
+                        <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
+                        attribute;
+                    <li>"<code>]</code>" (U+005D RIGHT SQUARE BRACKET);
+                </ol>
+                <p class=note>A <var>node</var> belonging to an
+                   <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>
+                   will never have an 
+                   <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
+                   because any <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
+                   markup is ignored by the parser.</p>
+            </li>
+            <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
+        </ol>
+
+        
         <p>The <dfn title=concept-serialize-xml-attributes>XML serialization of the attributes</dfn> of an
         <a title=concept-element data-spec="DOM4" class="externalDFN">element</a>
         <var>element</var> is the result of the following algorithm:
