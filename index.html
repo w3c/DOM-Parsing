@@ -254,7 +254,7 @@
           <var>node</var>.
         </ol>
 
-        <p>To <dfn title=concept-serialize-html>produce an HTML serialization</dfn> of a
+        <p>To produce an <dfn title=concept-serialize-html>HTML serialization</dfn> of a
         <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
         must run the appropriate steps, depending on <var>node</var>'s interface:
 
@@ -275,7 +275,7 @@
           <dd class="issue">Define how these are serialized...</dd>
         </dl>
 
-        <p>To <dfn title=concept-serialize-xml>produce an XML serialization</dfn> of a
+        <p>To produce an <dfn title=concept-serialize-xml>XML serialization</dfn> of a
         <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
         must run the appropriate steps, depending on <var>node</var>'s interface:</p>
 
@@ -292,7 +292,7 @@
                   <li>the <a title=concept-serialize-xml-attributes>XML serialization of
                   <var>node</var>'s attributes</a>;
                   <li>"<code>&gt;</code>" (U+003E GREATER-THAN SIGN);
-                  <li>the <a title=concept-serialize-xml>serialization</a> of
+                  <li>the <a title=concept-serialize-xml>XML serialization</a> of
                   <var>node</var>'s
                   <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>, in
                   order;
@@ -618,7 +618,7 @@
     <dl class="idl" title="[Constructor] interface XMLSerializer">
         <dt>DOMString serializeToString(Node root)</dt>
 
-        <dd>The <code>serializeToString(<var>root</var>)</code></dfn>
+        <dd>The <code>serializeToString(<var>root</var>)</code>
         method must <a title=concept-serialize-xml>produce an XML serialization</a> of <var>root</var> and return the result.</dd>
     </dl>
 </section>
