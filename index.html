@@ -417,9 +417,19 @@
 
             <dt><code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code>
             <dd>
-                <p>Run the
-                <a data-spec="HTML5" title="xml-fragment-serialization-algorithm" class="externalDFN">XML fragment serialization algorithm</a> on
-                <var>node</var>. Return the string this produced.
+                <p>Return the result of concatenating the following, in order:
+                <ol>
+                    <li>The string produced by running the steps to 
+                        <a title=concept-serialize-doctype>produce a DocumentType serialization</a>
+                        of <var>node</var>'s 
+                        <a title="dom-Document-doctype" data-spec="HTML5" class="externalDFN">doctype</a>
+                        attribute;
+                    <li>The string produced by an <a title=concept-serialize-xml>XML serialization</a>
+                        of <var>node</var>'s 
+                        <a title="dom-Document-documentElement" data-spec="HTML5" class="externalDFN">documentElement</a>
+                        attribute, providing <code>null</code> as the <var>namespace</var> and an 
+                        empty list as <var>prefixes</var>. 
+                </ol>
 
             <dt><code><a title="comment" data-spec="DOM4" class="externalDFN">Comment</a></code>
             <dd><ol>
