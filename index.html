@@ -259,25 +259,10 @@
 
         <p>To produce an <dfn title=concept-serialize-html>HTML serialization</dfn> of a
         <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
-        must run the appropriate steps, depending on <var>node</var>'s interface:
-
-        <dl class=switch>
-          <dt><code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>
-          <dt><code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code>
-          <dt><code><a title="documentfragment" data-spec="DOM4" class="externalDFN">DocumentFragment</a></code>
-          <dd><p>Run the
-          <a data-spec="HTML5" title="html-fragment-serialization-algorithm" class="externalDFN">HTML fragment serialization algorithm</a> on
-          <var>node</var>. Return the returned string.
-
-          <dt><code><a title="comment" data-spec="DOM4" class="externalDFN">Comment</a></code>
-          <dt><code><a title="text" data-spec="DOM4" class="externalDFN">Text</a></code>
-          <dt><code><a title="documenttype" data-spec="DOM4" class="externalDFN">DocumentType</a></code>
-          <dd><p>Run the steps to <a title=concept-serialize-doctype>produce a DocumentType 
-                serialization</a> of <var>node</var> and return the string this produced.</p>
-          <dt><code><a title="processinginstruction" data-spec="DOM4" class="externalDFN">ProcessingInstruction</a></code>
-          <dd class="issue">Define how these are serialized...</dd>
-        </dl>
-
+        must run the
+        <a data-spec="HTML5" title="html-fragment-serialization-algorithm" class="externalDFN">HTML 
+        fragment serialization algorithm</a> [[!HTML5]] on <var>node</var> and return the string produced.
+          
         <p>To produce an <dfn title=concept-serialize-xml>XML serialization</dfn> of a
             <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var> given a
             context namespace <var>namespace</var> and prefix list <var>prefixes</var>, the user 
