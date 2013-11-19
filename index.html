@@ -240,18 +240,21 @@
         must run the following steps:
 
         <ol>
-          <li>Let <var>document</var> be <var>node</var>'s
-          <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>.
-
-          <li>If <var>document</var> is an
-          <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>, return an
-          <a title=concept-serialize-html>HTML serialization</a> of
-          <var>node</var>.
-
-          <li>Otherwise, <var>document</var> is an
-          <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>. Return an
-          <a title=concept-serialize-xml>XML serialization</a> of
-          <var>node</var>.
+            <li>Let <var>document</var> be <var>node</var>'s
+                <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>.
+            <li>If <var>document</var> is an
+                <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>, 
+                return an <a title=concept-serialize-html>HTML serialization</a> of <var>node</var>.
+            <li>Otherwise, <var>document</var> is an
+                <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
+            <li>Let <var>context namespace</var> be <code>null</code>.
+            <li>Let <var>prefix list</var> be an empty list. The <var>prefix list</var> will 
+                contain strings that represent a history of namespace prefixes [[XML-NAMES]]
+                that have been serialized by the <a title=concept-serialize-xml>XML serialization</a>
+                algorithm for a subtree.
+            <li>Return an <a title=concept-serialize-xml>XML serialization</a> of <var>node</var>
+                providing to the algorithm <var>context namespace</var> as the <var>namespace</var>
+                and <var>prefix list</var> as <var>prefixes</var>.
         </ol>
 
         <p>To produce an <dfn title=concept-serialize-html>HTML serialization</dfn> of a
@@ -276,31 +279,144 @@
         </dl>
 
         <p>To produce an <dfn title=concept-serialize-xml>XML serialization</dfn> of a
-        <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
-        must run the appropriate steps, depending on <var>node</var>'s interface:</p>
-
+            <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var> given a
+            context namespace <var>namespace</var> and prefix list <var>prefixes</var>, the user 
+            agent must run the appropriate steps, depending on <var>node</var>'s interface:</p>
+        
+        <p class=note>The following steps for serializing a <var>node</var> belonging to an
+            <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a> are 
+            designed to produce a serialization that is compatible with the
+            <a title="html-parser" data-spec="HTML5" class="externalDFN">HTML parser</a>. For example,
+            elements in the XHTML namespace that contain no child nodes are serialized with
+            an explicit begin and end tag rather than using the XML self-closing syntax. Exceptions 
+            to this rule occur when an XHTML element's equivalent HTML element would be auto-closed
+            by the HTML parser.
+            
         <dl class=switch>
             <dt><code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>
             <dd>
-                <p>Return the concatenation of the following strings:
+                <p>Run the following algorithm:
                 <ol>
-                  <li>"<code>&lt;</code>" (U+003C LESS-THAN SIGN);
-                  <li>the value of <var>node</var>'s
-                  <code><a title="dom-Element-tagName" data-spec="DOM4" class="externalDFN">tagName</a></code>
-                  attribute;
-                  <p class="issue">escaping / throwing
-                  <li>the <a title=concept-serialize-xml-attributes>XML serialization of
-                  <var>node</var>'s attributes</a>;
-                  <li>"<code>&gt;</code>" (U+003E GREATER-THAN SIGN);
-                  <li>the <a title=concept-serialize-xml>XML serialization</a> of
-                  <var>node</var>'s
-                  <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>, in
-                  order;
-                  <li>"<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS);
-                  <li>the value of <var>node</var>'s
-                  <code><a title="dom-Element-tagName" data-spec="DOM4" class="externalDFN">tagName</a></code>
-                  attribute;
-                  <li>"<code>&gt;</code>" (U+003E GREATER-THAN SIGN).
+                    <!-- "namespace" was passed via the caller -->
+                    <li>Let <var>markup</var> be an empty string.
+                    <li>Let <var>list</var> be a copy of the <var>prefixes</var> array.
+                    <li>Let <var>prefix</var> be the value of <var>node</var>'s 
+                        <code><a title="dom-Element-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>
+                        attribute.
+                    <li>Let <var>ns</var> be the value of <var>node</var>'s 
+                        <code><a title="dom-Element-namespaceURI" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
+                        attribute.
+                    <li>Let a <var>skip end tag</var> flag have the value <code>false</code>.
+                    <li>Append "<code>&lt;</code>" (U+003C LESS-THAN SIGN) to <var>markup</var>.
+                    <li>If <var>prefix</var> is not <code>null</code> then append the following to
+                        <var>markup</var>:
+                        <ol>
+                            <li>The value of <var>prefix</var>;
+                            <li>"<code>:</code>" (U+003A COLON).
+                        </ol>
+                    <li>Append the value of <var>node</var>'s
+                        <code><a title="dom-Element-localName" data-spec="DOM4" class="externalDFN">localName</a></code>
+                        attribute to <var>markup</var>.
+                    <p class="issue">escaping / throwing
+                    <li>If <var>namespace</var> is not equal to <var>ns</var> (the <var>node</var>'s
+                        own namespace is different from its parent), and <var>prefix</var> is not 
+                        <code>null</code>, then run these sub-steps:
+                        <p class=note>These steps determine whether a namespace prefix is 
+                            serialized for this node.
+                        <ol>
+                            <li>If <var>list</var> contains the value of <var>prefix</var>, then
+                                abort these sub-steps. This namespace prefix
+                                was already serialized.
+                            <li>Add the value of <var>prefix</var> to <var>list</var>.
+                            <li>If <var>node</var> has an attribute whose 
+                                <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a>
+                                attribute value is equal to the concatenation of the string 
+                                "<code>xmlns:</code>" with the value of <var>prefix</var>, abort 
+                                these sub-steps. The <var>prefix</var> namespace definition will be 
+                                serialized later as part of the <a title=concept-serialize-xml-attributes>XML 
+                                serialization of <var>node</var>'s attributes</a>.
+                            <li>Append the following to <var>markup</var>, in order:
+                            <ol>
+                                <li>"<code> </code>" (U+0020 SPACE);
+                                <li>The string "<code>xmlns:</code>";
+                                <li>The value of <var>prefix</var>;
+                                <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
+                                <li>The value of <var>ns</var>;
+                                <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                            </ol>
+                        </ol>
+                    <li>If <var>namespace</var> is not equal to <var>ns</var>, and <var>prefix</var>
+                        is <code>null</code>, then run these sub-steps:
+                        <p class=note>These steps determine whether a default namespace is 
+                            serialized for this node.
+                        <ol>
+                            <li>If <var>node</var> has an attribute whose 
+                                <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a>
+                                attribute value is equal to "<code>xmlns</code>", abort 
+                                these sub-steps. The default namespace will be 
+                                serialized later as part of the <a title=concept-serialize-xml-attributes>XML 
+                                serialization of <var>node</var>'s attributes</a>.
+                            <li>Append the following to <var>markup</var>, in order:
+                            <ol>
+                                <li>"<code> </code>" (U+0020 SPACE);
+                                <li>The string "<code>xmlns</code>";
+                                <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
+                                <li>The value of <var>ns</var>;
+                                <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                            </ol>
+                        </ol>
+                    <li>Append to <var>markup</var> the result of the 
+                        <a title=concept-serialize-xml-attributes>XML 
+                        serialization of <var>node</var>'s attributes</a>, passing <var>list</var>
+                        as the <var>prefixes</var>.
+                    <li>If the value of <var>ns</var> is the string "<code>http://www.w3.org/1999/xhtml</code>",
+                        and the <var>node</var>'s list of 
+                        <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>
+                        is empty, and the <var>node</var>'s
+                        <code><a title="dom-Element-tagName" data-spec="DOM4" class="externalDFN">tagName</a></code>
+                        case-sensitively matches any one of the following:
+                        <ul>
+                            <li>"<code>br</code>";
+                            <li>"<code>img</code>";
+                            <li>"<code>input</code>";
+                            <li>"<code>link</code>";
+                            <li>"<code>meta</code>";
+                            <li>"<code>param</code>";
+                        </ul>
+                        then append the following to <var>markup</var>, in order:
+                        <ol>
+                            <li>"<code> </code>" (U+0020 SPACE);
+                            <li>"<code>/</code>" (U+002F SOLIDUS);
+                        </ol>
+                        and set the <var>skip end tag</var> flag to <code>true</code>.
+                    <li>If the value of <var>ns</var> is not the string "<code>http://www.w3.org/1999/xhtml</code>",
+                        and the <var>node</var>'s list of 
+                        <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>
+                        is empty, then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
+                        and set the <var>skip end tag</var> flag to <code>true</code>.
+                    <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
+                    <li>If the value of <var>skip end tag</var> is <code>true</code>, then return 
+                        the value of <var>markup</var> and skip the remaining steps. The 
+                        <var>node</var> is a leaf-node.
+                    <li>Append to <var>markup</var> the result of performing an 
+                        <a title=concept-serialize-xml>XML serialization</a> of each of 
+                        <var>node</var>'s
+                        <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>,
+                        in order, providing the value of <var>ns</var> for the <var>namespace</var>
+                        and <var>list</var> for the <var>prefixes</var>.
+                    <li>Append "<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS) to 
+                        <var>markup</var>.
+                    <li>If the value of <var>prefix</var> is not <code>null</code>, then append the 
+                        following to <var>markup</var>, in order:
+                        <ol>
+                            <li>The value of <var>prefix</var>;
+                            <li>"<code>:</code>" (U+003A COLON).
+                        </ol>
+                    <li>Append the value of <var>node</var>'s
+                        <code><a title="dom-Element-localName" data-spec="DOM4" class="externalDFN">localName</a></code>
+                        attribute to <var>markup</var>.
+                    <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
+                    <li>Return the value of <var>markup</var>.
                 </ol>
 
             <dt><code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code>
@@ -471,29 +587,45 @@
         </ol>
 
         
-        <p>The <dfn title=concept-serialize-xml-attributes>XML serialization of the attributes</dfn> of an
-        <a title=concept-element data-spec="DOM4" class="externalDFN">element</a>
-        <var>element</var> is the result of the following algorithm:
+        <p>The <dfn title=concept-serialize-xml-attributes>XML serialization of the attributes</dfn>
+        of an <a title=concept-element data-spec="DOM4" class="externalDFN">element</a>
+        <var>element</var> together with a prefix list <var>prefixes</var> is the result of the 
+        following algorithm:
 
         <ol>
-          <li>Let <var>result</var> be the empty string.
-          <li>For each
-            <a title=concept-attribute data-spec="DOM4" class="externalDFN">attribute</a>
-            <var>attr</var> in <var>element</var>
-            <a title=concept-element-attribute data-spec="DOM4" class="externalDFN">attributes</a>,
-            in order, append the following strings to <var>result</var>:
-            <ol>
-              <li>"<code> </code>" (U+0020 SPACE);
-              <li><var>attr</var>'s
-              <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a>;
-              <p class="issue">escaping / throwing
-              <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
-              <li><var>attr</var>'s
-              <a title=concept-attribute-value data-spec="DOM4" class="externalDFN">value</a>;
-              <p class="issue">escaping / throwing
-              <li>"<code>"</code>" (U+0022 QUOTATION MARK).
-            </ol>
-          <li>Return <var>result</var>.
+            <li>Let <var>result</var> be the empty string.
+            <li>For each
+                <a title=concept-attribute data-spec="DOM4" class="externalDFN">attribute</a>
+                <var>attr</var> in <var>element</var>'s
+                <a title=concept-element-attribute data-spec="DOM4" class="externalDFN">attributes</a>,
+                in order:
+                <ol>
+                    <li>Append the following strings to <var>result</var>:
+                        <ol>
+                            <li>"<code> </code>" (U+0020 SPACE);
+                            <li><var>attr</var>'s
+                            <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a>;
+                            <p class="issue">escaping / throwing
+                            <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
+                            <li><var>attr</var>'s
+                            <a title=concept-attribute-value data-spec="DOM4" class="externalDFN">value</a>;
+                            <p class="issue">escaping / throwing
+                            <li>"<code>"</code>" (U+0022 QUOTATION MARK).
+                        </ol>
+                    <li>If the first six characters of the value of <var>attr</var>'s 
+                        <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a> 
+                        attribute case-sensitively match the string "<code>xmlns:</code>", then:
+                        <ol>
+                            <li>Let <var>prefix definition</var> be the result of trimming 
+                                "<code>xmlns:</code>" from the beginning of the value of <var>attr</var>'s 
+                                <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a>.
+                            <li>Add the value of <var>prefix definition</var> to <var>prefixes</var>. 
+                                Since this namespace prefix definition has been serialized, it is 
+                                unnecessary to serialize it again if subsequently encountered in 
+                                <var>element</var>'s children.
+                        </ol>
+                </ol>
+            <li>Return <var>result</var>.
         </ol>
     </section>
 </section>
