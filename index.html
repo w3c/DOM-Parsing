@@ -304,7 +304,9 @@
                     <li>Append the value of <var>node</var>'s
                         <code><a title="dom-Element-localName" data-spec="DOM4" class="externalDFN">localName</a></code>
                         attribute to <var>markup</var>.
-                    <p class="issue">escaping / throwing
+                    <!-- Tried ":" in names, but this doesn't trick the serializer--it just produces 
+                        a serialization that is not round-trippable
+                        <p class="issue">escaping / throwing -->
                     <li>If <var>namespace</var> is not equal to <var>ns</var> (the <var>node</var>'s
                         own namespace is different from its parent), and <var>prefix</var> is not 
                         <code>null</code>, then run these sub-steps:
@@ -611,11 +613,15 @@
                             <li>"<code> </code>" (U+0020 SPACE);
                             <li><var>attr</var>'s
                             <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a>;
-                            <p class="issue">escaping / throwing
+                            <!--<p class="issue">escaping / throwing  NO issues here to my knowledge -->
                             <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
                             <li><var>attr</var>'s
-                            <a title=concept-attribute-value data-spec="DOM4" class="externalDFN">value</a>;
-                            <p class="issue">escaping / throwing
+                            <a title=concept-attribute-value data-spec="DOM4" class="externalDFN">value</a>,
+                            replacing any occurrences of the following:
+                            <ol>
+                                <li>"<code>&quot;</code>" with "<code>&amp;quot;</code>"
+                                <li>"<code>&amp;</code>" with "<code>&amp;amp;</code>"
+                            </ol>
                             <li>"<code>"</code>" (U+0022 QUOTATION MARK).
                         </ol>
                     <li>If the first six characters of the value of <var>attr</var>'s 
