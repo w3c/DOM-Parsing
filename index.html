@@ -274,8 +274,10 @@
             <a title="html-parser" data-spec="HTML5" class="externalDFN">HTML parser</a>. For example,
             elements in the XHTML namespace that contain no child nodes are serialized with
             an explicit begin and end tag rather than using the XML self-closing syntax. Exceptions 
-            to this rule occur when an XHTML element's equivalent HTML element would be auto-closed
-            by the HTML parser.
+            to this rule occur when an XHTML element's equivalent HTML element is a 
+            <a title="void-elements" data-spec="HTML5" class="externalDFN">void element</a> that 
+            would be auto-closed by the 
+            <a title="html-parser" data-spec="HTML5" class="externalDFN">HTML parser</a>.
             
         <dl class=switch>
             <dt><code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>
@@ -359,15 +361,24 @@
                         <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>
                         is empty, and the <var>node</var>'s
                         <code><a title="dom-Element-tagName" data-spec="DOM4" class="externalDFN">tagName</a></code>
-                        case-sensitively matches any one of the following:
-                        <ul>
-                            <li>"<code>br</code>";
-                            <li>"<code>img</code>";
-                            <li>"<code>input</code>";
-                            <li>"<code>link</code>";
-                            <li>"<code>meta</code>";
-                            <li>"<code>param</code>";
-                        </ul>
+                        matches any one of the following 
+                        <a title="void-elements" data-spec="HTML5" class="externalDFN">void elements</a>:
+                        "<code>area</code>",
+                        "<code>base</code>",
+                        "<code>br</code>",
+                        "<code>col</code>",
+                        "<code>embed</code>",
+                        "<code>hr</code>",
+                        "<code>img</code>",
+                        "<code>input</code>",
+                        "<code>keygen</code>",
+                        "<code>link</code>",
+                        "<code>menuitem</code>",
+                        "<code>meta</code>",
+                        "<code>param</code>",
+                        "<code>source</code>",
+                        "<code>track</code>",
+                        "<code>wbr</code>";
                         then append the following to <var>markup</var>, in order:
                         <ol>
                             <li>"<code> </code>" (U+0020 SPACE);
