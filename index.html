@@ -694,6 +694,25 @@
                     created <a title=concept-document data-spec="DOM4" class="externalDFN">document</a>
                     and terminate these steps.
 
+                    <li>Otherwise, throw a 
+                    <a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> 
+                    with name <code>SyntaxError</code>.
+                    
+                    <p class=note>Some UAs do not throw an exception, but rather return a minimal 
+                    well-formed XML document that describes the error. In these cases, the error 
+                    document's root element will be named <code>parsererror</code> and its namespace
+                    will be set to "<code>http://www.mozilla.org/newlayout/xml/parsererror.xml</code>".
+                    
+                    <!--
+                    It does not make sense to pave the cow paths by standardizing the 
+                    mozilla error handling approach, when there is clear objection to that approach
+                    from web developers who expect success to load the document they want, rather
+                    than an error document. Browsers are reluctant to change behavior due to web
+                    compatibility, but IE has thrown in these cases for multiple releases now without
+                    any significant compatibility impact, and thus it seems feasable to spec the 
+                    simpler and developer-expected behavior here.
+                    appropriate behavior here.
+                    
                     <li>Let <var>document</var> be a newly-created
                     <code><a data-spec="DOM4" title="xmldocument" class="externalDFN">XMLDocument</a></code>.
 
@@ -705,7 +724,7 @@
                     <a title=concept-element-namespace data-spec="DOM4" class="externalDFN">namespace</a>
                     set to
                     "<code>http://www.mozilla.org/newlayout/xml/parsererror.xml</code>".
-                    <!-- see https://bugzilla.mozilla.org/show_bug.cgi?id=45566 -->
+                    <!-- see https://bugzilla.mozilla.org/show_bug.cgi?id=45566 --><!--
                     <p>At this point user agents may
                     <a data-spec="DOM4" title=concept-node-append class="externalDFN">append</a> nodes
                     to <var>root</var>, for example to describe the nature of the
@@ -715,35 +734,19 @@
                     <var>root</var> to <var>document</var>.
 
                     <li>Return <var>document</var>.
+                    -->
                 </ol>
             </dl>
 
             <p>In any case, the returned
             <a title=concept-document data-spec="DOM4" class="externalDFN">document</a>'s
             <a title=concept-document-content-type data-spec="DOM4" class="externalDFN">content type</a>
-            must be the <var>type</var> argument.
-
-            <div class="issue">
-                <p>It is currently unclear what the
-                <a title=concept-document-url data-spec="DOM4" class="externalDFN">URL</a> of the returned
-                <a title=concept-document data-spec="DOM4" class="externalDFN">document</a> should be.
-
-                <p>Results for a <a href="http://software.hixie.ch/utilities/js/live-dom-viewer/saved/1322">test case</a>:
-                <table>
-                <thead>
-                    <tr>
-                    <th><th>Gecko<th>Opera<th>Chrome
-                <tbody>
-                    <tr>
-                    <th>document.location <td colspan=3>null
-                    <tr>
-                    <th>document.URL <td>unsupported <td>unsupported <td>""
-                    <tr>
-                    <th>document.documentURI <td>Page URL <td>null <td>null
-                </table>
-
-                <p>Anne van Kesteren suggests using the default, about:blank.
-            </div>
+            must be the <var>type</var> argument. Additionally, the 
+            <a title=concept-document data-spec="DOM4" class="externalDFN">document</a> must have a
+            <a title=concept-document-url data-spec="DOM4" class="externalDFN">URL</a> value equal to 
+            the URL of the 
+            <a title=active-document data-spec="HTML5" class="externalDFN">active document</a>, a 
+            <a title=location data-spec="HTML5" class="externalDFN">location</a> value of <code>null</code>.
 
             <p class=note>The returned
             <a title=concept-document data-spec="DOM4" class="externalDFN">document</a>'s
