@@ -9,13 +9,7 @@ var respecConfig = {
             company: "Microsoft",
             mailto: "travis.leithead@microsoft.com",
             companyURL: "http://www.microsoft.com"
-		},
-        {
-            name: "Ms2ger",
-            company: "Mozilla",
-            companyURL: "http://www.mozilla.org",
-            note: "WHATWG Living Standard version"
-        }
+		}
 	],
     //publishDate:  "2012-09-20",
 	edDraftURI: "http://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html",
