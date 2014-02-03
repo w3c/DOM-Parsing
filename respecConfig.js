@@ -13,14 +13,8 @@ var respecConfig = {
 	],
     //publishDate:  "2012-09-20",
 	edDraftURI: "http://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html",
-	previousPublishDate: "2012-09-20",
-    previousMaturity: "2012-09-20",
-    otherLinks: [
-        {
-            key: "WHATWG Living Standard",
-            data: [{ value: "http://domparsing.spec.whatwg.org/", href: "http://domparsing.spec.whatwg.org/"}]
-        }
-    ],
+	previousPublishDate: "2013-12-10",
+    previousMaturity: "2013-12-10",
     noIDLIn:  true,
     inlineCSS:  true,
     //noRecTrack:  true,
