@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <title>Disposition of Comments - DOM Parsing and Serialization</title>
+  <style>
+   html { font-family: "Consolas", "Courier New"; }
+   table { border: 1px solid black; }
+   th,td { padding: 0.5em; }
+   tr:nth-child(odd) { background-color: lightgray; }
+   [data-accepted] { background-color: lightgreen; }
+  </style>
+</head>
+<body>
+ <h1>Disposition of Comments</h1>
+ <h2>DOM Parsing and Serialization</h2>
+ 
+ <p>This document tracks the comments received from the 
+    <a href="http://www.w3.org/TR/2013/WD-DOM-Parsing-20131210/">DOM Parsing and Serialization</a>
+    specification's Last Call period ending 07 January 2014.
+ 
+ <p>The following comments were recieved during the Last Call period:
+ 
+ <table>
+  <tr>
+   <th>Comment Number</th>
+   <th>Comment</th>
+   <th>Response</th>
+  
+  <tr>
+   <td>1
+   <td>
+      <p>Reported by Anne van Kesteren:
+      <p><a href="http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0596.html">
+        http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0596.html</a>
+      <p>Changes were made to the spec, including new dependencies on DOM L2 Core without any 
+        discussion on a public forum.
+      <p>DOM L2 Core dependencies added: <a href="http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0632.html">
+        CDATASection and internalSubset of DocType nodes</a>. Per <a href="http://www.w3.org/TR/dom/#dom-core">
+        DOM4</a> the CDATASection interface and internalSubset property has been removed. 
+      <p><a href="http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0710.html">
+        Rebuttal against making CDATASection and internalSubset optional</a>.
+   <td>
+     <p>No response yet.
+  <tr>
+   <td>2
+   <td>
+    <p>Reported by Ms2ger:
+    <p><a href="http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0824.html">
+     http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0824.html</a>
+    <p>Objection to addition of Ms2ger to the specification editor's list, which reverted previously
+     closed <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=18935">Bug 18935</a>.
+   <td data-accepted>
+     Accepted. Change was reverted: <a href="http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0826.html">
+      http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0826.html</a>
+  <tr>
+   <td>3
+   <td>
+    <p>Reported by Victor Costan
+    <p><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24174">https://www.w3.org/Bugs/Public/show_bug.cgi?id=24174</a>
+    <p>The &lt; (LESS THAN) character should be escaped in the XML attribute serialization algorithm.
+   <td>
+    <p>No response yet.
+  <tr>
+   <td>4
+   <td>
+    <p>Reported by Victor Costan
+    <p><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24208">https://www.w3.org/Bugs/Public/show_bug.cgi?id=24208</a>
+    <p>The setAttributeNS allows the creation of attributes that have a non-null namespace URI, but 
+     no prefix. This case does not seem to be handled by the current algorithm in the spec, but should
+     be.
+   <td>
+    <p>No response yet.
+
+
+ </table>
+ 
+</body>
+</html>
