@@ -439,17 +439,11 @@
                 </ol>
 
             <dt><code><a title="comment" data-spec="DOM4" class="externalDFN">Comment</a></code>
-            <dd><ol>
-                <li>Let <var>markup</var> be the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
+            <dd>
+                <p>Return the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
                 <code><a title="dom-characterdata-data" data-spec="DOM4" class="externalDFN">data</a></code>, and
                 "<code>--></code>".
 
-                <li>If <var>markup</var> matches the
-                <code><a data-spec="XML10" title="comment" class="externalDFN">Comment</a></code> production, return
-                <var>markup</var>. Otherwise, throw a
-                <code><a title=domexception data-spec="DOM4" class="externalDFN">DOMException</a></code>
-                with name <code>InvalidStateError</code>.
-              </ol>
             <dt><code><a title="cdata" data-spec="DOML2" class="externalDFN">CDATASection</a></code>
             <dd><ol>
                 <li>Let <var>markup</var> be the concatenation of "<code>&lt;![CDATA[</code>", 
