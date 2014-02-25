@@ -620,7 +620,12 @@
                             <ol>
                                 <li>"<code>&quot;</code>" with "<code>&amp;quot;</code>"
                                 <li>"<code>&amp;</code>" with "<code>&amp;amp;</code>"
+                                <li>"<code>&lt;</code>" with "<code>&amp;lt;</code>"
+                                <li>"<code>&gt;</code>" with "<code>&amp;gt;</code>"
                             </ol>
+                            <p class=note>This matches behavior present in browsers, and goes above
+                            and beyond the grammar requirement in the XML specification's AttValue
+                            production [[XML10]] by also replacing "<code>&gt;</code>" characters.</p>
                             <li>"<code>"</code>" (U+0022 QUOTATION MARK).
                         </ol>
                     <li>If the first six characters of the value of <var>attr</var>'s 
