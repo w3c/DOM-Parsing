@@ -306,6 +306,7 @@
                 <ol>
                     <!-- "namespace" was passed via the caller -->
                     <li>Let <var>markup</var> be an empty string.
+                    <li>Let <var>qualified name</var> be an empty string.
                     <li>Let <var>list</var> be a copy of the <var>prefixes</var> array.
                     <li>Let <var>prefix</var> be the value of <var>node</var>'s 
                         <code><a title="dom-element-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>
@@ -315,23 +316,35 @@
                         attribute.
                     <li>Let a <var>skip end tag</var> flag have the value <code>false</code>.
                     <li>Append "<code>&lt;</code>" (U+003C LESS-THAN SIGN) to <var>markup</var>.
-                    <li>If <var>prefix</var> is not <code>null</code> then append the following to
-                        <var>markup</var>:
+                    <li>If <var>ns</var> is equal to <code>http://www.w3.org/XML/1998/namespace</code> (the XML namespace),
+                        then append the following to <var>qualified name</var>:
+                        <ol>
+                            <li>The string "<code>xml</code>";
+                            <li>"<code>:</code>" (U+003A COLON).
+                        </ol>
+                        <p class="note">The prefix "xml" will always be serialized when the 
+                            <a title="element" data-spec="DOM4" class="externalDFN">Element</a>'s namespace is 
+                            <code>http://www.w3.org/XML/1998/namespace</code> regardless of the value of <var>node</var>'s 
+                            actual <var>prefix</var>.</p>
+                    <li>Otherwise, if <var>prefix</var> is not <code>null</code> then append the following to
+                        <var>qualified name</var>:
                         <ol>
                             <li>The value of <var>prefix</var>;
                             <li>"<code>:</code>" (U+003A COLON).
                         </ol>
                     <li>Append the value of <var>node</var>'s
                         <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
-                        attribute to <var>markup</var>.
+                        attribute to <var>qualified name</var>.
+                    <li>Append the value of <var>qualified name</var> to <var>markup</var>.
                     <!-- Tried ":" in names, but this doesn't trick the serializer--it just produces 
                         a serialization that is not round-trippable
                         <p class="issue">escaping / throwing -->
+                    <p class=note>The following conditional steps determine whether an attribute need be 
+                        serialized in order to define the node's namespace prefix:
                     <li>If <var>namespace</var> is not equal to <var>ns</var> (the <var>node</var>'s
-                        own namespace is different from its parent), and <var>prefix</var> is not 
-                        <code>null</code>, then run these sub-steps:
-                        <p class=note>These steps determine whether a namespace prefix is 
-                            serialized for this node.
+                        own namespace is different from its parent), and <var>ns</var> is not equal to 
+                        <code>http://www.w3.org/XML/1998/namespace</code> (the XML namespace), and 
+                        <var>prefix</var> is not <code>null</code>, then run these sub-steps:
                         <ol>
                             <li>If <var>list</var> contains the value of <var>prefix</var>, then
                                 abort these sub-steps. This namespace prefix
@@ -343,7 +356,22 @@
                                 "<code>xmlns:</code>" with the value of <var>prefix</var>, abort 
                                 these sub-steps. The <var>prefix</var> namespace definition will be 
                                 serialized later as part of the <a title="concept-serialize-xml-attributes">XML 
-                                serialization of <var>node</var>'s attributes</a>.
+                                serialization of <var>node</var>'s attributes</a>. <span class="note">Note: 
+                                using the <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a>
+                                attribute value as the search criteria is a best-effort search to identify 
+                                attributes whose serialization would already define the element's namespace. The 
+                                <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a> attribute
+                                value covers the case where an attribute has a 
+                                <a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a> and 
+                                <a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a> 
+                                defined (e.g., via 
+                                <a title="dom-element-setattributens" data-spec="DOM4" class="externalDFN">setAttributeNS</a>
+                                (<em>"namespace"</em>, <em>"prefix:name"</em>, <em>"value"</em>)) and the case when the attribute's
+                                <a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a> is <code>null</code>
+                                and the <a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a>
+                                contains a colon character (e.g., via
+                                <a title="dom-element-setattribute" data-spec="DOM4" class="externalDFN">setAttribute</a>
+                                (<em>"local:name"</em>, <em>"value"</em>)).</span>
                             <li>Append the following to <var>markup</var>, in order:
                             <ol>
                                 <li>"<code> </code>" (U+0020 SPACE);
@@ -354,10 +382,11 @@
                                 <li>"<code>"</code>" (U+0022 QUOTATION MARK);
                             </ol>
                         </ol>
-                    <li>If <var>namespace</var> is not equal to <var>ns</var>, and <var>prefix</var>
+                    <p class=note>The following conditional steps determine whether a default namespace is 
+                        serialized for this node:
+                    <li>If <var>namespace</var> is not equal to <var>ns</var>, and <var>ns</var> is not equal to 
+                        <code>http://www.w3.org/XML/1998/namespace</code> (the XML namespace), and <var>prefix</var>
                         is <code>null</code>, then run these sub-steps:
-                        <p class=note>These steps determine whether a default namespace is 
-                            serialized for this node.
                         <ol>
                             <li>If <var>node</var> has an attribute whose 
                                 <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a>
@@ -422,18 +451,12 @@
                         <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>,
                         in order, providing the value of <var>ns</var> for the <var>namespace</var>
                         and <var>list</var> for the <var>prefixes</var>.
-                    <li>Append "<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS) to 
-                        <var>markup</var>.
-                    <li>If the value of <var>prefix</var> is not <code>null</code>, then append the 
-                        following to <var>markup</var>, in order:
+                    <li>Append the following to <var>markup</var>, in order:
                         <ol>
-                            <li>The value of <var>prefix</var>;
-                            <li>"<code>:</code>" (U+003A COLON).
+                            <li>"<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS)
+                            <li><var>qualified name</var>
+                            <li>"<code>&gt;</code>" (U+003E GREATER-THAN SIGN)
                         </ol>
-                    <li>Append the value of <var>node</var>'s
-                        <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
-                        attribute to <var>markup</var>.
-                    <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
                     <li>Return the value of <var>markup</var>.
                 </ol>
 
