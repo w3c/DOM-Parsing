@@ -232,7 +232,7 @@
 
               <p class=note>This ensures the
               <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
-              for the new <a data-spec="DOM4" title=concept-node class="externalDFN">nodes</a> is correct.
+              for the new <a data-spec="DOM4" title="concept-node" class="externalDFN">nodes</a> is correct.
 
               <li>Return <var>fragment</var>.
             </ol>
@@ -240,7 +240,7 @@
 
     <section>
         <h2>Serializing</h2>
-        <p>To <dfn title=concept-serialize>serialize</dfn> a
+        <p>To <dfn title="concept-serialize">serialize</dfn> a
         <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
         must run the following steps:
 
@@ -249,30 +249,30 @@
                 <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>.
             <li>If <var>document</var> is an
                 <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>, 
-                return an <a title=concept-serialize-html>HTML serialization</a> of <var>node</var>.
+                return an <a title="concept-serialize-html">HTML serialization</a> of <var>node</var>.
             <li>Otherwise, <var>document</var> is an
                 <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
             <li>Let <var>context namespace</var> be <code>null</code>.
             <li>Let <var>prefix list</var> be an empty list. The <var>prefix list</var> will 
                 contain strings that represent a history of namespace prefixes [[XML-NAMES]]
-                that have been serialized by the <a title=concept-serialize-xml>XML serialization</a>
+                that have been serialized by the <a title="concept-serialize-xml">XML serialization</a>
                 algorithm for a subtree.
-            <li>Return an <a title=concept-serialize-xml>XML serialization</a> of <var>node</var>
+            <li>Return an <a title="concept-serialize-xml">XML serialization</a> of <var>node</var>
                 providing to the algorithm <var>context namespace</var> as the <var>namespace</var>
                 and <var>prefix list</var> as <var>prefixes</var>.
         </ol>
 
-        <p>To produce an <dfn title=concept-serialize-html>HTML serialization</dfn> of a
+        <p>To produce an <dfn title="concept-serialize-html">HTML serialization</dfn> of a
         <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
         must run the
         <a data-spec="HTML5" title="html-fragment-serialization-algorithm" class="externalDFN">HTML 
         fragment serialization algorithm</a> [[!HTML5]] on <var>node</var> and return the string produced.
-          
-        <p>To produce an <dfn title=concept-serialize-xml>XML serialization</dfn> of a
+
+        <p>To produce an <dfn title="concept-serialize-xml">XML serialization</dfn> of a
             <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var> given a
             context namespace <var>namespace</var> and prefix list <var>prefixes</var>, the user 
             agent must run the appropriate steps, depending on <var>node</var>'s interface:</p>
-        
+            
         <p class=note>The following steps for serializing a <var>node</var> belonging to an
             <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a> are 
             designed to produce a serialization that is compatible with the
@@ -293,10 +293,10 @@
                     <li>Let <var>markup</var> be an empty string.
                     <li>Let <var>list</var> be a copy of the <var>prefixes</var> array.
                     <li>Let <var>prefix</var> be the value of <var>node</var>'s 
-                        <code><a title="dom-Element-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>
+                        <code><a title="dom-element-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>
                         attribute.
                     <li>Let <var>ns</var> be the value of <var>node</var>'s 
-                        <code><a title="dom-Element-namespaceURI" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
+                        <code><a title="dom-element-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
                         attribute.
                     <li>Let a <var>skip end tag</var> flag have the value <code>false</code>.
                     <li>Append "<code>&lt;</code>" (U+003C LESS-THAN SIGN) to <var>markup</var>.
@@ -307,7 +307,7 @@
                             <li>"<code>:</code>" (U+003A COLON).
                         </ol>
                     <li>Append the value of <var>node</var>'s
-                        <code><a title="dom-Element-localName" data-spec="DOM4" class="externalDFN">localName</a></code>
+                        <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
                         attribute to <var>markup</var>.
                     <!-- Tried ":" in names, but this doesn't trick the serializer--it just produces 
                         a serialization that is not round-trippable
@@ -323,11 +323,11 @@
                                 was already serialized.
                             <li>Add the value of <var>prefix</var> to <var>list</var>.
                             <li>If <var>node</var> has an attribute whose 
-                                <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a>
+                                <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a>
                                 attribute value is equal to the concatenation of the string 
                                 "<code>xmlns:</code>" with the value of <var>prefix</var>, abort 
                                 these sub-steps. The <var>prefix</var> namespace definition will be 
-                                serialized later as part of the <a title=concept-serialize-xml-attributes>XML 
+                                serialized later as part of the <a title="concept-serialize-xml-attributes">XML 
                                 serialization of <var>node</var>'s attributes</a>.
                             <li>Append the following to <var>markup</var>, in order:
                             <ol>
@@ -345,10 +345,10 @@
                             serialized for this node.
                         <ol>
                             <li>If <var>node</var> has an attribute whose 
-                                <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a>
+                                <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a>
                                 attribute value is equal to "<code>xmlns</code>", abort 
                                 these sub-steps. The default namespace will be 
-                                serialized later as part of the <a title=concept-serialize-xml-attributes>XML 
+                                serialized later as part of the <a title="concept-serialize-xml-attributes">XML 
                                 serialization of <var>node</var>'s attributes</a>.
                             <li>Append the following to <var>markup</var>, in order:
                             <ol>
@@ -360,14 +360,14 @@
                             </ol>
                         </ol>
                     <li>Append to <var>markup</var> the result of the 
-                        <a title=concept-serialize-xml-attributes>XML 
+                        <a title="concept-serialize-xml-attributes">XML 
                         serialization of <var>node</var>'s attributes</a>, passing <var>list</var>
                         as the <var>prefixes</var>.
                     <li>If the value of <var>ns</var> is the string "<code>http://www.w3.org/1999/xhtml</code>",
                         and the <var>node</var>'s list of 
                         <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>
                         is empty, and the <var>node</var>'s
-                        <code><a title="dom-Element-tagName" data-spec="DOM4" class="externalDFN">tagName</a></code>
+                        <code><a title="dom-element-tagname" data-spec="DOM4" class="externalDFN">tagName</a></code>
                         matches any one of the following 
                         <a title="void-elements" data-spec="HTML5" class="externalDFN">void elements</a>:
                         "<code>area</code>",
@@ -402,7 +402,7 @@
                         the value of <var>markup</var> and skip the remaining steps. The 
                         <var>node</var> is a leaf-node.
                     <li>Append to <var>markup</var> the result of performing an 
-                        <a title=concept-serialize-xml>XML serialization</a> of each of 
+                        <a title="concept-serialize-xml">XML serialization</a> of each of 
                         <var>node</var>'s
                         <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>,
                         in order, providing the value of <var>ns</var> for the <var>namespace</var>
@@ -416,7 +416,7 @@
                             <li>"<code>:</code>" (U+003A COLON).
                         </ol>
                     <li>Append the value of <var>node</var>'s
-                        <code><a title="dom-Element-localName" data-spec="DOM4" class="externalDFN">localName</a></code>
+                        <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
                         attribute to <var>markup</var>.
                     <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
                     <li>Return the value of <var>markup</var>.
@@ -427,13 +427,13 @@
                 <p>Return the result of concatenating the following, in order:
                 <ol>
                     <li>The string produced by running the steps to 
-                        <a title=concept-serialize-doctype>produce a DocumentType serialization</a>
+                        <a title="concept-serialize-doctype">produce a DocumentType serialization</a>
                         of <var>node</var>'s 
-                        <a title="dom-Document-doctype" data-spec="HTML5" class="externalDFN">doctype</a>
+                        <a title="dom-document-doctype" data-spec="HTML5" class="externalDFN">doctype</a>
                         attribute;
-                    <li>The string produced by an <a title=concept-serialize-xml>XML serialization</a>
+                    <li>The string produced by an <a title="concept-serialize-xml">XML serialization</a>
                         of <var>node</var>'s 
-                        <a title="dom-Document-documentElement" data-spec="HTML5" class="externalDFN">documentElement</a>
+                        <a title="dom-document-documentelement" data-spec="HTML5" class="externalDFN">documentElement</a>
                         attribute, providing <code>null</code> as the <var>namespace</var> and an 
                         empty list as <var>prefixes</var>. 
                 </ol>
@@ -454,7 +454,7 @@
                 <!-- This does not actually appear to be the case in implementations today.
                 <p>If <var>data</var> doesn't match the
                   <code><a title="NT-CData" data-spec="XML10" class="externalDFN">CDSect</a></code> production, throw a
-                  <code><a title=domexception data-spec="DOM4" class="externalDFN">DOMException</a></code>
+                  <code><a title="domexception" data-spec="DOM4" class="externalDFN">DOMException</a></code>
                   with name <code>InvalidStateError</code> and terminate the entire algorithm.
                 -->
                 
@@ -486,15 +486,15 @@
                 <li>Let <var>markup</var> the empty string.
 
                 <li>For each
-                <a title=concept-tree-child data-spec="DOM4" class="externalDFN">child</a> of
+                <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">child</a> of
                 <var>node</var>, in order,
-                <a title=concept-serialize-xml>produce an XML serialization</a>
+                <a title="concept-serialize-xml">produce an XML serialization</a>
                 of the child and concatenate the result to <var>markup</var>.
 
                 <li>Return <var>markup</var>.
               </ol>
             <dt><code><a title="documenttype" data-spec="DOM4" class="externalDFN">DocumentType</a></code>
-            <dd>Run the steps to <a title=concept-serialize-doctype>produce a DocumentType 
+            <dd>Run the steps to <a title="concept-serialize-doctype">produce a DocumentType 
                 serialization</a> of <var>node</var>
                 and return the string this produced.           
             
@@ -508,7 +508,7 @@
                 <!-- This does not actually appear to be the case in implementations today.
                 <p>If <var>data</var> doesn't match the
                   <code><a title="NT-PI" data-spec="XML10" class="externalDFN">PI</a></code> production, throw a
-                  <code><a title=domexception data-spec="DOM4" class="externalDFN">DOMException</a></code>
+                  <code><a title="domexception" data-spec="DOM4" class="externalDFN">DOMException</a></code>
                   with name <code>InvalidStateError</code> and terminate the entire algorithm.
                 -->
                 
@@ -520,7 +520,7 @@
          
         </dl>
 
-        <p>To <dfn title=concept-serialize-doctype>produce a DocumentType serialization</dfn> of a
+        <p>To <dfn title="concept-serialize-doctype">produce a DocumentType serialization</dfn> of a
         <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
         must return the result of the following algorithm:</p>
                 
@@ -594,28 +594,28 @@
         </ol>
 
         
-        <p>The <dfn title=concept-serialize-xml-attributes>XML serialization of the attributes</dfn>
-        of an <a title=concept-element data-spec="DOM4" class="externalDFN">element</a>
+        <p>The <dfn title="concept-serialize-xml-attributes">XML serialization of the attributes</dfn>
+        of an <a title="concept-element" data-spec="DOM4" class="externalDFN">element</a>
         <var>element</var> together with a prefix list <var>prefixes</var> is the result of the 
         following algorithm:
 
         <ol>
             <li>Let <var>result</var> be the empty string.
             <li>For each
-                <a title=concept-attribute data-spec="DOM4" class="externalDFN">attribute</a>
+                <a title="concept-attribute" data-spec="DOM4" class="externalDFN">attribute</a>
                 <var>attr</var> in <var>element</var>'s
-                <a title=concept-element-attribute data-spec="DOM4" class="externalDFN">attributes</a>,
+                <a title="concept-element-attribute" data-spec="DOM4" class="externalDFN">attributes</a>,
                 in order:
                 <ol>
                     <li>Append the following strings to <var>result</var>:
                         <ol>
                             <li>"<code> </code>" (U+0020 SPACE);
                             <li><var>attr</var>'s
-                            <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a>;
+                            <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a>;
                             <!--<p class="issue">escaping / throwing  NO issues here to my knowledge -->
                             <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
                             <li><var>attr</var>'s
-                            <a title=concept-attribute-value data-spec="DOM4" class="externalDFN">value</a>,
+                            <a title="concept-attribute-value" data-spec="DOM4" class="externalDFN">value</a>,
                             replacing any occurrences of the following:
                             <ol>
                                 <li>"<code>&quot;</code>" with "<code>&amp;quot;</code>"
@@ -629,12 +629,12 @@
                             <li>"<code>"</code>" (U+0022 QUOTATION MARK).
                         </ol>
                     <li>If the first six characters of the value of <var>attr</var>'s 
-                        <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a> 
+                        <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a> 
                         attribute case-sensitively match the string "<code>xmlns:</code>", then:
                         <ol>
                             <li>Let <var>prefix definition</var> be the result of trimming 
                                 "<code>xmlns:</code>" from the beginning of the value of <var>attr</var>'s 
-                                <a title=concept-attribute-name data-spec="DOM4" class="externalDFN">name</a>.
+                                <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a>.
                             <li>Add the value of <var>prefix definition</var> to <var>prefixes</var>. 
                                 Since this namespace prefix definition has been serialized, it is 
                                 unnecessary to serialize it again if subsequently encountered in 
@@ -657,14 +657,14 @@
     "image/svg+xml"
 };</pre>
 
-    <p>The <dfn title=dom-DOMParser><code>DOMParser()</code></dfn> constructor
+    <p>The <dfn title="dom-domparser"><code>DOMParser()</code></dfn> constructor
     must return a new <code>DOMParser</code> object.
 
     <dl class="idl" title="[Constructor] interface DOMParser">
         <dt>Document parseFromString(DOMString str, SupportedType type)</dt>
         <dd>
             <p>The
-            <dfn title=dom-DOMParser-parseFromString><code>parseFromString(<var>str</var>, <var>type</var>)</code></dfn>
+            <dfn title="dom-domparser-parsefromstring"><code>parseFromString(<var>str</var>, <var>type</var>)</code></dfn>
             method must run these steps, depending on <var>type</var>:
 
             <dl class=switch>
@@ -672,7 +672,7 @@
                 <dd>
                 <p>Parse <var>str</var> with an
                 <code><a data-spec="HTML5" title="html-parser" class="externalDFN">HTML parser</a></code>, and return the newly
-                created <a title=concept-document data-spec="DOM4" class="externalDFN">document</a>.
+                created <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a>.
 
                 <p>The <a data-spec="HTML5" title="scripting-flag" class="externalDFN">scripting flag</a> must be set to
                 "disabled".
@@ -695,11 +695,11 @@
                     <code><a data-spec="HTML5" title="xml-parser" class="externalDFN">XML parser</a></code>.
 
                     <li>If the previous step didn't return an error, return the newly
-                    created <a title=concept-document data-spec="DOM4" class="externalDFN">document</a>
+                    created <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a>
                     and terminate these steps.
 
                     <li>Otherwise, throw a 
-                    <a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> 
+                    <a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> 
                     with name <code>SyntaxError</code>.
                     
                     <p class=note>Some UAs do not throw an exception, but rather return a minimal 
@@ -723,14 +723,14 @@
                     <li>
                     <p>Let <var>root</var> be a new
                     <code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>, with its
-                    <a title=concept-element-local-name data-spec="DOM4" class="externalDFN">local name</a>
+                    <a title="concept-element-local-name" data-spec="DOM4" class="externalDFN">local name</a>
                     set to "<code>parsererror</code>" and its
-                    <a title=concept-element-namespace data-spec="DOM4" class="externalDFN">namespace</a>
+                    <a title="concept-element-namespace" data-spec="DOM4" class="externalDFN">namespace</a>
                     set to
                     "<code>http://www.mozilla.org/newlayout/xml/parsererror.xml</code>".
                     <!-- see https://bugzilla.mozilla.org/show_bug.cgi?id=45566 --><!--
                     <p>At this point user agents may
-                    <a data-spec="DOM4" title=concept-node-append class="externalDFN">append</a> nodes
+                    <a data-spec="DOM4" title="concept-node-append" class="externalDFN">append</a> nodes
                     to <var>root</var>, for example to describe the nature of the
                     error.
 
@@ -743,18 +743,18 @@
             </dl>
 
             <p>In any case, the returned
-            <a title=concept-document data-spec="DOM4" class="externalDFN">document</a>'s
-            <a title=concept-document-content-type data-spec="DOM4" class="externalDFN">content type</a>
+            <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a>'s
+            <a title="concept-document"-content-type data-spec="DOM4" class="externalDFN">content type</a>
             must be the <var>type</var> argument. Additionally, the 
-            <a title=concept-document data-spec="DOM4" class="externalDFN">document</a> must have a
-            <a title=concept-document-url data-spec="DOM4" class="externalDFN">URL</a> value equal to 
+            <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a> must have a
+            <a title="concept-document"-url data-spec="DOM4" class="externalDFN">URL</a> value equal to 
             the URL of the 
-            <a title=active-document data-spec="HTML5" class="externalDFN">active document</a>, a 
-            <a title=location data-spec="HTML5" class="externalDFN">location</a> value of <code>null</code>.
+            <a title="active-document" data-spec="HTML5" class="externalDFN">active document</a>, a 
+            <a title="location" data-spec="HTML5" class="externalDFN">location</a> value of <code>null</code>.
 
             <p class=note>The returned
-            <a title=concept-document data-spec="DOM4" class="externalDFN">document</a>'s
-            <a title=concept-document-encoding data-spec="DOM4" class="externalDFN">encoding</a> is
+            <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a>'s
+            <a title="concept-document"-encoding data-spec="DOM4" class="externalDFN">encoding</a> is
             the default, UTF-8.
         </dd>
     </dl>
@@ -763,14 +763,14 @@
 <section>
     <h1>The <code>XMLSerializer</code> interface</h1>
 
-    <p>The <dfn title=dom-XMLSerializer><code>XMLSerializer()</code></dfn>
+    <p>The <dfn title="dom-xmlserializer"><code>XMLSerializer()</code></dfn>
     constructor must return a new <code>XMLSerializer</code> object.
 
     <dl class="idl" title="[Constructor] interface XMLSerializer">
         <dt>DOMString serializeToString(Node root)</dt>
 
         <dd>The <code>serializeToString(<var>root</var>)</code>
-        method must <a title=concept-serialize-xml>produce an XML serialization</a> of <var>root</var> and return the result.</dd>
+        method must <a title="concept-serialize-xml">produce an XML serialization</a> of <var>root</var> and return the result.</dd>
     </dl>
 </section>
 
@@ -780,13 +780,13 @@
     <dl class="idl" title="partial interface Element">
         <dt>[TreatNullAs=EmptyString] attribute DOMString innerHTML</dt>
         <dd>
-            <p>The <dfn title=dom-Element-innerHTML><code>innerHTML</code></dfn> IDL
+            <p>The <dfn title="dom-element-innerhtml"><code>innerHTML</code></dfn> IDL
             attribute represents the markup of the
             <code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>'s contents.
 
             <dl class=domintro>
                 <!--doc.ih
-                <dt><var>document</var> . <code title=dom-Document-innerHTML>innerHTML</code> [ = <var>value</var> ]
+                <dt><var>document</var> . <code title="dom-document-innerhtml">innerHTML</code> [ = <var>value</var> ]
                 <dd>
                 <p>Returns a fragment of HTML or XML that represents the
                 <code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code>.
@@ -797,14 +797,14 @@
 
                 <p>In the case of an <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>,
                 will throw an
-                <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>InvalidStateError</code>
+                <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name <code>InvalidStateError</code>
                 if the <code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code> cannot be serialized
                 to XML, and a
-                <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>SyntaxError</code>
+                <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name <code>SyntaxError</code>
                 if the given string is not well-formed.
                 -->
 
-                <dt><var>element</var> . <code title=dom-Element-innerHTML>innerHTML</code> [ = <var>value</var> ]
+                <dt><var>element</var> . <code title="dom-element-innerhtml">innerHTML</code> [ = <var>value</var> ]
                 <dd>
                 <p>Returns a fragment of HTML or XML that represents the element's
                 contents.
@@ -814,10 +814,10 @@
 
                 <p>In the case of an <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>,
                 will throw a
-                <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>InvalidStateError</code>
+                <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name <code>InvalidStateError</code>
                 if the <code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code> cannot be serialized
                 to XML, and a
-                <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>SyntaxError</code>
+                <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name <code>SyntaxError</code>
                 if the given string is not well-formed.
             </dl>
 
@@ -842,7 +842,7 @@
                 the new value as <var>markup</var>, and the
                 <a title="context object">context object</a> as the <var>context element</var>.
 
-                <li><a data-spec="DOM4" title=concept-node-replace-all class="externalDFN">Replace all</a>
+                <li><a data-spec="DOM4" title="concept-node-replace-all" class="externalDFN">Replace all</a>
                 with <var>fragment</var> within the <a title="context object">context object</a>.
             </ol>
         </dd>
@@ -850,12 +850,12 @@
         <!-- outerHTML -->
         <dt>[TreatNullAs=EmptyString] attribute DOMString outerHTML</dt>
         <dd>
-            <p>The <dfn title=dom-Element-outerHTML><code>outerHTML</code></dfn> IDL
+            <p>The <dfn title="dom-element-outerhtml"><code>outerHTML</code></dfn> IDL
             attribute represents the markup of the
             <code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code> and its contents.
 
             <dl class=domintro>
-              <dt><var>element</var> . <code title=dom-Element-outerHTML>outerHTML</code> [ = <var>value</var> ]
+              <dt><var>element</var> . <code title="dom-element-outerhtml">outerHTML</code> [ = <var>value</var> ]
               <dd>
                 <p>Returns a fragment of HTML or XML that represents the element and its
                 contents.
@@ -865,13 +865,13 @@
 
                 <p>In the case of an <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>,
                 will throw a
-                <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>InvalidStateError</code>
+                <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name <code>InvalidStateError</code>
                 if the element cannot be serialized to XML, and a
-                <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>SyntaxError</code>
+                <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name <code>SyntaxError</code>
                 if the given string is not well-formed.
 
                 <p>Throws a
-                <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>NoModificationAllowedError</code>
+                <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name <code>NoModificationAllowedError</code>
                 if the parent of the element is the
                 <code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code> node.
             </dl>
@@ -894,7 +894,7 @@
 
             <ol>
                 <li>Let <var>parent</var> be the <a title="context object">context object</a>'s
-                <a data-spec="DOM4" title=concept-tree-parent class="externalDFN">parent</a>.
+                <a data-spec="DOM4" title="concept-tree-parent" class="externalDFN">parent</a>.
 
                 <li>If <var>parent</var> is null, terminate these steps. There would be no
                 way to obtain a reference to the nodes created even if the remaining steps
@@ -902,7 +902,7 @@
 
                 <li>If <var>parent</var> is a
                 <code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code>, throw a
-                <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>NoModificationAllowedError</code>
+                <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name <code>NoModificationAllowedError</code>
                 exception and terminate these steps.
 
                 <li>If <var>parent</var> is a
@@ -912,7 +912,7 @@
 
                 <ul>
                     <li><code>body</code> as its
-                    <a data-spec="DOM4" title=concept-element-local-name class="externalDFN">local name</a>,
+                    <a data-spec="DOM4" title="concept-element-local-name" class="externalDFN">local name</a>,
 
                     <li>the <a data-spec="DOM4" title="html-namespace" class="externalDFN">HTML namespace</a> as its
                     <a data-spec="DOM4" title="concept-element-namespace" class="externalDFN">namespace</a>, and
@@ -927,10 +927,10 @@
                 the new value as <var>markup</var>, and <var>parent</var> as
                 the <var>context element</var>.
 
-                <li><a data-spec="DOM4" title=concept-node-replace class="externalDFN">Replace</a>
+                <li><a data-spec="DOM4" title="concept-node-replace" class="externalDFN">Replace</a>
                 the <a title="context object">context object</a> with <var>fragment</var> within
                 the <a title="context object">context object</a>'s
-                <a data-spec="DOM4" title=concept-tree-parent class="externalDFN">parent</a>.
+                <a data-spec="DOM4" title="concept-tree-parent" class="externalDFN">parent</a>.
             </ol>
         </dd>
 
@@ -938,7 +938,7 @@
         <dt>void insertAdjacentHTML(DOMString position, DOMString text)</dt>
         <dd>
              <dl class=domintro>
-                  <dt><var>element</var> . <code title=dom-Element-insertAdjacentHTML>insertAdjacentHTML</code>(<var>position</var>, <var>text</var>)
+                  <dt><var>element</var> . <code title="dom-element-insertadjacenthtml">insertAdjacentHTML</code>(<var>position</var>, <var>text</var>)
 
                   <dd>
                     <p>Parses the given string <var>text</var> as HTML or XML and inserts
@@ -960,17 +960,17 @@
                     </dl>
 
                     <p>Throws a <code>SyntaxError</code> exception if the arguments have invalid values (e.g., in the case of an
-                    <a data-spec="DOM4" title="XML-document" class="externalDFN">XML document</a>, if the given string is
+                    <a data-spec="DOM4" title="xml-document" class="externalDFN">XML document</a>, if the given string is
                     not well-formed).
 
                     <p>Throws a
-                    <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>NoModificationAllowedError</code>
+                    <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name <code>NoModificationAllowedError</code>
                     if the given position isn't possible (e.g. inserting elements
                     after the root element of a <code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code>).
                 </dl>
 
                 <p>The
-                <dfn title=dom-Element-insertAdjacentHTML><code>insertAdjacentHTML(<var>position</var>, <var>text</var>)</code></dfn>
+                <dfn title="dom-element-insertadjacenthtml"><code>insertAdjacentHTML(<var>position</var>, <var>text</var>)</code></dfn>
                 method must run these steps:
 
                 <ol>
@@ -987,12 +987,12 @@
 
                         <dd>
                             <p>Let <var>context</var> be the <a title="context object">context object</a>'s
-                            <a data-spec="DOM4" title=concept-tree-parent class="externalDFN">parent</a>.
+                            <a data-spec="DOM4" title="concept-tree-parent" class="externalDFN">parent</a>.
 
                             <p>If <var>context</var> is null or a
                             <a data-spec="DOM4" class="externalDFN" title="concept-document">document</a>, throw
                             a
-                            <code><a data-spec="DOM4" title=domexception class="externalDFN">DOMException</a></code> with name <code>NoModificationAllowedError</code>
+                            <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name <code>NoModificationAllowedError</code>
                             and terminate these steps.
 
                         <dt>If <var>position</var> is an
@@ -1019,7 +1019,7 @@
                       is an <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>,
 
                       <li><var>context</var>'s
-                      <a data-spec="DOM4" title=concept-element-local-name class="externalDFN">local name</a>
+                      <a data-spec="DOM4" title="concept-element-local-name" class="externalDFN">local name</a>
                       is "<code>html</code>", and
 
                       <li><var>context</var>'s
@@ -1032,7 +1032,7 @@
 
                     <ul>
                       <li><code>body</code> as its
-                      <a data-spec="DOM4" title=concept-element-local-name class="externalDFN">local name</a>,
+                      <a data-spec="DOM4" title="concept-element-local-name" class="externalDFN">local name</a>,
 
                       <li>the <a data-spec="DOM4" title="html-namespace" class="externalDFN">HTML namespace</a> as its
                       <a data-spec="DOM4" title="concept-element-namespace" class="externalDFN">namespace</a>, and
@@ -1054,19 +1054,19 @@
                     <a data-spec="DOM4" class="externalDFN" title="ascii-case-insensitive">ASCII case-insensitive</a> match for
                     the string "beforebegin"
             
-                    <dd><a data-spec="DOM4" title=concept-node-insert class="externalDFN">Insert</a>
+                    <dd><a data-spec="DOM4" title="concept-node-insert" class="externalDFN">Insert</a>
                     <var>fragment</var> into the <a title="context object">context object</a>'s
-                    <a data-spec="DOM4" title=concept-tree-parent class="externalDFN">parent</a>
+                    <a data-spec="DOM4" title="concept-tree-parent" class="externalDFN">parent</a>
                     before the <a title="context object">context object</a>.
 
                     <dt>If <var>position</var> is an
                     <a data-spec="DOM4" class="externalDFN" title="ascii-case-insensitive">ASCII case-insensitive</a> match for
                     the string "afterbegin"
 
-                    <dd><a data-spec="DOM4" title=concept-node-insert class="externalDFN">Insert</a>
+                    <dd><a data-spec="DOM4" title="concept-node-insert" class="externalDFN">Insert</a>
                     <var>fragment</var> into the <a title="context object">context object</a>
                     before its
-                    <a data-spec="DOM4" title=concept-tree-first-child class="externalDFN">first child</a>.
+                    <a data-spec="DOM4" title="concept-tree-first-child" class="externalDFN">first child</a>.
 
                     <dt>If <var>position</var> is an
                     <a data-spec="DOM4" class="externalDFN" title="ascii-case-insensitive">ASCII case-insensitive</a> match for
@@ -1079,11 +1079,11 @@
                     <a data-spec="DOM4" class="externalDFN" title="ascii-case-insensitive">ASCII case-insensitive</a> match for
                     the string "afterend"
 
-                    <dd><a data-spec="DOM4" title=concept-node-insert class="externalDFN">Insert</a>
+                    <dd><a data-spec="DOM4" title="concept-node-insert" class="externalDFN">Insert</a>
                     <var>fragment</var> into the <a title="context object">context object</a>'s
-                    <a data-spec="DOM4" title=concept-tree-parent class="externalDFN">parent</a>
+                    <a data-spec="DOM4" title="concept-tree-parent" class="externalDFN">parent</a>
                     before the <a title="context object">context object</a>'s
-                    <a data-spec="DOM4" title=concept-tree-next-sibling class="externalDFN">next sibling</a>.
+                    <a data-spec="DOM4" title="concept-tree-next-sibling" class="externalDFN">next sibling</a>.
                 </dl>
             </ol>
         </dd>
@@ -1102,7 +1102,7 @@
         <dd>
             <dl class=domintro>
               <dt><var>text</var> .
-                  <code title=dom-Text-serializeAsCDATA>serializeAsCDATA</code> [ = <var>value</var> ]
+                  <code title="dom-text-serializeascdata">serializeAsCDATA</code> [ = <var>value</var> ]
               <dd>Controls whether, in XML, this node is serialized as a CDATA section.
             </dl>
 
@@ -1110,11 +1110,11 @@
             associated flag, the <dfn>serialize as CDATA flag</dfn>.
 
             <p>The
-            <dfn title=dom-Text-serializeAsCDATA><code>serializeAsCDATA</code></dfn>
+            <dfn title="dom-text-serializeascdata"><code>serializeAsCDATA</code></dfn>
             attribute must return true if the <a title="context object">context object</a> has its
             <a>serialize as CDATA flag</a> set, or false otherwise.
 
-            <p>Setting the <code title=dom-Text-serializeAsCDATA>serializeAsCDATA</code>
+            <p>Setting the <code title="dom-text-serializeascdata">serializeAsCDATA</code>
             attribute must, if the new value is true, set the
             <a title="context object">context object</a>'s <a>serialize as CDATA flag</a>, or unset
             it otherwise.
@@ -1130,18 +1130,18 @@
         <dt>DocumentFragment createContextualFragment(DOMString fragment)</dt>
         <dd>
             <dl class=domintro>
-              <dt><var>fragment</var> = <var>range</var> . <code title=dom-Range-createContextualFragment>createContextualFragment</code>(<var>fragment</var>)
+              <dt><var>fragment</var> = <var>range</var> . <code title="dom-range-createcontextualfragment">createContextualFragment</code>(<var>fragment</var>)
               <dd>Returns a <code><a title="documentfragment" data-spec="DOM4" class="externalDFN">DocumentFragment</a></code>, created
                 from the markup string given.
             </dl>
 
             <p>The
-            <dfn title=dom-Range-createContextualFragment><code>createContextualFragment(<var>fragment</var>)</code></dfn>
+            <dfn title="dom-range-createcontextualfragment"><code>createContextualFragment(<var>fragment</var>)</code></dfn>
             method must run these steps:
 
             <ol>
                 <li>Let <var>node</var> the <a title="context object">context object</a>'s
-                <a data-spec="DOM4" title=concept-range-start-node class="externalDFN">start node</a>.
+                <a data-spec="DOM4" title="concept-range-start-node" class="externalDFN">start node</a>.
 
                 <p>Let <var>element</var> be as follows, depending on <var>node</var>'s interface:
 
@@ -1171,7 +1171,7 @@
                       is an <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>,
 
                       <li><var>element</var>'s
-                      <a data-spec="DOM4" title=concept-element-local-name class="externalDFN">local name</a>
+                      <a data-spec="DOM4" title="concept-element-local-name" class="externalDFN">local name</a>
                       is "<code>html</code>", and
 
                       <li><var>element</var>'s
@@ -1180,11 +1180,11 @@
                     </ul>
 
                     <p>let <var>element</var> be a new
-                    <a data-spec="DOM4" title=concept-element class="externalDFN">element</a> with
+                    <a data-spec="DOM4" title="concept-element" class="externalDFN">element</a> with
 
                     <ul>
                       <li>"<code>body</code>" as its
-                      <a data-spec="DOM4" title=concept-element-local-name class="externalDFN">local name</a>,
+                      <a data-spec="DOM4" title="concept-element-local-name" class="externalDFN">local name</a>,
 
                       <li>the <a data-spec="DOM4" title="html-namespace" class="externalDFN">HTML namespace</a> as its
                       <a data-spec="DOM4" title="concept-element-namespace" class="externalDFN">namespace</a>, and
@@ -1217,9 +1217,9 @@
     for their useful comments.
 
     <p>Special thanks to Ian Hickson for defining the
-    <code title=dom-Element-innerHTML>innerHTML</code> and
-    <code title=dom-Element-outerHTML>outerHTML</code> attributes, and the
-    <code title=dom-Element-insertAdjacentHTML>insertAdjacentHTML()</code> method in
+    <code title="dom-element-innerhtml">innerHTML</code> and
+    <code title="dom-element-outerhtml">outerHTML</code> attributes, and the
+    <code title="dom-element-insertadjacenthtml">insertAdjacentHTML()</code> method in
     [[HTML5]] and his useful comments.
 </section>
 
