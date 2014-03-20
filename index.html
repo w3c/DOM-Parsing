@@ -268,11 +268,6 @@
         <a data-spec="HTML5" title="html-fragment-serialization-algorithm" class="externalDFN">HTML 
         fragment serialization algorithm</a> [[!HTML5]] on <var>node</var> and return the string produced.
 
-        <p>To produce an <dfn title="concept-serialize-xml">XML serialization</dfn> of a
-            <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var> given a
-            context namespace <var>namespace</var> and prefix list <var>prefixes</var>, the user 
-            agent must run the appropriate steps, depending on <var>node</var>'s interface:</p>
-            
         <p class=note>The following steps for serializing a <var>node</var> belonging to an
             <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a> are 
             designed to produce a serialization that is compatible with the
@@ -283,7 +278,27 @@
             <a title="void-elements" data-spec="HTML5" class="externalDFN">void element</a> that 
             would be auto-closed by the 
             <a title="html-parser" data-spec="HTML5" class="externalDFN">HTML parser</a>.
-            
+        </p>
+           
+        An <a title="concept-serialize-xml">XML serialization</a> differs from an 
+        <a title="concept-serialize-html">HTML serialization</a> in the following ways:
+        <ul>
+            <li><a title="element" data-spec="DOM4" class="externalDFN">Element</a>s will always be
+                serialized with an explicitly defined namespace.
+            <li><a title="concept-attribute" data-spec="DOM4" class="externalDFN">Attribute</a>s with
+                non-null
+                <a title="dom-attr-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a>s
+                other than those in the <code>http://www.w3.org/XML/1998/namespace</code> (XML) or 
+                <code>http://www.w3.org/2000/xmlns/</code> (XMLNS) namespaces are explicitly
+                serialized with their namespaces defined. (An 
+                <a title="concept-serialize-html">HTML serialization</a> will drop these namespaces.)
+        </ul>
+
+        <p>To produce an <dfn title="concept-serialize-xml">XML serialization</dfn> of a
+            <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var> given a
+            context namespace <var>namespace</var> and prefix list <var>prefixes</var>, the user 
+            agent must run the appropriate steps, depending on <var>node</var>'s interface:</p>
+                
         <dl class=switch>
             <dt><code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>
             <dd>
