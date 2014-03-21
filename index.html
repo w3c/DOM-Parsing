@@ -351,27 +351,30 @@
                                 was already serialized.
                             <li>Add the value of <var>prefix</var> to <var>list</var>.
                             <li>If <var>node</var> has an attribute whose 
-                                <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a>
-                                attribute value is equal to the concatenation of the string 
-                                "<code>xmlns:</code>" with the value of <var>prefix</var>, abort 
-                                these sub-steps. The <var>prefix</var> namespace definition will be 
+                                <a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a>
+                                attribute value is equal to "<code>xmlns</code>", and whose 
+                                <a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a>
+                                attribute value is equal to <var>prefix</var>, then
+                                abort these sub-steps. The <var>prefix</var> namespace definition will be 
                                 serialized later as part of the <a title="concept-serialize-xml-attributes">XML 
-                                serialization of <var>node</var>'s attributes</a>. <span class="note">Note: 
-                                using the <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a>
-                                attribute value as the search criteria is a best-effort search to identify 
-                                attributes whose serialization would already define the element's namespace. The 
-                                <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a> attribute
-                                value covers the case where an attribute has a 
-                                <a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a> and 
-                                <a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a> 
-                                defined (e.g., via 
-                                <a title="dom-element-setattributens" data-spec="DOM4" class="externalDFN">setAttributeNS</a>
-                                (<em>"namespace"</em>, <em>"prefix:name"</em>, <em>"value"</em>)) and the case when the attribute's
-                                <a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a> is <code>null</code>
-                                and the <a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a>
-                                contains a colon character (e.g., via
-                                <a title="dom-element-setattribute" data-spec="DOM4" class="externalDFN">setAttribute</a>
-                                (<em>"local:name"</em>, <em>"value"</em>)).</span>
+                                serialization of <var>node</var>'s attributes</a>. <span class="note">CAUTION: 
+                                this step only considers attributes whose namespace is the XMLNS namespace and that 
+                                define a namespace prefix (e.g., <code>xmlns:prefix-definition="namespace"</code>). It is 
+                                possible to create (and serialize) attributes that appear to define namespace prefixes, 
+                                but which will not according to this step. For example, 
+                                <code><a title="dom-element-setattribute" data-spec="DOM4" class="externalDFN">setAttribute</a>(<em>"xmlns:p"</em>, <em>"mynamespace"</em>)</code>
+                                will create an attribute with a <code>null</code>
+                                <a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a>, 
+                                <a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a> of
+                                <code>"xmlns:p"</code>, and <code>null</code>
+                                <a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a>.
+                                If such an attribute were created on an element in the <code>"mynamespace"</code>
+                                namespace with <code>"p"</code> prefix (e.g., via 
+                                <code><a title="dom-document-createelementns" data-spec="DOM4" class="externalDFN">createElementNS</a>(<em>"namespace"</em>, <em>"p:elem"</em>)</code>,
+                                then a serialization of this element would produce a mal-formed XML fragment with 
+                                duplicate attribute names: 
+                                <code>"&lt;p:elem xmlns:p="namespace" xmlns:p="namespace"/></code>.
+                                </span>
                             <li>Append the following to <var>markup</var>, in order:
                             <ol>
                                 <li>"<code> </code>" (U+0020 SPACE);
@@ -453,9 +456,9 @@
                         and <var>list</var> for the <var>prefixes</var>.
                     <li>Append the following to <var>markup</var>, in order:
                         <ol>
-                            <li>"<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS)
-                            <li><var>qualified name</var>
-                            <li>"<code>&gt;</code>" (U+003E GREATER-THAN SIGN)
+                            <li>"<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS);
+                            <li>The value of <var>qualified name</var>;
+                            <li>"<code>&gt;</code>" (U+003E GREATER-THAN SIGN).
                         </ol>
                     <li>Return the value of <var>markup</var>.
                 </ol>
@@ -645,6 +648,9 @@
                 <a title="concept-element-attribute" data-spec="DOM4" class="externalDFN">attributes</a>,
                 in order:
                 <ol>
+                    <li>Let <var>attribute namespace</var> be the <var>attr</var>'s  
+                        <a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a>
+                        value.
                     <li>Append the following strings to <var>result</var>:
                         <ol>
                             <li>"<code> </code>" (U+0020 SPACE);
@@ -666,15 +672,18 @@
                             production [[XML10]] by also replacing "<code>&gt;</code>" characters.</p>
                             <li>"<code>"</code>" (U+0022 QUOTATION MARK).
                         </ol>
-                    <li>If the first six characters of the value of <var>attr</var>'s 
-                        <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a> 
-                        attribute case-sensitively match the string "<code>xmlns:</code>", then:
+                    <p class="note">The following conditional steps add any namespace prefix declarations
+                        into the <var>prefixes</var> list. Only attributes in the XMLNS namespace are
+                        collected (e.g., attributes made to look like namespace declarations via 
+                        <code><a title="dom-element-setattribute" data-spec="DOM4" class="externalDFN">setAttribute</a>(<em>"xmlns:name"</em>,
+                        <em>"value"</em>)</code> are not included).
+                    <li>If the value of <var>attribute namespace</var> is equal to 
+                        <code>http://www.w3.org/2000/xmlns/</code> (the XMLNS namespace), then:
                         <ol>
-                            <li>Let <var>prefix definition</var> be the result of trimming 
-                                "<code>xmlns:</code>" from the beginning of the value of <var>attr</var>'s 
-                                <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a>.
+                            <li>Let <var>prefix definition</var> be the value of <var>attr</var>'s 
+                                <a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a>.
                             <li>Add the value of <var>prefix definition</var> to <var>prefixes</var>. 
-                                Since this namespace prefix definition has been serialized, it is 
+                                Since this namespace prefix definition has been serialized, it is
                                 unnecessary to serialize it again if subsequently encountered in 
                                 <var>element</var>'s children.
                         </ol>
