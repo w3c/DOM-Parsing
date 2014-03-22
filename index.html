@@ -18,6 +18,7 @@
         ol > li, section:not(#toc) ul > li, section dl > dt {
             margin: 1em 0;
         }
+        var { color: maroon; }
         /* domintro styling */
         dl.domintro {
             background-color: rgb(221, 255, 221);
@@ -184,6 +185,13 @@
         attribute being discussed was called.
     </section>
 
+    <section>
+        <h2>Namespaces</h2>
+        
+        <p>The <dfn title="html-ns">HTML namespace</dfn> is <code>http://www.w3.org/1999/xhtml</code>.
+        <p>The <dfn title="xml-ns">XML namespace</dfn> is <code>http://www.w3.org/XML/1998/namespace</code>.
+        <p>The <dfn title="xmlns-ns">XMLNS namespace</dfn> is <code>http://www.w3.org/2000/xmlns/</code>.
+    </section>
 
     <section>
         <h1>Parsing and serializing <a title="node" data-spec="DOM4" class="externalDFN">Node</a>s</h1>
@@ -252,14 +260,33 @@
                 return an <a title="concept-serialize-html">HTML serialization</a> of <var>node</var>.
             <li>Otherwise, <var>document</var> is an
                 <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
-            <li>Let <var>context namespace</var> be <code>null</code>.
-            <li>Let <var>prefix list</var> be an empty list. The <var>prefix list</var> will 
-                contain strings that represent a history of namespace prefixes [[XML-NAMES]]
-                that have been serialized by the <a title="concept-serialize-xml">XML serialization</a>
-                algorithm for a subtree.
+            <li>Let <dfn title="concept-context-namespace">context namespace</dfn> be <code>null</code>.
+            <li>Let <dfn title="concept-namespace-prefix-map">namespace prefix map</dfn> be a new map 
+                for associating <code>namespaceURI</code> and namespace <code>prefix</code> pairs, where 
+                <code>namespaceURI</code> values are the map's keys, and <code>prefix</code> values are 
+                the map's key values. The <a title="concept-namespace-prefix-map">namespace prefix map</a>
+                will contain the history of assigned namespace prefixes [[XML-NAMES]] that have been 
+                serialized by the <a title="concept-serialize-xml">XML serialization</a> algorithm for a 
+                subtree. <span class="note"><strong>Note:</strong> the 
+                <a title="concept-namespace-prefix-map">namespace prefix map</a> only associates a single
+                prefix value with a given namespaceURI. During serialization, where multiple prefixes are 
+                found to map to the same namespaceURI, the last one encountered "wins" by replacing the
+                existing key value in the map with the new prefix value.</span>
+            <li>Initialize the <a title="concept-namespace-prefix-map">namespace prefix map</a> with a key
+                whose string value is the <a title="xml-ns">XML namespace</a> and string <code>"xml"</code> as the 
+                key value.
+            <li>Let <dfn title="concept-generated-prefix">generated namespace prefix index</dfn> be an integer
+                with a value of <code>1</code>. The <a title="concept-generated-prefix">generated namespace
+                prefix index</a> is used when an attribute not in the <code>null</code> namespace lacks
+                a suitable <a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a> to 
+                represent it. The <a title="concept-generated-prefix">generated namespace prefix index</a> is
+                appended to the string <code>"ns"</code> in these cases and added to the the 
+                <a title="concept-namespace-prefix-map">namespace prefix map</a>.
             <li>Return an <a title="concept-serialize-xml">XML serialization</a> of <var>node</var>
-                providing to the algorithm <var>context namespace</var> as the <var>namespace</var>
-                and <var>prefix list</var> as <var>prefixes</var>.
+                providing to the algorithm <a title="concept-context-namespace">context namespace</a> 
+                as the <var>namespace</var>, <a title="concept-namespace-prefix-map">namespace prefix map</a>
+                as <var>prefixes</var>, and <a title="concept-generated-prefix">generated namespace prefix index</a>
+                as <var>prefix index</var>.
         </ol>
 
         <p>To produce an <dfn title="concept-serialize-html">HTML serialization</dfn> of a
@@ -268,36 +295,44 @@
         <a data-spec="HTML5" title="html-fragment-serialization-algorithm" class="externalDFN">HTML 
         fragment serialization algorithm</a> [[!HTML5]] on <var>node</var> and return the string produced.
 
-        <p class=note>The following steps for serializing a <var>node</var> belonging to an
-            <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a> are 
-            designed to produce a serialization that is compatible with the
-            <a title="html-parser" data-spec="HTML5" class="externalDFN">HTML parser</a>. For example,
-            elements in the XHTML namespace that contain no child nodes are serialized with
-            an explicit begin and end tag rather than using the XML self-closing syntax. Exceptions 
-            to this rule occur when an XHTML element's equivalent HTML element is a 
-            <a title="void-elements" data-spec="HTML5" class="externalDFN">void element</a> that 
-            would be auto-closed by the 
-            <a title="html-parser" data-spec="HTML5" class="externalDFN">HTML parser</a>.
-        </p>
-           
-        An <a title="concept-serialize-xml">XML serialization</a> differs from an 
-        <a title="concept-serialize-html">HTML serialization</a> in the following ways:
+        <p>An <a title="concept-serialize-xml">XML serialization</a> differs from an 
+            <a title="concept-serialize-html">HTML serialization</a> in the following ways:
         <ul>
             <li><a title="element" data-spec="DOM4" class="externalDFN">Element</a>s will always be
                 serialized with an explicitly defined namespace.
             <li><a title="concept-attribute" data-spec="DOM4" class="externalDFN">Attribute</a>s with
                 non-null
                 <a title="dom-attr-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a>s
-                other than those in the <code>http://www.w3.org/XML/1998/namespace</code> (XML) or 
-                <code>http://www.w3.org/2000/xmlns/</code> (XMLNS) namespaces are explicitly
-                serialized with their namespaces defined. (An 
+                other than those in the <a title="xml-ns">XML</a> or <a title="xmlns-ns">XMLNS</a> 
+                namespaces are explicitly serialized with their namespaces defined. (An 
                 <a title="concept-serialize-html">HTML serialization</a> will drop these namespaces.)
+            <li><a title="element" data-spec="DOM4" class="externalDFN">Element</a>s not in the
+                <a title="html-ns">HTML namespace</a> containing no children, are serialized using 
+                the self-closing tag syntax (<var>EmptyElemTag</var> production [[XML10]]).
         </ul>
-
+        
+        <p>Otherwise, the <a title="concept-serialize-xml">algorithm for serializing a node
+            belonging to an XML document</a> is designed to produce a serialization that is compatible 
+            with the <a title="html-parser" data-spec="HTML5" class="externalDFN">HTML parser</a>. For 
+            example, elements in the <a title="html-ns">HTML namespace</a> that contain no child nodes 
+            are serialized with an explicit begin and end tag rather than using the self-closing tag 
+            syntax [[XML10]].
+        
+        <p class="note">An <a title="concept-serialize-xml">XML serialization</a> may not always 
+            produce a well-formed [[XML10]] serialization. Notably, some DOM attribute operations 
+            (such as <a title="dom-element-setattribute" data-spec="DOM4" class="externalDFN">setAttribute</a>)
+            do not enforce XML validity constraints, such as disallowing use of attribute names that
+            resemble XMLNS namespace declarations or namespace prefix definitions. The 
+            <a title="concept-serialize-xml">XML serialization</a> algorithm defined in this document
+            does not escape, encode, or fail to serialize such attribute names.
+        
         <p>To produce an <dfn title="concept-serialize-xml">XML serialization</dfn> of a
             <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var> given a
-            context namespace <var>namespace</var> and prefix list <var>prefixes</var>, the user 
-            agent must run the appropriate steps, depending on <var>node</var>'s interface:</p>
+            <a title="concept-context-namespace">context namespace</a> <var>namespace</var>, a
+            <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>prefixes</var> and
+            a <a title="concept-generated-prefix">generated namespace prefix index</a> 
+            <var>prefix index</var>, the user agent must run the appropriate steps, depending on 
+            <var>node</var>'s interface:</p>
                 
         <dl class=switch>
             <dt><code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>
@@ -305,9 +340,23 @@
                 <p>Run the following algorithm:
                 <ol>
                     <!-- "namespace" was passed via the caller -->
+                    <!-- "prefixes" was passed via the caller -->
+                    <!-- "prefix index" was passed via the caller -->
                     <li>Let <var>markup</var> be an empty string.
                     <li>Let <var>qualified name</var> be an empty string.
-                    <li>Let <var>list</var> be a copy of the <var>prefixes</var> array.
+                    <li>Let <var>generated attribute</var> be an empty string.
+                    <li>Let <var>default namespace found</var> be <code>false</code>.
+                    <li>Let <var>map</var> be a copy of the <var>prefixes</var> <a title="concept-namespace-prefix-map">namespace prefix map</a>.
+                    <li>Let <var>element prefixes list</var> be an empty list. <span class="note">This list is 
+                        local to each element. Its purpose is to ensure that there are no conflicting prefixes 
+                        should a new namespace prefix attribute need to be generated.</span>
+                    <li><a title="concept-find-defined-prefixes">Find the defined namespace prefixes</a> for 
+                        <var>node</var> given <var>map</var>, <var>element prefixes list</var>, and the 
+                        <var>default namespace found</var> flag.
+                    <p class="note">This above step will update the <var>map</var> with any found namespace prefix 
+                        definitions, add the found prefix definitions to the <var>element prefixes list</var>, and set 
+                        the <var>default namespace found</var> flag to <code>true</code> if a default namespace declaration 
+                        is found.</p>
                     <li>Let <var>prefix</var> be the value of <var>node</var>'s 
                         <code><a title="dom-element-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>
                         attribute.
@@ -316,105 +365,74 @@
                         attribute.
                     <li>Let a <var>skip end tag</var> flag have the value <code>false</code>.
                     <li>Append "<code>&lt;</code>" (U+003C LESS-THAN SIGN) to <var>markup</var>.
-                    <li>If <var>ns</var> is equal to <code>http://www.w3.org/XML/1998/namespace</code> (the XML namespace),
-                        then append the following to <var>qualified name</var>:
-                        <ol>
-                            <li>The string "<code>xml</code>";
-                            <li>"<code>:</code>" (U+003A COLON).
-                        </ol>
-                        <p class="note">The prefix "xml" will always be serialized when the 
-                            <a title="element" data-spec="DOM4" class="externalDFN">Element</a>'s namespace is 
-                            <code>http://www.w3.org/XML/1998/namespace</code> regardless of the value of <var>node</var>'s 
-                            actual <var>prefix</var>.</p>
-                    <li>Otherwise, if <var>prefix</var> is not <code>null</code> then append the following to
-                        <var>qualified name</var>:
-                        <ol>
-                            <li>The value of <var>prefix</var>;
-                            <li>"<code>:</code>" (U+003A COLON).
-                        </ol>
-                    <li>Append the value of <var>node</var>'s
-                        <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
-                        attribute to <var>qualified name</var>.
-                    <li>Append the value of <var>qualified name</var> to <var>markup</var>.
-                    <!-- Tried ":" in names, but this doesn't trick the serializer--it just produces 
-                        a serialization that is not round-trippable
-                        <p class="issue">escaping / throwing -->
-                    <p class=note>The following conditional steps determine whether an attribute need be 
-                        serialized in order to define the node's namespace prefix:
                     <li>If <var>namespace</var> is not equal to <var>ns</var> (the <var>node</var>'s
-                        own namespace is different from its parent), and <var>ns</var> is not equal to 
-                        <code>http://www.w3.org/XML/1998/namespace</code> (the XML namespace), and 
-                        <var>prefix</var> is not <code>null</code>, then run these sub-steps:
+                        own namespace is different from its parent), <!-- Then signal this in the serialization by way of either 1) a namespace prefix if one is available (this is shorter) or 2) a default namespace otherwise) -->
+                        then run these sub-steps:
+                    <ol>
+                        <li>Let <var>candidate prefix</var> be a value from <var>map</var> where there exists a key in 
+                            <var>map</var> that matches the value of <var>ns</var> or if there is no such key, then 
+                            <code>null</code>.
+                        <li>If <var>candidate prefix</var> is not <code>null</code>, then let <var>qualified name</var>
+                            be the concatenation of <var>candidate prefix</var>, "<code>:</code>" (U+003A COLON), and
+                            <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
+                            and stop running these sub-steps.
+                        <!-- Didn't find an existing (or locally defined) mapping for node's namespace -->
+                        <!-- Try to use the existing prefix? -->
+                        <li>If <var>prefix</var> is not <code>null</code> and the <var>element prefixes list</var> does 
+                            not contain the value of <var>prefix</var>, then let <var>qualified name</var> be the concatenation
+                            of <var>prefix</var>, "<code>:</code>" (U+003A COLON), and 
+                            <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>.
+                            Also, let <var>generated attribute</var> be the concatenation of:
                         <ol>
-                            <li>If <var>list</var> contains the value of <var>prefix</var>, then
-                                abort these sub-steps. This namespace prefix
-                                was already serialized.
-                            <li>Add the value of <var>prefix</var> to <var>list</var>.
-                            <li>If <var>node</var> has an attribute whose 
-                                <a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a>
-                                attribute value is equal to "<code>xmlns</code>", and whose 
-                                <a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a>
-                                attribute value is equal to <var>prefix</var>, then
-                                abort these sub-steps. The <var>prefix</var> namespace definition will be 
-                                serialized later as part of the <a title="concept-serialize-xml-attributes">XML 
-                                serialization of <var>node</var>'s attributes</a>. <span class="note">CAUTION: 
-                                this step only considers attributes whose namespace is the XMLNS namespace and that 
-                                define a namespace prefix (e.g., <code>xmlns:prefix-definition="namespace"</code>). It is 
-                                possible to create (and serialize) attributes that appear to define namespace prefixes, 
-                                but which will not according to this step. For example, 
-                                <code><a title="dom-element-setattribute" data-spec="DOM4" class="externalDFN">setAttribute</a>(<em>"xmlns:p"</em>, <em>"mynamespace"</em>)</code>
-                                will create an attribute with a <code>null</code>
-                                <a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a>, 
-                                <a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a> of
-                                <code>"xmlns:p"</code>, and <code>null</code>
-                                <a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a>.
-                                If such an attribute were created on an element in the <code>"mynamespace"</code>
-                                namespace with <code>"p"</code> prefix (e.g., via 
-                                <code><a title="dom-document-createelementns" data-spec="DOM4" class="externalDFN">createElementNS</a>(<em>"namespace"</em>, <em>"p:elem"</em>)</code>,
-                                then a serialization of this element would produce a mal-formed XML fragment with 
-                                duplicate attribute names: 
-                                <code>"&lt;p:elem xmlns:p="namespace" xmlns:p="namespace"/></code>.
-                                </span>
-                            <li>Append the following to <var>markup</var>, in order:
+                            <li>the string "<code>xmlns:</code>";
+                            <li>the value of <var>prefix</var>;
+                            <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
+                            <li>The value of <var>ns</var>;
+                            <li>"<code>"</code>" (U+0022 QUOTATION MARK);
+                        </ol>
+                        <li>If <var>prefix</var> is not <code>null</code> and the <var>element prefixes list</var>
+                            contains the value of <var>prefix</var>, then: <!-- The element's prefix is used locally to define a different namespace! The node's prefix can't be used to generate a duplicate attribute name, so... -->
+                        <ol>
+                            <li>Let <var>generated prefix</var> be the result of 
+                                <a title="concept-generate-prefix">generating a prefix</a> providing as input the
+                                <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>map</var>, 
+                                <var>node</var>'s <var>ns</var> string, and the <var>prefix index</var> integer.
+                            <li>Let <var>qualified name</var> be the concatenation of <var>generated prefix</var>, 
+                                "<code>:</code>" (U+003A COLON), and 
+                                <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>.
+                            <li>Let <var>generated attribute</var> be the concatenation of:
                             <ol>
-                                <li>"<code> </code>" (U+0020 SPACE);
-                                <li>The string "<code>xmlns:</code>";
-                                <li>The value of <var>prefix</var>;
+                                <li>the string "<code>xmlns:</code>";
+                                <li>the value of <var>generated prefix</var>;
                                 <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
                                 <li>The value of <var>ns</var>;
                                 <li>"<code>"</code>" (U+0022 QUOTATION MARK);
                             </ol>
                         </ol>
-                    <p class=note>The following conditional steps determine whether a default namespace is 
-                        serialized for this node:
-                    <li>If <var>namespace</var> is not equal to <var>ns</var>, and <var>ns</var> is not equal to 
-                        <code>http://www.w3.org/XML/1998/namespace</code> (the XML namespace), and <var>prefix</var>
-                        is <code>null</code>, then run these sub-steps:
+                        <!-- prefix is null -- generate a default namespace -->
+                        <li>If prefix is <code>null</code> then let <var>qualified name</var> be <var>node</var>'s
+                            <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
+                            and let <var>generated attribute</var> be the concatenation of:
                         <ol>
-                            <li>If <var>node</var> has an attribute whose 
-                                <a title="concept-attribute-name" data-spec="DOM4" class="externalDFN">name</a>
-                                attribute value is equal to "<code>xmlns</code>", abort 
-                                these sub-steps. The default namespace will be 
-                                serialized later as part of the <a title="concept-serialize-xml-attributes">XML 
-                                serialization of <var>node</var>'s attributes</a>.
-                            <li>Append the following to <var>markup</var>, in order:
-                            <ol>
-                                <li>"<code> </code>" (U+0020 SPACE);
-                                <li>The string "<code>xmlns</code>";
-                                <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
-                                <li>The value of <var>ns</var>;
-                                <li>"<code>"</code>" (U+0022 QUOTATION MARK);
-                            </ol>
+                            <li>the string "<code>xmlns</code>";
+                            <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
+                            <li>The value of <var>ns</var>;
+                            <li>"<code>"</code>" (U+0022 QUOTATION MARK);
                         </ol>
+                    </ol>
+                    <li>Append the value of <var>qualified name</var> to <var>markup</var>.
+                    <li>Append a "<code> </code>" (U+0020 SPACE) to <var>markup</var>.
+                    <li>Append the value of <var>generated attribute</var> to <var>markup</var>.
                     <li>Append to <var>markup</var> the result of the 
-                        <a title="concept-serialize-xml-attributes">XML 
-                        serialization of <var>node</var>'s attributes</a>, passing <var>list</var>
-                        as the <var>prefixes</var>.
-                    <li>If the value of <var>ns</var> is the string "<code>http://www.w3.org/1999/xhtml</code>",
+                        <a title="concept-serialize-xml-attributes">XML serialization of <var>node</var>'s 
+                        attributes</a> given a 
+                        <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>map</var>.
+
+                    <li>If <var>ns</var> is the <a title="html-ns">HTML namespace</a>,
                         and the <var>node</var>'s list of 
                         <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>
                         is empty, and the <var>node</var>'s
-                        <code><a title="dom-element-tagname" data-spec="DOM4" class="externalDFN">tagName</a></code>
+                        <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
                         matches any one of the following 
                         <a title="void-elements" data-spec="HTML5" class="externalDFN">void elements</a>:
                         "<code>area</code>",
@@ -439,7 +457,7 @@
                             <li>"<code>/</code>" (U+002F SOLIDUS);
                         </ol>
                         and set the <var>skip end tag</var> flag to <code>true</code>.
-                    <li>If the value of <var>ns</var> is not the string "<code>http://www.w3.org/1999/xhtml</code>",
+                    <li>If <var>ns</var> is not the <a title="html-ns">HTML namespace</a>,
                         and the <var>node</var>'s list of 
                         <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>
                         is empty, then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
@@ -452,8 +470,10 @@
                         <a title="concept-serialize-xml">XML serialization</a> of each of 
                         <var>node</var>'s
                         <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>,
-                        in order, providing the value of <var>ns</var> for the <var>namespace</var>
-                        and <var>list</var> for the <var>prefixes</var>.
+                        in order, providing the value of <var>ns</var> for the <var>namespace</var> string,
+                        <var>map</var> for the <a title="concept-namespace-prefix-map">namespace prefix map</a>,
+                        and <var>prefix index</var> for the 
+                        <a title="concept-generated-prefix">generated namespace prefix index</a>.
                     <li>Append the following to <var>markup</var>, in order:
                         <ol>
                             <li>"<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS);
@@ -634,12 +654,65 @@
             <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
         </ol>
 
+        <p>To <dfn title="concept-find-defined-prefixes">find the defined namespace prefixes</dfn> for an 
+            <a title="element" data-spec="DOM4" class="externalDFN">Element</a> <var>element</var>, given a 
+            <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>map</var>, a list of strings
+            <var>element prefixes list</var> (initially empty), and a boolean <var>default namespace found</var>
+            flag, the user agent must run the following steps:
+        <ol>
+            <li>Let <var>default namespace found</var> have the value <code>false</code>.
+            <li>For each <a title="concept-attribute" data-spec="DOM4" class="externalDFN">attribute</a>
+                <var>attr</var> in <var>element</var>'s
+                <a title="concept-element-attribute" data-spec="DOM4" class="externalDFN">attributes</a>,
+                in order:
+            <ol>
+                <p class="note">The following conditional steps add namespace prefix declarations
+                    into the <var>element prefixes list</var> and add or replace them in the <var>map</var>. 
+                    Only attributes in the <a title="xmlns-ns">XMLNS namespace</a> are
+                    collected (e.g., attributes made to look like namespace declarations via 
+                    <code><a title="dom-element-setattribute" data-spec="DOM4" class="externalDFN">setAttribute</a>(<em>"xmlns:name"</em>,
+                    <em>"value"</em>)</code> are not included).</p>
+                <li>Let <var>attribute namespace</var> be the <var>attr</var>'s  
+                    <a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a>
+                    value.
+                <li>Let <var>attribute prefix</var> be the value of <var>attr</var>'s 
+                        <a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a>.
+                <li>If the <var>attribute namespace</var> is the <a title="xmlns-ns">XMLNS namespace</a> and
+                    the <var>attribute prefix</var> is not <code>null</code>, then:
+                <ol>
+                    <li>Let <var>prefix definition</var> be the value of <var>attr</var>'s 
+                        <a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a>.
+                    <li>Let <var>namespace definition</var> be the value of <var>attr</var>'s 
+                        <a title="dom-attribute-value" data-spec="DOM4" class="externalDFN">value</a>.
+                    <li>If a key matching the value of <var>namespace definition</var> already exists in
+                        <var>map</var>, then update the key's value to be <var>prefix definition</var>.
+                    <li>Otherwise, append to <var>map</var> a new key <var>namespace definition</var>
+                        whose key value is the <var>prefix definition</var>.
+                    <li>Append the value of <var>prefix definition</var> to <var>element prefixes list</var>.
+                </ol>
+                <li>Otherwise, this is a default namespace declaration. Set the value of <var>default namespace
+                    found</var> to be true.
+            </ol>
+        </ol>
+        
+        <p>To <dfn title="concept-generate-prefix">generate a prefix</dfn> given a 
+            <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>map</var>, a 
+            string <var>new namespace</var>, and a 
+            <a title="concept-generated-prefix">generated namespace prefix index</a> <var>prefix
+            index</var>, the user agent must run the following steps:
+        <ol>
+            <li>Let <var>generated prefix</var> be the concatenation of the string <code>"ns"</code> and
+                the current numerical value of <var>prefix index</var>.
+            <li>Let the value of <var>prefix index</var> be incremented by one.
+            <li>Append to <var>map</var> a new key <var>new namespace</var> whose key value is the 
+                <var>generated prefix</var>.
+            <li>Return the value of <var>generated prefix</var>.
+        </ol>
         
         <p>The <dfn title="concept-serialize-xml-attributes">XML serialization of the attributes</dfn>
-        of an <a title="concept-element" data-spec="DOM4" class="externalDFN">element</a>
-        <var>element</var> together with a prefix list <var>prefixes</var> is the result of the 
-        following algorithm:
-
+        of an <a title="concept-element" data-spec="DOM4" class="externalDFN">Element</a>
+        <var>element</var> together with a <a title="concept-namespace-prefix-map">namespace prefix map</a>
+        <var>map</var> is the result of the following algorithm:
         <ol>
             <li>Let <var>result</var> be the empty string.
             <li>For each
