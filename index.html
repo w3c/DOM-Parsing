@@ -319,6 +319,13 @@
             definitions. The <a title="concept-serialize-xml">XML serialization</a> algorithm defined 
             in this document does not escape, encode, or fail to serialize such attribute names.
         
+        <p class="issue"><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=25168">Bug: 25168</a>
+            Should an XML Serialization check for these potential issues and tweak element 
+            and attribute localNames that could cause problems? For example, replace "<code>:</code>" 
+            (U+003A COLON) with "<code>_</code>" (U+005F LOW LINE) in element localNames and drop/replace
+            "<code>xmlns</code>" and "<code>xmlns:</code>" prefixes in attribute localNames? Or should
+            the XML Serialization fail to serialize under these scenarios?
+        
         <p>To produce an <dfn title="concept-serialize-xml">XML serialization</dfn> of a
             <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var> given a
             <a title="concept-context-namespace">context namespace</a> <var>namespace</var>, a
