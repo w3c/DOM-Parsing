@@ -24,7 +24,8 @@
   <tr>
    <th>Comment Number</th>
    <th>Comment</th>
-   <th>Response</th>
+   <th>Editor's Response</th>
+   <th>Commentor's Response</th>
   
   <tr>
    <td>1
@@ -39,8 +40,11 @@
         DOM4</a> the CDATASection interface and internalSubset property has been removed. 
       <p><a href="http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0710.html">
         Rebuttal against making CDATASection and internalSubset optional</a>.
+   <td data-accepted>
+     Accepted. Change was made to remove CDATASection and internalSubset serialization steps from the algorithm.
+     [<a href="https://dvcs.w3.org/hg/innerhtml/rev/1920f7b853a1">Diff</a>]
    <td>
-     <p>No response yet.
+     TBD
   <tr>
    <td>2
    <td>
@@ -52,14 +56,20 @@
    <td data-accepted>
      Accepted. Change was reverted: <a href="http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0826.html">
       http://lists.w3.org/Archives/Public/public-webapps/2013OctDec/0826.html</a>
+     [<a href="https://dvcs.w3.org/hg/innerhtml/rev/9425d4d28248">Diff</a>]
+   <td>
+     TBD
   <tr>
    <td>3
    <td>
     <p>Reported by Victor Costan
     <p><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24174">https://www.w3.org/Bugs/Public/show_bug.cgi?id=24174</a>
     <p>The &lt; (LESS THAN) character should be escaped in the XML attribute serialization algorithm.
+   <td data-accepted>
+     Accepted. Change was made to add the appropriate escaping.
+     [<a href="https://dvcs.w3.org/hg/innerhtml/rev/bfa43ce953aa">Diff</a>]
    <td>
-    <p>No response yet.
+     <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24174#c5">Approved</a>
   <tr>
    <td>4
    <td>
@@ -68,10 +78,15 @@
     <p>The setAttributeNS allows the creation of attributes that have a non-null namespace URI, but 
      no prefix. This case does not seem to be handled by the current algorithm in the spec, but should
      be.
+   <td data-accepted>
+    Accepted. Fixing this required a substantial update to the algorithm, but the update now includes proper
+    handling of attributes in non-null namespaces including automatic prefix generation if necessary (which
+    also applies to elements in certain situations).
+    [<a href="https://dvcs.w3.org/hg/innerhtml/rev/fb9edcfb8f5f">First draft diff</a>,
+    <a href="https://dvcs.w3.org/hg/innerhtml/rev/f9b5a818ef99">Followup draft diff</a>,
+    <a href="https://dvcs.w3.org/hg/innerhtml/rev/fa768c710fba">Polish pass diff</a>]
    <td>
-    <p>No response yet.
-
-
+     TBD
  </table>
  
 </body>
