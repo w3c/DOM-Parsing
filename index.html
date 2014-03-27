@@ -558,6 +558,7 @@
                 <code><a title="dom-characterdata-data" data-spec="DOM4" class="externalDFN">data</a></code>, and
                 "<code>--></code>".
 
+            <!-- Removing CDATA Serialization steps as this interface type is removed from DOM4:
             <dt><code><a title="cdata" data-spec="DOML2" class="externalDFN">CDATASection</a></code>
             <dd><ol>
                 <li>Let <var>markup</var> be the concatenation of "<code>&lt;![CDATA[</code>", 
@@ -569,7 +570,8 @@
               <p class=note>CDATASection objects may be created by the historical 
             <code>document.createCDATASection</code> API, or as a result of parsing an
             <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
-
+            -->
+            
             <dt><code><a title="text" data-spec="DOM4" class="externalDFN">Text</a></code>
             <dd><ol>
                 <li>Let <var>markup</var> be <var>node</var>'s
@@ -670,6 +672,8 @@
                     <li>"<code>"</code>" (U+0022 QUOTATION MARK);
                 </ol>
             </li>
+            <!-- Removing internalSubset serialization steps as this property is not supported by DOM4. Also,
+                optional requirements don't help improve interoperability:
             <li>Optional: if the <var>node</var> has an (historical) 
                 <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
                 and the
@@ -691,6 +695,7 @@
                    because any <code><a title="ID-Core-DocType-internalSubset" data-spec="DOM3" class="externalDFN">internalSubset</a></code>
                    markup is ignored by the parser.</p>
             </li>
+            -->
             <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
         </ol>
 
