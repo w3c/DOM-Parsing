@@ -585,10 +585,12 @@
                 <li>Let <var>markup</var> the empty string.
 
                 <li>For each
-                <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">child</a> of
-                <var>node</var>, in order,
-                <a title="concept-serialize-xml">produce an XML serialization</a>
-                of the child and concatenate the result to <var>markup</var>.
+                    <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">child</a> of <var>node</var>, 
+                    in order, <a title="concept-serialize-xml">produce an XML serialization</a> of the child given 
+                    a <a title="concept-context-namespace">context namespace</a> <var>namespace</var>, a
+                    <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>prefix map</var> and
+                    a reference to a <a title="concept-generated-prefix">generated namespace prefix index</a> 
+                    <var>prefix index</var>. Concatenate the result to <var>markup</var>.
 
                 <li>Return <var>markup</var>.
               </ol>
