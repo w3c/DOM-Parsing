@@ -302,7 +302,8 @@
                 will always be serialized such that their namespaceURI is preserved. In some cases 
                 this means that an existing prefix, prefix declaration attribute or default namespace 
                 declaration attribute might be dropped, substituted or changed.
-                An <a title="concept-serialize-html">HTML serialization</a> will drop these namespaces.
+                An <a title="concept-serialize-html">HTML serialization</a> does not attempt to 
+                preserve the namespaceURI.
             <li><a title="element" data-spec="DOM4" class="externalDFN">Elements</a> not in the
                 <a title="html-ns">HTML namespace</a> containing no children, are serialized using 
                 the self-closing tag syntax (i.e., according to the <var>EmptyElemTag</var> 
@@ -485,9 +486,12 @@
                         <a title="void-elements" data-spec="HTML5" class="externalDFN">void elements</a>:
                         "<code>area</code>",
                         "<code>base</code>",
+                        "<code>basefont</code>",
+                        "<code>bgsound</code>",
                         "<code>br</code>",
                         "<code>col</code>",
                         "<code>embed</code>",
+                        "<code>frame</code>",
                         "<code>hr</code>",
                         "<code>img</code>",
                         "<code>input</code>",
