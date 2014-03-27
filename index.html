@@ -299,7 +299,9 @@
         <ul>
             <li><a title="element" data-spec="DOM4" class="externalDFN">Elements</a> and
                 <a title="concept-attribute" data-spec="DOM4" class="externalDFN">attributes</a>
-                will always be serialized with their namespaceURI explicitly defined (if non-null).
+                will always be serialized such that their namespaceURI is preserved. In some cases 
+                this means that an existing prefix, prefix declaration attribute or default namespace 
+                declaration attribute might be dropped, substituted or changed.
                 An <a title="concept-serialize-html">HTML serialization</a> will drop these namespaces.
             <li><a title="element" data-spec="DOM4" class="externalDFN">Elements</a> not in the
                 <a title="html-ns">HTML namespace</a> containing no children, are serialized using 
