@@ -248,21 +248,40 @@
 
     <section>
         <h2>Serializing</h2>
-        <p>To <dfn title="concept-serialize">serialize</dfn> a
-        <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
-        must run the following steps:
+        <p>The following steps form the 
+            <dfn title="concept-fragment-serializing-algorithm">fragment serializing algorithm</dfn>,
+            whose arguments are a <a title="node" data-spec="DOM4" class="externalDFN">Node</a> 
+            <var>node</var> and a flag <dfn title="concept-strict-validation">strict validation</dfn>.
 
         <ol>
-            <li>Let <var>document</var> be <var>node</var>'s
+            <li>Let <var>context document</var> be <var>node</var>'s
                 <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>.
-            <li>If <var>document</var> is an
+            <li>If <var>context document</var> is an
                 <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>, 
                 return an <a title="concept-serialize-html">HTML serialization</a> of <var>node</var>.
-            <li>Otherwise, <var>document</var> is an
-                <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
+            <li>Otherwise, <var>context document</var> is an
+                <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>;
+                return an <a title="concept-serialize-xml">XML serialization</a> of <var>node</var>
+                passing the flag <var>strict validation</var>.
+            <p class="note">The <a title="concept-serialize-xml">XML serialization</a> defined in this document
+                conforms to the requirements of the <a data-spec="HTML5" title="xml-fragment-serialization-algorithm" 
+                class="externalDFN">XML fragment serialization algorithm</a> defined in [[HTML5]].</p>
+        </ol>
+
+        <p>To produce an <dfn title="concept-serialize-html">HTML serialization</dfn> of a
+            <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
+            must run the
+            <a data-spec="HTML5" title="html-fragment-serialization-algorithm" class="externalDFN">HTML 
+            fragment serialization algorithm</a> [[!HTML5]] on <var>node</var> and return the string produced.
+
+        <p>To produce an <dfn title="concept-serialize-xml">XML serialization</dfn> of a
+            <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var> given a
+            flag <var>strict validation</var>, run the following steps:
+        <ol>
             <li>Let <dfn title="concept-context-namespace">context namespace</dfn> be <code>null</code>.
                 The <a title="concept-context-namespace">context namespace</a> is changed when a
-                <var>node</var> serializes a different default namespace definition from its parent.
+                <var>node</var> serializes a different default namespace definition from its parent. The 
+                algorithm assumes no namespace to start.
             <li>Let <dfn title="concept-namespace-prefix-map">namespace prefix map</dfn> be a new map 
                 for associating <code>namespaceURI</code> and namespace <code>prefix</code> pairs, where 
                 <code>namespaceURI</code> values are the map's keys, and <code>prefix</code> values are 
@@ -281,19 +300,16 @@
                 namespace prefix is available to serialize a <var>node</var>'s namespaceURI (or the namespaceURI
                 of one of <var>node</var>'s attributes). <span class="note">See the 
                 <a title="concept-generate-prefix">generate a prefix</a> algorithm.</span>
-            <li>Return an <a title="concept-serialize-xml">XML serialization</a> of <var>node</var>
-                providing to the algorithm a <a title="concept-context-namespace">context namespace</a> 
-                <var>namespace</var>, a <a title="concept-namespace-prefix-map">namespace prefix map</a>
-                <var>prefix map</var>, and a <a title="concept-generated-prefix">generated namespace prefix index</a>
-                <var>prefix index</var>.
+            <li>Return the result of running the <a title="concept-xml-serialization-algorithm">XML serialization
+                algorithm</a> on <var>node</var> passing the <a title="concept-context-namespace">context 
+                namespace</a>, <a title="concept-namespace-prefix-map">namespace prefix map</a>, 
+                <a title="concept-generated-prefix">generated namespace prefix index</a> reference, and the
+                flag <var>strict validation</var>. If an <dfn title="concept-algorithm-exception">exception</dfn>
+                occurs during the execution of the algorithm, then catch that exception and throw a 
+                <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with 
+                name <code>InvalidStateError</code>.
         </ol>
-
-        <p>To produce an <dfn title="concept-serialize-html">HTML serialization</dfn> of a
-        <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var>, the user agent
-        must run the
-        <a data-spec="HTML5" title="html-fragment-serialization-algorithm" class="externalDFN">HTML 
-        fragment serialization algorithm</a> [[!HTML5]] on <var>node</var> and return the string produced.
-
+        
         <p>An <a title="concept-serialize-xml">XML serialization</a> differs from an 
             <a title="concept-serialize-html">HTML serialization</a> in the following ways:
         <ul>
@@ -316,14 +332,6 @@
             elements in the <a title="html-ns">HTML namespace</a> that contain no child nodes are serialized 
             with an explicit begin and end tag rather than using the self-closing tag syntax [[XML10]].
         
-        <p class="note">An <a title="concept-serialize-xml">XML serialization</a> might not always 
-            produce a <a data-spec="XML10" title="sec-well-formed" class="externalDFN">well-formed</a>
-            serialization. For example, the <a title="dom-element-setattribute" data-spec="DOM4" 
-            class="externalDFN">setAttribute</a> method does not enforce XML validity constraints, 
-            like disallowing use of attribute names that resemble namespace declarations or prefix 
-            definitions. The <a title="concept-serialize-xml">XML serialization</a> algorithm defined 
-            in this document does not escape, encode, or fail to serialize such attribute names.
-        
         <p class="issue"><a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=25168">Bug: 25168</a>
             Should an XML Serialization check for these potential issues and tweak element 
             and attribute localNames that could cause problems? For example, replace "<code>:</code>" 
@@ -331,14 +339,13 @@
             "<code>xmlns</code>" and "<code>xmlns:</code>" prefixes in attribute localNames? Or should
             the XML Serialization fail to serialize under these scenarios?
         
-        <p>To produce an <dfn title="concept-serialize-xml">XML serialization</dfn> of a
-            <a title="node" data-spec="DOM4" class="externalDFN">Node</a> <var>node</var> given a
-            <a title="concept-context-namespace">context namespace</a> <var>namespace</var>, a
-            <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>prefix map</var> and
-            a reference to a <a title="concept-generated-prefix">generated namespace prefix index</a> 
-            <var>prefix index</var>, the user agent must run the appropriate steps, depending on 
-            <var>node</var>'s interface:</p>
-                
+        <p>To run the <dfn title="concept-xml-serialization-algorithm">XML serialization algorithm</dfn> on
+            a <var>node</var> given a <a title="concept-context-namespace">context namespace</a> 
+            <var>namespace</var>, a <a title="concept-namespace-prefix-map">namespace prefix map</a>
+            <var>prefix map</var>, a <a title="concept-generated-prefix">generated namespace prefix index</a>
+            <var>prefix index</var>, and a flag <var>strict validation</var>, the user agent must run the 
+            appropriate steps, depending on <var>node</var>'s interface:</p>
+        
         <dl class=switch>
             <dt><code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>
             <dd>
@@ -347,6 +354,7 @@
                     <!-- "namespace" was passed via the caller, it's the default namespace scope -->
                     <!-- "prefix map" was passed via the caller, it's the namespace->prefix map -->
                     <!-- "prefix index" was passed via the caller, it's a number for generating prefixes if necessary -->
+                    <!-- "strict validation" was passed via the caller, it's a flag (true/false) for whether certain validation steps should be taken during serialization. -->
                     <li>Let <var>markup</var> be the string "<code>&lt;</code>" (U+003C LESS-THAN SIGN).
                     <li>Let <var>qualified name</var> be an empty string.
                     <li>Let a <var>skip end tag</var> flag have the value <code>false</code>.
@@ -518,13 +526,16 @@
                     <li>If the value of <var>skip end tag</var> is <code>true</code>, then return 
                         the value of <var>markup</var> and skip the remaining steps. The 
                         <var>node</var> is a leaf-node.
-                    <li>Append to <var>markup</var> the result of performing an 
-                        <a title="concept-serialize-xml">XML serialization</a> of each of <var>node</var>'s
+                    <li>Append to <var>markup</var> the result of running the  
+                        <a title="concept-xml-serialization-algorithm">XML serialization algorithm</a> on each 
+                        of <var>node</var>'s
                         <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>,
-                        in order, providing the value of <var>inherited ns</var> for the <var>namespace</var>,
+                        in order, providing the value of <var>inherited ns</var> for the 
+                        <a title="concept-context-namespace">context namespace</a>,
                         <var>map</var> for the <a title="concept-namespace-prefix-map">namespace prefix map</a>,
-                        and <var>prefix index</var> for the 
-                        <a title="concept-generated-prefix">generated namespace prefix index</a>.
+                        <var>prefix index</var> for the 
+                        <a title="concept-generated-prefix">generated namespace prefix index</a>, and the value
+                        of the <var>strict validation</var> flag.
                     <li>Append the following to <var>markup</var>, in order:
                         <ol>
                             <li>"<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS);
@@ -543,13 +554,14 @@
                         of <var>node</var>'s 
                         <a title="dom-document-doctype" data-spec="HTML5" class="externalDFN">doctype</a>
                         attribute;
-                    <li>The string produced by an <a title="concept-serialize-xml">XML serialization</a>
-                        of <var>node</var>'s 
+                    <li>The string produced by running the <a title="concept-xml-serialization-algorithm">XML 
+                        serialization algorithm</a> on <var>node</var>'s 
                         <a title="dom-document-documentelement" data-spec="HTML5" class="externalDFN">documentElement</a>
-                        attribute, given <code>null</code> as the <var>namespace</var>, the 
+                        attribute, given <code>null</code> as the <a title="concept-context-namespace">context 
+                        namespace</a>, 
                         <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>prefix map</var>,
-                        and a reference to the <a title="concept-generated-prefix">generated namespace 
-                        prefix index</a> <var>prefix index</var>. 
+                        a reference to the <a title="concept-generated-prefix">generated namespace 
+                        prefix index</a> <var>prefix index</var>, and flag <var>strict validation</var>. 
                 </ol>
 
             <dt><code><a title="comment" data-spec="DOM4" class="externalDFN">Comment</a></code>
@@ -594,12 +606,13 @@
 
                 <li>For each
                     <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">child</a> of <var>node</var>, 
-                    in order, <a title="concept-serialize-xml">produce an XML serialization</a> of the child given 
+                    in order, run the <a title="concept-xml-serialization-algorithm">XML serialization algorithm</a>
+                    on the <var>child</var> given 
                     a <a title="concept-context-namespace">context namespace</a> <var>namespace</var>, a
-                    <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>prefix map</var> and
+                    <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>prefix map</var>,
                     a reference to a <a title="concept-generated-prefix">generated namespace prefix index</a> 
-                    <var>prefix index</var>. Concatenate the result to <var>markup</var>.
-
+                    <var>prefix index</var>, and flag <var>strict validation</var>. Concatenate the result 
+                    to <var>markup</var>.
                 <li>Return <var>markup</var>.
               </ol>
             <dt><code><a title="documenttype" data-spec="DOM4" class="externalDFN">DocumentType</a></code>
@@ -982,7 +995,8 @@
         <dt>DOMString serializeToString(Node root)</dt>
 
         <dd>The <code>serializeToString(<var>root</var>)</code>
-        method must <a title="concept-serialize-xml">produce an XML serialization</a> of <var>root</var> and return the result.</dd>
+        method must <a title="concept-serialize-xml">produce an XML serialization</a> of <var>root</var> passing 
+        a value of <code>false</code> for the <a title="concept-strict-validation">strict validation</a> parameter, and return the result.</dd>
     </dl>
 </section>
 
@@ -1033,21 +1047,13 @@
                 if the given string is not well-formed.
             </dl>
 
-            <p>On getting, if the <a title="context object">context object</a>'s
-            <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
-            is an <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>, then the attribute
-            must return the result of running the
-            <a data-spec="HTML5" title="html-fragment-serialization-algorithm" class="externalDFN">HTML fragment serialization algorithm</a> on the
-            <a title="context object">context object</a>; otherwise, the <a title="context object">context object</a>'s
-            <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
-            is an <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>, and the attribute must
-            return the result of running the        
-            <a data-spec="HTML5" title="xml-fragment-serialization-algorithm" class="externalDFN">XML fragment serialization algorithm</a> on the
-            <a title="context object">context object</a> instead (this might throw an
-            exception instead of returning a string).
+            <p>On getting, return the result of invoking the 
+                <a title="concept-fragment-serializing-algorithm">fragment serializing algorithm</a> on the 
+                <a title="context object">context object</a> providing <code>true</code> for the 
+                <a title="concept-strict-validation">strict validation</a> flag (this might throw an exception 
+                instead of returning a string).
 
             <p>On setting, these steps must be run:
-
             <ol>
                 <li>Let <var>fragment</var> be the result of invoking the
                 <a title="concept-parse-fragment">fragment parsing algorithm</a> with
@@ -1088,19 +1094,12 @@
                 <code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code> node.
             </dl>
 
-            <p>On getting, if the <a title="context object">context object</a>'s
-            <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
-            is an <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>, then the attribute
-            must return the result of running the
-            <a data-spec="HTML5" title="html-fragment-serialization-algorithm" class="externalDFN">HTML fragment serialization algorithm</a> on a
-            fictional node whose only child is <a title="context object">context object</a>; otherwise, the
-            <a title="context object">context object</a>'s
-            <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
-            is an <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>, and the attribute must
-            return the result of running the
-            <a data-spec="HTML5" title="xml-fragment-serialization-algorithm" class="externalDFN">XML fragment serialization algorithm</a> on that
-            fictional node instead (this might throw an exception instead of returning a
-            string).
+            <p>On getting, return the result of invoking the 
+                <a title="concept-fragment-serializing-algorithm">fragment serializing algorithm</a> on a 
+                fictional node whose only child is the <a title="context object">context object</a>
+                <a title="context object">context object</a> providing <code>true</code> for the 
+                <a title="concept-strict-validation">strict validation</a> flag (this might throw an exception 
+                instead of returning a string).
 
             <p>On setting, the following steps must be run:
 
