@@ -334,7 +334,7 @@
             appropriate steps, depending on <var>node</var>'s interface:</p>
         
         <dl class=switch>
-            <dt><code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>
+            <dt><code><a title="interface-element" data-spec="DOM4" class="externalDFN">Element</a></code>
             <dd>
                 <p>Run the following algorithm:
                 <ol>
@@ -540,7 +540,7 @@
                     <li>Return the value of <var>markup</var>.
                 </ol>
 
-            <dt><code><a title="document" data-spec="DOM4" class="externalDFN">Document</a></code>
+            <dt><code><a title="interface-document" data-spec="DOM4" class="externalDFN">Document</a></code>
             <dd>
                 <p>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is 
                     <code>true</code>), and this <var>node</var> has no 
@@ -570,7 +570,7 @@
                     <li>Return the value of <var>serialized document</var>.
                 </ol>
 
-            <dt><code><a title="comment" data-spec="DOM4" class="externalDFN">Comment</a></code>
+            <dt><code><a title="interface-comment" data-spec="DOM4" class="externalDFN">Comment</a></code>
             <dd>
                 <p>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is 
                     <code>true</code>), and <var>node</var>'s
@@ -600,7 +600,7 @@
             <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>.
             -->
             
-            <dt><code><a title="text" data-spec="DOM4" class="externalDFN">Text</a></code>
+            <dt><code><a title="interface-text" data-spec="DOM4" class="externalDFN">Text</a></code>
             <dd><ol>
                 <li>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is 
                     <code>true</code>), and <var>node</var>'s
@@ -624,7 +624,7 @@
                 
                 <li>Return <var>data</var>.
               </ol>
-            <dt><code><a title="documentfragment" data-spec="DOM4" class="externalDFN">DocumentFragment</a></code>
+            <dt><code><a title="interface-documentfragment" data-spec="DOM4" class="externalDFN">DocumentFragment</a></code>
             <dd><ol>
                 <li>Let <var>markup</var> the empty string.
 
@@ -639,12 +639,13 @@
                     to <var>markup</var>.
                 <li>Return <var>markup</var>.
               </ol>
-            <dt><code><a title="documenttype" data-spec="DOM4" class="externalDFN">DocumentType</a></code>
+              
+            <dt><code><a title="interface-documenttype" data-spec="DOM4" class="externalDFN">DocumentType</a></code>
             <dd>Run the steps to <a title="concept-serialize-doctype">produce a DocumentType 
                 serialization</a> of <var>node</var> given the <a title="concept-well-formed">require well-formed</a>
                 flag, and return the string this produced.
             
-            <dt><code><a title="processinginstruction" data-spec="DOM4" class="externalDFN">ProcessingInstruction</a></code>
+            <dt><code><a title="interface-processinginstruction" data-spec="DOM4" class="externalDFN">ProcessingInstruction</a></code>
             <dd><ol>
                 <li>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is 
                     <code>true</code>), and <var>node</var>'s
@@ -676,6 +677,13 @@
                 </ol>
                 <li>Return <var>markup</var>.
               </ol>
+              
+            <dt><code><a title="interface-attr" data-spec="DOM4" class="externalDFN">Attr</a></code>
+            <dd>
+                <p>Return the empty string.
+                <p class="note">Attr objects do not make sense to serialize independently of the
+                    <a title="element" data-spec="DOM4" class="externalDFN">element</a> to which
+                    they belong.
         </dl>
 
         <p>To <dfn title="concept-serialize-doctype">produce a DocumentType serialization</dfn> of a
