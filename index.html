@@ -527,7 +527,26 @@
                     <li>If the value of <var>skip end tag</var> is <code>true</code>, then return 
                         the value of <var>markup</var> and skip the remaining steps. The 
                         <var>node</var> is a leaf-node.
-                    <li>Append to <var>markup</var> the result of running the  
+                    <li>If <var>ns</var> is the <a title="html-ns">HTML namespace</a>, and the <var>node</var>'s 
+                        <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
+                        matches the string "<code>template</code>", then this is a 
+                        <a title="the-template-element" data-spec="HTML5" class="externalDFN">template</a> element. 
+                        Append to <var>markup</var> the result of running the 
+                        <a title="concept-xml-serialization-algorithm">XML serialization algorithm</a> on the 
+                        <a title="the-template-element" data-spec="HTML5" class="externalDFN">template</a> element's  
+                        <a title="template-contents" data-spec="HTML5" class="externalDFN">template contents</a>
+                        (a <a title="interface-documentfragment" data-spec="DOM4" class="externalDFN">DocumentFragment</a>),
+                        providing the value of <var>inherited ns</var> for the 
+                        <a title="concept-context-namespace">context namespace</a>,
+                        <var>map</var> for the <a title="concept-namespace-prefix-map">namespace prefix map</a>,
+                        <var>prefix index</var> for the 
+                        <a title="concept-generated-prefix">generated namespace prefix index</a>, and the value
+                        of the <var>require well-formed</var> flag. <span class="note">This allows 
+                        <a title="template-contents" data-spec="HTML5" class="externalDFN">template content</a> to
+                        round-trip , given the rules for
+                        <a title="parsing-xhtml-documents" data-spec="HTML5" class="externalDFN">parsing XHTML documents</a>
+                        [[HTML5]].</span>
+                    <li>Otherwise, append to <var>markup</var> the result of running the  
                         <a title="concept-xml-serialization-algorithm">XML serialization algorithm</a> on each 
                         of <var>node</var>'s
                         <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">children</a>,
