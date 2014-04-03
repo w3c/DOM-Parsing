@@ -1553,5 +1553,23 @@
     [[HTML5]] and his useful comments.
 </section>
 
+   <script>
+      try {
+        var urlMap = { 
+            "DOM4": "http://www.w3.org/TR/dom/#",
+            "HTML5": "http://www.w3.org/TR/html5/single-page.html#",
+        };
+        [].forEach.call(document.querySelectorAll("[class=externalDFN]"), function (el) {
+            var key = el.getAttribute("data-spec");
+            if (!key) throw Error("Missed a 'data-spec' attribute on an class='externalDFN' reference for title='" + el.title + "'");
+            if (typeof urlMap[key] == "undefined") throw Error("Unknown 'data-spec' attribute value '" + key + "'");
+            var link = el.title;
+            if (link == "") throw Error("title value not provided on external reference for 'data-spec' attribute value '" + key + "'");
+            if (el.localName != "a") throw Error("Reference used on a non-anchor element: '" + el.localName + "'");
+            el.removeAttribute("data-spec");
+            el.href = urlMap[key] + link;
+        });
+      } catch (ex) { alert(ex); }
+   </script>
 </body>
 </html>
