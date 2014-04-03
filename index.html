@@ -326,6 +326,12 @@
             elements in the <a title="html-ns">HTML namespace</a> that contain no child nodes are serialized 
             with an explicit begin and end tag rather than using the self-closing tag syntax [[XML10]].
         
+        <p class="note">Per [[DOM4]], <a title="interface-attr" data-spec="DOM4" class="externalDFN">Attr</a>
+            objects are not <a title="node" data-spec="DOM4" class="externalDFN">Node</a>s, and thus cannot 
+            be serialized by the <a title="concept-xml-serialization-algorithm">XML serialization algorithm</a>.
+            An attempt to serialize an <a title="interface-attr" data-spec="DOM4" class="externalDFN">Attr</a>
+            object will result in a TypeError exception [[WEBIDL]].
+        
         <p>To run the <dfn title="concept-xml-serialization-algorithm">XML serialization algorithm</dfn> on
             a <var>node</var> given a <a title="concept-context-namespace">context namespace</a> 
             <var>namespace</var>, a <a title="concept-namespace-prefix-map">namespace prefix map</a>
@@ -678,12 +684,6 @@
                 <li>Return <var>markup</var>.
               </ol>
               
-            <dt><code><a title="interface-attr" data-spec="DOM4" class="externalDFN">Attr</a></code>
-            <dd>
-                <p>Return the empty string.
-                <p class="note">Attr objects do not make sense to serialize independently of the
-                    <a title="element" data-spec="DOM4" class="externalDFN">element</a> to which
-                    they belong.
         </dl>
 
         <p>To <dfn title="concept-serialize-doctype">produce a DocumentType serialization</dfn> of a
