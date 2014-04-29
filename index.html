@@ -811,7 +811,7 @@
                 <code><a title="dom-element-attributes" data-spec="DOM4" class="externalDFN">attributes</a></code>,
                 in the order they are specified in the <var>element</var>'s
                 <a title="concept-element-attributes" data-spec="DOM4" class="externalDFN">attribute list</a>:
-            <ol>
+                
                 <p class="note">The following conditional steps add namespace prefixes
                     into the <var>element prefixes list</var> and add or replace them in the <var>map</var>. 
                     Only attributes in the <a title="xmlns-ns">XMLNS namespace</a> are
@@ -819,6 +819,7 @@
                     <code><a title="dom-element-setattribute" data-spec="DOM4" 
                     class="externalDFN">setAttribute</a>(<em>"xmlns:pretend-prefix"</em>,
                     <em>"pretend-namespace"</em>)</code> are not included).</p>
+            <ol>
                 <li>Let <var>attribute namespace</var> be the <var>attr</var>'s  
                     <code><a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
                     value.
@@ -1086,17 +1087,17 @@
 
             <p>In any case, the returned
             <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a>'s
-            <a title="concept-document"-content-type data-spec="DOM4" class="externalDFN">content type</a>
+            <a title="concept-document-content-type" data-spec="DOM4" class="externalDFN">content type</a>
             must be the <var>type</var> argument. Additionally, the 
             <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a> must have a
-            <a title="concept-document"-url data-spec="DOM4" class="externalDFN">URL</a> value equal to 
+            <a title="concept-document-url" data-spec="DOM4" class="externalDFN">URL</a> value equal to 
             the URL of the 
             <a title="active-document" data-spec="HTML5" class="externalDFN">active document</a>, a 
             <a title="location" data-spec="HTML5" class="externalDFN">location</a> value of <code>null</code>.
 
             <p class=note>The returned
             <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a>'s
-            <a title="concept-document"-encoding data-spec="DOM4" class="externalDFN">encoding</a> is
+            <a title="concept-document-encoding" data-spec="DOM4" class="externalDFN">encoding</a> is
             the default, UTF-8.
         </dd>
     </dl>
