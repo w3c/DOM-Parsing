@@ -571,8 +571,8 @@
             <dd>
                 <p>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is 
                     <code>true</code>), and this <var>node</var> has no 
-                    <code><a title="dom-document-documentelement" data-spec="HTML5" class="externalDFN">documentElement</a></code>
-                    (the <code><a title="dom-document-documentelement" data-spec="HTML5" class="externalDFN">documentElement</a></code>
+                    <code><a title="dom-document-documentelement" data-spec="DOM4" class="externalDFN">documentElement</a></code>
+                    (the <code><a title="dom-document-documentelement" data-spec="DOM4" class="externalDFN">documentElement</a></code>
                     attribute's value is <code>null</code>), then <a title="concept-algorithm-exception">throw an 
                     exception</a>; the serialization of this <var>node</var> would not be a well-formed document.
                 <p>Otherwise, run the following steps:
@@ -581,9 +581,9 @@
                     <li>Append to <var>serialized document</var> the string produced by running the steps to 
                         <a title="concept-serialize-doctype">produce a DocumentType serialization</a>
                         of <var>node</var>'s 
-                        <code><a title="dom-document-doctype" data-spec="HTML5" class="externalDFN">doctype</a></code>
+                        <code><a title="dom-document-doctype" data-spec="DOM4" class="externalDFN">doctype</a></code>
                         attribute provided the <var>require well-formed</var> flag if <var>node</var>'s 
-                        <code><a title="dom-document-doctype" data-spec="HTML5" class="externalDFN">doctype</a></code>
+                        <code><a title="dom-document-doctype" data-spec="DOM4" class="externalDFN">doctype</a></code>
                         attribute is not <code>null</code>.
                     <li>For each
                         <a title="concept-tree-child" data-spec="DOM4" class="externalDFN">child</a> of 
@@ -810,7 +810,7 @@
                 <var>attr</var> in <var>element</var>'s
                 <code><a title="dom-element-attributes" data-spec="DOM4" class="externalDFN">attributes</a></code>,
                 in the order they are specified in the <var>element</var>'s
-                <a title="concept-element-attributes" data-spec="DOM4" class="externalDFN">attribute list</a>:
+                <a title="dom-element-attributes" data-spec="DOM4" class="externalDFN">attribute list</a>:
                 
                 <p class="note">The following conditional steps add namespace prefixes
                     into the <var>element prefixes list</var> and add or replace them in the <var>map</var>. 
@@ -821,24 +821,24 @@
                     <em>"pretend-namespace"</em>)</code> are not included).</p>
             <ol>
                 <li>Let <var>attribute namespace</var> be the <var>attr</var>'s  
-                    <code><a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
+                    <code><a title="dom-attr-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
                     value.
                 <li>Let <var>attribute prefix</var> be the value of <var>attr</var>'s 
-                        <code><a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>.
+                        <code><a title="dom-attr-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>.
                 <li>If the <var>attribute namespace</var> is the <a title="xmlns-ns">XMLNS namespace</a>, then:
                 <ol>
                     <li>If <var>attribute prefix</var> is <code>null</code>, then <var>attr</var> is a 
                         default namespace declaration. Set the <var>default namespace attr value</var> to 
-                        <var>attr</var>'s <code><a title="dom-attribute-value" data-spec="DOM4"
+                        <var>attr</var>'s <code><a title="dom-attr-value" data-spec="DOM4"
                         class="externalDFN">value</a></code> and stop running these steps, returning to the 
                         top of the loop to visit the next attribute.
                     <li>Otherwise, the <var>attribute prefix</var> is not <code>null</code> and <var>attr</var>
                         is a namespace prefix definition. Run the following steps:
                     <ol>
                         <li>Let <var>prefix definition</var> be the value of <var>attr</var>'s 
-                            <code><a title="dom-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a></code>.
+                            <code><a title="dom-attr-localname" data-spec="DOM4" class="externalDFN">localName</a></code>.
                         <li>Let <var>namespace definition</var> be the value of <var>attr</var>'s 
-                            <code><a title="dom-attribute-value" data-spec="DOM4" class="externalDFN">value</a></code>.
+                            <code><a title="dom-attr-value" data-spec="DOM4" class="externalDFN">value</a></code>.
                         <li>If a key matching the value of <var>namespace definition</var> already exists in
                             <var>map</var>, and the key's value matches <var>prefix definition</var>, then 
                             this is a duplicate namespace prefix definition. Set the value of <var>duplicate 
@@ -882,12 +882,12 @@
             <li>Let <var>localname set</var> be a new empty 
                 <dfn title="concept-namespace-localname-set">namespace localname set</dfn>. This <var>localname
                 set</var> will contain tuples of unique attribute 
-                <code><a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
+                <code><a title="dom-attr-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
                 and <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
                 pairs, and is populated as each <var>attr</var> is processed.
                 <span class="note">This set is used to [optionally] enforce the well-formed constraint that an 
                 element cannot have two attributes with the same 
-                <code><a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
+                <code><a title="dom-attr-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
                 and <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>. 
                 This can occur when two otherwise identical attributes on the same element differ only by their 
                 prefix values.</span>
@@ -895,21 +895,21 @@
                 <var>attr</var> in <var>element</var>'s
                 <code><a title="dom-element-attributes" data-spec="DOM4" class="externalDFN">attributes</a></code>,
                 in the order they are specified in the <var>element</var>'s
-                <a title="concept-element-attributes" data-spec="DOM4" class="externalDFN">attribute list</a>:
+                <a title="dom-element-attributes" data-spec="DOM4" class="externalDFN">attribute list</a>:
             <ol>
                 <li>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is 
                     <code>true</code>), and the <var>localname set</var> contains a tuple whose values match those 
                     of a new tuple consisting of <var>attr</var>'s 
-                    <code><a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
+                    <code><a title="dom-attr-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
                     attribute and <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
                     attribute, then <a title="concept-algorithm-exception">throw an exception</a>; the serialization of this 
                     <var>attr</var> would fail to produce a well-formed element serialization.
                 <li>Create a new tuple consisting of <var>attr</var>'s 
-                    <code><a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
+                    <code><a title="dom-attr-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
                     attribute and <code><a title="dom-element-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
                     attribute, and add it to the <var>localname set</var>.
                 <li>Let <var>attribute namespace</var> be the <var>attr</var>'s  
-                    <code><a title="dom-attribute-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
+                    <code><a title="dom-attr-namespaceuri" data-spec="DOM4" class="externalDFN">namespaceURI</a></code>
                     value.
                 <!-- Check for an unregistered attribute namespace, and if so, serialize a definition for it -->
                 <li>Let <var>candidate prefix</var> be <code>null</code>.
@@ -917,12 +917,12 @@
                 <ol>
                     <li>If the value of <var>attribute namespace</var> is the 
                         <a title="xmlns-ns">XMLNS namespace</a> and either the <var>attr</var>'s 
-                        <code><a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>
+                        <code><a title="dom-attr-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>
                         is <code>null</code> and the <var>ignore namespace definition 
                         attribute</var> flag is <code>true</code> or the <var>attr</var>'s 
-                        <code><a title="dom-attribute-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>
+                        <code><a title="dom-attr-prefix" data-spec="DOM4" class="externalDFN">prefix</a></code>
                         is not <code>null</code> and the <var>attr</var>'s 
-                        <code><a title="concept-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
+                        <code><a title="dom-attr-localname" data-spec="DOM4" class="externalDFN">localName</a></code>
                         matches the value of <var>duplicate prefix definition</var>, then stop running 
                         these steps and return to the loop to visit the next attribute.
                     <li>Otherwise, if there exists a key in <var>map</var> that matches the value of <var>attribute 
@@ -964,7 +964,7 @@
                 <li>Append the following strings to <var>result</var>:
                 <ol>
                     <li>The value of <var>attr</var>'s
-                        <code><a title="concept-attribute-localname" data-spec="DOM4" class="externalDFN">localName</a></code>;
+                        <code><a title="dom-attr-localname" data-spec="DOM4" class="externalDFN">localName</a></code>;
                     <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
                     <li>The result of <a title="concept-serialize-attr-value">serializing an attribute value</a> 
                         given <var>attr</var>'s
@@ -1037,7 +1037,7 @@
                 the parser.
 
                 <p class=note><code><a data-spec="HTML5" title="script" class="externalDFN">script</a></code> elements get marked
-                unexecutable and the contents of <code><a data-spec="HTML5" title="noscript" class="externalDFN">noscript</a></code>
+                unexecutable and the contents of <code><a data-spec="HTML5" title="the-noscript-element" class="externalDFN">noscript</a></code>
                 get parsed as markup.
 
                 <dt>"<code>text/xml</code>"
