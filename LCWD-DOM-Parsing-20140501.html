@@ -1336,13 +1336,14 @@ table.exceptions table {
                 <code><a title="dom-element-attributes" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-element-attributes">attributes</a></code>,
                 in the order they are specified in the <var>element</var>'s
                 <a title="concept-element-attributes" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-element-attributes">attribute list</a>:
-            <ol>
+
                 <div class="note"><div class="note-title" id="h_note_5" role="heading" aria-level="3"><span>Note</span></div><p>The following conditional steps add namespace prefixes
                     into the <var>element prefixes list</var> and add or replace them in the <var>map</var>. 
                     Only attributes in the <a title="xmlns-ns" class="internalDFN" href="#dfn-xmlns-ns">XMLNS namespace</a> are
                     considered (e.g., attributes made to look like namespace declarations via 
                     <code><a title="dom-element-setattribute" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-element-setattribute">setAttribute</a>(<em>"xmlns:pretend-prefix"</em>,
                     <em>"pretend-namespace"</em>)</code> are not included).</p></div>
+            <ol>
                 <li>Let <var>attribute namespace</var> be the <var>attr</var>'s  
                     <code><a title="dom-attribute-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-namespaceuri">namespaceURI</a></code>
                     value.
@@ -1611,17 +1612,17 @@ interface <span class="idlInterfaceID">DOMParser</span> {
 
             <p>In any case, the returned
             <a title="concept-document" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-document">document</a>'s
-            <a title="concept-document" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-document" -content-type="">content type</a>
+            <a title="concept-document" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-document-content-type">content type</a>
             must be the <var>type</var> argument. Additionally, the 
             <a title="concept-document" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-document">document</a> must have a
-            <a title="concept-document" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-document" -url="">URL</a> value equal to 
+            <a title="concept-document" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-document-url">URL</a> value equal to 
             the URL of the 
             <a title="active-document" class="externalDFN" href="http://www.w3.org/TR/html5/single-page.html#active-document">active document</a>, a 
             <a title="location" class="externalDFN" href="http://www.w3.org/TR/html5/single-page.html#location">location</a> value of <code>null</code>.
 
             <div class="note"><div class="note-title" id="h_note_9" role="heading" aria-level="3"><span>Note</span></div><p>The returned
             <a title="concept-document" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-document">document</a>'s
-            <a title="concept-document" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-document" -encoding="">encoding</a> is
+            <a title="concept-document" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-document-encoding">encoding</a> is
             the default, UTF-8.
         </p></div><table class="parameters"><tbody><tr><th>Parameter</th><th>Type</th><th>Nullable</th><th>Optional</th><th>Description</th></tr><tr><td class="prmName">str</td><td class="prmType"><code>DOMString</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr><tr><td class="prmName">type</td><td class="prmType"><code>SupportedType</code></td><td class="prmNullFalse"><span role="img" aria-label="False">✘</span></td><td class="prmOptFalse"><span role="img" aria-label="False">✘</span></td><td class="prmDesc"></td></tr></tbody></table><div><em>Return type: </em><code>Document</code></div></dd></dl></section>
 </section>
