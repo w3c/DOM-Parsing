@@ -14,7 +14,7 @@ var respecConfig = {
             companyURL: "http://www.microsoft.com"
 		}
 	],
-	edDraftURI: "http://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html",
+	edDraftURI: "https://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html",
 	previousPublishDate: "2013-12-10",
     previousMaturity: "LC",
     noIDLIn:  true,

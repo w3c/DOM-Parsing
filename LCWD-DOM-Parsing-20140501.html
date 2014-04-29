@@ -480,7 +480,7 @@ table.exceptions table {
     
     
       <dt>Latest editor's draft:</dt>
-      <dd><a href="http://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html">http://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html</a></dd>
+      <dd><a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html">https://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html</a></dd>
     
     
       <dt>Test suite:</dt>
@@ -1098,8 +1098,8 @@ table.exceptions table {
             <dd>
                 <p>If the <a title="concept-well-formed" class="internalDFN" href="#dfn-concept-well-formed">require well-formed</a> flag is set (its value is 
                     <code>true</code>), and this <var>node</var> has no 
-                    <code><a title="dom-document-documentelement" class="externalDFN" href="http://www.w3.org/TR/html5/single-page.html#dom-document-documentelement">documentElement</a></code>
-                    (the <code><a title="dom-document-documentelement" class="externalDFN" href="http://www.w3.org/TR/html5/single-page.html#dom-document-documentelement">documentElement</a></code>
+                    <code><a title="dom-document-documentelement" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-document-documentelement">documentElement</a></code>
+                    (the <code><a title="dom-document-documentelement" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-document-documentelement">documentElement</a></code>
                     attribute's value is <code>null</code>), then <a title="concept-algorithm-exception" class="internalDFN" href="#dfn-concept-algorithm-exception">throw an 
                     exception</a>; the serialization of this <var>node</var> would not be a well-formed document.
                 <p>Otherwise, run the following steps:
@@ -1108,9 +1108,9 @@ table.exceptions table {
                     <li>Append to <var>serialized document</var> the string produced by running the steps to 
                         <a title="concept-serialize-doctype" class="internalDFN" href="#dfn-concept-serialize-doctype">produce a DocumentType serialization</a>
                         of <var>node</var>'s 
-                        <code><a title="dom-document-doctype" class="externalDFN" href="http://www.w3.org/TR/html5/single-page.html#dom-document-doctype">doctype</a></code>
+                        <code><a title="dom-document-doctype" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-document-doctype">doctype</a></code>
                         attribute provided the <var>require well-formed</var> flag if <var>node</var>'s 
-                        <code><a title="dom-document-doctype" class="externalDFN" href="http://www.w3.org/TR/html5/single-page.html#dom-document-doctype">doctype</a></code>
+                        <code><a title="dom-document-doctype" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-document-doctype">doctype</a></code>
                         attribute is not <code>null</code>.
                     <li>For each
                         <a title="concept-tree-child" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-tree-child">child</a> of 
@@ -1335,7 +1335,7 @@ table.exceptions table {
                 <var>attr</var> in <var>element</var>'s
                 <code><a title="dom-element-attributes" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-element-attributes">attributes</a></code>,
                 in the order they are specified in the <var>element</var>'s
-                <a title="concept-element-attributes" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-element-attributes">attribute list</a>:
+                <a title="dom-element-attributes" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-element-attributes">attribute list</a>:
 
                 <div class="note"><div class="note-title" id="h_note_5" role="heading" aria-level="3"><span>Note</span></div><p>The following conditional steps add namespace prefixes
                     into the <var>element prefixes list</var> and add or replace them in the <var>map</var>. 
@@ -1345,23 +1345,23 @@ table.exceptions table {
                     <em>"pretend-namespace"</em>)</code> are not included).</p></div>
             <ol>
                 <li>Let <var>attribute namespace</var> be the <var>attr</var>'s  
-                    <code><a title="dom-attribute-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-namespaceuri">namespaceURI</a></code>
+                    <code><a title="dom-attr-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-namespaceuri">namespaceURI</a></code>
                     value.
                 <li>Let <var>attribute prefix</var> be the value of <var>attr</var>'s 
-                        <code><a title="dom-attribute-prefix" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-prefix">prefix</a></code>.
+                        <code><a title="dom-attr-prefix" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-prefix">prefix</a></code>.
                 <li>If the <var>attribute namespace</var> is the <a title="xmlns-ns" class="internalDFN" href="#dfn-xmlns-ns">XMLNS namespace</a>, then:
                 <ol>
                     <li>If <var>attribute prefix</var> is <code>null</code>, then <var>attr</var> is a 
                         default namespace declaration. Set the <var>default namespace attr value</var> to 
-                        <var>attr</var>'s <code><a title="dom-attribute-value" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-value">value</a></code> and stop running these steps, returning to the 
+                        <var>attr</var>'s <code><a title="dom-attr-value" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-value">value</a></code> and stop running these steps, returning to the 
                         top of the loop to visit the next attribute.
                     <li>Otherwise, the <var>attribute prefix</var> is not <code>null</code> and <var>attr</var>
                         is a namespace prefix definition. Run the following steps:
                     <ol>
                         <li>Let <var>prefix definition</var> be the value of <var>attr</var>'s 
-                            <code><a title="dom-attribute-localname" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-localname">localName</a></code>.
+                            <code><a title="dom-attr-localname" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-localname">localName</a></code>.
                         <li>Let <var>namespace definition</var> be the value of <var>attr</var>'s 
-                            <code><a title="dom-attribute-value" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-value">value</a></code>.
+                            <code><a title="dom-attr-value" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-value">value</a></code>.
                         <li>If a key matching the value of <var>namespace definition</var> already exists in
                             <var>map</var>, and the key's value matches <var>prefix definition</var>, then 
                             this is a duplicate namespace prefix definition. Set the value of <var>duplicate 
@@ -1405,12 +1405,12 @@ table.exceptions table {
             <li>Let <var>localname set</var> be a new empty 
                 <dfn title="concept-namespace-localname-set" id="dfn-concept-namespace-localname-set">namespace localname set</dfn>. This <var>localname
                 set</var> will contain tuples of unique attribute 
-                <code><a title="dom-attribute-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-namespaceuri">namespaceURI</a></code>
+                <code><a title="dom-attr-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-namespaceuri">namespaceURI</a></code>
                 and <code><a title="dom-element-localname" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-element-localname">localName</a></code>
                 pairs, and is populated as each <var>attr</var> is processed.
                 <span class="note">This set is used to [optionally] enforce the well-formed constraint that an 
                 element cannot have two attributes with the same 
-                <code><a title="dom-attribute-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-namespaceuri">namespaceURI</a></code>
+                <code><a title="dom-attr-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-namespaceuri">namespaceURI</a></code>
                 and <code><a title="dom-element-localname" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-element-localname">localName</a></code>. 
                 This can occur when two otherwise identical attributes on the same element differ only by their 
                 prefix values.</span>
@@ -1418,21 +1418,21 @@ table.exceptions table {
                 <var>attr</var> in <var>element</var>'s
                 <code><a title="dom-element-attributes" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-element-attributes">attributes</a></code>,
                 in the order they are specified in the <var>element</var>'s
-                <a title="concept-element-attributes" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-element-attributes">attribute list</a>:
+                <a title="dom-element-attributes" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-element-attributes">attribute list</a>:
             <ol>
                 <li>If the <a title="concept-well-formed" class="internalDFN" href="#dfn-concept-well-formed">require well-formed</a> flag is set (its value is 
                     <code>true</code>), and the <var>localname set</var> contains a tuple whose values match those 
                     of a new tuple consisting of <var>attr</var>'s 
-                    <code><a title="dom-attribute-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-namespaceuri">namespaceURI</a></code>
+                    <code><a title="dom-attr-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-namespaceuri">namespaceURI</a></code>
                     attribute and <code><a title="dom-element-localname" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-element-localname">localName</a></code>
                     attribute, then <a title="concept-algorithm-exception" class="internalDFN" href="#dfn-concept-algorithm-exception">throw an exception</a>; the serialization of this 
                     <var>attr</var> would fail to produce a well-formed element serialization.
                 <li>Create a new tuple consisting of <var>attr</var>'s 
-                    <code><a title="dom-attribute-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-namespaceuri">namespaceURI</a></code>
+                    <code><a title="dom-attr-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-namespaceuri">namespaceURI</a></code>
                     attribute and <code><a title="dom-element-localname" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-element-localname">localName</a></code>
                     attribute, and add it to the <var>localname set</var>.
                 <li>Let <var>attribute namespace</var> be the <var>attr</var>'s  
-                    <code><a title="dom-attribute-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-namespaceuri">namespaceURI</a></code>
+                    <code><a title="dom-attr-namespaceuri" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-namespaceuri">namespaceURI</a></code>
                     value.
                 <!-- Check for an unregistered attribute namespace, and if so, serialize a definition for it -->
                 <li>Let <var>candidate prefix</var> be <code>null</code>.
@@ -1440,12 +1440,12 @@ table.exceptions table {
                 <ol>
                     <li>If the value of <var>attribute namespace</var> is the 
                         <a title="xmlns-ns" class="internalDFN" href="#dfn-xmlns-ns">XMLNS namespace</a> and either the <var>attr</var>'s 
-                        <code><a title="dom-attribute-prefix" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-prefix">prefix</a></code>
+                        <code><a title="dom-attr-prefix" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-prefix">prefix</a></code>
                         is <code>null</code> and the <var>ignore namespace definition 
                         attribute</var> flag is <code>true</code> or the <var>attr</var>'s 
-                        <code><a title="dom-attribute-prefix" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attribute-prefix">prefix</a></code>
+                        <code><a title="dom-attr-prefix" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-prefix">prefix</a></code>
                         is not <code>null</code> and the <var>attr</var>'s 
-                        <code><a title="concept-attribute-localname" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-attribute-localname">localName</a></code>
+                        <code><a title="dom-attr-localname" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-localname">localName</a></code>
                         matches the value of <var>duplicate prefix definition</var>, then stop running 
                         these steps and return to the loop to visit the next attribute.
                     <li>Otherwise, if there exists a key in <var>map</var> that matches the value of <var>attribute 
@@ -1487,7 +1487,7 @@ table.exceptions table {
                 <li>Append the following strings to <var>result</var>:
                 <ol>
                     <li>The value of <var>attr</var>'s
-                        <code><a title="concept-attribute-localname" class="externalDFN" href="http://www.w3.org/TR/dom/#concept-attribute-localname">localName</a></code>;
+                        <code><a title="dom-attr-localname" class="externalDFN" href="http://www.w3.org/TR/dom/#dom-attr-localname">localName</a></code>;
                     <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
                     <li>The result of <a title="concept-serialize-attr-value" class="internalDFN" href="#dfn-concept-serialize-attr-value">serializing an attribute value</a> 
                         given <var>attr</var>'s
@@ -1562,7 +1562,7 @@ interface <span class="idlInterfaceID">DOMParser</span> {
                 the parser.
 
                 </p></div><div class="note"><div class="note-title" id="h_note_8" role="heading" aria-level="3"><span>Note</span></div><p><code><a title="script" class="externalDFN" href="http://www.w3.org/TR/html5/single-page.html#script">script</a></code> elements get marked
-                unexecutable and the contents of <code><a title="noscript" class="externalDFN" href="http://www.w3.org/TR/html5/single-page.html#noscript">noscript</a></code>
+                unexecutable and the contents of <code><a title="the-noscript-element" class="externalDFN" href="http://www.w3.org/TR/html5/single-page.html#the-noscript-element">noscript</a></code>
                 get parsed as markup.
 
                 </p></div><dt>"<code>text/xml</code>"
@@ -2083,5 +2083,5 @@ interface <span class="idlInterfaceID">XMLSerializer</span> {
 </dd><dt id="bib-RFC2119">[RFC2119]</dt><dd rel="dcterms:requires">S. Bradner. <a href="http://www.ietf.org/rfc/rfc2119.txt"><cite>Key words for use in RFCs to Indicate Requirement Levels.</cite></a> March 1997. Internet RFC 2119.  URL: <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> 
 </dd><dt id="bib-WEBIDL">[WEBIDL]</dt><dd rel="dcterms:requires">Cameron McCormack. <a href="http://www.w3.org/TR/WebIDL/"><cite>Web IDL</cite></a>. 19 April 2012. W3C Candidate Recommendation. URL: <a href="http://www.w3.org/TR/WebIDL/">http://www.w3.org/TR/WebIDL/</a>
 </dd></dl></section><section id="informative-references" typeof="bibo:Chapter" rel="bibo:Chapter" resource="#informative-references"><h3 id="h3_informative-references" role="heading" aria-level="2"><span class="secno">B.2 </span>Informative references</h3><dl class="bibliography" about=""><dt id="bib-DOM4">[DOM4]</dt><dd rel="dcterms:references">Anne van Kesteren; Aryeh Gregor; Ms2ger; Alex Russell; Robin Berjon. <a href="http://www.w3.org/TR/dom/"><cite>W3C DOM4</cite></a>. 4 February 2014. W3C Last Call Working Draft. URL: <a href="http://www.w3.org/TR/dom/">http://www.w3.org/TR/dom/</a>
-</dd><dt id="bib-XML10">[XML10]</dt><dd rel="dcterms:references">Tim Bray; Jean Paoli; Michael Sperberg-McQueen; Eve Maler; François Yergeau et al. <a href="http://www.w3.org/TR/xml"><cite>Extensible Markup Language (XML) 1.0 (Fifth Edition)</cite></a>. 26 November 2008. W3C Recommendation. URL: <a href="http://www.w3.org/TR/xml">http://www.w3.org/TR/xml</a>
+</dd><dt id="bib-XML10">[XML10]</dt><dd rel="dcterms:references">Tim Bray; Jean Paoli; Michael Sperberg-McQueen; Eve Maler; François Yergeau et al. <a href="http://www.w3.org/TR/xml/"><cite>Extensible Markup Language (XML) 1.0 (Fifth Edition)</cite></a>. 26 November 2008. W3C Recommendation. URL: <a href="http://www.w3.org/TR/xml">http://www.w3.org/TR/xml</a>
 </dd></dl></section></section></body></html>
