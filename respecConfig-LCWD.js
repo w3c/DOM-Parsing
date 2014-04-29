@@ -3,7 +3,9 @@
 var respecConfig = {
     subtitle: "DOMParser, XMLSerializer, innerHTML, and similar APIs",
 	specStatus: "LC",
-    lcEnd: "2014-01-01",
+    publishDate: "2014-05-01",
+    endDate: "2014-05-22",
+    lcEnd: "2014-05-22",
     editors: [
 	    {
 			name: "Travis Leithead", 
@@ -12,16 +14,9 @@ var respecConfig = {
             companyURL: "http://www.microsoft.com"
 		}
 	],
-    //publishDate:  "2012-09-20",
 	edDraftURI: "http://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html",
-	previousPublishDate: "2012-09-20",
-    previousMaturity: "2012-09-20",
-    otherLinks: [
-        {
-            key: "WHATWG Living Standard",
-            data: [{ value: "http://domparsing.spec.whatwg.org/", href: "http://domparsing.spec.whatwg.org/"}]
-        }
-    ],
+	previousPublishDate: "2013-12-10",
+    previousMaturity: "LC",
     noIDLIn:  true,
     inlineCSS:  true,
     //noRecTrack:  true,
@@ -31,5 +26,5 @@ var respecConfig = {
     wgPublicList: "www-dom",
     wgPatentURI:  ["http://www.w3.org/2004/01/pp-impl/42538/status"],
     subjectPrefix: "DOM-Parsing",
-    testSuiteURI: "https://github.com/whatwg/domparsing/tree/master/tests"
+    testSuiteURI: "http://w3c-test.org/domparsing/"
 };
