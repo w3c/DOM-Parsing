@@ -3,7 +3,7 @@
 var respecConfig = {
     subtitle: "DOMParser, XMLSerializer, innerHTML, and similar APIs",
 	specStatus: "CR",
-    publishDate: "2014-06-04",
+    publishDate: "2014-06-24",
     editors: [
 	    {
 			name: "Travis Leithead", 
@@ -15,7 +15,7 @@ var respecConfig = {
 	edDraftURI: "https://dvcs.w3.org/hg/innerhtml/raw-file/tip/index.html",
 	previousPublishDate: "2014-05-01",
     previousMaturity: "LC",
-    crEnd: "2014-10-06",
+    crEnd: "2014-10-24",
     implementationReportURI: "https://dvcs.w3.org/hg/innerhtml/raw-file/tip/implementationReport.html",
     noIDLIn:  true,
     inlineCSS:  true,
