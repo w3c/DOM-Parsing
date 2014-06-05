@@ -3,7 +3,7 @@
 var respecConfig = {
     subtitle: "DOMParser, XMLSerializer, innerHTML, and similar APIs",
 	specStatus: "ED",
-    publishDate: "2014-05-29",
+    publishDate: "2014-06-05",
     editors: [
 	    {
 			name: "Travis Leithead", 
