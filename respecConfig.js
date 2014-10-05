@@ -24,5 +24,22 @@ var respecConfig = {
     wgPublicList: "www-dom",
     wgPatentURI:  ["http://www.w3.org/2004/01/pp-impl/42538/status"],
     subjectPrefix: "DOM-Parsing",
-    testSuiteURI: "http://w3c-test.org/domparsing/"
+    testSuiteURI: "http://w3c-test.org/domparsing/",
+
+    otherLinks: [{
+        key: 'Participate',
+        data: [{
+                value: 'We are on Hg.',
+                href: 'https://dvcs.w3.org/hg/innerhtml/'
+            }, {
+                value: 'File a bug.',
+                href: 'https://www.w3.org/Bugs/Public/buglist.cgi?component=DOM%20Parsing%20and%20Serialization&list_id=44989&product=WebAppsWG&resolution=---'
+            }, {
+                value: 'Commit history.',
+                href: 'https://dvcs.w3.org/hg/innerhtml/shortlog/'
+            }, {
+                value: 'Mailing list.',
+                href: 'http://lists.w3.org/Archives/Public/www-dom/'
+        }]
+    }],
 };
