@@ -32,8 +32,11 @@ var respecConfig = {
                 value: 'We are on Hg.',
                 href: 'https://dvcs.w3.org/hg/innerhtml/'
             }, {
-                value: 'File a bug.',
+                value: 'Bug list.',
                 href: 'https://www.w3.org/Bugs/Public/buglist.cgi?component=DOM%20Parsing%20and%20Serialization&list_id=44989&product=WebAppsWG&resolution=---'
+            }, {
+                value: 'File a bug.',
+                href: 'https://www.w3.org/Bugs/Public/enter_bug.cgi?product=WebAppsWG&component=DOM%20Parsing%20and%20Serialization'
             }, {
                 value: 'Commit history.',
                 href: 'https://dvcs.w3.org/hg/innerhtml/shortlog/'
