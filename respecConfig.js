@@ -29,17 +29,17 @@ var respecConfig = {
     otherLinks: [{
         key: 'Participate',
         data: [{
-                value: 'We are on Hg.',
-                href: 'https://dvcs.w3.org/hg/innerhtml/'
+                value: 'We are on Github.',
+                href: 'https://github.com/w3c/DOM-Parsing'
             }, {
-                value: 'Bug list.',
+                value: 'Bugzilla Bug list.',
                 href: 'https://www.w3.org/Bugs/Public/buglist.cgi?component=DOM%20Parsing%20and%20Serialization&list_id=44989&product=WebAppsWG&resolution=---'
             }, {
-                value: 'File a bug.',
-                href: 'https://www.w3.org/Bugs/Public/enter_bug.cgi?product=WebAppsWG&component=DOM%20Parsing%20and%20Serialization'
+                value: 'Github Issues.',
+                href: 'https://github.com/w3c/DOM-Parsing/issues'
             }, {
                 value: 'Commit history.',
-                href: 'https://dvcs.w3.org/hg/innerhtml/shortlog/'
+                href: 'https://github.com/w3c/DOM-Parsing/commits'
             }, {
                 value: 'Mailing list.',
                 href: 'http://lists.w3.org/Archives/Public/www-dom/'
