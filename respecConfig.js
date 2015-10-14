@@ -20,7 +20,7 @@ var respecConfig = {
     //noRecTrack:  true,
     shortName:  "DOM-Parsing",
     wg:         ["Web Platform Working Group"],
-    wgURI:    ["http://www.w3.org/2008/webapps/"],
+    wgURI:    ["http://www.w3.org/WebPlatform/WG/"],
     wgPublicList: "www-dom",
     wgPatentURI:  ["http://www.w3.org/2004/01/pp-impl/83482/status"],
     subjectPrefix: "DOM-Parsing",
