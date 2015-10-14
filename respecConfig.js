@@ -19,10 +19,10 @@ var respecConfig = {
     inlineCSS:  true,
     //noRecTrack:  true,
     shortName:  "DOM-Parsing",
-    wg:         ["Web Applications Working Group"],
+    wg:         ["Web Platform Working Group"],
     wgURI:    ["http://www.w3.org/2008/webapps/"],
     wgPublicList: "www-dom",
-    wgPatentURI:  ["http://www.w3.org/2004/01/pp-impl/42538/status"],
+    wgPatentURI:  ["http://www.w3.org/2004/01/pp-impl/83482/status"],
     subjectPrefix: "DOM-Parsing",
     testSuiteURI: "http://w3c-test.org/domparsing/",
 
