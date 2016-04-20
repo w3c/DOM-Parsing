@@ -94,14 +94,14 @@
 
     <section id="crec" class="introductory">
         <h2>Candidate Recommendation Exit Criteria</h2>
-        <p>This specification will not advance to Proposed Recommendation before the spec's 
-            <a href="http://w3c-test.org/domparsing/">test suite</a> is completed and two or 
-            more independent implementations pass each test, although no single implementation 
+        <p>This specification will not advance to Proposed Recommendation before the spec's
+            <a href="http://w3c-test.org/domparsing/">test suite</a> is completed and two or
+            more independent implementations pass each test, although no single implementation
             must pass each test. We expect to meet this criteria no sooner than 24 October 2014.
-            The group will also create an 
+            The group will also create an
             <a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/implementationReport.html">Implementation Report</a>.
     </section>
-    
+
     <!-- <section id="issues" class="introductory">
         <h1>Issues</h1>
 
@@ -1135,7 +1135,7 @@
     <h1>Extensions to the <code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code> interface</h1>
 
     <dl class="idl" title="partial interface Element">
-        <dt>[TreatNullAs=EmptyString] attribute DOMString innerHTML</dt>
+        <dt>[CEReactions, TreatNullAs=EmptyString] attribute DOMString innerHTML</dt>
         <dd>
             <p>The <dfn title="dom-element-innerhtml"><code>innerHTML</code></dfn> IDL
             attribute represents the markup of the
@@ -1199,7 +1199,7 @@
         </dd>
 
         <!-- outerHTML -->
-        <dt>[TreatNullAs=EmptyString] attribute DOMString outerHTML</dt>
+        <dt>[CEReactions, TreatNullAs=EmptyString] attribute DOMString outerHTML</dt>
         <dd>
             <p>The <dfn title="dom-element-outerhtml"><code>outerHTML</code></dfn> IDL
             attribute represents the markup of the
@@ -1282,7 +1282,7 @@
         </dd>
 
         <!-- insertAdjacentHTML -->
-        <dt>void insertAdjacentHTML(DOMString position, DOMString text)</dt>
+        <dt>[CEReactions] void insertAdjacentHTML(DOMString position, DOMString text)</dt>
         <dd>
              <dl class=domintro>
                   <dt><var>element</var> . <code title="dom-element-insertadjacenthtml">insertAdjacentHTML</code>(<var>position</var>, <var>text</var>)
@@ -1478,7 +1478,7 @@
     <h1>Extensions to the <code><a data-spec="DOM4" title="range" class="externalDFN">Range</a></code> interface</h1>
 
     <dl class="idl" title="partial interface Range">
-        <dt>[NewObject] DocumentFragment createContextualFragment(DOMString fragment)</dt>
+        <dt>[CEReactions, NewObject] DocumentFragment createContextualFragment(DOMString fragment)</dt>
         <dd>
             <dl class=domintro>
               <dt><var>docFragment</var> = <var>range</var> . <code title="dom-range-createcontextualfragment">createContextualFragment</code>(<var>markupString</var>)
@@ -1560,12 +1560,12 @@
 
 <section class="appendix">
     <h1>Revision History</h1>
-    <p>The following is an informative summary of the changes since the last publication of this 
-        specification. A complete revision history of the Editor's Drafts of this specification 
+    <p>The following is an informative summary of the changes since the last publication of this
+        specification. A complete revision history of the Editor's Drafts of this specification
         can be found <a href="https://dvcs.w3.org/hg/innerhtml/summary/">here</a>.</p>
-    
+
     <ul>
-       <li><a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/LC2_comments.html">Incorporated 
+       <li><a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/LC2_comments.html">Incorporated
         non-normative changes from previous Last Call document.</a>
     </ul>
 </section>
