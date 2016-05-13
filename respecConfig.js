@@ -21,7 +21,7 @@ var respecConfig = {
     wgURI:    ["http://www.w3.org/WebPlatform/WG/"],
     license: "w3c-software-doc",
     wgPublicList: "www-dom",
-    wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/83482/status",
+    wgPatentURI:  ["http://www.w3.org/2004/01/pp-impl/83482/status"],
     subjectPrefix: "DOM-Parsing",
     testSuiteURI: "http://w3c-test.org/domparsing/",
 
