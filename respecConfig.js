@@ -3,18 +3,16 @@
 var respecConfig = {
     subtitle: "DOMParser, XMLSerializer, innerHTML, and similar APIs",
 	specStatus: "ED",
-    publishDate: "2014-06-05",
     editors: [
 	    {
-			name: "Travis Leithead", 
+			name: "Travis Leithead",
             company: "Microsoft",
             mailto: "travis.leithead@microsoft.com",
-            companyURL: "http://www.microsoft.com"
+            companyURL: "http://www.microsoft.com",
+            w3cid: "40117"
 		}
 	],
 	edDraftURI: "https://w3c.github.io/DOM-Parsing/",
-	previousPublishDate: "2013-12-10",
-    previousMaturity: "LC",
     noIDLIn:  true,
     inlineCSS:  true,
     //noRecTrack:  true,
@@ -23,7 +21,7 @@ var respecConfig = {
     wgURI:    ["http://www.w3.org/WebPlatform/WG/"],
     license: "w3c-software-doc",
     wgPublicList: "www-dom",
-    wgPatentURI:  ["http://www.w3.org/2004/01/pp-impl/83482/status"],
+    wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/83482/status",
     subjectPrefix: "DOM-Parsing",
     testSuiteURI: "http://w3c-test.org/domparsing/",
 
