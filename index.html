@@ -4,20 +4,7 @@
     <meta charset=UTF-8>
     <title>DOM Parsing and Serialization</title>
     <style>
-        /* Make these stand-out more... */
-        .externalDFN {
-            font-style: italic;
-            background-color: #fff9d6;
-        }
-        /* Switch statement */
-        dl.switch dt::before {
-            content: "↪ ";
-            margin-left: 1em;
-        }
-        /* Better spacing around various lists (implied paragraph children) */
-        ol > li, section:not(#toc) ul > li, section dl > dt {
-            margin: 1em 0;
-        }
+        /* make var stand out */
         var { color: maroon; }
         /* domintro styling */
         dl.domintro {
@@ -40,20 +27,6 @@
             margin-top: -20px;
             padding: 2px;
             content: "This box is non-normative. Implementation requirements are given below this box.";
-        }
-        /* Fancy table stuff */
-        table {
-            border-collapse: collapse;
-        }
-        thead tr {
-            border-bottom: 2px solid black;
-        }
-        tbody tr:not(:last-child) {
-            border-bottom: 1px solid black;
-        }
-        td {
-            border-left: 1px solid black;
-            padding: 4px;
         }
         /* Extra IDL :-) */
         .extraidl {
