@@ -1,193 +1,156 @@
 ﻿<!doctype html>
 <html>
-<head>
-    <meta charset=UTF-8>
-    <title>DOM Parsing and Serialization</title>
-    <style>
-        /* Make these stand-out more... */
-        .externalDFN {
-            font-style: italic;
-            background-color: #fff9d6;
-        }
-        /* Switch statement */
-        dl.switch dt::before {
-            content: "↪ ";
-            margin-left: 1em;
-        }
-        /* Better spacing around various lists (implied paragraph children) */
-        ol > li, section:not(#toc) ul > li, section dl > dt {
-            margin: 1em 0;
-        }
-        var { color: maroon; }
-        /* domintro styling */
-        dl.domintro {
-            background-color: rgb(221, 255, 221);
-            padding: 1em 0.5em 1em 2em;
-            clear: both;
-        }
-        dl.domintro dt {
-            color: black;
-        }
-        dl.domintro > dd {
-            color: green;
-        }
-        dl.domintro::before {
-            float: right;
-            background-color: white;
-            display: block;
-            border: 2px solid black;
-            color: green;
-            margin-top: -20px;
-            padding: 2px;
-            content: "This box is non-normative. Implementation requirements are given below this box.";
-        }
-        /* Fancy table stuff */
-        table {
-            border-collapse: collapse;
-        }
-        thead tr {
-            border-bottom: 2px solid black;
-        }
-        tbody tr:not(:last-child) {
-            border-bottom: 1px solid black;
-        }
-        td {
-            border-left: 1px solid black;
-            padding: 4px;
-        }
-        /* Extra IDL :-) */
-        .extraidl {
-            line-height: 120%;
-            padding: 1em;
-            border-top: 1px solid #90b8de;
-            border-bottom: 1px solid #90b8de;
-        }
-        .extraidl:before {
-            width: 150px;
-            color: #fff;
-            padding: 3px;
-            font-weight: bold;
-            font-family: initial;
-            margin: -1em 0 1em -1em;
-            display: block;
-            content: "WebIDL";
-            background-color: rgb(144, 184, 222);
-        }
-    </style>
-    <script type="text/javascript" src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove' async></script>
-    <script type="text/javascript" src="respecConfig.js" class='remove'></script>
+<head><meta charset=UTF-8>
+<title>DOM Parsing and Serialization</title>
+<style>
+/* Make these stand-out more... */
+.externalDFN {
+    font-style: italic;
+    background-color: #fff9d6;
+}
+/* Switch statement */
+dl.switch dt::before {
+    content: "↪ ";
+    margin-left: 1em;
+}
+/* Better spacing around various lists (implied paragraph children) */
+ol > li, section:not(#toc) ul > li, section dl > dt {
+    margin: 1em 0;
+}
+var { color: maroon; }
+/* domintro styling */
+dl.domintro {
+    background-color: rgb(221, 255, 221);
+    padding: 1em 0.5em 1em 2em;
+    clear: both;
+}
+dl.domintro dt {
+    color: black;
+}
+dl.domintro > dd {
+    color: green;
+}
+dl.domintro::before {
+    float: right;
+    background-color: white;
+    display: block;
+    border: 2px solid black;
+    color: green;
+    margin-top: -20px;
+    padding: 2px;
+    content: "This box is non-normative. Implementation requirements are given below this box.";
+}
+/* Fancy table stuff */
+table {
+    border-collapse: collapse;
+}
+thead tr {
+    border-bottom: 2px solid black;
+}
+tbody tr:not(:last-child) {
+    border-bottom: 1px solid black;
+}
+td {
+    border-left: 1px solid black;
+    padding: 4px;
+}
+/* Extra IDL :-) */
+.extraidl {
+    line-height: 120%;
+    padding: 1em;
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+}
+.extraidl:before {
+    width: 150px;
+    color: #fff;
+    padding: 3px;
+    font-weight: bold;
+    font-family: initial;
+    margin: -1em 0 1em -1em;
+    display: block;
+    content: "WebIDL";
+    background-color: rgb(144, 184, 222);
+}
+</style>
+<script type="text/javascript" src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove' async></script>
+<script type="text/javascript" src="respecConfig.js" class='remove'></script>
 </head>
 <body>
 
-    <section id="abstract">
-       <p>This specification defines various APIs for programmatic access to
-          HTML and generic XML parsers by web applications for use in parsing
-          and serializing DOM nodes.</p>
-    </section>
+<section id="abstract">
+  This specification defines APIs for the parsing and serializing of HTML and XML-based DOM nodes 
+  for web applications.
+</section>
 
-    <section id="sotd">
-        <p>This specification is based on the original work of the <a href="http://domparsing.spec.whatwg.org/">
-            DOM Parsing and Serialization</a> Living Specification, though it has diverged in terms of
-            supported features, normative requirements, and algorithm specificity. As appropriate,
-            relevant fixes from the living specification are incorporated into this document.
-    </section>
+<section id="sotd"></section>
 
-    <section id="crec" class="introductory">
-        <h2>Candidate Recommendation Exit Criteria</h2>
-        <p>This specification will not advance to Proposed Recommendation before the spec's
-            <a href="http://w3c-test.org/domparsing/">test suite</a> is completed and two or
-            more independent implementations pass each test, although no single implementation
-            must pass each test. We expect to meet this criteria no sooner than 24 October 2014.
-            The group will also create an
-            <a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/implementationReport.html">Implementation Report</a>.
-    </section>
+<section id="crec" class="introductory">
+  <h2>Candidate Recommendation Exit Criteria</h2>
+  
+  This specification will not advance to Proposed Recommendation before the spec's
+  <a href="http://w3c-test.org/domparsing/">test suite</a> is completed and two or more independent 
+  implementations pass each test, although no single implementation must pass each test. We expect 
+  to meet this criteria no sooner than 24 October 2014. The group will also create an
+  <a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/implementationReport.html">Implementation 
+  Report</a>.
+</section>
 
-    <!-- <section id="issues" class="introductory">
-        <h1>Issues</h1>
+<section id="conformance" class=introductory>
+  <p>The IDL fragments in this specification must be interpreted as required for conforming IDL 
+  fragments, as described in the Web IDL specification. [[!WEBIDL]]
+            
+  <p>Requirements phrased in the imperative as part of algorithms (such as "strip any leading space 
+  characters" or "return false and terminate these steps") are to be interpreted with the meaning of 
+  the key word ("must", "should", "may", etc) used in introducing the algorithm.
 
-        <p class=issue>Open issues that appear throughout the remainder of this
-        document will be highlighted like this.</p>
-    </section> -->
+  <p>Conformance requirements phrased as algorithms or specific steps may be implemented in any 
+  manner, so long as the end result is equivalent. (In particular, the algorithms defined in this
+  specification are intended to be easy to follow, and not intended to be performant.)
 
-    <section id="conformance">
-        <p>Requirements phrased in the imperative as part of algorithms
-        (such as "strip any leading space characters" or "return false and
-        terminate these steps") are to be interpreted with the meaning of the
-        key word ("must", "should", "may", etc) used in introducing the
-        algorithm.</p>
+  <p>User agents may impose implementation-specific limits on otherwise unconstrained inputs, e.g. 
+  to prevent denial of service attacks, to guard against running out of memory, or to work around 
+  platform-specific limitations.
 
-        <p>Conformance requirements phrased as algorithms or specific steps
-        may be implemented in any manner, so long as the end result is
-        equivalent. (In particular, the algorithms defined in this
-        specification are intended to be easy to follow, and not intended to
-        be performant.)</p>
+  <p>When a method or an attribute is said to call another method or attribute, the user agent must 
+  invoke its internal API for that attribute or method so that e.g. the author can't change the 
+  behavior by overriding attributes or methods with custom properties or functions in ECMAScript.
+  [[ECMA-262]]
 
-        <p id="hardwareLimitations">User agents may impose
-        implementation-specific limits on otherwise unconstrained inputs,
-        e.g. to prevent denial of service attacks, to guard against running
-        out of memory, or to work around platform-specific limitations.</p>
+  <p>Unless otherwise stated, string comparisons are done in a <a>case-sensitive</a> manner.
 
-        <p>When a method or an attribute is said to call another method or
-        attribute, the user agent must invoke its internal API for that
-        attribute or method so that e.g. the author can't change the behavior
-        by overriding attributes or methods with custom properties or functions
-        in ECMAScript.</p>
+  <p>If an algorithm calls into another algorithm, any exception that is thrown by the latter 
+  (unless it is explicitly caught), must cause the former to terminate, and the exception to be 
+  propagated up to its caller.
+</section>
+  
+<section class=introductory>
+  <h2>Extensibility</h2>
 
-        <p>Unless otherwise stated, string comparisons are done in a <a
-        data-spec="DOM4" class="externalDFN" title="case-sensitive">
-        case-sensitive</a> manner.</p>
+  <p>Vendor-specific proprietary extensions to this specification are strongly discouraged. Authors 
+  must not use such extensions, as doing so reduces interoperability and fragments the user base,
+  allowing only users of specific user agents to access the content in question.
 
-        <p>If an algorithm calls into another algorithm, any exception that is
-        thrown by the latter (unless it is explicitly caught), must cause the
-        former to terminate, and the exception to be propagated up to
-        <em>its</em> caller.</p>
+  <p>If vendor-specific extensions are needed, the members should be prefixed by vendor-specific 
+  strings to prevent clashes with future versions of this specification. Extensions must be defined 
+  so that the use of extensions neither contradicts nor causes the non-conformance of functionality 
+  defined in the specification.
 
-        <section>
-            <h2>Dependencies</h2>
-
-            <p>The IDL fragments in this specification must be interpreted as
-            required for conforming IDL fragments, as described in the Web IDL
-            specification. [[!WEBIDL]]</p>
-
-            <p>Some of the terms used in this specification are defined in
-            [[DOM4]], [[HTML5]], and [[XML10]].
-        </section>
-
-        <section>
-            <h2>Extensibility</h2>
-
-            <p>Vendor-specific proprietary extensions to this specification are
-            strongly discouraged. Authors must not use such extensions, as
-            doing so reduces interoperability and fragments the user base,
-            allowing only users of specific user agents to access the content in
-            question.</p>
-
-            <p>If vendor-specific extensions are needed, the members should be
-            prefixed by vendor-specific strings to prevent clashes with future
-            versions of this specification. Extensions must be defined so that
-            the use of extensions neither contradicts nor causes the
-            non-conformance of functionality defined in the specification.</p>
-
-            <p>When vendor-neutral extensions to this specification are needed,
-            either this specification can be updated accordingly, or an
-            extension specification can be written that overrides the
-            requirements in this specification. When someone applying this
-            specification to their activities decides that they will recognise
-            the requirements of such an extension specification, it becomes an
-            <dfn title="other applicable specifications">applicable
-            specification</dfn> for the purposes of conformance requirements in
-            this specification.</p>
-            <!-- http://www.w3.org/mid/17E341CD-E790-422C-9F9A-69347EE01CEB@iki.fi -->
-        </section>
-    </section>
-
-    <section>
-        <h2>Terminology</h2>
-
-        <p>The term <dfn>context object</dfn> means the object on which the method or
-        attribute being discussed was called.
-    </section>
-
+  <p>When vendor-neutral extensions to this specification are needed, either this specification can 
+  be updated accordingly, or an extension specification can be written that overrides the
+  requirements in this specification. Such an extension specification becomes an
+  <dfn>applicable specification</dfn> for the purposes of conformance requirements in this 
+  specification.
+  <!-- http://www.w3.org/mid/17E341CD-E790-422C-9F9A-69347EE01CEB@iki.fi -->
+</section>
+    
+<section>
+  <h1>Introduction</h1>
+  
+  <p>The term <dfn>context object</dfn> means the object on which the method or attribute being 
+  discussed was called.
+</section>
+    
     <section>
         <h2>Namespaces</h2>
 
@@ -196,6 +159,123 @@
         <p>The <dfn title="xmlns-ns">XMLNS namespace</dfn> is <code>http://www.w3.org/2000/xmlns/</code>.
     </section>
 
+    
+<section id=apis-for-dom-parsing-and-serializing>
+  <h1>APIs for DOM Parsing and Serializing</h1>
+
+<section>
+  <h2>The <code>DOMParser</code> interface</h2>
+
+  <pre class=idl>
+    [Constructor] 
+    interface DOMParser {
+      [NewObject] Document parseFromString(DOMString str, SupportedType type);
+    };
+  
+    enum SupportedType {
+      "text/html",
+      "text/xml",
+      "application/xml",
+      "application/xhtml+xml",
+      "image/svg+xml"
+    };
+  </pre>
+
+  The <dfn><code>DOMParser</code></dfn> constructor must return a new <a>DOMParser</a> object.
+
+  <p>The 
+  <dfn for=DOMParser data-lt=parseFromString><code>parseFromString(<var>str</var>, <var>type</var>)</code></dfn>
+  method must run these steps, depending on <var>type</var>:
+
+  <dl class=switch>
+    <dt>"<code>text/html</code>"
+    <dd>Parse <var>str</var> with an
+                <code><a>HTML parser</a></code>, and return the newly
+                created <a>document</a>.
+
+                <p>The <a>scripting flag</a> must be set to
+                "disabled".
+
+                <p class=note><code><a>meta</a></code> elements are not
+                taken into account for the encoding used, as a Unicode stream is passed into
+                the parser.
+
+                <p class=note><code><a>script</a></code> elements get marked
+                unexecutable and the contents of <code><a>noscript</a></code>
+                get parsed as markup.
+
+                <dt>"<code>text/xml</code>"
+                <dt>"<code>application/xml</code>"
+                <dt>"<code>application/xhtml+xml</code>"
+                <dt>"<code>image/svg+xml</code>"
+                <dd>
+                <ol>
+                    <li>Parse <var>str</var> with a namespace-enabled
+                    <code><a data-spec="HTML5" title="xml-parser" class="externalDFN">XML parser</a></code>.
+
+                    <p class="note">For all XHTML <code><a>script</a></code>
+                        elements parsed using the <code><a data-spec="HTML5" title="xml-parser" class="externalDFN">XML parser</a></code>,
+                        the equivalent of the <a>scripting flag</a> must
+                        be set to "disabled".</p>
+
+                    <li>If the previous step didn't return an error, return the newly
+                    created <a>document</a>.
+
+                    <!-- This seemed like a good idea, but isn't web compatible, unfortunately.
+                    <li>Otherwise, throw a
+                    <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code>
+                    with name <code>SyntaxError</code>. -->
+
+                    <li>Let <var>document</var> be a newly-created
+                    <a data-spec="DOM4" title="xml-document" class="externalDFN">XML Document</a>.
+                    <span class="note">The <var>document</var> will use the
+                    <code><a data-spec="DOM4" title="document" class="externalDFN">Document</a></code> interface
+                    rather than the <code><a data-spec="DOM4" title="xmldocument" class="externalDFN">XMLDocument</a></code>
+                    interface.</span>
+
+                    <li>
+                    <p>Let <var>root</var> be a new
+                    <code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>, with its
+                    <a title="concept-element-local-name" data-spec="DOM4" class="externalDFN">local name</a>
+                    set to "<code>parsererror</code>" and its
+                    <a title="concept-element-namespace" data-spec="DOM4" class="externalDFN">namespace</a>
+                    set to
+                    "<code>http://www.mozilla.org/newlayout/xml/parsererror.xml</code>".
+                    <!-- see https://bugzilla.mozilla.org/show_bug.cgi?id=45566 -->
+                    <p>At this point user agents may
+                    <a data-spec="DOM4" title="concept-node-append" class="externalDFN">append</a> nodes
+                    to <var>root</var>, for example to describe the nature of the
+                    error.
+
+                    <li><a data-spec="DOM4" title="concept-node-append" class="externalDFN">Append</a>
+                    <var>root</var> to <var>document</var>.
+
+                    <li>Return the value of <var>document</var>.
+                </ol>
+            </dl>
+
+            <p>In any case, the returned
+            <a>document</a>'s
+            <a title="concept-document-content-type" data-spec="DOM4" class="externalDFN">content type</a>
+            must be the <var>type</var> argument. Additionally, the
+            <a>document</a> must have a
+            <a title="concept-document-url" data-spec="DOM4" class="externalDFN">URL</a> value equal to
+            the URL of the
+            <a title="active-document" data-spec="HTML5" class="externalDFN">active document</a>, a
+            <a title="location" data-spec="HTML5" class="externalDFN">location</a> value of <code>null</code>.
+
+            <p class=note>The returned
+            <a>document</a>'s
+            <a title="concept-document-encoding" data-spec="DOM4" class="externalDFN">encoding</a> is
+            the default, UTF-8.
+        </dd>
+    </dl>
+</section>
+
+  
+  
+</section>
+    
     <section>
         <h1>Parsing and serializing <a title="node" data-spec="DOM4" class="externalDFN">Node</a>s</h1>
 
@@ -210,14 +290,14 @@
             <ol>
               <li>
                 <p>If the <var>context element</var>'s
-                <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
+                <a>node document</a>
                 is an <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>: let
                 <var>algorithm</var> be the
                 <a title="html-fragment-parsing-algorithm" data-spec="HTML5" class="externalDFN">HTML
                 fragment parsing algorithm</a>.</p>
 
                 <p>If the <var>context element</var>'s
-                <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
+                <a>node document</a>
                 is an <a title="xml-document" data-spec="DOM4" class="externalDFN">XML document</a>: let
                 <var>algorithm</var> be the
                 <a title="xml-fragment-parsing-algorithm" data-spec="HTML5" class="externalDFN">XML
@@ -231,9 +311,9 @@
 
               <li>Let <var>fragment</var> be a new
               <code><a title="documentfragment" data-spec="DOM4" class="externalDFN">DocumentFragment</a></code> whose
-              <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
+              <a>node document</a>
               is <var>context element</var>'s
-              <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>.
+              <a>node document</a>.
 
               <li><a data-spec="DOM4" title="concept-node-append" class="externalDFN">Append</a>
               each <a data-spec="DOM4" title="concept-node" class="externalDFN">node</a> in
@@ -241,7 +321,7 @@
               (in <a data-spec="DOM4" title="concept-tree-order" class="externalDFN">tree order</a>).
 
               <p class=note>This ensures the
-              <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
+              <a>node document</a>
               for the new <a data-spec="DOM4" title="concept-node" class="externalDFN">nodes</a> is correct.
 
               <li>Return the value of <var>fragment</var>.
@@ -257,7 +337,7 @@
 
         <ol>
             <li>Let <var>context document</var> be the value of <var>node</var>'s
-                <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>.
+                <a>node document</a>.
             <li>If <var>context document</var> is an
                 <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>,
                 return an <a title="concept-serialize-html">HTML serialization</a> of <var>node</var>.
@@ -331,7 +411,7 @@
 
         <p>Otherwise, the algorithm for producing an <a title="concept-serialize-xml">XML serialization</a>
             is designed to produce a serialization that is compatible with the
-            <a title="html-parser" data-spec="HTML5" class="externalDFN">HTML parser</a>. For example,
+            <a>HTML parser</a>. For example,
             elements in the <a title="html-ns">HTML namespace</a> that contain no child nodes are serialized
             with an explicit begin and end tag rather than using the self-closing tag syntax [[XML10]].
 
@@ -1009,126 +1089,23 @@
     </section>
 </section>
 
-<section>
-    <h1>The <code>DOMParser</code> interface</h1>
-
-<pre class=extraidl>enum <span class=idlInterfaceID>SupportedType</span> {
-    "text/html",
-    "text/xml",
-    "application/xml",
-    "application/xhtml+xml",
-    "image/svg+xml"
-};</pre>
-
-    <p>The <dfn title="dom-domparser"><code>DOMParser()</code></dfn> constructor
-    must return a new <code>DOMParser</code> object.
-
-    <dl class="idl" title="[Constructor] interface DOMParser">
-        <dt>[NewObject] Document parseFromString(DOMString str, SupportedType type)</dt>
-        <dd>
-            <p>The
-            <dfn title="dom-domparser-parsefromstring"><code>parseFromString(<var>str</var>, <var>type</var>)</code></dfn>
-            method must run these steps, depending on <var>type</var>:
-
-            <dl class=switch>
-                <dt>"<code>text/html</code>"
-                <dd>
-                <p>Parse <var>str</var> with an
-                <code><a data-spec="HTML5" title="html-parser" class="externalDFN">HTML parser</a></code>, and return the newly
-                created <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a>.
-
-                <p>The <a data-spec="HTML5" title="scripting-flag" class="externalDFN">scripting flag</a> must be set to
-                "disabled".
-
-                <p class=note><code><a data-spec="HTML5" title="meta" class="externalDFN">meta</a></code> elements are not
-                taken into account for the encoding used, as a Unicode stream is passed into
-                the parser.
-
-                <p class=note><code><a data-spec="HTML5" title="script" class="externalDFN">script</a></code> elements get marked
-                unexecutable and the contents of <code><a data-spec="HTML5" title="the-noscript-element" class="externalDFN">noscript</a></code>
-                get parsed as markup.
-
-                <dt>"<code>text/xml</code>"
-                <dt>"<code>application/xml</code>"
-                <dt>"<code>application/xhtml+xml</code>"
-                <dt>"<code>image/svg+xml</code>"
-                <dd>
-                <ol>
-                    <li>Parse <var>str</var> with a namespace-enabled
-                    <code><a data-spec="HTML5" title="xml-parser" class="externalDFN">XML parser</a></code>.
-
-                    <p class="note">For all XHTML <code><a data-spec="HTML5" title="script" class="externalDFN">script</a></code>
-                        elements parsed using the <code><a data-spec="HTML5" title="xml-parser" class="externalDFN">XML parser</a></code>,
-                        the equivalent of the <a data-spec="HTML5" title="scripting-flag" class="externalDFN">scripting flag</a> must
-                        be set to "disabled".</p>
-
-                    <li>If the previous step didn't return an error, return the newly
-                    created <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a>.
-
-                    <!-- This seemed like a good idea, but isn't web compatible, unfortunately.
-                    <li>Otherwise, throw a
-                    <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code>
-                    with name <code>SyntaxError</code>. -->
-
-                    <li>Let <var>document</var> be a newly-created
-                    <a data-spec="DOM4" title="xml-document" class="externalDFN">XML Document</a>.
-                    <span class="note">The <var>document</var> will use the
-                    <code><a data-spec="DOM4" title="document" class="externalDFN">Document</a></code> interface
-                    rather than the <code><a data-spec="DOM4" title="xmldocument" class="externalDFN">XMLDocument</a></code>
-                    interface.</span>
-
-                    <li>
-                    <p>Let <var>root</var> be a new
-                    <code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code>, with its
-                    <a title="concept-element-local-name" data-spec="DOM4" class="externalDFN">local name</a>
-                    set to "<code>parsererror</code>" and its
-                    <a title="concept-element-namespace" data-spec="DOM4" class="externalDFN">namespace</a>
-                    set to
-                    "<code>http://www.mozilla.org/newlayout/xml/parsererror.xml</code>".
-                    <!-- see https://bugzilla.mozilla.org/show_bug.cgi?id=45566 -->
-                    <p>At this point user agents may
-                    <a data-spec="DOM4" title="concept-node-append" class="externalDFN">append</a> nodes
-                    to <var>root</var>, for example to describe the nature of the
-                    error.
-
-                    <li><a data-spec="DOM4" title="concept-node-append" class="externalDFN">Append</a>
-                    <var>root</var> to <var>document</var>.
-
-                    <li>Return the value of <var>document</var>.
-                </ol>
-            </dl>
-
-            <p>In any case, the returned
-            <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a>'s
-            <a title="concept-document-content-type" data-spec="DOM4" class="externalDFN">content type</a>
-            must be the <var>type</var> argument. Additionally, the
-            <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a> must have a
-            <a title="concept-document-url" data-spec="DOM4" class="externalDFN">URL</a> value equal to
-            the URL of the
-            <a title="active-document" data-spec="HTML5" class="externalDFN">active document</a>, a
-            <a title="location" data-spec="HTML5" class="externalDFN">location</a> value of <code>null</code>.
-
-            <p class=note>The returned
-            <a title="concept-document" data-spec="DOM4" class="externalDFN">document</a>'s
-            <a title="concept-document-encoding" data-spec="DOM4" class="externalDFN">encoding</a> is
-            the default, UTF-8.
-        </dd>
-    </dl>
-</section>
 
 <section>
     <h1>The <code>XMLSerializer</code> interface</h1>
 
-    <p>The <dfn title="dom-xmlserializer"><code>XMLSerializer()</code></dfn>
+    <p>The <dfn><code>XMLSerializer</code></dfn>()
     constructor must return a new <code>XMLSerializer</code> object.
 
-    <dl class="idl" title="[Constructor] interface XMLSerializer">
-        <dt>DOMString serializeToString(Node root)</dt>
-
-        <dd>The <dfn title="dom-xmlserializer-serializetostring"><code>serializeToString(<var>root</var>)</code></dfn>
+    <pre class="idl">
+      [Constructor] interface XMLSerializer {
+        DOMString serializeToString(Node root);
+      };
+    </pre>
+    
+    The <dfn for="XMLSerializer"><code>serializeToString</code></dfn>(<var>root</var>)
         method must <a title="concept-serialize-xml">produce an XML serialization</a> of <var>root</var> passing
-        a value of <code>false</code> for the <a title="concept-well-formed">require well-formed</a> parameter, and return the result.</dd>
-    </dl>
+        a value of <code>false</code> for the <a title="concept-well-formed">require well-formed</a> parameter, and return the result.
+    
 </section>
 
 <section>
@@ -1264,9 +1241,9 @@
                     <li>The <a title="html-ns">HTML namespace</a> as its
                     <a data-spec="DOM4" title="concept-element-namespace" class="externalDFN">namespace</a>, and
                     <li>The <a title="context object">context object</a>'s
-                    <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
+                    <a>node document</a>
                     as its
-                    <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>.
+                    <a>node document</a>.
                 </ul>
 
                 <li>Let <var>fragment</var> be the result of invoking the
@@ -1340,7 +1317,7 @@
                             <a data-spec="DOM4" title="concept-tree-parent" class="externalDFN">parent</a>.
 
                             <p>If <var>context</var> is null or a
-                            <a data-spec="DOM4" class="externalDFN" title="concept-document">document</a>, throw
+                            <a>document</a>, throw
                             a
                             <code><a data-spec="DOM4" title="domexception" class="externalDFN">DOMException</a></code> with name
                             "<code><a data-spec="DOM4" title="nomodificationallowederror" class="externalDFN">NoModificationAllowedError</a></code>".
@@ -1366,7 +1343,7 @@
 
                     <ul>
                       <li><var>context</var>'s
-                      <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
+                      <a>node document</a>
                       is an <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>,
 
                       <li><var>context</var>'s
@@ -1381,18 +1358,17 @@
                     <p>let <var>context</var> be a new
                     <code><a title="element" data-spec="DOM4" class="externalDFN">Element</a></code> with
 
-                    <ul>
-                      <li><code>body</code> as its
+                    * `body` as its
                       <a data-spec="DOM4" title="concept-element-local-name" class="externalDFN">local name</a>,
 
-                      <li>The <a title="html-ns">HTML namespace</a> as its
+                    * The <a title="html-ns">HTML namespace</a> as its
                       <a data-spec="DOM4" title="concept-element-namespace" class="externalDFN">namespace</a>, and
 
-                      <li>The <a title="context object">context object</a>'s
-                      <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
+                    * The <a title="context object">context object</a>'s
+                      <a>node document</a>
                       as its
-                      <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>.
-                    </ul>
+                      <a>node document</a>.
+                    
 
                 <li>Let <var>fragment</var> be the result of invoking the
                 <a title="concept-parse-fragment">fragment parsing algorithm</a> with <var>text</var> as
@@ -1518,7 +1494,7 @@
 
                     <ul>
                       <li><var>element</var>'s
-                      <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
+                      <a>node document</a>
                       is an <a title="html-document" data-spec="DOM4" class="externalDFN">HTML document</a>,
 
                       <li><var>element</var>'s
@@ -1541,9 +1517,9 @@
                       <a data-spec="DOM4" title="concept-element-namespace" class="externalDFN">namespace</a>, and
 
                       <li>The <a title="context object">context object</a>'s
-                      <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>
+                      <a>node document</a>
                       as its
-                      <a title="concept-node-document" data-spec="DOM4" class="externalDFN">node document</a>.
+                      <a>node document</a>.
                     </ul>
 
                 <li>Let <var>fragment node</var> be the result of invoking the
@@ -1558,40 +1534,71 @@
     </dl>
 </section>
 
-<section class="appendix">
-    <h1>Revision History</h1>
-    <p>The following is an informative summary of the changes since the last publication of this
-        specification. A complete revision history of the Editor's Drafts of this specification
-        can be found <a href="https://dvcs.w3.org/hg/innerhtml/summary/">here</a>.</p>
+<section class=appendix>
+  <h2>Dependencies</h2>
 
-    <ul>
-       <li><a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/LC2_comments.html">Incorporated
-        non-normative changes from previous Last Call document.</a>
-    </ul>
+  The HTML specification [[!HTML5]] defines the following terms used in this document:
+
+  <ul>
+    <li>An <dfn><a href="https://www.w3.org/TR/html5/single-page.html#html-parser">HTML parser</a></dfn>
+    <li>A <dfn><a href="https://www.w3.org/TR/html5/single-page.html#scripting-flag">scripting flag</a></dfn>
+    <li>The following elements:
+        <dfn><a href="https://www.w3.org/TR/html5/single-page.html#meta">meta</a></dfn>,
+        <dfn><a href="https://www.w3.org/TR/html5/single-page.html#the-noscript-element">noscript</a></dfn>,
+        and
+        <dfn><a href="https://www.w3.org/TR/html5/single-page.html#script">script</a></dfn>.
+  </ul>
+  
+  The DOM specification [[!DOM4]] defines the following terms used in this document:
+  
+  <ul>
+    <li><dfn><a href="https://www.w3.org/TR/dom/#case-sensitive">case-sensitive</a></dfn> string comparisons
+    <li><dfn><a href="https://www.w3.org/TR/dom/#concept-document">document</a></dfn>
+    <li><dfn><a href="https://www.w3.org/TR/dom/#concept-node-document">node document</a></dfn>
+  </ul>
+  
+  The following terms used in this document are defined by [[XML10]]:
+  
+  <ul>
+  </ul>
 </section>
 
-<section class="appendix">
-    <h1>Acknowledgements</h1>
-    <p>Thanks to Ms2ger [<a href="http://www.mozilla.org">Mozilla</a>] for maintaining the initial
-       drafts of this specification and for its continued improvement in the
-       <a href="http://domparsing.spec.whatwg.org/">Living Specification</a>.
+<section class=appendix>
+  <h2>Revision History</h2>
+  
+  The following is an informative summary of the changes since the last publication of this
+  specification. A complete revision history of the Editor's Drafts of this specification can be 
+  found at the 
+  <a href="https://github.com/w3c/DOM-Parsing/commits/gh-pages">W3C Github Repository</a> and older 
+  revisions at the 
+  <a href="https://dvcs.w3.org/hg/innerhtml/summary/">W3C Mercurial server</a>.
 
-    <p>Thanks to
-        Victor Costan,
-        Aryeh Gregor,
-        Anne van Kesteren,
-        Arkadiusz Michalski,
-        Simon Pieters,
-        Henri Sivonen,
-        Josh Soref
-        and Boris Zbarsky,
-        for their useful comments.
+  <ul>
+    <li><a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/LC2_comments.html">Incorporated
+      non-normative changes from previous Last Call document.</a>
+  </ul>
+</section>
 
-    <p>Special thanks to Ian Hickson for defining the
-    <code title="dom-element-innerhtml">innerHTML</code> and
-    <code title="dom-element-outerhtml">outerHTML</code> attributes, and the
-    <code title="dom-element-insertadjacenthtml">insertAdjacentHTML()</code> method in
-    [[HTML5]] and his useful comments.
+<section class=appendix>
+  <h2>Acknowledgements</h2>
+  
+  <p>We acknowledge with gratitude the original work of Ms2ger and others at the WHATWG, who created 
+  and maintained the original DOM Parsing and Serialization Living Standard upon which this 
+  specification is based.
+     
+  <p>Thanks to
+  Victor Costan,
+  Aryeh Gregor,
+  Anne van Kesteren,
+  Arkadiusz Michalski,
+  Simon Pieters,
+  Henri Sivonen,
+  Josh Soref
+  and Boris Zbarsky,
+  for their useful comments.
+
+  <p>Special thanks to Ian Hickson for first defining the <a>innerHTML</a> and <a>outerHTML</a> 
+  attributes, and the <a>insertAdjacentHTML()</a> method in [[HTML5]] and his useful comments.
 </section>
 
    <script class='remove'>
