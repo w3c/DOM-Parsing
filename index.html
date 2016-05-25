@@ -154,9 +154,9 @@ td {
     <section>
         <h2>Namespaces</h2>
 
-        <p>The <dfn title="html-ns">HTML namespace</dfn> is <code>http://www.w3.org/1999/xhtml</code>.
-        <p>The <dfn title="xml-ns">XML namespace</dfn> is <code>http://www.w3.org/XML/1998/namespace</code>.
-        <p>The <dfn title="xmlns-ns">XMLNS namespace</dfn> is <code>http://www.w3.org/2000/xmlns/</code>.
+        <p>The <dfn>HTML namespace</dfn> is <code>http://www.w3.org/1999/xhtml</code>.
+        <p>The <dfn>XML namespace</dfn> is <code>http://www.w3.org/XML/1998/namespace</code>.
+        <p>The <dfn>XMLNS namespace</dfn> is <code>http://www.w3.org/2000/xmlns/</code>.
     </section>
 
     
@@ -182,7 +182,7 @@ td {
   </pre>
 
   <dl class=domintro>
-    <dt><var>document</var> = <var>domparser</var> . <a>parseFromString</a>();</dt>
+    <dt><var>document</var> = <var>domparser</var> . <a for="DOMParser">parseFromString</a>();</dt>
   </dl>
   
   The <dfn><code>DOMParser</code></dfn> constructor must return a new <a>DOMParser</a> object.
@@ -287,7 +287,7 @@ td {
             <h2>Parsing</h2>
 
             <p>The following steps form the
-            <dfn title="concept-parse-fragment">fragment parsing algorithm</dfn>, whose
+            <dfn>fragment parsing algorithm</dfn>, whose
             arguments are a <var>markup</var> string and a
             <var>context element</var>:
 
@@ -335,98 +335,97 @@ td {
     <section>
         <h2>Serializing</h2>
         <p>The following steps form the
-            <dfn title="concept-fragment-serializing-algorithm">fragment serializing algorithm</dfn>,
+            <dfn>fragment serializing algorithm</dfn>,
             whose arguments are a <code><a>Node</a></code>
-            <var>node</var> and a flag <dfn title="concept-well-formed">require well-formed</dfn>:
+            <var>node</var> and a flag <dfn>require well-formed</dfn>:
 
         <ol>
             <li>Let <var>context document</var> be the value of <var>node</var>'s
                 <a>node document</a>.
             <li>If <var>context document</var> is an
                 <a>HTML document</a>,
-                return an <a title="concept-serialize-html">HTML serialization</a> of <var>node</var>.
+                return an <a>HTML serialization</a> of <var>node</var>.
             <li>Otherwise, <var>context document</var> is an
                 <a>XML document</a>;
-                return an <a title="concept-serialize-xml">XML serialization</a> of <var>node</var>
+                return an <a>XML serialization</a> of <var>node</var>
                 passing the flag <var>require well-formed</var>.
-            <p class="note">The <a title="concept-serialize-xml">XML serialization</a> defined in this document
+            <p class="note">The <a>XML serialization</a> defined in this document
                 conforms to the requirements of the <a>XML fragment serialization algorithm</a> defined in [[HTML5]].</p>
         </ol>
 
-        <p>To produce an <dfn title="concept-serialize-html">HTML serialization</dfn> of a
+        <p>To produce an <dfn>HTML serialization</dfn> of a
             <code><a>Node</a></code> <var>node</var>, the user agent
             must run the
-            <a>HTML
-            fragment serialization algorithm</a> [[!HTML5]] on <var>node</var> and return the string produced.
+            <a>HTML fragment serialization algorithm</a> [[!HTML5]] on <var>node</var> and return the string produced.
 
-        <p>To produce an <dfn title="concept-serialize-xml">XML serialization</dfn> of a
+        <p>To produce an <dfn>XML serialization</dfn> of a
             <code><a>Node</a></code> <var>node</var> given a
             flag <var>require well-formed</var>, run the following steps:
         <ol>
-            <li>Let <dfn title="concept-context-namespace">context namespace</dfn> be <code>null</code>.
-                The <a title="concept-context-namespace">context namespace</a> is changed when a
+            <li>Let <dfn>context namespace</dfn> be <code>null</code>.
+                The <a>context namespace</a> is changed when a
                 <var>node</var> serializes a different default namespace definition from its parent. The
                 algorithm assumes no namespace to start.
-            <li>Let <dfn title="concept-namespace-prefix-map">namespace prefix map</dfn> be a new map
+            <li>Let <dfn>namespace prefix map</dfn> be a new map
                 for associating <code>namespaceURI</code> and namespace <code>prefix</code> pairs, where
                 <code>namespaceURI</code> values are the map's keys, and <code>prefix</code> values are
-                the map's key values. The <a title="concept-namespace-prefix-map">namespace prefix map</a>
+                the map's key values. The <a>namespace prefix map</a>
                 will be populated by previously seen namespaceURIs and their most recent prefix associations
                 for a subtree. <span class="note"><strong>Note:</strong> the
-                <a title="concept-namespace-prefix-map">namespace prefix map</a> only associates a single
+                <a>namespace prefix map</a> only associates a single
                 prefix value with a given namespaceURI. During serialization, if different namespace prefixes
                 are found that map to the same namespaceURI, the last one encountered "wins" by replacing the
                 existing key value in the map with the new prefix value.</span>
-            <li>Initialize the <a title="concept-namespace-prefix-map">namespace prefix map</a> with the
-                <a title="xml-ns">XML namespace</a> key and string "<code>xml</code>" as the key value.
-            <li>Let <dfn title="concept-generated-prefix">generated namespace prefix index</dfn> be an integer
-                with a value of <code>1</code>. The <a title="concept-generated-prefix">generated namespace
-                prefix index</a> is used to generate a new unique prefix value when no suitable existing
+            <li>Initialize the <a>namespace prefix map</a> with the
+                <a>XML namespace</a> key and string "<code>xml</code>" as the key value.
+            <li>Let <dfn>generated namespace prefix index</dfn> be an integer
+                with a value of <code>1</code>. The <a>generated namespace prefix index</a>
+                is used to generate a new unique prefix value when no suitable existing
                 namespace prefix is available to serialize a <var>node</var>'s namespaceURI (or the namespaceURI
                 of one of <var>node</var>'s attributes). <span class="note">See the
-                <a title="concept-generate-prefix">generate a prefix</a> algorithm.</span>
-            <li>Return the result of running the <a title="concept-xml-serialization-algorithm">XML serialization
-                algorithm</a> on <var>node</var> passing the <a title="concept-context-namespace">context
-                namespace</a>, <a title="concept-namespace-prefix-map">namespace prefix map</a>,
-                <a title="concept-generated-prefix">generated namespace prefix index</a> reference, and the
-                flag <var>require well-formed</var>. If an <dfn title="concept-algorithm-exception">exception</dfn>
+                <a>generate a prefix</a> algorithm.</span>
+            <li>Return the result of running the <a>XML serialization algorithm</a> 
+                on <var>node</var> passing the <a>context namespace</a>,
+                <a>namespace prefix map</a>,
+                <a>generated namespace prefix index</a> reference, and the
+                flag <var>require well-formed</var>. If an <dfn data-lt="throw an exception">exception</dfn>
                 occurs during the execution of the algorithm, then catch that exception and throw a
                 <code><a>DOMException</a></code> with
                 name "<code><a>InvalidStateError</a></code>".
         </ol>
 
-        <p>An <a title="concept-serialize-xml">XML serialization</a> differs from an
-            <a title="concept-serialize-html">HTML serialization</a> in the following ways:
+        <p>An <a>XML serialization</a> differs from an
+            <a>HTML serialization</a> in the following ways:
         <ul>
             <li><a>Elements</a> and
                 <a data-lt="attribute">attributes</a>
                 will always be serialized such that their namespaceURI is preserved. In some cases
                 this means that an existing prefix, prefix declaration attribute or default namespace
                 declaration attribute might be dropped, substituted or changed.
-                An <a title="concept-serialize-html">HTML serialization</a> does not attempt to
+                An <a>HTML serialization</a> does not attempt to
                 preserve the namespaceURI.
             <li><a>Elements</a> not in the
-                <a title="html-ns">HTML namespace</a> containing no <a>children</a>, are serialized using
+                <a>HTML namespace</a> containing no <a>children</a>, are serialized using
                 the self-closing tag syntax (i.e., according to the <code>EmptyElemTag</code>
                 production of [[XML10]]).
         </ul>
 
-        <p>Otherwise, the algorithm for producing an <a title="concept-serialize-xml">XML serialization</a>
+        <p>Otherwise, the algorithm for producing an <a>XML serialization</a>
             is designed to produce a serialization that is compatible with the
             <a>HTML parser</a>. For example,
-            elements in the <a title="html-ns">HTML namespace</a> that contain no child nodes are serialized
+            elements in the <a>HTML namespace</a> that contain no child nodes are serialized
             with an explicit begin and end tag rather than using the self-closing tag syntax [[XML10]].
 
         <p class="note">Per [[DOM4]], <code><a>Attr</a></code>
             objects do not inherit from <code><a>Node</a></code>, and thus cannot
-            be serialized by the <a title="concept-xml-serialization-algorithm">XML serialization algorithm</a>.
+            be serialized by the <a>XML serialization algorithm</a>.
             An attempt to serialize an <code><a>Attr</a></code>
             object will result in a <code>TypeError</code> exception [[WEBIDL]].
 
-        <p>To run the <dfn title="concept-xml-serialization-algorithm">XML serialization algorithm</dfn> on
-            a <var>node</var> given a <a title="concept-context-namespace">context namespace</a>
-            <var>namespace</var>, a <a title="concept-namespace-prefix-map">namespace prefix map</a>
-            <var>prefix map</var>, a <a title="concept-generated-prefix">generated namespace prefix index</a>
+        <p>To run the <dfn>XML serialization algorithm</dfn> on
+            a <var>node</var> given a <a>context namespace</a>
+            <var>namespace</var>, a <a>namespace prefix map</a>
+            <var>prefix map</var>, a <a>generated namespace prefix index</a>
             <var>prefix index</var>, and a flag <var>require well-formed</var>, the user agent must run the
             appropriate steps, depending on <var>node</var>'s interface:</p>
 
@@ -439,12 +438,12 @@ td {
                     <!-- "prefix map" was passed via the caller, it's the namespace->prefix map -->
                     <!-- "prefix index" was passed via the caller, it's a number for generating prefixes if necessary -->
                     <!-- "require well-formed" was passed via the caller, it's a flag (true/false) for whether certain validation steps should be taken during serialization. -->
-                    <li>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is
+                    <li>If the <a>require well-formed</a> flag is set (its value is
                         <code>true</code>), and this <var>node</var>'s
                         <code><a>localName</a></code>
                         attribute contains the character "<code>:</code>" (U+003A COLON) or does not match the
-                        XML <code>Name</code> production [[XML10]], then <a title="concept-algorithm-exception">throw an
-                        exception</a>; the serialization of this <var>node</var> would not be a well-formed element.
+                        XML <code>Name</code> production [[XML10]], then <a>throw an exception</a>; 
+                        the serialization of this <var>node</var> would not be a well-formed element.
                     <li>Let <var>markup</var> be the string "<code>&lt;</code>" (U+003C LESS-THAN SIGN).
                     <li>Let <var>qualified name</var> be an empty string.
                     <li>Let a <var>skip end tag</var> flag have the value <code>false</code>.
@@ -455,7 +454,7 @@ td {
                         should a new namespace prefix attribute need to be generated.</span>
                     <li>Let <var>duplicate prefix definition</var> be <code>null</code>.
                     <li>Let <var>local default namespace</var> be the result of
-                        <a title="concept-record-namespace-info">recording the namespace information</a> for
+                        <a>recording the namespace information</a> for
                         <var>node</var> given <var>map</var>, <var>element prefixes list</var>, and
                         <var>duplicate prefix definition</var>.
                     <p class="note">This above step will update the <var>map</var> with any found namespace prefix
@@ -471,7 +470,7 @@ td {
                     <ol>
                         <li>If <var>local default namespace</var> is not <code>null</code>, then set <var>ignore
                             namespace definition attribute</var> to <code>true</code>.
-                        <li>If <var>ns</var> is the <a title="xml-ns">XML namespace</a>, then let <var>qualified name</var>
+                        <li>If <var>ns</var> is the <a>XML namespace</a>, then let <var>qualified name</var>
                             be the concatenation of the string "<code>xml:</code>" and the value of <var>node</var>'s
                             <code><a>localName</a></code>.
                         <li>Otherwise, let <var>qualified name</var> be the value of <var>node</var>'s
@@ -514,8 +513,8 @@ td {
                         <ol>
                             <li>If the <var>element prefixes list</var> contains the value of <var>prefix</var>, then
                                 let <var>prefix</var> be the result of
-                                <a title="concept-generate-prefix">generating a prefix</a> providing as input the
-                                <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>map</var>,
+                                <a>generating a prefix</a> providing as input the
+                                <a>namespace prefix map</a> <var>map</var>,
                                 <var>node</var>'s <var>ns</var> string, and the <var>prefix index</var> integer.
                             <li>Otherwise, append to <var>map</var> a new key <var>ns</var> whose key value is
                                 <var>prefix</var>.
@@ -531,8 +530,8 @@ td {
                                 <li>The string "<code>xmlns:</code>";
                                 <li>The value of <var>prefix</var>;
                                 <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
-                                <li>The result of <a title="concept-serialize-attr-value">serializing an attribute value</a>
-                                    given <var>ns</var> and the <a title="concept-well-formed">require well-formed</a> flag
+                                <li>The result of <a>serializing an attribute value</a>
+                                    given <var>ns</var> and the <a>require well-formed</a> flag
                                     as input;
                                 <li>"<code>"</code>" (U+0022 QUOTATION MARK).
                             </ol>
@@ -554,8 +553,8 @@ td {
                                 <li>"<code> </code>" (U+0020 SPACE);
                                 <li>The string "<code>xmlns</code>";
                                 <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
-                                <li>The result of <a title="concept-serialize-attr-value">serializing an attribute value</a>
-                                    given <var>ns</var> and the <a title="concept-well-formed">require well-formed</a> flag
+                                <li>The result of <a>serializing an attribute value</a>
+                                    given <var>ns</var> and the <a>require well-formed</a> flag
                                     as input;
                                 <li>"<code>"</code>" (U+0022 QUOTATION MARK).
                             </ol>
@@ -569,13 +568,13 @@ td {
                             <var>qualified name</var> to <var>markup</var>.
                     </ol>
                     <li>Append to <var>markup</var> the result of the
-                        <a title="concept-serialize-xml-attributes">XML serialization of <var>node</var>'s
+                        <a data-lt="XML serialization of the attributes">XML serialization of <var>node</var>'s
                         attributes</a> given the
-                        <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>map</var>,
-                        the <a title="concept-generated-prefix">generated prefix index</a> <var>prefix index</var>, the
+                        <a>namespace prefix map</a> <var>map</var>,
+                        the <a>generated namespace prefix index</a> <var>prefix index</var>, the
                         flag <var>ignore namespace definition attribute</var> and the value of <var>duplicate
                         prefix definition</var>.
-                    <li>If <var>ns</var> is the <a title="html-ns">HTML namespace</a>,
+                    <li>If <var>ns</var> is the <a>HTML namespace</a>,
                         and the <var>node</var>'s list of
                         <a>children</a>
                         is empty, and the <var>node</var>'s
@@ -607,7 +606,7 @@ td {
                             <li>"<code>/</code>" (U+002F SOLIDUS).
                         </ol>
                         and set the <var>skip end tag</var> flag to <code>true</code>.
-                    <li>If <var>ns</var> is not the <a title="html-ns">HTML namespace</a>,
+                    <li>If <var>ns</var> is not the <a>HTML namespace</a>,
                         and the <var>node</var>'s list of
                         <a>children</a>
                         is empty, then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
@@ -616,35 +615,35 @@ td {
                     <li>If the value of <var>skip end tag</var> is <code>true</code>, then return
                         the value of <var>markup</var> and skip the remaining steps. The
                         <var>node</var> is a leaf-node.
-                    <li>If <var>ns</var> is the <a title="html-ns">HTML namespace</a>, and the <var>node</var>'s
+                    <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s
                         <code><a>localName</a></code>
                         matches the string "<code>template</code>", then this is a
                         <code><a>template</a></code> element.
                         Append to <var>markup</var> the result of running the
-                        <a title="concept-xml-serialization-algorithm">XML serialization algorithm</a> on the
+                        <a>XML serialization algorithm</a> on the
                         <a>template</a> element's
                         <a>template contents</a>
                         (a <code><a>DocumentFragment</a></code>),
                         providing the value of <var>inherited ns</var> for the
-                        <a title="concept-context-namespace">context namespace</a>,
-                        <var>map</var> for the <a title="concept-namespace-prefix-map">namespace prefix map</a>,
+                        <a>context namespace</a>,
+                        <var>map</var> for the <a>namespace prefix map</a>,
                         <var>prefix index</var> for the
-                        <a title="concept-generated-prefix">generated namespace prefix index</a>, and the value
+                        <a>generated namespace prefix index</a>, and the value
                         of the <var>require well-formed</var> flag. <span class="note">This allows
                         <a>template content</a> to
                         round-trip , given the rules for
                         <a>parsing XHTML documents</a>
                         [[HTML5]].</span>
                     <li>Otherwise, append to <var>markup</var> the result of running the
-                        <a title="concept-xml-serialization-algorithm">XML serialization algorithm</a> on each
+                        <a>XML serialization algorithm</a> on each
                         of <var>node</var>'s
                         <a>children</a>,
                         in <a>tree order</a>,
                         providing the value of <var>inherited ns</var> for the
-                        <a title="concept-context-namespace">context namespace</a>,
-                        <var>map</var> for the <a title="concept-namespace-prefix-map">namespace prefix map</a>,
+                        <a>context namespace</a>,
+                        <var>map</var> for the <a>namespace prefix map</a>,
                         <var>prefix index</var> for the
-                        <a title="concept-generated-prefix">generated namespace prefix index</a>, and the value
+                        <a>generated namespace prefix index</a>, and the value
                         of the <var>require well-formed</var> flag.
                     <li>Append the following to <var>markup</var>, in the order listed:
                         <ol>
@@ -657,17 +656,17 @@ td {
 
             <dt><code><a>Document</a></code>
             <dd>
-                <p>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is
+                <p>If the <a>require well-formed</a> flag is set (its value is
                     <code>true</code>), and this <var>node</var> has no
                     <code><a>documentElement</a></code>
                     (the <code><a>documentElement</a></code>
-                    attribute's value is <code>null</code>), then <a title="concept-algorithm-exception">throw an
-                    exception</a>; the serialization of this <var>node</var> would not be a well-formed document.
+                    attribute's value is <code>null</code>), then <a>throw an exception</a>; 
+                    the serialization of this <var>node</var> would not be a well-formed document.
                 <p>Otherwise, run the following steps:
                 <ol>
                     <li>Let <var>serialized document</var> be an empty string.
                     <li>Append to <var>serialized document</var> the string produced by running the steps to
-                        <a title="concept-serialize-doctype">produce a DocumentType serialization</a>
+                        <a>produce a DocumentType serialization</a>
                         of <var>node</var>'s
                         <code><a>doctype</a></code>
                         attribute provided the <var>require well-formed</var> flag if <var>node</var>'s
@@ -676,24 +675,24 @@ td {
                     <li>For each <a>child</a>
                         <var>child</var> of <var>node</var>, in
                         <a>tree order</a>, run the
-                        <a title="concept-xml-serialization-algorithm">XML serialization algorithm</a>
-                        on the <var>child</var> given a <a title="concept-context-namespace">context namespace</a>
-                        <var>namespace</var>, a <a title="concept-namespace-prefix-map">namespace prefix map</a>
-                        <var>prefix map</var>, a reference to a <a title="concept-generated-prefix">generated
-                        namespace prefix index</a> <var>prefix index</var>, flag <var>require well-formed</var>, and
+                        <a>XML serialization algorithm</a>
+                        on the <var>child</var> given a <a>context namespace</a>
+                        <var>namespace</var>, a <a>namespace prefix map</a>
+                        <var>prefix map</var>, a reference to a <a>generated namespace prefix index</a>
+                        <var>prefix index</var>, flag <var>require well-formed</var>, and
                         append the result to <var>serialized document</var>.
                     <li>Return the value of <var>serialized document</var>.
                 </ol>
 
             <dt><code><a>Comment</a></code>
             <dd>
-                <p>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is
+                <p>If the <a>require well-formed</a> flag is set (its value is
                     <code>true</code>), and <var>node</var>'s
                     <code><a>data</a></code>
                     contains characters that are not matched by the XML <code>Char</code> production [[XML10]] or
                     contains "<code>--</code>" (two adjacent U+002D HYPHEN-MINUS characters) or that ends with
                     a "<code>-</code>" (U+002D HYPHEN-MINUS) character, then
-                    <a title="concept-algorithm-exception">throw an exception</a>; the serialization of this
+                    <a>throw an exception</a>; the serialization of this
                     <var>node</var>'s
                     <code><a>data</a></code>
                     would not be well-formed.
@@ -716,11 +715,11 @@ td {
 
             <dt><code><a>Text</a></code>
             <dd><ol>
-                <li>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is
+                <li>If the <a>require well-formed</a> flag is set (its value is
                     <code>true</code>), and <var>node</var>'s
                     <code><a>data</a></code>
                     contains characters that are not matched by the XML <code>Char</code> production [[XML10]],
-                    then <a title="concept-algorithm-exception">throw an exception</a>; the serialization of this
+                    then <a>throw an exception</a>; the serialization of this
                     <var>node</var>'s
                     <code><a>data</a></code>
                     would not be well-formed.
@@ -745,38 +744,38 @@ td {
                 <li>For each <a>child</a>
                     <var>child</var> of <var>node</var>, in
                     <a>tree order</a>,
-                    run the <a title="concept-xml-serialization-algorithm">XML serialization algorithm</a>
+                    run the <a>XML serialization algorithm</a>
                     on the <var>child</var> given
-                    a <a title="concept-context-namespace">context namespace</a> <var>namespace</var>, a
-                    <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>prefix map</var>,
-                    a reference to a <a title="concept-generated-prefix">generated namespace prefix index</a>
+                    a <a>context namespace</a> <var>namespace</var>, a
+                    <a>namespace prefix map</a> <var>prefix map</var>,
+                    a reference to a <a>generated namespace prefix index</a>
                     <var>prefix index</var>, and flag <var>require well-formed</var>. Concatenate the result
                     to <var>markup</var>.
                 <li>Return the value of <var>markup</var>.
               </ol>
 
             <dt><code><a>DocumentType</a></code>
-            <dd>Run the steps to <a title="concept-serialize-doctype">produce a DocumentType
-                serialization</a> of <var>node</var> given the <a title="concept-well-formed">require well-formed</a>
+            <dd>Run the steps to <a>produce a DocumentType
+                serialization</a> of <var>node</var> given the <a>require well-formed</a>
                 flag, and return the string this produced.
 
             <dt><code><a>ProcessingInstruction</a></code>
             <dd><ol>
-                <li>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is
+                <li>If the <a>require well-formed</a> flag is set (its value is
                     <code>true</code>), and <var>node</var>'s
                     <code><a>target</a></code>
                     contains a "<code>:</code>" (U+003A COLON) character or is an
                     <a>ASCII case-insensitive</a>
-                    match for the string "<code>xml</code>", then <a title="concept-algorithm-exception">throw an
-                    exception</a>; the serialization of this <var>node</var>'s
+                    match for the string "<code>xml</code>", then <a>throw an exception</a>; 
+                    the serialization of this <var>node</var>'s
                     <code><a>target</a></code>
                     would not be well-formed.
-                <li>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is
+                <li>If the <a>require well-formed</a> flag is set (its value is
                     <code>true</code>), and <var>node</var>'s
                     <code><a>data</a></code>
                     contains characters that are not matched by the XML <code>Char</code> production [[XML10]] or
                     contains the string "<code>?></code>" (U+003F QUESTION MARK, U+003E GREATER-THAN SIGN),
-                    then <a title="concept-algorithm-exception">throw an exception</a>; the serialization of this
+                    then <a>throw an exception</a>; the serialization of this
                     <var>node</var>'s
                     <code><a>data</a></code>
                     would not be well-formed.
@@ -793,24 +792,24 @@ td {
 
         </dl>
 
-        <p>To <dfn title="concept-serialize-doctype">produce a DocumentType serialization</dfn> of a
+        <p>To <dfn>produce a DocumentType serialization</dfn> of a
             <code><a>Node</a></code> <var>node</var>, given a
-            <a title="concept-well-formed">require well-formed</a> flag, the user agent must return
+            <a>require well-formed</a> flag, the user agent must return
             the result of the following algorithm:</p>
 
         <ol>
-            <li>If the <a title="concept-well-formed">require well-formed</a> flag is <code>true</code>
+            <li>If the <a>require well-formed</a> flag is <code>true</code>
                 and the <var>node</var>'s
                 <code><a>publicId</a></code>
                 attribute contains characters that are not matched by the XML <code>PubidChar</code> production
-                [[XML10]], then <a title="concept-algorithm-exception">throw an exception</a>; the serialization
+                [[XML10]], then <a>throw an exception</a>; the serialization
                 of this <var>node</var> would not be a well-formed document type declaration.
-            <li>If the <a title="concept-well-formed">require well-formed</a> flag is <code>true</code>
+            <li>If the <a>require well-formed</a> flag is <code>true</code>
                 and the <var>node</var>'s
                 <code><a>systemId</a></code>
                 attribute contains characters that are not matched by the XML <code>Char</code> production
                 [[XML10]] or that contains both a "<code>"</code>" (U+0022 QUOTATION MARK) and a "<code>'</code>"
-                (U+0027 APOSTROPHE), then <a title="concept-algorithm-exception">throw an exception</a>; the
+                (U+0027 APOSTROPHE), then <a>throw an exception</a>; the
                 serialization of this <var>node</var> would not be a well-formed document type declaration.
             <li>Let <var>markup</var> be an empty string.
             <li>Append the string "<code>&lt;!DOCTYPE</code>" to <var>markup</var>.
@@ -884,14 +883,14 @@ td {
             <li>Return the value of <var>markup</var>.
         </ol>
 
-        <p>To <dfn title="concept-record-namespace-info">record the namespace information</dfn> for an
+        <p>When <dfn>recording the namespace information</dfn> for an
             <code><a>Element</a></code> <var>element</var>, given a
-            <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>map</var>, an
+            <a>namespace prefix map</a> <var>map</var>, an
             <var>element prefixes list</var> (initially empty), and a <var>duplicate prefix
             definition</var> reference, the user agent must run the following steps:
         <ol>
             <li>Let <var>default namespace attr value</var> be <code>null</code>.
-            <li><dfn title="record-namespace-loop">Main</dfn>: For each <a>attribute</a>
+            <li><dfn>Main</dfn>: For each <a>attribute</a>
                 <var>attr</var> in <var>element</var>'s
                 <code><a>attributes</a></code>,
                 in the order they are specified in the <var>element</var>'s
@@ -899,7 +898,7 @@ td {
 
                 <p class="note">The following conditional steps add namespace prefixes
                     into the <var>element prefixes list</var> and add or replace them in the <var>map</var>.
-                    Only attributes in the <a title="xmlns-ns">XMLNS namespace</a> are
+                    Only attributes in the <a>XMLNS namespace</a> are
                     considered (e.g., attributes made to look like namespace declarations via
                     <code><a>setAttribute</a>(<em>"xmlns:pretend-prefix"</em>,
                     <em>"pretend-namespace"</em>)</code> are not included).</p>
@@ -909,12 +908,12 @@ td {
                     value.
                 <li>Let <var>attribute prefix</var> be the value of <var>attr</var>'s
                         <code><a>prefix</a></code>.
-                <li>If the <var>attribute namespace</var> is the <a title="xmlns-ns">XMLNS namespace</a>, then:
+                <li>If the <var>attribute namespace</var> is the <a>XMLNS namespace</a>, then:
                 <ol>
                     <li>If <var>attribute prefix</var> is <code>null</code>, then <var>attr</var> is a
                         default namespace declaration. Set the <var>default namespace attr value</var> to
                         <var>attr</var>'s <code><a>value</a></code> and stop running these steps, returning to
-                        <a title="record-namespace-loop">Main</a> to visit the next attribute.
+                        <a>Main</a> to visit the next attribute.
                     <li>Otherwise, the <var>attribute prefix</var> is not <code>null</code> and <var>attr</var>
                         is a namespace prefix definition. Run the following steps:
                     <ol>
@@ -939,10 +938,10 @@ td {
             <li>Return the value of <var>default namespace attr value</var>.
         </ol>
 
-        <p>To <dfn title="concept-generate-prefix">generate a prefix</dfn> given a
-            <a title="concept-namespace-prefix-map">namespace prefix map</a> <var>map</var>, a
+        <p>To <dfn data-lt="generating a prefix">generate a prefix</dfn> given a
+            <a>namespace prefix map</a> <var>map</var>, a
             string <var>new namespace</var>, and a reference to a
-            <a title="concept-generated-prefix">generated namespace prefix index</a> <var>prefix
+            <a>generated namespace prefix index</a> <var>prefix
             index</var>, the user agent must run the following steps:
         <ol>
             <li>Let <var>generated prefix</var> be the concatenation of the string "<code>ns</code>" and
@@ -953,17 +952,17 @@ td {
             <li>Return the value of <var>generated prefix</var>.
         </ol>
 
-        <p>The <dfn title="concept-serialize-xml-attributes">XML serialization of the attributes</dfn>
+        <p>The <dfn>XML serialization of the attributes</dfn>
             of an <code><a>Element</a></code>
-            <var>element</var> together with a <a title="concept-namespace-prefix-map">namespace prefix
-            map</a> <var>map</var>, a <a title="concept-generated-prefix">generated prefix index</a>
+            <var>element</var> together with a <a>namespace prefix map</a> 
+            <var>map</var>, a <a>generated namespace prefix index</a>
             <var>prefix index</var> reference, a flag <var>ignore namespace definition attribute</var>, a
             <var>duplicate prefix definition</var> value, and a flag <var>require well-formed</var>,
             is the result of the following algorithm:
         <ol>
             <li>Let <var>result</var> be the empty string.
             <li>Let <var>localname set</var> be a new empty
-                <dfn title="concept-namespace-localname-set">namespace localname set</dfn>. This <var>localname
+                <var>namespace localname set</var>. This <var>localname
                 set</var> will contain tuples of unique attribute
                 <code><a>namespaceURI</a></code>
                 and <code><a>localName</a></code>
@@ -974,18 +973,18 @@ td {
                 and <code><a>localName</a></code>.
                 This can occur when two otherwise identical attributes on the same element differ only by their
                 prefix values.</span>
-            <li><dfn title="serialize-attributes-loop">Main</dfn>: For each <a>attribute</a>
+            <li><dfn>Loop</dfn>: For each <a>attribute</a>
                 <var>attr</var> in <var>element</var>'s
                 <code><a>attributes</a></code>,
                 in the order they are specified in the <var>element</var>'s
                 <a>attribute list</a>:
             <ol>
-                <li>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is
+                <li>If the <a>require well-formed</a> flag is set (its value is
                     <code>true</code>), and the <var>localname set</var> contains a tuple whose values match those
                     of a new tuple consisting of <var>attr</var>'s
                     <code><a>namespaceURI</a></code>
                     attribute and <code><a>localName</a></code>
-                    attribute, then <a title="concept-algorithm-exception">throw an exception</a>; the serialization of this
+                    attribute, then <a>throw an exception</a>; the serialization of this
                     <var>attr</var> would fail to produce a well-formed element serialization.
                 <li>Create a new tuple consisting of <var>attr</var>'s
                     <code><a>namespaceURI</a></code>
@@ -999,7 +998,7 @@ td {
                 <li>If <var>attribute namespace</var> is not <code>null</code>, then run these sub-steps:
                 <ol>
                     <li>If the value of <var>attribute namespace</var> is the
-                        <a title="xmlns-ns">XMLNS namespace</a> and either the <var>attr</var>'s
+                        <a>XMLNS namespace</a> and either the <var>attr</var>'s
                         <code><a>prefix</a></code>
                         is <code>null</code> and the <var>ignore namespace definition
                         attribute</var> flag is <code>true</code> or the <var>attr</var>'s
@@ -1007,16 +1006,16 @@ td {
                         is not <code>null</code> and the <var>attr</var>'s
                         <code><a data-lt="attr localName">localName</a></code>
                         matches the value of <var>duplicate prefix definition</var>, then stop running
-                        these steps and goto <a title="serialize-attributes-loop">Main</a> to visit the next attribute.
+                        these steps and goto <a>Loop</a> to visit the next attribute.
                     <li>Otherwise, if there exists a key in <var>map</var> that matches the value of <var>attribute
                         namespace</var>, then let <var>candidate prefix</var> be that key's value from the
                         <var>map</var>.
                     <li>Otherwise, there is no key matching <var>attribute namespace</var> in <var>map</var> and
-                        the <var>attribute namespace</var> is not the <a title="xmlns-ns">XMLNS namespace</a>.
+                        the <var>attribute namespace</var> is not the <a>XMLNS namespace</a>.
                         Run these steps:
                     <ol>
                         <li>Let <var>candidate prefix</var> be the result of
-                            <a title="concept-generate-prefix">generating a prefix</a> providing <var>map</var>,
+                            <a>generating a prefix</a> providing <var>map</var>,
                             <var>attribute namespace</var>, and <var>prefix index</var> as input.
                         <li>Append the following to <var>result</var>, in the order listed:
                         <ol>
@@ -1024,9 +1023,9 @@ td {
                             <li>The string "<code>xmlns:</code>";
                             <li>The value of <var>candidate prefix</var>;
                             <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
-                            <li>The result of <a title="concept-serialize-attr-value">serializing an attribute value</a>
+                            <li>The result of <a>serializing an attribute value</a>
                                 given <var>attribute namespace</var> and the
-                                <a title="concept-well-formed">require well-formed</a> flag as input;
+                                <a>require well-formed</a> flag as input;
                             <li>"<code>"</code>" (U+0022 QUOTATION MARK).
                         </ol>
                     </ol>
@@ -1036,37 +1035,37 @@ td {
                 <li>If <var>candidate prefix</var> is not <code>null</code>, then append to <var>result</var>
                     the concatenation of <var>candidate prefix</var> with "<code>:</code>" (U+003A COLON).
                 <!-- Check for well-formed localName -->
-                <li>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is
+                <li>If the <a>require well-formed</a> flag is set (its value is
                     <code>true</code>), and this <var>attr</var>'s
                     <code><a>localName</a></code>
                     attribute contains the character "<code>:</code>" (U+003A COLON) or does not match the XML
                     <code>Name</code> production [[XML10]] or equals "<code>xmlns</code>" and <var>attribute
-                    namespace</var> is <code>null</code>, then <a title="concept-algorithm-exception">throw an
-                    exception</a>; the serialization of this <var>attr</var> would not be a well-formed attribute.
+                    namespace</var> is <code>null</code>, then <a>throw an exception</a>; 
+                    the serialization of this <var>attr</var> would not be a well-formed attribute.
                 <!-- Write out the standard attribute -->
                 <li>Append the following strings to <var>result</var>, in the order listed:
                 <ol>
                     <li>The value of <var>attr</var>'s
                         <code><a data-lt="attr localName">localName</a></code>;
                     <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
-                    <li>The result of <a title="concept-serialize-attr-value">serializing an attribute value</a>
+                    <li>The result of <a>serializing an attribute value</a>
                         given <var>attr</var>'s
                         <code><a>value</a></code>
-                        attribute and the <a title="concept-well-formed">require well-formed</a> flag as input;
+                        attribute and the <a>require well-formed</a> flag as input;
                     <li>"<code>"</code>" (U+0022 QUOTATION MARK).
                 </ol>
             </ol>
             <li>Return the value of <var>result</var>.
         </ol>
 
-        <p>To <dfn title="concept-serialize-attr-value">serialize an attribute value</dfn> given an
-            <var>attribute value</var> and <a title="concept-well-formed">require well-formed</a> flag,
+        <p>When <dfn>serializing an attribute value</dfn> given an
+            <var>attribute value</var> and <a>require well-formed</a> flag,
             the user agent must run the following steps:
         <ol>
-            <li>If the <a title="concept-well-formed">require well-formed</a> flag is set (its value is
+            <li>If the <a>require well-formed</a> flag is set (its value is
                 <code>true</code>), and <var>attribute value</var> contains characters that are not matched
                 by the XML <code>Char</code> production [[XML10]], then
-                <a title="concept-algorithm-exception">throw an exception</a>; the serialization of this
+                <a>throw an exception</a>; the serialization of this
                 <var>attribute value</var> would fail to produce a well-formed element serialization.
             <li>If <var>attribute value</var> is <code>null</code>, then return the empty string.
             <li>Otherwise, <var>attribute value</var> is a string. Return the value of
@@ -1098,8 +1097,8 @@ td {
     </pre>
     
     The <dfn for="XMLSerializer"><code>serializeToString</code></dfn>(<var>root</var>)
-        method must <a title="concept-serialize-xml">produce an XML serialization</a> of <var>root</var> passing
-        a value of <code>false</code> for the <a title="concept-well-formed">require well-formed</a> parameter, and return the result.
+        method must produce an <a>XML serialization</a> of <var>root</var> passing
+        a value of <code>false</code> for the <a>require well-formed</a> parameter, and return the result.
     
 </section>
 
@@ -1115,7 +1114,7 @@ td {
 
             <dl class=domintro>
                 <!--doc.ih
-                <dt><var>document</var> . <code title="dom-document-innerhtml">innerHTML</code> [ = <var>value</var> ]
+                <dt><var>document</var> . <a for="Element">innerHTML</a> [ = <var>value</var> ]
                 <dd>
                 <p>Returns a fragment of HTML or XML that represents the
                 <code><a>Document</a></code>.
@@ -1153,20 +1152,20 @@ td {
             </dl>
 
             <p>On getting, return the result of invoking the
-                <a title="concept-fragment-serializing-algorithm">fragment serializing algorithm</a> on the
-                <a title="context object">context object</a> providing <code>true</code> for the
-                <a title="concept-well-formed">require well-formed</a> flag (this might throw an exception
+                <a>fragment serializing algorithm</a> on the
+                <a>context object</a> providing <code>true</code> for the
+                <a>require well-formed</a> flag (this might throw an exception
                 instead of returning a string).
 
             <p>On setting, these steps must be run:
             <ol>
                 <li>Let <var>fragment</var> be the result of invoking the
-                <a title="concept-parse-fragment">fragment parsing algorithm</a> with
+                <a>fragment parsing algorithm</a> with
                 the new value as <var>markup</var>, and the
-                <a title="context object">context object</a> as the <var>context element</var>.
+                <a>context object</a> as the <var>context element</var>.
 
                 <li><a>Replace all</a>
-                with <var>fragment</var> within the <a title="context object">context object</a>.
+                with <var>fragment</var> within the <a>context object</a>.
             </ol>
         </dd>
 
@@ -1203,15 +1202,15 @@ td {
             </dl>
 
             <p>On getting, return the result of invoking the
-                <a title="concept-fragment-serializing-algorithm">fragment serializing algorithm</a> on a
-                fictional node whose only child is the <a title="context object">context object</a>
-                providing <code>true</code> for the <a title="concept-well-formed">require well-formed</a>
+                <a>fragment serializing algorithm</a> on a
+                fictional node whose only child is the <a>context object</a>
+                providing <code>true</code> for the <a>require well-formed</a>
                 flag (this might throw an exception instead of returning a string).
 
             <p>On setting, the following steps must be run:
 
             <ol>
-                <li>Let <var>parent</var> be the <a title="context object">context object</a>'s
+                <li>Let <var>parent</var> be the <a>context object</a>'s
                 <a>parent</a>.
 
                 <li>If <var>parent</var> is null, terminate these steps. There would be no
@@ -1233,22 +1232,22 @@ td {
                     <li><code>body</code> as its
                     <a>local name</a>,
 
-                    <li>The <a title="html-ns">HTML namespace</a> as its
+                    <li>The <a>HTML namespace</a> as its
                     <a>namespace</a>, and
-                    <li>The <a title="context object">context object</a>'s
+                    <li>The <a>context object</a>'s
                     <a>node document</a>
                     as its
                     <a>node document</a>.
                 </ul>
 
                 <li>Let <var>fragment</var> be the result of invoking the
-                <a title="concept-parse-fragment">fragment parsing algorithm</a> with
+                <a>fragment parsing algorithm</a> with
                 the new value as <var>markup</var>, and <var>parent</var> as
                 the <var>context element</var>.
 
                 <li><a>Replace</a>
-                the <a title="context object">context object</a> with <var>fragment</var> within
-                the <a title="context object">context object</a>'s
+                the <a>context object</a> with <var>fragment</var> within
+                the <a>context object</a>'s
                 <a>parent</a>.
             </ol>
         </dd>
@@ -1308,7 +1307,7 @@ td {
                         the string "afterend"
 
                         <dd>
-                            <p>Let <var>context</var> be the <a title="context object">context object</a>'s
+                            <p>Let <var>context</var> be the <a>context object</a>'s
                             <a>parent</a>.
 
                             <p>If <var>context</var> is null or a
@@ -1325,7 +1324,7 @@ td {
                         <a>ASCII case-insensitive</a> match for
                         the string "beforeend"
 
-                        <dd>Let <var>context</var> be the <a title="context object">context object</a>.
+                        <dd>Let <var>context</var> be the <a>context object</a>.
 
                         <dt>Otherwise
                         <dd>
@@ -1347,7 +1346,7 @@ td {
 
                       <li><var>context</var>'s
                       <a>namespace</a>
-                      is the <a title="html-ns">HTML namespace</a>;
+                      is the <a>HTML namespace</a>;
                     </ul>
 
                     <p>let <var>context</var> be a new
@@ -1356,17 +1355,17 @@ td {
                     * `body` as its
                       <a>local name</a>,
 
-                    * The <a title="html-ns">HTML namespace</a> as its
+                    * The <a>HTML namespace</a> as its
                       <a>namespace</a>, and
 
-                    * The <a title="context object">context object</a>'s
+                    * The <a>context object</a>'s
                       <a>node document</a>
                       as its
                       <a>node document</a>.
                     
 
                 <li>Let <var>fragment</var> be the result of invoking the
-                <a title="concept-parse-fragment">fragment parsing algorithm</a> with <var>text</var> as
+                <a>fragment parsing algorithm</a> with <var>text</var> as
                 <var>markup</var>, and <var>context</var> as the <var>context element</var>.
 
                 <li>Use the first matching item from this list:
@@ -1377,16 +1376,16 @@ td {
                     the string "beforebegin"
 
                     <dd><a>Insert</a>
-                    <var>fragment</var> into the <a title="context object">context object</a>'s
+                    <var>fragment</var> into the <a>context object</a>'s
                     <a>parent</a>
-                    before the <a title="context object">context object</a>.
+                    before the <a>context object</a>.
 
                     <dt>If <var>position</var> is an
                     <a>ASCII case-insensitive</a> match for
                     the string "afterbegin"
 
                     <dd><a>Insert</a>
-                    <var>fragment</var> into the <a title="context object">context object</a>
+                    <var>fragment</var> into the <a>context object</a>
                     before its
                     <a>first child</a>.
 
@@ -1395,16 +1394,16 @@ td {
                     the string "beforeend"
 
                     <dd><a>Append</a>
-                    <var>fragment</var> to the <a title="context object">context object</a>.
+                    <var>fragment</var> to the <a>context object</a>.
 
                     <dt>If <var>position</var> is an
                     <a>ASCII case-insensitive</a> match for
                     the string "afterend"
 
                     <dd><a>Insert</a>
-                    <var>fragment</var> into the <a title="context object">context object</a>'s
+                    <var>fragment</var> into the <a>context object</a>'s
                     <a>parent</a>
-                    before the <a title="context object">context object</a>'s
+                    before the <a>context object</a>'s
                     <a>next sibling</a>.
                 </dl>
             </ol>
@@ -1424,7 +1423,7 @@ td {
         <dd>
             <dl class=domintro>
               <dt><var>text</var> .
-                  <code title="dom-text-serializeascdata">serializeAsCDATA</code> [ = <var>value</var> ]
+                  <a for="Text">serializeAsCDATA</a> [ = <var>value</var> ]
               <dd>Controls whether, in XML, this node is serialized as a CDATA section.
             </dl>
 
@@ -1432,13 +1431,13 @@ td {
             associated flag, the <dfn>serialize as CDATA flag</dfn>.
 
             <p>The
-            <dfn title="dom-text-serializeascdata"><code>serializeAsCDATA</code></dfn>
-            attribute must return true if the <a title="context object">context object</a> has its
+            <dfn for="Text"><code>serializeAsCDATA</code></dfn>
+            attribute must return true if the <a>context object</a> has its
             <a>serialize as CDATA flag</a> set, or false otherwise.
 
-            <p>Setting the <code title="dom-text-serializeascdata">serializeAsCDATA</code>
+            <p>Setting the <a for="Text">serializeAsCDATA</a>
             attribute must, if the new value is true, set the
-            <a title="context object">context object</a>'s <a>serialize as CDATA flag</a>, or unset
+            <a>context object</a>'s <a>serialize as CDATA flag</a>, or unset
             it otherwise.
         </dd>
     </dl>
@@ -1452,17 +1451,17 @@ td {
         <dt>[CEReactions, NewObject] DocumentFragment createContextualFragment(DOMString fragment)</dt>
         <dd>
             <dl class=domintro>
-              <dt><var>docFragment</var> = <var>range</var> . <code title="dom-range-createcontextualfragment">createContextualFragment</code>(<var>markupString</var>)
+              <dt><var>docFragment</var> = <var>range</var> . <a for="Range">createContextualFragment</a>(<var>markupString</var>)
               <dd>Returns a <code><a>DocumentFragment</a></code>, created
                 from the markup string given.
             </dl>
 
             <p>The
-            <dfn title="dom-range-createcontextualfragment"><code>createContextualFragment(<var>fragment</var>)</code></dfn>
+            <dfn for="Range"><code>createContextualFragment(<var>fragment</var>)</code></dfn>
             method must run these steps:
 
             <ol>
-                <li>Let <var>node</var> be the <a title="context object">context object</a>'s
+                <li>Let <var>node</var> be the <a>context object</a>'s
                 <a>start node</a>.
 
                 <p>Let <var>element</var> be as follows, depending on <var>node</var>'s interface:
@@ -1498,7 +1497,7 @@ td {
 
                       <li><var>element</var>'s
                       <a>namespace</a>
-                      is the <a title="html-ns">HTML namespace</a>;
+                      is the <a>HTML namespace</a>;
                     </ul>
 
                     <p>let <var>element</var> be a new
@@ -1508,17 +1507,17 @@ td {
                       <li>"<code>body</code>" as its
                       <a>local name</a>,
 
-                      <li>The <a title="html-ns">HTML namespace</a> as its
+                      <li>The <a>HTML namespace</a> as its
                       <a>namespace</a>, and
 
-                      <li>The <a title="context object">context object</a>'s
+                      <li>The <a>context object</a>'s
                       <a>node document</a>
                       as its
                       <a>node document</a>.
                     </ul>
 
                 <li>Let <var>fragment node</var> be the result of invoking the
-                <a title="concept-parse-fragment">fragment parsing algorithm</a> with <var>fragment</var> as
+                <a>fragment parsing algorithm</a> with <var>fragment</var> as
                 <var>markup</var>, and <var>element</var> as the <var>context element</var>.
 
                 <li>Unmark all scripts in <var>fragment node</var> as "already started".
@@ -1540,9 +1539,11 @@ td {
     <li>Parsing concepts: 
         a fragment parsing <dfn><a href="https://www.w3.org/TR/html5/single-page.html#concept-frag-parse-context">context</a></dfn>;
         the <dfn><a href="https://www.w3.org/TR/html5/single-page.html#html-fragment-parsing-algorithm">HTML fragment parsing algorithm</a></dfn>;
+        the <dfn><a href="https://www.w3.org/TR/html5/single-page.html#html-fragment-serialization-algorithm">HTML fragment serialization algorithm</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#html-parser">HTML parser</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#parsing-xhtml-documents">parsing XHTML documents</a></dfn>;
         the <dfn><a href="https://www.w3.org/TR/html5/single-page.html#xml-fragment-parsing-algorithm">XML fragment parsing algorithm</a></dfn>;
+        the <dfn><a href="https://www.w3.org/TR/html5/single-page.html#xml-fragment-serialization-algorithm">XML fragment serialization algorithm</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#xml-parser">XML parser</a></dfn>;
     <li>A <dfn><a href="https://www.w3.org/TR/html5/single-page.html#scripting-flag">scripting flag</a></dfn>
     <li>A document <dfn><a href="https://www.w3.org/TR/html5/single-page.html#location">location</a></dfn>
@@ -1552,7 +1553,7 @@ td {
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#script">script</a></dfn> and
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#the-template-element">template</a></dfn>
     <li><dfn><a href="https://www.w3.org/TR/html5/single-page.html#void-elements">void elements</a></dfn>
-    <li>The <a>template</a>'s <dfn><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
+    <li>The <a>template</a>'s <dfn data-lt="template content"><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
   </ul>
   
   The DOM specification [[!DOM4]] defines the following terms used in this document:
@@ -1584,7 +1585,7 @@ td {
         <dfn data-lt="attr localName">attr.<a href="https://www.w3.org/TR/dom/#dom-attr-localname">localName</a></dfn>, 
         <dfn data-lt="namespaceURI">attr.<a href="https://www.w3.org/TR/dom/#dom-attr-namespaceuri">namespaceURI</a></dfn>, 
         <dfn data-lt="prefix">attr.<a href="https://www.w3.org/TR/dom/#dom-attr-prefix">prefix</a></dfn> and
-        <dfn>attr.<a href="https://www.w3.org/TR/dom/#dom-attr-value">value</a></dfn> attributes
+        <dfn data-lt="value">attr.<a href="https://www.w3.org/TR/dom/#dom-attr-value">value</a></dfn> attributes
     <li>The CharacterData interface's <dfn><a href="https://www.w3.org/TR/dom/#dom-characterdata-data">data</a></dfn> attribute
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-comment">Comment</a></dfn> interface
 <!--<li>The <dfn><a href="https://www.w3.org/TR/dom/#cdata">CDATASection</a></dfn> interface-->    
@@ -1656,7 +1657,7 @@ td {
   for their useful comments.
 
   <p>Special thanks to Ian Hickson for first defining the <a>innerHTML</a> and <a>outerHTML</a> 
-  attributes, and the <a>insertAdjacentHTML()</a> method in [[HTML5]] and his useful comments.
+  attributes, and the <a>insertAdjacentHTML</a> method in [[HTML5]] and his useful comments.
 </section>
 
 </body>
