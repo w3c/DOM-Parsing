@@ -1105,311 +1105,308 @@ td {
 <section>
     <h1>Extensions to the <code><a>Element</a></code> interface</h1>
 
-    <dl class="idl" title="partial interface Element">
-        <dt>[CEReactions, TreatNullAs=EmptyString] attribute DOMString innerHTML</dt>
+    <pre class="idl">
+      partial interface Element {
+        [CEReactions, TreatNullAs=EmptyString] attribute DOMString innerHTML;
+        [CEReactions, TreatNullAs=EmptyString] attribute DOMString outerHTML;
+        [CEReactions] void insertAdjacentHTML(DOMString position, DOMString text);
+      };
+    </pre>
+    
+  <p>The <dfn for="Element"><code>innerHTML</code></dfn> IDL
+  attribute represents the markup of the
+  <code><a>Element</a></code>'s contents.
+
+  <dl class=domintro>
+      <!--doc.ih
+      <dt><var>document</var> . <a for="Element">innerHTML</a> [ = <var>value</var> ]
+      <dd>
+      <p>Returns a fragment of HTML or XML that represents the
+      <code><a>Document</a></code>.
+
+      <p>Can be set, to replace the
+      <code><a>Document</a></code>'s contents with the result of
+      parsing the given string.
+
+      <p>In the case of an <a>XML document</a>,
+      will throw an
+      <code><a>DOMException</a></code> with name <code>InvalidStateError</code>
+      if the <code><a>Document</a></code> cannot be serialized
+      to XML, and a
+      <code><a>DOMException</a></code> with name <code>SyntaxError</code>
+      if the given string is not well-formed.
+      -->
+
+      <dt><var>element</var> . <a for="Element">innerHTML</a> [ = <var>value</var> ]
+      <dd>
+      <p>Returns a fragment of HTML or XML that represents the element's
+      contents.
+
+      <p>Can be set, to replace the contents of the element with nodes
+      parsed from the given string.
+
+      <p>In the case of an <a>XML document</a>,
+      will throw a
+      <code><a>DOMException</a></code> with name
+      "<code><a>InvalidStateError</a></code>"
+      if the <code><a>Element</a></code> cannot be serialized
+      to XML, and a
+      <code><a>DOMException</a></code> with name
+      "<code><a>SyntaxError</a></code>"
+      if the given string is not well-formed.
+  </dl>
+
+  <p>On getting, return the result of invoking the
+      <a>fragment serializing algorithm</a> on the
+      <a>context object</a> providing <code>true</code> for the
+      <a>require well-formed</a> flag (this might throw an exception
+      instead of returning a string).
+
+  <p>On setting, these steps must be run:
+  <ol>
+      <li>Let <var>fragment</var> be the result of invoking the
+      <a>fragment parsing algorithm</a> with
+      the new value as <var>markup</var>, and the
+      <a>context object</a> as the <var>context element</var>.
+
+      <li><a>Replace all</a>
+      with <var>fragment</var> within the <a>context object</a>.
+  </ol>
+</dd>
+
+<!-- outerHTML -->
+  <p>The <dfn for="Element"><code>outerHTML</code></dfn> IDL
+  attribute represents the markup of the
+  <code><a>Element</a></code> and its contents.
+
+  <dl class=domintro>
+    <dt><var>element</var> . <a for="Element">outerHTML</a> [ = <var>value</var> ]
+    <dd>
+      <p>Returns a fragment of HTML or XML that represents the element and its
+      contents.
+
+      <p>Can be set, to replace the element with nodes parsed from the given
+      string.
+
+      <p>In the case of an <a>XML document</a>,
+      will throw a
+      <code><a>DOMException</a></code> with name
+      "<code><a>InvalidStateError</a></code>"
+      if the element cannot be serialized to XML, and a
+      <code><a>DOMException</a></code> with name
+      "<code><a>SyntaxError</a></code>"
+      if the given string is not well-formed.
+
+      <p>Throws a
+      <code><a>DOMException</a></code> with name
+      "<code><a>NoModificationAllowedError</a></code>"
+      if the parent of the element is the
+      <code><a>Document</a></code> node.
+  </dl>
+
+  <p>On getting, return the result of invoking the
+      <a>fragment serializing algorithm</a> on a
+      fictional node whose only child is the <a>context object</a>
+      providing <code>true</code> for the <a>require well-formed</a>
+      flag (this might throw an exception instead of returning a string).
+
+  <p>On setting, the following steps must be run:
+
+  <ol>
+      <li>Let <var>parent</var> be the <a>context object</a>'s
+      <a>parent</a>.
+
+      <li>If <var>parent</var> is null, terminate these steps. There would be no
+      way to obtain a reference to the nodes created even if the remaining steps
+      were run.
+
+      <li>If <var>parent</var> is a
+      <code><a>Document</a></code>, throw a
+      <code><a>DOMException</a></code> with name
+      "<code><a>NoModificationAllowedError</a></code>"
+      exception.
+
+      <li>If <var>parent</var> is a
+      <code><a>DocumentFragment</a></code>, let
+      <var>parent</var> be a new
+      <code><a>Element</a></code> with
+
+      <ul>
+          <li><code>body</code> as its
+          <a>local name</a>,
+
+          <li>The <a>HTML namespace</a> as its
+          <a>namespace</a>, and
+          <li>The <a>context object</a>'s
+          <a>node document</a>
+          as its
+          <a>node document</a>.
+      </ul>
+
+      <li>Let <var>fragment</var> be the result of invoking the
+      <a>fragment parsing algorithm</a> with
+      the new value as <var>markup</var>, and <var>parent</var> as
+      the <var>context element</var>.
+
+      <li><a>Replace</a>
+      the <a>context object</a> with <var>fragment</var> within
+      the <a>context object</a>'s
+      <a>parent</a>.
+  </ol>
+
+<!-- insertAdjacentHTML -->
+   <dl class=domintro>
+        <dt><var>element</var> . <a for="Element">insertAdjacentHTML</a>(<var>position</var>, <var>text</var>)
+
         <dd>
-            <p>The <dfn for="Element"><code>innerHTML</code></dfn> IDL
-            attribute represents the markup of the
-            <code><a>Element</a></code>'s contents.
+          <p>Parses the given string <var>text</var> as HTML or XML and inserts
+          the resulting nodes into the tree in the position given by the
+          <var>position</var> argument, as follows:
 
-            <dl class=domintro>
-                <!--doc.ih
-                <dt><var>document</var> . <a for="Element">innerHTML</a> [ = <var>value</var> ]
-                <dd>
-                <p>Returns a fragment of HTML or XML that represents the
-                <code><a>Document</a></code>.
+          <dl>
+            <dt>"beforebegin"
+            <dd>Before the element itself.
 
-                <p>Can be set, to replace the
-                <code><a>Document</a></code>'s contents with the result of
-                parsing the given string.
+            <dt>"afterbegin"
+            <dd>Just inside the element, before its first child.
 
-                <p>In the case of an <a>XML document</a>,
-                will throw an
-                <code><a>DOMException</a></code> with name <code>InvalidStateError</code>
-                if the <code><a>Document</a></code> cannot be serialized
-                to XML, and a
-                <code><a>DOMException</a></code> with name <code>SyntaxError</code>
-                if the given string is not well-formed.
-                -->
+            <dt>"beforeend"
+            <dd>Just inside the element, after its last child.
 
-                <dt><var>element</var> . <a>innerHTML</a> [ = <var>value</var> ]
-                <dd>
-                <p>Returns a fragment of HTML or XML that represents the element's
-                contents.
+            <dt>"afterend"
+            <dd>After the element itself.
+          </dl>
 
-                <p>Can be set, to replace the contents of the element with nodes
-                parsed from the given string.
+          <p>Throws a <code><a>DOMException</a></code> with name
+          "<code><a>SyntaxError</a></code>"
+          if the arguments have invalid values (e.g., in the case of an
+          <a>XML document</a>, if the given string is
+          not well-formed).
 
-                <p>In the case of an <a>XML document</a>,
-                will throw a
-                <code><a>DOMException</a></code> with name
-                "<code><a>InvalidStateError</a></code>"
-                if the <code><a>Element</a></code> cannot be serialized
-                to XML, and a
-                <code><a>DOMException</a></code> with name
-                "<code><a>SyntaxError</a></code>"
-                if the given string is not well-formed.
-            </dl>
+          <p>Throws a
+          <code><a>DOMException</a></code> with name
+          "<code><a>NoModificationAllowedError</a></code>"
+          if the given position isn't possible (e.g. inserting elements
+          after the root element of a <code><a>Document</a></code>).
+      </dl>
 
-            <p>On getting, return the result of invoking the
-                <a>fragment serializing algorithm</a> on the
-                <a>context object</a> providing <code>true</code> for the
-                <a>require well-formed</a> flag (this might throw an exception
-                instead of returning a string).
+      <p>The
+      <dfn for="Element" data-lt="insertAdjacentHTML"><code>insertAdjacentHTML(<var>position</var>, <var>text</var>)</code></dfn>
+      method must run these steps:
 
-            <p>On setting, these steps must be run:
-            <ol>
-                <li>Let <var>fragment</var> be the result of invoking the
-                <a>fragment parsing algorithm</a> with
-                the new value as <var>markup</var>, and the
-                <a>context object</a> as the <var>context element</var>.
+      <ol>
+          <li>Use the first matching item from this list:
 
-                <li><a>Replace all</a>
-                with <var>fragment</var> within the <a>context object</a>.
-            </ol>
-        </dd>
+          <dl class=switch>
+              <dt>If <var>position</var> is an
+              <a>ASCII case-insensitive</a> match for
+              the string "beforebegin"
 
-        <!-- outerHTML -->
-        <dt>[CEReactions, TreatNullAs=EmptyString] attribute DOMString outerHTML</dt>
-        <dd>
-            <p>The <dfn for="Element"><code>outerHTML</code></dfn> IDL
-            attribute represents the markup of the
-            <code><a>Element</a></code> and its contents.
+              <dt>If <var>position</var> is an
+              <a>ASCII case-insensitive</a> match for
+              the string "afterend"
 
-            <dl class=domintro>
-              <dt><var>element</var> . <a>outerHTML</a> [ = <var>value</var> ]
               <dd>
-                <p>Returns a fragment of HTML or XML that represents the element and its
-                contents.
+                  <p>Let <var>context</var> be the <a>context object</a>'s
+                  <a>parent</a>.
 
-                <p>Can be set, to replace the element with nodes parsed from the given
-                string.
+                  <p>If <var>context</var> is null or a
+                  <a>Document</a>, throw
+                  a
+                  <code><a>DOMException</a></code> with name
+                  "<code><a>NoModificationAllowedError</a></code>".
 
-                <p>In the case of an <a>XML document</a>,
-                will throw a
-                <code><a>DOMException</a></code> with name
-                "<code><a>InvalidStateError</a></code>"
-                if the element cannot be serialized to XML, and a
-                <code><a>DOMException</a></code> with name
-                "<code><a>SyntaxError</a></code>"
-                if the given string is not well-formed.
+              <dt>If <var>position</var> is an
+              <a>ASCII case-insensitive</a> match for
+              the string "afterbegin"
 
-                <p>Throws a
-                <code><a>DOMException</a></code> with name
-                "<code><a>NoModificationAllowedError</a></code>"
-                if the parent of the element is the
-                <code><a>Document</a></code> node.
-            </dl>
+              <dt>If <var>position</var> is an
+              <a>ASCII case-insensitive</a> match for
+              the string "beforeend"
 
-            <p>On getting, return the result of invoking the
-                <a>fragment serializing algorithm</a> on a
-                fictional node whose only child is the <a>context object</a>
-                providing <code>true</code> for the <a>require well-formed</a>
-                flag (this might throw an exception instead of returning a string).
+              <dd>Let <var>context</var> be the <a>context object</a>.
 
-            <p>On setting, the following steps must be run:
+              <dt>Otherwise
+              <dd>
+                  <p>Throw a <code><a>DOMException</a></code>
+                  with name "<code><a>SyntaxError</a></code>".
+          </dl>
 
-            <ol>
-                <li>Let <var>parent</var> be the <a>context object</a>'s
-                <a>parent</a>.
+        <li>If <var>context</var> is not an
+          <code><a>Element</a></code> or the following are all true:
 
-                <li>If <var>parent</var> is null, terminate these steps. There would be no
-                way to obtain a reference to the nodes created even if the remaining steps
-                were run.
+          <ul>
+            <li><var>context</var>'s
+            <a>node document</a>
+            is an <a>HTML document</a>,
 
-                <li>If <var>parent</var> is a
-                <code><a>Document</a></code>, throw a
-                <code><a>DOMException</a></code> with name
-                "<code><a>NoModificationAllowedError</a></code>"
-                exception.
+            <li><var>context</var>'s
+            <a>local name</a>
+            is "<code>html</code>", and
 
-                <li>If <var>parent</var> is a
-                <code><a>DocumentFragment</a></code>, let
-                <var>parent</var> be a new
-                <code><a>Element</a></code> with
+            <li><var>context</var>'s
+            <a>namespace</a>
+            is the <a>HTML namespace</a>;
+          </ul>
 
-                <ul>
-                    <li><code>body</code> as its
-                    <a>local name</a>,
+          <p>let <var>context</var> be a new
+          <code><a>Element</a></code> with
 
-                    <li>The <a>HTML namespace</a> as its
-                    <a>namespace</a>, and
-                    <li>The <a>context object</a>'s
-                    <a>node document</a>
-                    as its
-                    <a>node document</a>.
-                </ul>
+          * `body` as its
+            <a>local name</a>,
 
-                <li>Let <var>fragment</var> be the result of invoking the
-                <a>fragment parsing algorithm</a> with
-                the new value as <var>markup</var>, and <var>parent</var> as
-                the <var>context element</var>.
+          * The <a>HTML namespace</a> as its
+            <a>namespace</a>, and
 
-                <li><a>Replace</a>
-                the <a>context object</a> with <var>fragment</var> within
-                the <a>context object</a>'s
-                <a>parent</a>.
-            </ol>
-        </dd>
+          * The <a>context object</a>'s
+            <a>node document</a>
+            as its
+            <a>node document</a>.
+          
 
-        <!-- insertAdjacentHTML -->
-        <dt>[CEReactions] void insertAdjacentHTML(DOMString position, DOMString text)</dt>
-        <dd>
-             <dl class=domintro>
-                  <dt><var>element</var> . <a>insertAdjacentHTML</a>(<var>position</var>, <var>text</var>)
+      <li>Let <var>fragment</var> be the result of invoking the
+      <a>fragment parsing algorithm</a> with <var>text</var> as
+      <var>markup</var>, and <var>context</var> as the <var>context element</var>.
 
-                  <dd>
-                    <p>Parses the given string <var>text</var> as HTML or XML and inserts
-                    the resulting nodes into the tree in the position given by the
-                    <var>position</var> argument, as follows:
+      <li>Use the first matching item from this list:
 
-                    <dl>
-                      <dt>"beforebegin"
-                      <dd>Before the element itself.
+      <dl class=switch>
+          <dt>If <var>position</var> is an
+          <a>ASCII case-insensitive</a> match for
+          the string "beforebegin"
 
-                      <dt>"afterbegin"
-                      <dd>Just inside the element, before its first child.
+          <dd><a>Insert</a>
+          <var>fragment</var> into the <a>context object</a>'s
+          <a>parent</a>
+          before the <a>context object</a>.
 
-                      <dt>"beforeend"
-                      <dd>Just inside the element, after its last child.
+          <dt>If <var>position</var> is an
+          <a>ASCII case-insensitive</a> match for
+          the string "afterbegin"
 
-                      <dt>"afterend"
-                      <dd>After the element itself.
-                    </dl>
+          <dd><a>Insert</a>
+          <var>fragment</var> into the <a>context object</a>
+          before its
+          <a>first child</a>.
 
-                    <p>Throws a <code><a>DOMException</a></code> with name
-                    "<code><a>SyntaxError</a></code>"
-                    if the arguments have invalid values (e.g., in the case of an
-                    <a>XML document</a>, if the given string is
-                    not well-formed).
+          <dt>If <var>position</var> is an
+          <a>ASCII case-insensitive</a> match for
+          the string "beforeend"
 
-                    <p>Throws a
-                    <code><a>DOMException</a></code> with name
-                    "<code><a>NoModificationAllowedError</a></code>"
-                    if the given position isn't possible (e.g. inserting elements
-                    after the root element of a <code><a>Document</a></code>).
-                </dl>
+          <dd><a>Append</a>
+          <var>fragment</var> to the <a>context object</a>.
 
-                <p>The
-                <dfn for="Element" data-lt="insertAdjacentHTML"><code>insertAdjacentHTML(<var>position</var>, <var>text</var>)</code></dfn>
-                method must run these steps:
+          <dt>If <var>position</var> is an
+          <a>ASCII case-insensitive</a> match for
+          the string "afterend"
 
-                <ol>
-                    <li>Use the first matching item from this list:
-
-                    <dl class=switch>
-                        <dt>If <var>position</var> is an
-                        <a>ASCII case-insensitive</a> match for
-                        the string "beforebegin"
-
-                        <dt>If <var>position</var> is an
-                        <a>ASCII case-insensitive</a> match for
-                        the string "afterend"
-
-                        <dd>
-                            <p>Let <var>context</var> be the <a>context object</a>'s
-                            <a>parent</a>.
-
-                            <p>If <var>context</var> is null or a
-                            <a>Document</a>, throw
-                            a
-                            <code><a>DOMException</a></code> with name
-                            "<code><a>NoModificationAllowedError</a></code>".
-
-                        <dt>If <var>position</var> is an
-                        <a>ASCII case-insensitive</a> match for
-                        the string "afterbegin"
-
-                        <dt>If <var>position</var> is an
-                        <a>ASCII case-insensitive</a> match for
-                        the string "beforeend"
-
-                        <dd>Let <var>context</var> be the <a>context object</a>.
-
-                        <dt>Otherwise
-                        <dd>
-                            <p>Throw a <code><a>DOMException</a></code>
-                            with name "<code><a>SyntaxError</a></code>".
-                    </dl>
-
-                  <li>If <var>context</var> is not an
-                    <code><a>Element</a></code> or the following are all true:
-
-                    <ul>
-                      <li><var>context</var>'s
-                      <a>node document</a>
-                      is an <a>HTML document</a>,
-
-                      <li><var>context</var>'s
-                      <a>local name</a>
-                      is "<code>html</code>", and
-
-                      <li><var>context</var>'s
-                      <a>namespace</a>
-                      is the <a>HTML namespace</a>;
-                    </ul>
-
-                    <p>let <var>context</var> be a new
-                    <code><a>Element</a></code> with
-
-                    * `body` as its
-                      <a>local name</a>,
-
-                    * The <a>HTML namespace</a> as its
-                      <a>namespace</a>, and
-
-                    * The <a>context object</a>'s
-                      <a>node document</a>
-                      as its
-                      <a>node document</a>.
-                    
-
-                <li>Let <var>fragment</var> be the result of invoking the
-                <a>fragment parsing algorithm</a> with <var>text</var> as
-                <var>markup</var>, and <var>context</var> as the <var>context element</var>.
-
-                <li>Use the first matching item from this list:
-
-                <dl class=switch>
-                    <dt>If <var>position</var> is an
-                    <a>ASCII case-insensitive</a> match for
-                    the string "beforebegin"
-
-                    <dd><a>Insert</a>
-                    <var>fragment</var> into the <a>context object</a>'s
-                    <a>parent</a>
-                    before the <a>context object</a>.
-
-                    <dt>If <var>position</var> is an
-                    <a>ASCII case-insensitive</a> match for
-                    the string "afterbegin"
-
-                    <dd><a>Insert</a>
-                    <var>fragment</var> into the <a>context object</a>
-                    before its
-                    <a>first child</a>.
-
-                    <dt>If <var>position</var> is an
-                    <a>ASCII case-insensitive</a> match for
-                    the string "beforeend"
-
-                    <dd><a>Append</a>
-                    <var>fragment</var> to the <a>context object</a>.
-
-                    <dt>If <var>position</var> is an
-                    <a>ASCII case-insensitive</a> match for
-                    the string "afterend"
-
-                    <dd><a>Insert</a>
-                    <var>fragment</var> into the <a>context object</a>'s
-                    <a>parent</a>
-                    before the <a>context object</a>'s
-                    <a>next sibling</a>.
-                </dl>
-            </ol>
-        </dd>
-
-    </dl>
+          <dd><a>Insert</a>
+          <var>fragment</var> into the <a>context object</a>'s
+          <a>parent</a>
+          before the <a>context object</a>'s
+          <a>next sibling</a>.
+      </dl>
+  </ol>
 </section>
 
 <!-- Dropping this extention as it is not implemented, nor does it appear that any browser
@@ -1418,114 +1415,115 @@ td {
 <section>
     <h1>Extensions to the <code><a>Text</a></code> interface</h1>
 
-    <dl class="idl" title="partial interface Text">
-        <dt>attribute boolean serializeAsCDATA</dt>
-        <dd>
-            <dl class=domintro>
-              <dt><var>text</var> .
-                  <a for="Text">serializeAsCDATA</a> [ = <var>value</var> ]
-              <dd>Controls whether, in XML, this node is serialized as a CDATA section.
-            </dl>
+    <pre class="idl">
+      partial interface Text {
+        attribute boolean serializeAsCDATA;
+      };
+    </pre>
+  <dl class=domintro>
+    <dt><var>text</var> .
+        <a for="Text">serializeAsCDATA</a> [ = <var>value</var> ]
+    <dd>Controls whether, in XML, this node is serialized as a CDATA section.
+  </dl>
 
-            <p><code><a>Text</a></code> nodes have an additional
-            associated flag, the <dfn>serialize as CDATA flag</dfn>.
+  <p><code><a>Text</a></code> nodes have an additional
+  associated flag, the <dfn>serialize as CDATA flag</dfn>.
 
-            <p>The
-            <dfn for="Text"><code>serializeAsCDATA</code></dfn>
-            attribute must return true if the <a>context object</a> has its
-            <a>serialize as CDATA flag</a> set, or false otherwise.
+  <p>The
+  <dfn for="Text"><code>serializeAsCDATA</code></dfn>
+  attribute must return true if the <a>context object</a> has its
+  <a>serialize as CDATA flag</a> set, or false otherwise.
 
-            <p>Setting the <a for="Text">serializeAsCDATA</a>
-            attribute must, if the new value is true, set the
-            <a>context object</a>'s <a>serialize as CDATA flag</a>, or unset
-            it otherwise.
-        </dd>
-    </dl>
+  <p>Setting the <a for="Text">serializeAsCDATA</a>
+  attribute must, if the new value is true, set the
+  <a>context object</a>'s <a>serialize as CDATA flag</a>, or unset
+  it otherwise.
 </section>
 -->
 
 <section>
     <h1>Extensions to the <code><a>Range</a></code> interface</h1>
 
-    <dl class="idl" title="partial interface Range">
-        <dt>[CEReactions, NewObject] DocumentFragment createContextualFragment(DOMString fragment)</dt>
-        <dd>
-            <dl class=domintro>
-              <dt><var>docFragment</var> = <var>range</var> . <a for="Range">createContextualFragment</a>(<var>markupString</var>)
-              <dd>Returns a <code><a>DocumentFragment</a></code>, created
-                from the markup string given.
-            </dl>
+    <pre class="idl">
+      partial interface Range {
+        [CEReactions, NewObject] DocumentFragment createContextualFragment(DOMString fragment);
+      };
+    </pre>
 
-            <p>The
-            <dfn for="Range"><code>createContextualFragment(<var>fragment</var>)</code></dfn>
-            method must run these steps:
+  <dl class=domintro>
+    <dt><var>docFragment</var> = <var>range</var> . <a for="Range">createContextualFragment</a>(<var>markupString</var>)
+    <dd>Returns a <code><a>DocumentFragment</a></code>, created
+      from the markup string given.
+  </dl>
 
-            <ol>
-                <li>Let <var>node</var> be the <a>context object</a>'s
-                <a>start node</a>.
+  <p>The
+  <dfn for="Range"><code>createContextualFragment(<var>fragment</var>)</code></dfn>
+  method must run these steps:
 
-                <p>Let <var>element</var> be as follows, depending on <var>node</var>'s interface:
+  <ol>
+      <li>Let <var>node</var> be the <a>context object</a>'s
+      <a>start node</a>.
 
-                <dl class=switch>
-                    <dt><code><a>Document</a></code>
-                    <dt><code><a>DocumentFragment</a></code>
-                    <dd>null
+      <p>Let <var>element</var> be as follows, depending on <var>node</var>'s interface:
 
-                    <dt><code><a>Element</a></code>
-                    <dd><var>node</var>
+      <dl class=switch>
+          <dt><code><a>Document</a></code>
+          <dt><code><a>DocumentFragment</a></code>
+          <dd>null
 
-                    <dt><code><a>Text</a></code>
-                    <dt><code><a>Comment</a></code>
-                    <dd><var>node</var>'s
-                    <a>parent</a>
+          <dt><code><a>Element</a></code>
+          <dd><var>node</var>
 
-                    <dt><code><a>DocumentType</a></code>
-                    <dt><code><a>ProcessingInstruction</a></code>
-                    <dd>[[DOM4]] prevents this case.
-                </dl>
+          <dt><code><a>Text</a></code>
+          <dt><code><a>Comment</a></code>
+          <dd><var>node</var>'s
+          <a>parent</a>
 
-                <li>If either <var>element</var> is null or the following are all true:
+          <dt><code><a>DocumentType</a></code>
+          <dt><code><a>ProcessingInstruction</a></code>
+          <dd>[[DOM4]] prevents this case.
+      </dl>
 
-                    <ul>
-                      <li><var>element</var>'s
-                      <a>node document</a>
-                      is an <a>HTML document</a>,
+      <li>If either <var>element</var> is null or the following are all true:
 
-                      <li><var>element</var>'s
-                      <a>local name</a>
-                      is "<code>html</code>", and
+          <ul>
+            <li><var>element</var>'s
+            <a>node document</a>
+            is an <a>HTML document</a>,
 
-                      <li><var>element</var>'s
-                      <a>namespace</a>
-                      is the <a>HTML namespace</a>;
-                    </ul>
+            <li><var>element</var>'s
+            <a>local name</a>
+            is "<code>html</code>", and
 
-                    <p>let <var>element</var> be a new
-                    <a>Element</a> with
+            <li><var>element</var>'s
+            <a>namespace</a>
+            is the <a>HTML namespace</a>;
+          </ul>
 
-                    <ul>
-                      <li>"<code>body</code>" as its
-                      <a>local name</a>,
+          <p>let <var>element</var> be a new
+          <a>Element</a> with
 
-                      <li>The <a>HTML namespace</a> as its
-                      <a>namespace</a>, and
+          <ul>
+            <li>"<code>body</code>" as its
+            <a>local name</a>,
 
-                      <li>The <a>context object</a>'s
-                      <a>node document</a>
-                      as its
-                      <a>node document</a>.
-                    </ul>
+            <li>The <a>HTML namespace</a> as its
+            <a>namespace</a>, and
 
-                <li>Let <var>fragment node</var> be the result of invoking the
-                <a>fragment parsing algorithm</a> with <var>fragment</var> as
-                <var>markup</var>, and <var>element</var> as the <var>context element</var>.
+            <li>The <a>context object</a>'s
+            <a>node document</a>
+            as its
+            <a>node document</a>.
+          </ul>
 
-                <li>Unmark all scripts in <var>fragment node</var> as "already started".
+      <li>Let <var>fragment node</var> be the result of invoking the
+      <a>fragment parsing algorithm</a> with <var>fragment</var> as
+      <var>markup</var>, and <var>element</var> as the <var>context element</var>.
 
-                <li>Return the value of <var>fragment node</var>.
-            </ol>
-        </dd>
-    </dl>
+      <li>Unmark all scripts in <var>fragment node</var> as "already started".
+
+      <li>Return the value of <var>fragment node</var>.
+  </ol>
 </section>
 
 <section class=appendix>
@@ -1656,8 +1654,8 @@ td {
   and Boris Zbarsky,
   for their useful comments.
 
-  <p>Special thanks to Ian Hickson for first defining the <a>innerHTML</a> and <a>outerHTML</a> 
-  attributes, and the <a>insertAdjacentHTML</a> method in [[HTML5]] and his useful comments.
+  <p>Special thanks to Ian Hickson for first defining the <a for="Element">innerHTML</a> and <a for="Element">outerHTML</a> 
+  attributes, and the <a for="Element">insertAdjacentHTML</a> method in [[HTML5]] and his useful comments.
 </section>
 
 </body>
