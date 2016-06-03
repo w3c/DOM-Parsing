@@ -1155,17 +1155,15 @@ dl.domintro::before {
   <ol>
     <li>Let <var>serialized document</var> be an empty string.
 
-    <li>If <var>node</var>'s <code><a>doctype</a></code> attribute is not <code>null</code>, append
-    to <var>serialized document</var> the string produced by running the steps for
-    <a>XML serializing a DocumentType node</a> given <var>node</var>'s <code><a>doctype</a></code>
-    attribute.
-
     <li>For each <a>child</a> <var>child</var> of <var>node</var>, in <a>tree order</a>, run the
-    <a>XML serialization algorithm</a> on the <var>child</var> given a <a>context namespace</a>
-    <var>namespace</var>, a <a>namespace prefix map</a> <var>prefix map</var>, a reference to a
-    <a>generated namespace prefix index</a> <var>prefix index</var>, flag
-    <var>require well-formed</var>, and append the result to <var>serialized document</var>.
+    <a>XML serialization algorithm</a> on the <var>child</var> passing along the provided arguments, 
+    and append the result to <var>serialized document</var>.
 
+    <p class=note>This will serialize any number of <a>ProcessingInstruction</a> and <a>Comment</a> 
+    nodes both before and after the <a>Document</a>'s <a>documentElement</a> node, including
+    at most one <a>DocumentType</a> node. (<a>Text</a> nodes are not allowed as children of the 
+    <a>Document</a>.)</p>
+    
     <li>Return the value of <var>serialized document</var>.
   </ol>
 
