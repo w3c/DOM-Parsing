@@ -258,6 +258,14 @@ dl.domintro::before {
     the new value as <var>markup</var>, and the <a>context object</a> as the
     <var>context element</var>.
 
+    <li>If the <a>context object</a> is a <code><a>template</a></code> element, then let 
+    <a>context object</a> be the <code><a>template</a></code>'s <a>template content</a> (a 
+    <code><a>DocumentFragment</a></code>).
+    
+    <p class=note>Setting <a for="Element">innerHTML</a> on a <a>template</a> element will replace 
+    all the nodes in its <a>template content</a> 
+    (<a>template</a>.<a data-lt="template content">content</a>) rather than its <a>children</a>.</p>
+    
     <li><a>Replace all</a> with <var>fragment</var> within the <a>context object</a>.
   </ol>
 
@@ -416,6 +424,13 @@ dl.domintro::before {
       the <a>context object</a>'s <a>next sibling</a>.
     </dl>
   </ol>
+  
+  <p class=note>No special handling for <code><a>template</a></code> elements is included in the 
+  above "<code>afterbegin</code>" and "<code>beforeend</code>" cases. Unlike 
+  <a for="Element">innerHTML</a>, <a for="Element">insertAdjacentHTML</a> will insert the given 
+  <var>fragment</var> into a <code><a>template</a></code>'s <a>children</a> rather than into its
+  <a>template content</a>.</p>
+  
 </section><!-- end Extensions to the Element interface -->
 
 <section><h2>Extensions to the <code><a>Range</a></code> interface</h2>
@@ -894,7 +909,7 @@ dl.domintro::before {
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s
     <code><a>localName</a></code> matches the string "<code>template</code>", then this is a
     <code><a>template</a></code> element. Append to <var>markup</var> the result of running the
-    <a>XML serialization algorithm</a> on the <a>template</a> element's <a>template contents</a>
+    <a>XML serialization algorithm</a> on the <a>template</a> element's <a>template content</a>
     (a <code><a>DocumentFragment</a></code>), providing the value of <var>inherited ns</var> for
     the <a>context namespace</a>, <var>map</var> for the <a>namespace prefix map</a>,
     <var>prefix index</var> for the <a>generated namespace prefix index</a>, and the value of the
@@ -1410,7 +1425,7 @@ dl.domintro::before {
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#script">script</a></dfn> and
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#the-template-element">template</a></dfn>
     <li><dfn><a href="https://www.w3.org/TR/html5/single-page.html#void-elements">void elements</a></dfn>
-    <li>The <a>template</a>'s <dfn data-lt="template content"><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
+    <li>The <a>template</a>'s <dfn><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template content</a></dfn>
   </ul>
 
   The DOM specification [[!DOM4]] defines the following terms used in this document:
