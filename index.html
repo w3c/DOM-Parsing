@@ -3,11 +3,6 @@
 <head><meta charset=UTF-8>
 <title>DOM Parsing and Serialization</title>
 <style>
-/* Make these stand-out more... */
-.externalDFN {
-    font-style: italic;
-    background-color: #fff9d6;
-}
 /* Switch statement */
 dl.switch dt::before {
     content: "↪ ";
@@ -39,38 +34,6 @@ dl.domintro::before {
     margin-top: -20px;
     padding: 2px;
     content: "This box is non-normative. Implementation requirements are given below this box.";
-}
-/* Fancy table stuff */
-table {
-    border-collapse: collapse;
-}
-thead tr {
-    border-bottom: 2px solid black;
-}
-tbody tr:not(:last-child) {
-    border-bottom: 1px solid black;
-}
-td {
-    border-left: 1px solid black;
-    padding: 4px;
-}
-/* Extra IDL :-) */
-.extraidl {
-    line-height: 120%;
-    padding: 1em;
-    border-top: 1px solid #90b8de;
-    border-bottom: 1px solid #90b8de;
-}
-.extraidl:before {
-    width: 150px;
-    color: #fff;
-    padding: 3px;
-    font-weight: bold;
-    font-family: initial;
-    margin: -1em 0 1em -1em;
-    display: block;
-    content: "WebIDL";
-    background-color: rgb(144, 184, 222);
 }
 </style>
 <script type="text/javascript" src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove' async></script>
@@ -617,7 +580,7 @@ td {
     or changed. An <a>HTML serialization</a> does not attempt to preserve the namespaceURI.
 
     <li><a>Elements</a> not in the <a>HTML namespace</a> containing no <a>children</a>, are
-    serialized using the <a>empty-element tag</a> syntax (i.e., according to the XML 
+    serialized using the <a>empty-element tag</a> syntax (i.e., according to the XML
     <a>EmptyElemTag</a> production).
   </ul>
 
@@ -961,58 +924,58 @@ td {
 
   <p>When <dfn>recording the namespace information</dfn> for an <code><a>Element</a></code>
   <var>element</var>, given a <a>namespace prefix map</a> <var>map</var>, an
-  <var>element prefixes list</var> (initially empty), and a <var>duplicate prefix definition</var> 
+  <var>element prefixes list</var> (initially empty), and a <var>duplicate prefix definition</var>
   reference, the user agent must run the following steps:
-  
+
   <ol>
     <li>Let <var>default namespace attr value</var> be <code>null</code>.
-            
+
     <li><dfn>Main</dfn>: For each <a>attribute</a> <var>attr</var> in <var>element</var>'s
     <code><a>attributes</a></code>, in the order they are specified in the <var>element</var>'s
     <a>attribute list</a>:
 
-    <p class="note">The following conditional steps add namespace prefixes into the 
-    <var>element prefixes list</var> and add or replace them in the <var>map</var>. Only attributes 
-    in the <a>XMLNS namespace</a> are considered (e.g., attributes made to look like namespace 
-    declarations via <code><a>setAttribute</a>(<em>"xmlns:pretend-prefix"</em>, 
+    <p class="note">The following conditional steps add namespace prefixes into the
+    <var>element prefixes list</var> and add or replace them in the <var>map</var>. Only attributes
+    in the <a>XMLNS namespace</a> are considered (e.g., attributes made to look like namespace
+    declarations via <code><a>setAttribute</a>(<em>"xmlns:pretend-prefix"</em>,
     <em>"pretend-namespace"</em>)</code> are not included).</p>
-    
+
     <ol>
       <li>Let <var>attribute namespace</var> be the value of <var>attr</var>'s
       <code><a>namespaceURI</a></code> value.
-      
-      <li>Let <var>attribute prefix</var> be the value of <var>attr</var>'s 
+
+      <li>Let <var>attribute prefix</var> be the value of <var>attr</var>'s
       <code><a>prefix</a></code>.
-      
+
       <li>If the <var>attribute namespace</var> is the <a>XMLNS namespace</a>, then:
       <ol>
-        <li>If <var>attribute prefix</var> is <code>null</code>, then <var>attr</var> is a default 
-        namespace declaration. Set the <var>default namespace attr value</var> to <var>attr</var>'s 
-        <code><a>value</a></code> and stop running these steps, returning to <a>Main</a> to visit 
+        <li>If <var>attribute prefix</var> is <code>null</code>, then <var>attr</var> is a default
+        namespace declaration. Set the <var>default namespace attr value</var> to <var>attr</var>'s
+        <code><a>value</a></code> and stop running these steps, returning to <a>Main</a> to visit
         the next attribute.
-        
+
         <li>Otherwise, the <var>attribute prefix</var> is not <code>null</code> and <var>attr</var>
         is a namespace prefix definition. Run the following steps:
         <ol>
           <li>Let <var>prefix definition</var> be the value of <var>attr</var>'s
           <code><a data-lt="attr localName">localName</a></code>.
-          
+
           <li>Let <var>namespace definition</var> be the value of <var>attr</var>'s
           <code><a>value</a></code>.
 
           <li>If a key matching the value of <var>namespace definition</var> already exists in
-          <var>map</var>, and the key's value matches <var>prefix definition</var>, then this is a 
-          duplicate namespace prefix definition. Set the value of 
+          <var>map</var>, and the key's value matches <var>prefix definition</var>, then this is a
+          duplicate namespace prefix definition. Set the value of
           <var>duplicate prefix definition</var> to <var>prefix definition</var>.
-          
+
           <li>Otherwise, if the key matching the value of <var>namespace definition</var> already
           exists in <var>map</var>, but the key's value does not match <var>prefix definition</var>,
           then update the key's value to be <var>prefix definition</var>.
-          
+
           <li>Otherwise, no key matching the value of <var>namespace definition</var> exists;
-          append to <var>map</var> a new key <var>namespace definition</var> whose key value is the 
+          append to <var>map</var> a new key <var>namespace definition</var> whose key value is the
           <var>prefix definition</var>.
-          
+
           <li>Append the value of <var>prefix definition</var> to <var>element prefixes list</var>.
         </ol>
       </ol>
@@ -1021,160 +984,160 @@ td {
   </ol>
 
 </section><!-- Recording the namespace -->
-  
+
 <section><h2>Serializing an Element's attributes</h2>
 
-  <p>The <dfn>XML serialization of the attributes</dfn> of an <code><a>Element</a></code> 
-  <var>element</var> together with a <a>namespace prefix map</a> <var>map</var>, a 
-  <a>generated namespace prefix index</a> <var>prefix index</var> reference, a flag 
-  <var>ignore namespace definition attribute</var>, a <var>duplicate prefix definition</var> value, 
+  <p>The <dfn>XML serialization of the attributes</dfn> of an <code><a>Element</a></code>
+  <var>element</var> together with a <a>namespace prefix map</a> <var>map</var>, a
+  <a>generated namespace prefix index</a> <var>prefix index</var> reference, a flag
+  <var>ignore namespace definition attribute</var>, a <var>duplicate prefix definition</var> value,
   and a flag <var>require well-formed</var>, is the result of the following algorithm:
-  
+
   <ol>
     <li>Let <var>result</var> be the empty string.
-    
-    <li>Let <var>localname set</var> be a new empty <var>namespace localname set</var>. This 
-    <var>localname set</var> will contain tuples of unique attribute 
-    <code><a>namespaceURI</a></code> and <code><a>localName</a></code> pairs, and is populated as 
-    each <var>attr</var> is processed. <span class="note">This set is used to [optionally] enforce 
-    the well-formed constraint that an element cannot have two attributes with the same 
-    <code><a>namespaceURI</a></code> and <code><a>localName</a></code>. This can occur when two 
+
+    <li>Let <var>localname set</var> be a new empty <var>namespace localname set</var>. This
+    <var>localname set</var> will contain tuples of unique attribute
+    <code><a>namespaceURI</a></code> and <code><a>localName</a></code> pairs, and is populated as
+    each <var>attr</var> is processed. <span class="note">This set is used to [optionally] enforce
+    the well-formed constraint that an element cannot have two attributes with the same
+    <code><a>namespaceURI</a></code> and <code><a>localName</a></code>. This can occur when two
     otherwise identical attributes on the same element differ only by their prefix values.</span>
-    
+
     <li><dfn>Loop</dfn>: For each <a>attribute</a> <var>attr</var> in <var>element</var>'s
     <code><a>attributes</a></code>, in the order they are specified in the <var>element</var>'s
     <a>attribute list</a>:
     <ol>
-      <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and the 
-      <var>localname set</var> contains a tuple whose values match those of a new tuple consisting 
-      of <var>attr</var>'s <code><a>namespaceURI</a></code> attribute and 
-      <code><a>localName</a></code> attribute, then <a>throw an exception</a>; the serialization of 
+      <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and the
+      <var>localname set</var> contains a tuple whose values match those of a new tuple consisting
+      of <var>attr</var>'s <code><a>namespaceURI</a></code> attribute and
+      <code><a>localName</a></code> attribute, then <a>throw an exception</a>; the serialization of
       this <var>attr</var> would fail to produce a well-formed element serialization.
-      
+
       <li>Create a new tuple consisting of <var>attr</var>'s <code><a>namespaceURI</a></code>
-      attribute and <code><a>localName</a></code> attribute, and add it to the 
+      attribute and <code><a>localName</a></code> attribute, and add it to the
       <var>localname set</var>.
-      
-      <li>Let <var>attribute namespace</var> be the value of <var>attr</var>'s 
+
+      <li>Let <var>attribute namespace</var> be the value of <var>attr</var>'s
       <code><a>namespaceURI</a></code> value.
-      
+
       <!-- Check for an unregistered attribute namespace, and if so, serialize a definition for it -->
       <li>Let <var>candidate prefix</var> be <code>null</code>.
-      
+
       <li>If <var>attribute namespace</var> is not <code>null</code>, then run these sub-steps:
       <ol>
-        <li>If the value of <var>attribute namespace</var> is the <a>XMLNS namespace</a> and either 
-        the <var>attr</var>'s <code><a>prefix</a></code> is <code>null</code> and the 
-        <var>ignore namespace definition attribute</var> flag is <code>true</code> or the 
-        <var>attr</var>'s <code><a>prefix</a></code> is not <code>null</code> and the 
-        <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code> matches the value 
-        of <var>duplicate prefix definition</var>, then stop running these steps and goto 
+        <li>If the value of <var>attribute namespace</var> is the <a>XMLNS namespace</a> and either
+        the <var>attr</var>'s <code><a>prefix</a></code> is <code>null</code> and the
+        <var>ignore namespace definition attribute</var> flag is <code>true</code> or the
+        <var>attr</var>'s <code><a>prefix</a></code> is not <code>null</code> and the
+        <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code> matches the value
+        of <var>duplicate prefix definition</var>, then stop running these steps and goto
         <a>Loop</a> to visit the next attribute.
-        
-        <li>Otherwise, if there exists a key in <var>map</var> that matches the value of 
-        <var>attribute namespace</var>, then let <var>candidate prefix</var> be that key's value 
+
+        <li>Otherwise, if there exists a key in <var>map</var> that matches the value of
+        <var>attribute namespace</var>, then let <var>candidate prefix</var> be that key's value
         from the <var>map</var>.
-        
-        <li>Otherwise, there is no key matching <var>attribute namespace</var> in <var>map</var> and 
+
+        <li>Otherwise, there is no key matching <var>attribute namespace</var> in <var>map</var> and
         the <var>attribute namespace</var> is not the <a>XMLNS namespace</a>. Run these steps:
         <ol>
-          <li>Let <var>candidate prefix</var> be the result of <a>generating a prefix</a> providing 
+          <li>Let <var>candidate prefix</var> be the result of <a>generating a prefix</a> providing
           <var>map</var>, <var>attribute namespace</var>, and <var>prefix index</var> as input.
-          
+
           <li>Append the following to <var>result</var>, in the order listed:
           <ol>
             <li>"<code> </code>" (U+0020 SPACE);
-            
+
             <li>The string "<code>xmlns:</code>";
-            
+
             <li>The value of <var>candidate prefix</var>;
 
             <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
-            <li>The result of <a>serializing an attribute value</a> given <var>attribute namespace</var> 
+            <li>The result of <a>serializing an attribute value</a> given <var>attribute namespace</var>
             and the <a>require well-formed</a> flag as input;
-            
+
             <li>"<code>"</code>" (U+0022 QUOTATION MARK).
           </ol>
         </ol>
       </ol>
       <!-- A namespace prefix has been set by this point if it needed to be set -->
       <li>Append a "<code> </code>" (U+0020 SPACE) to <var>result</var>.
-      
+
       <li>If <var>candidate prefix</var> is not <code>null</code>, then append to <var>result</var>
       the concatenation of <var>candidate prefix</var> with "<code>:</code>" (U+003A COLON).
       <!-- Check for well-formed localName -->
-      <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and this 
-      <var>attr</var>'s <code><a>localName</a></code> attribute contains the character 
-      "<code>:</code>" (U+003A COLON) or does not match the XML <a>Name</a> production or equals 
-      "<code>xmlns</code>" and <var>attribute namespace</var> is <code>null</code>, then 
-      <a>throw an exception</a>; the serialization of this <var>attr</var> would not be a 
+      <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and this
+      <var>attr</var>'s <code><a>localName</a></code> attribute contains the character
+      "<code>:</code>" (U+003A COLON) or does not match the XML <a>Name</a> production or equals
+      "<code>xmlns</code>" and <var>attribute namespace</var> is <code>null</code>, then
+      <a>throw an exception</a>; the serialization of this <var>attr</var> would not be a
       well-formed attribute.
       <!-- Write out the standard attribute -->
       <li>Append the following strings to <var>result</var>, in the order listed:
       <ol>
         <li>The value of <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code>;
-    
+
         <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
-        
+
         <li>The result of <a>serializing an attribute value</a> given <var>attr</var>'s
         <code><a>value</a></code> attribute and the <a>require well-formed</a> flag as input;
-        
+
         <li>"<code>"</code>" (U+0022 QUOTATION MARK).
       </ol>
     </ol>
     <li>Return the value of <var>result</var>.
   </ol>
 
-  <p>When <dfn>serializing an attribute value</dfn> given an <var>attribute value</var> and 
+  <p>When <dfn>serializing an attribute value</dfn> given an <var>attribute value</var> and
   <a>require well-formed</a> flag, the user agent must run the following steps:
-  
+
   <ol>
-    <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and 
-    <var>attribute value</var> contains characters that are not matched by the XML <a>Char</a> 
+    <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and
+    <var>attribute value</var> contains characters that are not matched by the XML <a>Char</a>
     production, then <a>throw an exception</a>; the serialization of this <var>attribute value</var>
     would fail to produce a well-formed element serialization.
-    
+
     <li>If <var>attribute value</var> is <code>null</code>, then return the empty string.
-    
+
     <li>Otherwise, <var>attribute value</var> is a string. Return the value of
     <var>attribute value</var>, first replacing any occurrences of the following:
     <ol>
       <li>"<code>&quot;</code>" with "<code>&amp;quot;</code>"
-      
+
       <li>"<code>&amp;</code>" with "<code>&amp;amp;</code>"
-      
+
       <li>"<code>&lt;</code>" with "<code>&amp;lt;</code>"
-      
+
       <li>"<code>&gt;</code>" with "<code>&amp;gt;</code>"
     </ol>
-    <p class="note">This matches behavior present in browsers, and goes above and beyond the grammar 
-    requirement in the XML specification's <a>AttValue</a> production by also replacing 
+    <p class="note">This matches behavior present in browsers, and goes above and beyond the grammar
+    requirement in the XML specification's <a>AttValue</a> production by also replacing
     "<code>&gt;</code>" characters.</p>
   </ol>
-  
+
 </section><!-- Serializing an Element's attributes -->
 
 <section><h2>Generating namespace prefixes</h2>
 
-  <p>To <dfn data-lt="generating a prefix">generate a prefix</dfn> given a 
-  <a>namespace prefix map</a> <var>map</var>, a string <var>new namespace</var>, and a reference to 
-  a <a>generated namespace prefix index</a> <var>prefix index</var>, the user agent must run the 
+  <p>To <dfn data-lt="generating a prefix">generate a prefix</dfn> given a
+  <a>namespace prefix map</a> <var>map</var>, a string <var>new namespace</var>, and a reference to
+  a <a>generated namespace prefix index</a> <var>prefix index</var>, the user agent must run the
   following steps:
   <ol>
-    <li>Let <var>generated prefix</var> be the concatenation of the string "<code>ns</code>" and the 
+    <li>Let <var>generated prefix</var> be the concatenation of the string "<code>ns</code>" and the
     current numerical value of <var>prefix index</var>.
-    
+
     <li>Let the value of <var>prefix index</var> be incremented by one.
-    
+
     <li>Append to <var>map</var> a new key <var>new namespace</var> whose key value is the
     <var>generated prefix</var>.
-    
+
     <li>Return the value of <var>generated prefix</var>.
   </ol>
 
-</section><!-- Generating namespace prefixes --> 
-  
+</section><!-- Generating namespace prefixes -->
+
 </section><!-- XML serializing an Element node -->
 
 <section><h2><dfn>XML serializing a Document node</dfn></h2>
@@ -1192,7 +1155,7 @@ td {
   <ol>
     <li>Let <var>serialized document</var> be an empty string.
 
-    <li>If <var>node</var>'s <code><a>doctype</a></code> attribute is not <code>null</code>, append 
+    <li>If <var>node</var>'s <code><a>doctype</a></code> attribute is not <code>null</code>, append
     to <var>serialized document</var> the string produced by running the steps for
     <a>XML serializing a DocumentType node</a> given <var>node</var>'s <code><a>doctype</a></code>
     attribute.
@@ -1228,7 +1191,7 @@ td {
 <!-- Removing CDATA Serialization steps as this interface type is removed from DOM4
 <section><h2><dfn>XML serializing a CDATASection node</dfn></h2>
 
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>CDATASection</a> 
+  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>CDATASection</a>
   is as follows:
 
   <ol>
@@ -1244,7 +1207,7 @@ td {
 
 <section><h2><dfn>XML serializing a Text node</dfn></h2>
 
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>Text</a> is as 
+  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>Text</a> is as
   follows:
 
   <ol>
@@ -1290,7 +1253,7 @@ td {
 
 <section><h2><dfn>XML serializing a DocumentType node</dfn></h2>
 
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>DocumentType</a> 
+  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>DocumentType</a>
   is as follows:
 
   <ol>
@@ -1539,9 +1502,9 @@ td {
   <a href="https://dvcs.w3.org/hg/innerhtml/summary/">W3C Mercurial server</a>.
 
   <ul>
-    <li>2016-06 WD - Editorial restructuring of the document; monolithic XML serialization algorithm 
+    <li>2016-06 WD - Editorial restructuring of the document; monolithic XML serialization algorithm
     factored into sections. Dependencies clarified.
-    
+
     <li><a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/LC2_comments.html">Incorporated
       non-normative changes from previous Last Call document.</a>
   </ul>
