@@ -258,6 +258,14 @@ dl.domintro::before {
     the new value as <var>markup</var>, and the <a>context object</a> as the
     <var>context element</var>.
 
+    <li>If the <a>context object</a> is a <code><a>template</a></code> element, then let
+    <a>context object</a> be the <code><a>template</a></code>'s <a>template contents</a> (a
+    <code><a>DocumentFragment</a></code>).
+
+    <p class=note>Setting <a for="Element">innerHTML</a> on a <a>template</a> element will replace
+    all the nodes in its <a>template contents</a>
+    (<a>template</a>.<a data-lt="template contents">content</a>) rather than its <a>children</a>.</p>
+
     <li><a>Replace all</a> with <var>fragment</var> within the <a>context object</a>.
   </ol>
 
@@ -416,6 +424,16 @@ dl.domintro::before {
       the <a>context object</a>'s <a>next sibling</a>.
     </dl>
   </ol>
+
+  <p class=note>No special handling for <code><a>template</a></code> elements is included in the
+  above "<code>afterbegin</code>" and "<code>beforeend</code>" cases. As with other direct
+  <a>Node</a>-manipulation APIs (and unlike <a for="Element">innerHTML</a>),
+  <a for="Element">insertAdjacentHTML</a> does not include any special handling for
+  <code><a>template</a></code> elements. In most cases you will wish to use
+  <a>template</a>.<a data-lt="template contents">content</a>.<a for="Element">insertAdjacentHTML</a>
+  instead of directly manipulating the <a>child nodes</a> of a <code><a>template</a></code>
+  element.</p>
+
 </section><!-- end Extensions to the Element interface -->
 
 <section><h2>Extensions to the <code><a>Range</a></code> interface</h2>
@@ -586,8 +604,8 @@ dl.domintro::before {
 
   <p>Otherwise, the algorithm for producing an <a>XML serialization</a> is designed to produce a
   serialization that is compatible with the <a>HTML parser</a>. For example, elements in the
-  <a>HTML namespace</a> that contain no child nodes are serialized with an explicit begin and end
-  tag rather than using the <a>empty-element tag</a> syntax.
+  <a>HTML namespace</a> that contain no <a>child nodes</a> are serialized with an explicit begin and
+  end tag rather than using the <a>empty-element tag</a> syntax.
 
   <p class=note>Per [[DOM4]], <code><a>Attr</a></code> objects do not inherit from <a>Node</a>, and
   thus cannot be serialized by the <a>XML serialization algorithm</a>. An attempt to serialize an
@@ -898,7 +916,7 @@ dl.domintro::before {
     (a <code><a>DocumentFragment</a></code>), providing the value of <var>inherited ns</var> for
     the <a>context namespace</a>, <var>map</var> for the <a>namespace prefix map</a>,
     <var>prefix index</var> for the <a>generated namespace prefix index</a>, and the value of the
-    <var>require well-formed</var> flag. <span class="note">This allows <a>template content</a> to
+    <var>require well-formed</var> flag. <span class="note">This allows <a>template contents</a> to
     round-trip , given the rules for <a>parsing XHTML documents</a>.</span>
 
     <li>Otherwise, append to <var>markup</var> the result of running the
@@ -1408,7 +1426,7 @@ dl.domintro::before {
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#script">script</a></dfn> and
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#the-template-element">template</a></dfn>
     <li><dfn><a href="https://www.w3.org/TR/html5/single-page.html#void-elements">void elements</a></dfn>
-    <li>The <a>template</a>'s <dfn data-lt="template content"><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
+    <li>The <a>template</a>'s <dfn><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
   </ul>
 
   The DOM specification [[!DOM4]] defines the following terms used in this document:
@@ -1417,7 +1435,7 @@ dl.domintro::before {
     <li>The following concepts:
       <dfn><a href="https://www.w3.org/TR/dom/#case-sensitive">case-sensitive</a></dfn> and
       <dfn><a href="https://www.w3.org/TR/dom/#ascii-case-insensitive">ASCII case-insensitive</a></dfn> string comparisons;
-      a node's <dfn data-lt="children|child"><a href="https://www.w3.org/TR/dom/#concept-tree-child">children</a></dfn>,
+      a node's <dfn data-lt="child|child nodes"><a href="https://www.w3.org/TR/dom/#concept-tree-child">children</a></dfn>,
       <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-first-child">first child</a></dfn>,
       <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-next-sibling">next sibling</a></dfn> and
       <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-parent">parent</a></dfn>;
@@ -1516,6 +1534,7 @@ dl.domintro::before {
   specification is based.
 
   <p>Thanks to
+  C. Scott Ananian,
   Victor Costan,
   Aryeh Gregor,
   Anne van Kesteren,
