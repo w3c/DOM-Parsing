@@ -704,7 +704,7 @@ dl.domintro::before {
 
   <p>Otherwise, the algorithm for producing an <a>XML serialization</a> is designed to produce a
   serialization that is compatible with the <a>HTML parser</a>. For example, elements in the
-  <a>HTML namespace</a> that contain no child nodes are serialized with an explicit begin and end
+  <a>HTML namespace</a> that contain no <a>child nodes</a> are serialized with an explicit begin and end
   tag rather than using the <a>empty-element tag</a> syntax.
 
   <p class=note>Per [[DOM4]], <code><a>Attr</a></code> objects do not inherit from <a>Node</a>, and
@@ -1736,7 +1736,7 @@ dl.domintro::before {
     <li>The following concepts:
       <dfn><a href="https://www.w3.org/TR/dom/#case-sensitive">case-sensitive</a></dfn> and
       <dfn><a href="https://www.w3.org/TR/dom/#ascii-case-insensitive">ASCII case-insensitive</a></dfn> string comparisons;
-      a node's <dfn data-lt="children|child"><a href="https://www.w3.org/TR/dom/#concept-tree-child">children</a></dfn>,
+      a node's <dfn data-lt="child|child nodes"><a href="https://www.w3.org/TR/dom/#concept-tree-child">children</a></dfn>,
       <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-first-child">first child</a></dfn>,
       <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-next-sibling">next sibling</a></dfn> and
       <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-parent">parent</a></dfn>;
@@ -1820,7 +1820,8 @@ dl.domintro::before {
 
   <ul>
     <li>2016-06 WD - Editorial restructuring of the document; monolithic XML serialization algorithm
-    factored into sections. Dependencies clarified.
+    factored into sections. Dependencies clarified. XML Serialization algorithm updated to get 
+    closer to interoperable browser behavior.
 
     <li><a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/LC2_comments.html">Incorporated
       non-normative changes from previous Last Call document.</a>
