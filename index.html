@@ -109,11 +109,89 @@ dl.domintro::before {
 
 <section><h2>Introduction</h2>
 
-  <p>The term <dfn>context object</dfn> means the object on which the method or attribute being
-  discussed was called.
+  <p>A document object model (DOM) is an in-memory representation of various types of <a>Node</a>s
+  where each <a>Node</a> is connected in a tree. The [[HTML5]] and [[DOM4]] specifications describe
+  DOM and its <a>Node</a>s is greater detail.
+
+  <p><dfn>Parsing</dfn> is the term used for converting a string representation of a DOM into an
+  actual DOM, and <dfn>Serializing</dfn> is the term used to transform a DOM back into a string.
+  This specification concerns itself with defining various APIs for both parsing and serializing a
+  DOM.
+
+  <div class=example>For example: the <a for="Element">innerHTML</a> API is a common way to both
+  parse and serialize a DOM (it does both). If a particular <a>Node</a>, has the following in-memory
+  DOM:
+  <pre>
+    HTMLDivElement (nodeName: "div")
+    ┃
+    ┣━ HTMLSpanElement (nodeName: "span")
+    ┃  ┃
+    ┃  ┗━ Text (data: "some ")
+    ┃
+    ┗━ HTMLElement (nodeName: "em")
+       ┃
+       ┗━ Text (data: "text!")
+  </pre>
+  And the <code>HTMLDivElement</code> node is stored in a variable <code><var>myDiv</var></code>,
+  then to serialize <code><var>myDiv</var></code>'s children simply <em>get</em> (read) the
+  <a>Element</a>'s <a for="Element">innerHTML</a> property (this triggers the serialization):
+
+  <pre class=javascript>
+    var serializedChildren = myDiv.innerHTML;
+    // serializedChildren has the value:
+    // "&lt;span>some &lt;/span>&lt;em>text!&lt;/em>"
+  </pre>
+
+  <p>To parse new children for <code><var>myDiv</var></code> from a string (replacing its existing
+  children), simply <em>set</em> the <a for="Element">innerHTML</a> property (this triggers
+  parsing of the assigned string):
+
+  <pre class=javascript>
+    myDiv.innerHTML = "&lt;span>new&lt;/span>&lt;em>children!&lt;/em>";
+  </pre>
+  </div>
+
+  <p>This specification describes two flavors of <a>parsing</a> and <a>serializing</a>: HTML and
+  XML (with XHTML being a type of XML). Each follows the rules of its respective markup language.
+  The above example shows HTML parsing and serialization. The specific algorithms for HTML parsing
+  and serializing are defined in the [[HTML5]] specification. This specification contains the
+  algorithm for XML serializing. The grammar for XML parsing is described in the [[XML10]]
+  specification.
+
+  <p><dfn>Round-tripping</dfn> a DOM means to serialize and then immediately parse the serialized
+  string back into a DOM. Ideally, this process does not result in any data loss with respect to the
+  identity and attributes of the <a>Node</a> in the DOM.
+
+  <a>Round-tripping</a> is especially tricky for an XML serialization, which must be concerned with
+  preserving the <a>Node</a>'s namespace identity in the serialization (wereas namespaces are
+  ignored in HTML).
+
+  <div class=example>Consider the XML serialization of the following in-memory DOM:
+  <pre>
+    Element (nodeName: "root")
+    ┃
+    ┗━ HTMLScriptElement (nodeName: "script")
+       ┃
+       ┗━ Text (data: "alert('hello world')")
+  </pre>
+  An XML serialization must include the <code>HTMLScriptElement</code> <a>Node</a>'s
+  <a data-lt="concept namespace">namespace</a> in order to preserve the identity of the
+  <code>script</code> element, and to allow the serialized string to
+  <a data-lt="round-tripping">round-trip</a> through an XML parser. Assuming that <code>root</code>
+  is in a variable named <code><var>root</var></code>:
+
+  <pre class=javascript>
+    var xmlSerialization = new XMLSerializer().serializeToString(root);
+    // xmlSerialization has the value:
+    // "&lt;root>&lt;script xmlns="http://www.w3.org/1999/xhtml">alert('hello world')&lt;/script>&lt;/root>"
+  </pre>
+  </div>
+
+  <p>The term <dfn>context object</dfn> means the object on which the API being discussed was
+  called.
 
   <p>The following terms are understood to represent their respective namespaces in this
-  specification:
+  specification (and makes it easier to read):
 
   <ul>
     <li>The <dfn>HTML namespace</dfn> is <code>http://www.w3.org/1999/xhtml</code>
@@ -143,7 +221,15 @@ dl.domintro::before {
   </pre>
 
   <dl class=domintro>
-    <dt><var>document</var> = <var>domparser</var> . <a for=DOMParser>parseFromString</a>();</dt>
+    <dt><var>domparser</var> = new <a for=DOMParser>DOMParser</a> ()</var>
+    <dd>Constructs a new DOMParser object.
+
+    <dt><var>document</var> = <var>domparser</var> . <a for=DOMParser>parseFromString</a> ( <var>str</var>, <var>type</var> )
+    <dd>Parse <var>str</var> using a parser that matches <var>type</var>'s supported MIME types
+    (either XML or HTML), and return a <a>Document</a> object contained the parsed content if
+    successful. If not successful, returns a <a>Document</a> describing the error.
+    <dd>If <var>type</var> does not match a value in the <a>SupportedType</a> enumeration, an
+    exception is thrown [[WEBIDL]].
   </dl>
 
   <p>The <dfn><code>DOMParser</code></dfn> constructor must return a new <a>DOMParser</a> object.
@@ -183,7 +269,7 @@ dl.domintro::before {
       <code><a>XMLDocument</a></code> interface.</span>
 
       <li>Let <var>root</var> be a new <code><a>Element</a></code>, with its <a>local name</a> set
-      to "<code>parsererror</code>" and its <a>namespace</a> set to
+      to "<code>parsererror</code>" and its <a data-lt="concept namespace">namespace</a> set to
       "<code>http://www.mozilla.org/newlayout/xml/parsererror.xml</code>".
 
       <p>At this point user agents may <a>append</a> nodes to <var>root</var>, for example to
@@ -211,12 +297,21 @@ dl.domintro::before {
     };
   </pre>
 
+  <dl class=domintro>
+    <dt><var>xmlserializer</var> = new <a for=XMLSerializer>XMLSerializer</a> ()</var>
+    <dd>Constructs a new XMLSerializer object.
+
+    <dt><var>string</var> = <var>xmlserializer</var> . <a for=XMLSerializer>serializeToString</a> ( <var>root</var> )
+    <dd>Serializes <var>root</var> into a string using an XML serialization. Throws a
+    <a>TypeError</a> exception if <var>root</var> is not a <a>Node</a> or an <a>Attr</a> object.
+  </dl>
+
   <p>The <dfn><code>XMLSerializer</code></dfn>() constructor must return a new <a>XMLSerializer</a>
   object.
 
   <p>The <dfn for="XMLSerializer"><code>serializeToString</code></dfn>(<var>root</var>) method must
   produce an <a>XML serialization</a> of <var>root</var> passing a value of <code>false</code> for
-  the <a>require well-formed</a> parameter, and return the result.
+  the <a><var>require well-formed</var></a> parameter, and return the result.
 
 </section><!-- end XMLSerializer interface -->
 
@@ -248,7 +343,7 @@ dl.domintro::before {
   </dl>
 
   <p>On getting, return the result of invoking the <a>fragment serializing algorithm</a> on the
-  <a>context object</a> providing <code>true</code> for the <a>require well-formed</a> flag (this
+  <a>context object</a> providing <code>true</code> for the <a><var>require well-formed</var></a> flag (this
   might throw an exception instead of returning a string).
 
   <p>On setting, these steps must be run:
@@ -291,7 +386,7 @@ dl.domintro::before {
 
   <p>On getting, return the result of invoking the <a>fragment serializing algorithm</a> on a
   fictional node whose only child is the <a>context object</a> providing <code>true</code> for the
-  <a>require well-formed</a> flag (this might throw an exception instead of returning a string).
+  <a><var>require well-formed</var></a> flag (this might throw an exception instead of returning a string).
 
   <p>On setting, the following steps must be run:
 
@@ -310,7 +405,7 @@ dl.domintro::before {
     <ul>
       <li><code>body</code> as its <a>local name</a>,
 
-      <li>The <a>HTML namespace</a> as its <a>namespace</a>, and
+      <li>The <a>HTML namespace</a> as its <a data-lt="concept namespace">namespace</a>, and
 
       <li>The <a>context object</a>'s <a>node document</a> as its <a>node document</a>.
     </ul>
@@ -325,13 +420,13 @@ dl.domintro::before {
   <!-- insertAdjacentHTML -->
 
   <dl class=domintro>
-    <dt><var>element</var> . <a for="Element">insertAdjacentHTML</a>(<var>position</var>, <var>text</var>)
+    <dt><var>element</var> . <a for="Element">insertAdjacentHTML</a> ( <var>position</var>, <var>text</var> )
     <dd>Parses the given string <var>text</var> as HTML or XML and inserts the resulting nodes into
     the tree in the position given by the <var>position</var> argument, as follows:
 
     <dl>
       <dt>"beforebegin"
-      <dd>Before the element itself.
+      <dd>Before the element itself (i.e., after <var>element</var>'s previous sibling)
 
       <dt>"afterbegin"
       <dd>Just inside the element, before its first child.
@@ -340,7 +435,7 @@ dl.domintro::before {
       <dd>Just inside the element, after its last child.
 
       <dt>"afterend"
-      <dd>After the element itself.
+      <dd>After the element itself (i.e., before <var>element</var>'s next sibling)
     </dl>
 
     <p>Throws a "<code><a>SyntaxError</a></code>" <code><a>DOMException</a></code> if the arguments
@@ -385,7 +480,8 @@ dl.domintro::before {
 
       <li><var>context</var>'s <a>local name</a> is "<code>html</code>", and
 
-      <li><var>context</var>'s <a>namespace</a> is the <a>HTML namespace</a>;
+      <li><var>context</var>'s <a data-lt="concept namespace">namespace</a> is the
+      <a>HTML namespace</a>;
     </ul>
 
     <p>let <var>context</var> be a new <code><a>Element</a></code> with
@@ -393,7 +489,7 @@ dl.domintro::before {
     <ul>
       <li><code>body</code> as its <a>local name</a>,
 
-      <li>The <a>HTML namespace</a> as its <a>namespace</a>, and
+      <li>The <a>HTML namespace</a> as its <a data-lt="concept namespace">namespace</a>, and
 
       <li>The <a>context object</a>'s <a>node document</a> as its <a>node document</a>.
     </ul>
@@ -445,8 +541,10 @@ dl.domintro::before {
   </pre>
 
   <dl class=domintro>
-    <dt><var>docFragment</var> = <var>range</var> . <a for="Range">createContextualFragment</a>(<var>markupString</var>)
-    <dd>Returns a <code><a>DocumentFragment</a></code>, created from the markup string given.
+    <dt><var>docFragment</var> = <var>range</var> . <a for="Range">createContextualFragment</a> ( <var>fragment</var> )
+    <dd>Returns a <code><a>DocumentFragment</a></code>, created from the markup string
+    <var>fragment</var> using <var>range</var>'s start node as the context in which
+    <var>fragment</var> is parsed.
   </dl>
 
   <p>The <dfn for="Range"><code>createContextualFragment(<var>fragment</var>)</code></dfn> method
@@ -481,7 +579,8 @@ dl.domintro::before {
 
       <li><var>element</var>'s <a>local name</a> is "<code>html</code>", and
 
-      <li><var>element</var>'s <a>namespace</a> is the <a>HTML namespace</a>;
+      <li><var>element</var>'s <a data-lt="concept namespace">namespace</a> is the
+      <a>HTML namespace</a>;
     </ul>
 
     <p>let <var>element</var> be a new <a>Element</a> with
@@ -489,7 +588,7 @@ dl.domintro::before {
     <ul>
       <li>"<code>body</code>" as its <a>local name</a>,
 
-      <li>The <a>HTML namespace</a> as its <a>namespace</a>, and
+      <li>The <a>HTML namespace</a> as its <a data-lt="concept namespace">namespace</a>, and
 
       <li>The <a>context object</a>'s <a>node document</a> as its <a>node document</a>.
     </ul>
@@ -577,7 +676,7 @@ dl.domintro::before {
     <a>HTML serialization</a> of <var>node</var>.
 
     <li>Otherwise, <var>context document</var> is an <a>XML document</a>; return an
-    <a>XML serialization</a> of <var>node</var> passing the flag <var>require well-formed</var>.
+    <a>XML serialization</a> of <var>node</var> passing the flag <a><var>require well-formed</var></a>.
 
     <p class=note>The <a>XML serialization</a> defined in this document conforms to the requirements
     of the <a>XML fragment serialization algorithm</a> defined in [[HTML5]].</p>
@@ -593,9 +692,10 @@ dl.domintro::before {
 
   <ul>
     <li><a>Elements</a> and <a data-lt="attribute">attributes</a> will always be serialized such
-    that their namespaceURI is preserved. In some cases this means that an existing prefix, prefix
-    declaration attribute or default namespace declaration attribute might be dropped, substituted
-    or changed. An <a>HTML serialization</a> does not attempt to preserve the namespaceURI.
+    that their <code>namespaceURI</code> is preserved. In some cases this means that an existing
+    <code>prefix</code>, prefix declaration attribute or default namespace declaration attribute
+    might be dropped, substituted or changed. An <a>HTML serialization</a> does not attempt to
+    preserve the <code>namespaceURI</code>.
 
     <li><a>Elements</a> not in the <a>HTML namespace</a> containing no <a>children</a>, are
     serialized using the <a>empty-element tag</a> syntax (i.e., according to the XML
@@ -604,56 +704,52 @@ dl.domintro::before {
 
   <p>Otherwise, the algorithm for producing an <a>XML serialization</a> is designed to produce a
   serialization that is compatible with the <a>HTML parser</a>. For example, elements in the
-  <a>HTML namespace</a> that contain no <a>child nodes</a> are serialized with an explicit begin and
-  end tag rather than using the <a>empty-element tag</a> syntax.
+  <a>HTML namespace</a> that contain no <a>child nodes</a> are serialized with an explicit begin and end
+  tag rather than using the <a>empty-element tag</a> syntax.
 
   <p class=note>Per [[DOM4]], <code><a>Attr</a></code> objects do not inherit from <a>Node</a>, and
   thus cannot be serialized by the <a>XML serialization algorithm</a>. An attempt to serialize an
-  <a>Attr</a> object will result in a <code><a>TypeError</a></code> exception.
+  <a>Attr</a> object will result in an empty string.
 
   <p>To produce an <dfn>XML serialization</dfn> of a <code><a>Node</a></code> <var>node</var> given
-  a flag <var>require well-formed</var>, run the following steps:
+  a flag <a><var>require well-formed</var></a>, run the following steps:
 
   <ol>
-    <li>Let <dfn>context namespace</dfn> be <code>null</code>. The <a>context namespace</a> is
-    changed when a <var>node</var> serializes a different default namespace definition from its
-    parent. The algorithm assumes no namespace to start.
+    <li>Let <a><var>namespace</var></a> be a <a>context namespace</a> with value <code>null</code>.
+    The <dfn>context namespace</dfn> tracks the <a>XML serialization</a> algorithm's current default
+    namespace. The <a>context namespace</a> is changed when either an <a>Element</a> <a>Node</a> has
+    a default namespace declaration, or the algorithm generates a default namespace declaration for
+    the <a>Element</a> <a>Node</a> to match its own namespace. The algorithm assumes no namespace
+    (<code>null</code>) to start.
 
-    <li>Let <dfn>namespace prefix map</dfn> be a new map for associating <code>namespaceURI</code>
-    and namespace <code>prefix</code> pairs, where <code>namespaceURI</code> values are the map's
-    keys, and <code>prefix</code> values are the map's key values. The <a>namespace prefix map</a>
-    will be populated by previously seen namespaceURIs and their most recent prefix associations
-    for a subtree.
+    <li>Let <a><var>prefix map</var></a> be a new <a>namespace prefix map</a>.
 
-    <p class=note><strong>Note:</strong> the <a>namespace prefix map</a> only associates a single
-    prefix value with a given namespaceURI. During serialization, if different namespace prefixes
-    are found that map to the same namespaceURI, the last one encountered "wins" by replacing the
-    existing key value in the map with the new prefix value.</p>
+    <li><a>Add</a> the <a>XML namespace</a> with prefix value "<code>xml</code>" to
+    <a><var>prefix map</var></a>.
 
-    <li>Initialize the <a>namespace prefix map</a> with the <a>XML namespace</a> key and string
-    "<code>xml</code>" as the key value.
-
-    <li>Let <dfn>generated namespace prefix index</dfn> be an integer with a value of
-    <code>1</code>. The <a>generated namespace prefix index</a> is used to generate a new unique
+    <li>Let <a><var>prefix index</var></a> be a <a>generated namespace prefix index</a> with value
+    <code>1</code>. The <dfn>generated namespace prefix index</dfn> is used to generate a new unique
     prefix value when no suitable existing namespace prefix is available to serialize a
-    <var>node</var>'s namespaceURI (or the namespaceURI of one of <var>node</var>'s attributes).
-    <span class=note>See the <a>generate a prefix</a> algorithm.</span>
+    <var>node</var>'s <code>namespaceURI</code> (or the <code>namespaceURI</code> of one of
+    <var>node</var>'s attributes). <span class=note>See the <a>generate a prefix</a> algorithm.
+    </span>
 
     <li>Return the result of running the <a>XML serialization algorithm</a> on <var>node</var>
-    passing the <a>context namespace</a>, <a>namespace prefix map</a>,
-    <a>generated namespace prefix index</a> reference, and the flag <var>require well-formed</var>.
-    If an <dfn data-lt="throw an exception">exception</dfn> occurs during the execution of the
-    algorithm, then catch that exception and throw an "<code><a>InvalidStateError</a></code>"
+    passing the <a>context namespace</a> <a><var>namespace</var></a>, <a>namespace prefix map</a>
+    <a><var>prefix map</var></a>, <a>generated namespace prefix index</a> reference to
+    <a><var>prefix index</var></a>, and the flag <a><var>require well-formed</var></a>. If an
+    <dfn data-lt="throw an exception">exception</dfn> occurs during the execution of the algorithm,
+    then catch that exception and throw an "<code><a>InvalidStateError</a></code>"
     <code><a>DOMException</a></code>.
   </ol>
 
   <p>Each of the following algorithms for <dfn>producing an XML serialization of a DOM node</dfn>
   take as input a <var>node</var> to serialize and the following arguments:
   <ul>
-    <li>A <a>context namespace</a>
-    <li>A <a>namespace prefix map</a>
-    <li>A <a>generated namespace prefix index</a>
-    <li>The <var>require well-formed</var> flag
+    <li>A <a>context namespace</a> <dfn><var>namespace</var></dfn>
+    <li>A <a>namespace prefix map</a> <dfn><var>prefix map</var></dfn>
+    <li>A <a>generated namespace prefix index</a> <dfn><var>prefix index</var></dfn>
+    <li>The <a><var>require well-formed</var></a> flag
   </ul>
 
   <p>The <dfn>XML serialization algorithm</dfn>
@@ -686,9 +782,16 @@ dl.domintro::before {
 
     <dt><code><a>ProcessingInstruction</a></code>
     <dd>Run the algorithm for <a>XML serializing a ProcessingInstruction node</a> <var>node</var>.
+
+    <dt>An <code><a>Attr</a></code> object
+    <dd>Return an empty string.
+
+    <dt>Anything else
+    <dd>Throw a <a>TypeError</a>. Only <a>Node</a>s and <a>Attr</a> objects can be serialized by
+    this algorithm.
   </dl>
 
-  Each of the above referenced algorithms are detailed in the sections that follow <var>node</var>.
+  Each of the above referenced algorithms are detailed in the sections that follow.
 
 <section><h2><dfn>XML serializing an Element node</dfn></h2>
 
@@ -696,118 +799,155 @@ dl.domintro::before {
   follows:
 
   <ol>
-    <!-- "namespace" was passed via the caller, it's the default namespace scope -->
-    <!-- "prefix map" was passed via the caller, it's the namespace->prefix map -->
-    <!-- "prefix index" was passed via the caller, it's a number for generating prefixes if necessary -->
-    <!-- "require well-formed" was passed via the caller, it's a flag (true/false) for whether certain validation steps should be taken during serialization. -->
-    <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and this
-    <var>node</var>'s <code><a>localName</a></code> attribute contains the character
+    <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>),
+    and this <var>node</var>'s <code><a>localName</a></code> attribute contains the character
     "<code>:</code>" (U+003A COLON) or does not match the XML <a>Name</a> production, then
-    <a>throw an exception</a>; the serialization of this <var>node</var> would not be a
-    well-formed element.
+    <a>throw an exception</a>; the serialization of this <var>node</var> would not be a well-formed
+    element.
 
     <li>Let <var>markup</var> be the string "<code>&lt;</code>" (U+003C LESS-THAN SIGN).
 
-    <li>Let <var>qualified name</var> be an empty string.
+    <li>Let <dfn><var>qualified name</var></dfn> be an empty string.
 
-    <li>Let a <var>skip end tag</var> flag have the value <code>false</code>.
+    <li>Let <dfn><var>skip end tag</var></dfn> be a boolean flag with value <code>false</code>.
 
-    <li>Let an <var>ignore namespace definition attribute</var> flag have the value
+    <li>Let <dfn><var>ignore namespace definition attribute</var></dfn> be a boolean flag with value
     <code>false</code>.
 
-    <li>Let <var>map</var> be a copy of the <var>prefix map</var>.
+    <li>Given <a><var>prefix map</var></a>, <a>copy a namespace prefix map</a> and let
+    <var>map</var> be the result.
 
-    <li>Let <var>element prefixes list</var> be an empty list. <span class=note>This list is
-    local to each element. Its purpose is to ensure that there are no conflicting prefixes should
-    a new namespace prefix attribute need to be generated.</span>
+    <li>Let <dfn><var>local prefixes map</var></dfn> be an empty map. The map has unique <a>Node</a>
+    <code>prefix</code> strings as its keys, with corresponding <code>namespaceURI</code>
+    <a>Node</a> values as the map's key values (in this map, the <code>null</code> namespace is
+    represented by the empty string).
 
-    <li>Let <var>duplicate prefix definition</var> be <code>null</code>.
+    <p class=note>This map is local to each element. It is used to ensure there are no conflicting
+    prefixes should a new namespace <code>prefix</code> attribute need to be
+    <a data-lt="generate a prefix">generated</a>. It is also used to enable skipping of duplicate
+    prefix definitions when
+    <a data-lt="XML serialization of the attributes">writing an element's attributes</a>: the map
+    allows the algorithm to distinguish between a <code>prefix</code> in the
+    <a>namespace prefix map</a> that might be locally-defined (to the current <a>Element</a>) and
+    one that is not.</p>
 
-    <li>Let <var>local default namespace</var> be the result of
-    <a>recording the namespace information</a> for <var>node</var> given <var>map</var>,
-    <var>element prefixes list</var>, and <var>duplicate prefix definition</var>.
+    <li>Let <dfn><var>local default namespace</var></dfn> be the result of
+    <a>recording the namespace information</a> for <var>node</var> given <var>map</var> and
+    <a><var>local prefixes map</var></a>.
 
-    <p class="note">This above step will update the <var>map</var> with any found namespace prefix
-    definitions, add the found prefix definitions to the <var>element prefixes list</var>,
-    optionally set the <var>duplicate prefix definition</var> value, and return a local default
-    namespace value defined by a default namespace attribute if one exists. Otherwise it returns
-    <code>null</code>.</p>
+    <p class="note">The above step will update <var>map</var> with any found namespace prefix
+    definitions, add the found prefix definitions to the <a><var>local prefixes map</var></a> and
+    return a <a><var>local default namespace</var></a> value defined by a default namespace attribute if one
+    exists. Otherwise it returns <code>null</code>.</p>
 
-    <li>Let <var>inherited ns</var> be a copy of <var>namespace</var>.
+    <li>Let <dfn><var>inherited ns</var></dfn> be a copy of <a><var>namespace</var></a>.
 
     <li>Let <var>ns</var> be the value of <var>node</var>'s
     <code><a data-lt="element namespaceURI">namespaceURI</a></code> attribute.
 
-    <li>If <var>inherited ns</var> is equal to <var>ns</var>, then:
+    <li>If <a><var>inherited ns</var></a> is equal to <var>ns</var>, then:
     <ol>
-      <li>If <var>local default namespace</var> is not <code>null</code>, then set <var>ignore
-      namespace definition attribute</var> to <code>true</code>.
+      <li>If <a><var>local default namespace</var></a> is not <code>null</code>, then set
+      <a><var>ignore namespace definition attribute</var></a> to <code>true</code>.
 
-      <li>If <var>ns</var> is the <a>XML namespace</a>, then let <var>qualified name</var> be the
-      concatenation of the string "<code>xml:</code>" and the value of <var>node</var>'s
-      <code><a>localName</a></code>.
+      <li>If <var>ns</var> is the <a>XML namespace</a>, then append to
+      <a><var>qualified name</var></a> the concatenation of the string "<code>xml:</code>" and the
+      value of <var>node</var>'s <code><a>localName</a></code>.
 
-      <li>Otherwise, let <var>qualified name</var> be the value of <var>node</var>'s
-      <code><a>localName</a></code>. <span class=note>The <var>node</var>'s prefix is always
-      dropped.</span>
+      <li>Otherwise, append to <a><var>qualified name</var></a> the value of <var>node</var>'s
+      <code><a>localName</a></code>. <span class=note>The <var>node</var>'s
+      <code><a data-lt="element prefix">prefix</a></code> if it exists, is dropped.</span>
 
-      <li>Append the value of <var>qualified name</var> to <var>markup</var>.
+      <li>Append the value of <a><var>qualified name</var></a> to <var>markup</var>.
     </ol>
 
-    <li>Otherwise, <var>inherited ns</var> is not equal to <var>ns</var> (the <var>node</var>'s
+    <li>Otherwise, <a><var>inherited ns</var></a> is not equal to <var>ns</var> (the <var>node</var>'s
     own namespace is different from the context namespace of its parent). Run these sub-steps:
-    <!-- The serialization algorithm must differentiate this node's namespace from it's parent's default
-    namespace. There are two ways to do this: (1) [preferred due to assumed minimum length] use a
-    namespace prefix if one is available or (2) use a default namespace declaration. Both cases can
-    run into conflicts with existing attributes on the element and are handled accordingly. -->
+    <!-- The serialization algorithm must differentiate this node's namespace from it's parent's
+    default namespace. There are two ways to do this: (1) [preferred due to assumed minimum length]
+    use a namespace prefix if one is available or (2) use a default namespace declaration. Both
+    cases can run into conflicts with existing attributes on the element and are handled
+    accordingly. -->
     <ol>
       <li>Let <var>prefix</var> be the value of <var>node</var>'s
       <code><a data-lt="element prefix">prefix</a></code> attribute.
 
-      <li>Let <var>candidate prefix</var> be a value from <var>map</var> where there exists a key
-      in <var>map</var> that matches the value of <var>ns</var> or if there is no such key, then
-      let <var>candidate prefix</var> be <code>null</code>.
+      <li>Let <var>candidate prefix</var> be the result of
+      <a>retrieving a preferred prefix string</a> <var>prefix</var> from <var>map</var></a> given
+      namespace <var>ns</var>.
 
+      <p class=note>The above may return <code>null</code> if no namespace key <var>ns</var> exists
+      in <var>map</var>.</p>
+
+      <li>If the value of <var>prefix</var> matches "<code>xmlns</code>", then run the following
+      steps:
+      <ol>
+        <li>If the <a><var>require well-formed</var></a> flag is set, then throw an error. An
+        <a>Element</a> with <code><a data-lt="element prefix">prefix</a></code> "<code>xmlns</code>"
+        will not legally round-trip in a conforming <a>XML parser</a>.
+
+        <li>Let <var>candidate prefix</var> be the value of <var>prefix</var>.
+      </ol>
       <!-- Found a suitable prefix to use, either locally, or inherited through a parent node that
       matches the node's namespaceURI. This prefix will be used in serialization even if the node
       doesn't have a real prefix. -->
-      <li>If <var>candidate prefix</var> is not <code>null</code> (a suitable namespace prefix is
-      defined which maps to <var>ns</var>), then:
+      <li><dfn>Found a suitable namespace prefix</dfn>: if <var>candidate prefix</var> is not
+      <code>null</code> (a namespace prefix is defined which maps to <var>ns</var>), then:
+
+      <p class=note>The following may serialize a different
+      <code><a data-lt="element prefix">prefix</a></code> than the <a>Element</a>'s existing
+      <code><a data-lt="element prefix">prefix</a></code> if it already had one. However, the
+      <a>retrieving a preferred prefix string</a> algorithm already tried to match the existing
+      prefix if possible.</p>
+
       <ol>
-        <li>Let <var>qualified name</var> be the concatenation of <var>candidate prefix</var>,
-        "<code>:</code>" (U+003A COLON), and <var>node</var>'s <code> <a>localName</a></code>.
-        <span class="note">There exists on this <var>node</var> or the <var>node</var>'s ancestry
-        a namespace prefix definition that defines the <var>node</var>'s namespace.</span>
+        <li>Append to <a><var>qualified name</var></a> the concatenation of
+        <var>candidate prefix</var>, "<code>:</code>" (U+003A COLON), and <var>node</var>'s <code>
+        <a>localName</a></code>. <span class="note">There exists on this <var>node</var> or the
+        <var>node</var>'s ancestry a namespace prefix definition that defines the <var>node</var>'s
+        namespace.</span>
 
-        <li>If <var>local default namespace</var> is not <code>null</code> (there exists a
-        locally-defined default namespace declaration attribute), then let <var>inherited ns</var>
-        get the value of <var>ns</var>.
+        <li>If the <a><var>local default namespace</var></a> is not <code>null</code> (there exists
+        a locally-defined default namespace declaration attribute) and its value is not the
+        <a>XML namespace</a>, then let <a><var>inherited ns</var></a> get the value of
+        <a><var>local default namespace</var></a> unless the
+        <a><var>local default namespace</var></a> is the empty string in which case let it get
+        <code>null</code> (the <a>context namespace</a> is changed to the declared default, rather
+        than this <var>node</var>'s own namespace).
 
-        <li>Append the value of <var>qualified name</var> to <var>markup</var>.
+        <p class=note>Any default namespace definitions or namespace prefixes that define the
+        <a>XML namespace</a> are omitted when serializing this node's attributes.</p>
+
+        <li>Append the value of <a><var>qualified name</var></a> to <var>markup</var>.
       </ol>
 
-      <!-- Now there's no existing namespace->prefix mapping to override; try to use a prefix: -->
-      <li>Otherwise, if <var>prefix</var> is not <code>null</code> and
-      <var>local default namespace</var> is <code>null</code>, then:
+      <li>Otherwise, if <var>prefix</var> is not <code>null</code>, then:
+
+      <p class=note>By this step, there is no namespace or prefix mapping declaration in this
+      <var>node</var> (or any parent <var>node</var> visited by this algorithm) that defines
+      <var>prefix</var> otherwise the step labelled <a>Found a suitable namespace prefix</a> would
+      have been followed. The sub-steps that follow will create a new namespace prefix declaration
+      for <var>prefix</var> and ensure that <var>prefix</var> does not conflict with an existing
+      namespace prefix declaration of the same <code>localName</code> in <var>node</var>'s
+      <a>attribute list</a>.</p>
+
       <ol>
-        <li>If the <var>element prefixes list</var> contains the value of <var>prefix</var>, then
-        let <var>prefix</var> be the result of <a>generating a prefix</a> providing as input the
-        <a>namespace prefix map</a> <var>map</var>, <var>node</var>'s <var>ns</var> string, and
-        the <var>prefix index</var> integer.
+        <li>If the <a><var>local prefixes map</var></a> contains a key matching <var>prefix</var>,
+        then let <var>prefix</var> be the result of <a>generating a prefix</a> providing as input
+        <var>map</var>, <var>ns</var>, and <a>prefix index</a>.
 
-        <li>Otherwise, append to <var>map</var> a new key <var>ns</var> whose key value is
-        <var>prefix</var>.
+        <li><a>Add</a> <var>prefix</var> to <var>map</var> given namespace <var>ns</var>.
 
-        <!-- Prefix is now either real or generated, and added to the map. -->
-
-        <li>Let <var>qualified name</var> be the concatenation of <var>prefix</var>,
+        <li>Append to <a><var>qualified name</var></a> the concatenation of <var>prefix</var>,
         "<code>:</code>" (U+003A COLON), and <var>node</var>'s <code><a>localName</a></code>.
 
-        <li>Append the value of <var>qualified name</var> to <var>markup</var>.
+        <li>Append the value of <a><var>qualified name</var></a> to <var>markup</var>.
 
-        <li>Append the following to <var>markup</var>, in the order listed: <span class="note">The
-        following serializes the new namespace/prefix association just added to the
-        <var>map</var>.</span>
+        <li>Append the following to <var>markup</var>, in the order listed:
+
+        <p class=note>The following serializes a namespace prefix declaration for <var>prefix</var>
+        which was just added to the <var>map</var>.</p>
+
         <ol>
           <li>"<code> </code>" (U+0020 SPACE);
 
@@ -818,30 +958,47 @@ dl.domintro::before {
           <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
           <li>The result of <a>serializing an attribute value</a> given <var>ns</var> and the
-          <a>require well-formed</a> flag as input;
+          <a><var>require well-formed</var></a> flag as input;
 
           <li>"<code>"</code>" (U+0022 QUOTATION MARK).
+
+          <li>If <a><var>local default namespace</var></a> is not <code>null</code> (there exists a
+          locally-defined default namespace declaration attribute), then let
+          <a><var>inherited ns</var></a> get the value of <a><var>local default namespace</var></a>
+          unless the <a><var>local default namespace</var></a> is the empty string in which case let
+          it get <code>null</code>.
         </ol>
       </ol>
-      <!-- Giving up on the prefix route, try to use a default namespace instead (stomping on an existing
-      one if necessary) and dropping the node's prefix -->
-      <li>Otherwise, if <var>local default namespace</var> is <code>null</code>, or
-      <var>local default namespace</var> is not <code>null</code> and its value is not equal to
-      <var>ns</var>, then:
-      <ol>
-        <li>Set the <var>ignore namespace definition attribute</var> flag to <code>true</code>.
 
-        <li>Let <var>qualified name</var> be the value of <var>node</var>'s
+      <li>Otherwise, if <a><var>local default namespace</var></a> is <code>null</code>, or
+      <a><var>local default namespace</var></a> is not <code>null</code> and its value is not equal
+      to <var>ns</var>, then:
+
+      <p class=note>At this point, the namespace for this node still needs to be serialized, but
+      there's no <code>prefix</code> (or <var>candidate prefix</var>) availble; the following uses
+      the default namespace declaration to define the namespace--optionally replacing an existing
+      default declaration if present.</p>
+
+      <ol>
+        <li>Set the <a><var>ignore namespace definition attribute</var></a> flag to
+        <code>true</code>.
+
+        <li>Append to <a><var>qualified name</var></a> the value of <var>node</var>'s
         <code><a>localName</a></code>.
 
-        <li>Let the value of <var>inherited ns</var> be <var>ns</var>. <span class="note">The new
-        default namespace will be used in the serialization to define this <var>node</var>'s
-        namespace and act as the context namespace for its <a>children</a>.</span>
+        <li>Let the value of <a><var>inherited ns</var></a> be <var>ns</var>.
 
-        <li>Append the value of <var>qualified name</var> to <var>markup</var>.
+        <p class=note>The new default namespace will be used in the serialization to define this
+        <var>node</var>'s namespace and act as the <a>context namespace</a> for its
+        <a>children</a>.</p>
 
-        <li>Append the following to <var>markup</var>, in the order listed: <span class="note">The
-        following serializes the new (or replacement) default namespace definition.</span>
+        <li>Append the value of <a><var>qualified name</var></a> to <var>markup</var>.
+
+        <li>Append the following to <var>markup</var>, in the order listed:
+
+        <p class=note>The following serializes the new (or replacement) default namespace
+        definition.</p>
+
         <ol>
           <li>"<code> </code>" (U+0020 SPACE);
 
@@ -850,25 +1007,28 @@ dl.domintro::before {
           <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
           <li>The result of <a>serializing an attribute value</a> given <var>ns</var> and the
-          <a>require well-formed</a> flag as input;
+          <a><var>require well-formed</var></a> flag as input;
 
           <li>"<code>"</code>" (U+0022 QUOTATION MARK).
         </ol>
       </ol>
       <!-- Finally, regardless of prefix, the node has a local default namespace that matches 'ns'.
       So, we'll just use that and drop the prefix -->
-      <li>Otherwise, the <var>node</var> has a <var>local default namespace</var> that matches
-      <var>ns</var>. Let <var>qualified name</var> be the value of <var>node</var>'s
-      <code><a>localName</a></code>, let the value of <var>inherited ns</var> be <var>ns</var>,
-      and append the value of <var>qualified name</var> to <var>markup</var>.
+      <li>Otherwise, the <var>node</var> has a <a><var>local default namespace</var></a> that matches
+      <var>ns</var>. Append to <a><var>qualified name</var></a> the value of <var>node</var>'s
+      <code><a>localName</a></code>, let the value of <a><var>inherited ns</var></a> be <var>ns</var>,
+      and append the value of <a><var>qualified name</var></a> to <var>markup</var>.
+
+      <p class=note>All of the combinations where <var>ns</var> is not equal to
+      <a><var>inherited ns</var></a> are handled above such that <var>node</var> will be serialized
+      preserving its original <code><a data-lt="element namespaceURI">namespaceURI</a></code>.</p>
     </ol>
 
     <li>Append to <var>markup</var> the result of the
-    <a data-lt="XML serialization of the attributes">XML serialization of <var>node</var>'s
-    attributes</a> given the <a>namespace prefix map</a> <var>map</var>, the
-    <a>generated namespace prefix index</a> <var>prefix index</var>, the flag
-    <var>ignore namespace definition attribute</var> and the value of
-    <var>duplicate prefix definition</var>.
+    <a data-lt="XML serialization of the attributes">XML serialization of <var>node</var>'s attributes</a>
+    given <var>map</var>, <a><var>prefix index</var></a>, <a><var>local prefixes map</var></a>,
+    <a><var>ignore namespace definition attribute</var></a> flag, and
+    <a><var>require well-formed</var></a> flag.
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s list of
     <a>children</a> is empty, and the <var>node</var>'s <code><a>localName</a></code> matches any
@@ -898,39 +1058,38 @@ dl.domintro::before {
 
       <li>"<code>/</code>" (U+002F SOLIDUS).
     </ol>
-    and set the <var>skip end tag</var> flag to <code>true</code>.
+    and set the <a><var>skip end tag</var></a> flag to <code>true</code>.
 
     <li>If <var>ns</var> is not the <a>HTML namespace</a>, and the <var>node</var>'s list of
     <a>children</a> is empty, then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
-    and set the <var>skip end tag</var> flag to <code>true</code>.
+    and set the <a><var>skip end tag</var></a> flag to <code>true</code>.
 
     <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
 
-    <li>If the value of <var>skip end tag</var> is <code>true</code>, then return the value of
+    <li>If the value of <a><var>skip end tag</var></a> is <code>true</code>, then return the value of
     <var>markup</var> and skip the remaining steps. The <var>node</var> is a leaf-node.
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s
     <code><a>localName</a></code> matches the string "<code>template</code>", then this is a
-    <code><a>template</a></code> element. Append to <var>markup</var> the result of running the
-    <a>XML serialization algorithm</a> on the <a>template</a> element's <a>template contents</a>
-    (a <code><a>DocumentFragment</a></code>), providing the value of <var>inherited ns</var> for
-    the <a>context namespace</a>, <var>map</var> for the <a>namespace prefix map</a>,
-    <var>prefix index</var> for the <a>generated namespace prefix index</a>, and the value of the
-    <var>require well-formed</var> flag. <span class="note">This allows <a>template contents</a> to
-    round-trip , given the rules for <a>parsing XHTML documents</a>.</span>
+    <code><a>template</a></code> element. Append to <var>markup</var> the result of
+    <a>XML serializing a DocumentFragment node</a> given the <a>template</a> element's
+    <a>template contents</a> (a <code><a>DocumentFragment</a></code>), providing
+    <a><var>inherited ns</var></a>, <var>map</var>, <a><var>prefix index</var></a>, and the
+    <a><var>require well-formed</var></a> flag.
+
+    <p class=note>This allows <a>template content</a> to round-trip , given the rules for
+    <a>parsing XHTML documents</a>.</p>
 
     <li>Otherwise, append to <var>markup</var> the result of running the
     <a>XML serialization algorithm</a> on each of <var>node</var>'s <a>children</a>, in
-    <a>tree order</a>, providing the value of <var>inherited ns</var> for the
-    <a>context namespace</a>, <var>map</var> for the <a>namespace prefix map</a>,
-    <var>prefix index</var> for the <a>generated namespace prefix index</a>, and the value of the
-    <var>require well-formed</var> flag.
+    <a>tree order</a>, providing <a><var>inherited ns</var></a>, <var>map</var>,
+    <a><var>prefix index</var></a>, and the <a><var>require well-formed</var></a> flag.
 
     <li>Append the following to <var>markup</var>, in the order listed:
     <ol>
       <li>"<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS);
 
-      <li>The value of <var>qualified name</var>;
+      <li>The value of <a><var>qualified name</var></a>;
 
       <li>"<code>&gt;</code>" (U+003E GREATER-THAN SIGN).
     </ol>
@@ -940,10 +1099,15 @@ dl.domintro::before {
 
 <section><h2>Recording the namespace</h2>
 
+  <p>This following algorithm will update the <a>namespace prefix map</a> with any found namespace
+  prefix definitions, add the found prefix definitions to the <a><var>local prefixes map</var></a>,
+  and return a <a><var>local default namespace</var></a> value defined by a default namespace attribute if one
+  exists. Otherwise it returns <code>null</code>.</p>
+
   <p>When <dfn>recording the namespace information</dfn> for an <code><a>Element</a></code>
-  <var>element</var>, given a <a>namespace prefix map</a> <var>map</var>, an
-  <var>element prefixes list</var> (initially empty), and a <var>duplicate prefix definition</var>
-  reference, the user agent must run the following steps:
+  <var>element</var>, given a <a>namespace prefix map</a> <var>map</var> and a
+  <a><var>local prefixes map</var></a> (initially empty), the user agent must run the following
+  steps:
 
   <ol>
     <li>Let <var>default namespace attr value</var> be <code>null</code>.
@@ -952,8 +1116,7 @@ dl.domintro::before {
     <code><a>attributes</a></code>, in the order they are specified in the <var>element</var>'s
     <a>attribute list</a>:
 
-    <p class="note">The following conditional steps add namespace prefixes into the
-    <var>element prefixes list</var> and add or replace them in the <var>map</var>. Only attributes
+    <p class="note">The following conditional steps find namespace prefixes. Only attributes
     in the <a>XMLNS namespace</a> are considered (e.g., attributes made to look like namespace
     declarations via <code><a>setAttribute</a>(<em>"xmlns:pretend-prefix"</em>,
     <em>"pretend-namespace"</em>)</code> are not included).</p>
@@ -981,35 +1144,128 @@ dl.domintro::before {
           <li>Let <var>namespace definition</var> be the value of <var>attr</var>'s
           <code><a>value</a></code>.
 
-          <li>If a key matching the value of <var>namespace definition</var> already exists in
-          <var>map</var>, and the key's value matches <var>prefix definition</var>, then this is a
-          duplicate namespace prefix definition. Set the value of
-          <var>duplicate prefix definition</var> to <var>prefix definition</var>.
+          <li>If <var>namespace definition</var> is the <a>XML namespace</a>, then stop running
+          these steps, and return to <a>Main</a> to visit the next attribute.
 
-          <li>Otherwise, if the key matching the value of <var>namespace definition</var> already
-          exists in <var>map</var>, but the key's value does not match <var>prefix definition</var>,
-          then update the key's value to be <var>prefix definition</var>.
+          <p class=note><a>XML namespace</a> definitions in prefixes are completely ignored (in
+          order to avoid unnecessary work when there might be prefix conflicts).
+          <a>XML namespace</a>d elements are always handled uniformly by prefixing (and overriding
+          if necessary) the element's localname with the reserved "<code>xml</code>" prefix.</p>
 
-          <li>Otherwise, no key matching the value of <var>namespace definition</var> exists;
-          append to <var>map</var> a new key <var>namespace definition</var> whose key value is the
-          <var>prefix definition</var>.
+          <li>If <var>namespace definition</var> is the empty string (the declarative form of
+          having no namespace), then let <var>namespace definition</var> be <code>null</code>
+          instead.
 
-          <li>Append the value of <var>prefix definition</var> to <var>element prefixes list</var>.
+          <li>If <var>prefix definition</var> is <a>found</a> in <var>map</var> given the namespace
+          <var>namespace definition</var>, then stop running these steps, and return to <a>Main</a>
+          to visit the next attribute.
+
+          <p class=note>This step avoids adding duplicate prefix definitions for the same namespace
+          in the <var>map</var>. This has the side-effect of avoiding later serialization of
+          duplicate namespace prefix declarations in any descendant nodes.</p>
+
+          <li><a>Add</a> the prefix <var>prefix definition</var> to <var>map</var> given namespace
+          <var>namespace definition</var>.
+
+          <li>Add the value of <var>prefix definition</var> as a new key to the
+          <a><var>local prefixes map</var></a>, with the <var>namespace definition</var> as the
+          key's value replacing the value of <code>null</code> with the empty string if applicable.
         </ol>
       </ol>
     </ol>
     <li>Return the value of <var>default namespace attr value</var>.
+
+    <p class=note>The empty string is a legitimate return value and is not converted to
+    <code>null</code>.</p>
   </ol>
 
 </section><!-- Recording the namespace -->
+
+<section><h2>The Namespace Prefix Map</h2>
+
+  <p>A <dfn>namespace prefix map</dfn> is a map that associates <code>namespaceURI</code> and
+  <dfn data-lt="list">namespace prefix lists</dfn>, where <code>namespaceURI</code> values are the
+  map's unique keys (which can include the <code>null</code> value representing no namespace), and
+  ordered lists of associated <code>prefix</code> values are the map's key values. The
+  <a>namespace prefix map</a> will be populated by previously seen namespaceURIs and all their
+  previously encountered prefix associations for a given node and its ancestors.
+
+  <p class=note><strong>Note:</strong> the last seen <code>prefix</code> for a given
+  <code>namespaceURI</code> is at the end of its respective <a>list</a>. The list is searched to
+  find potentially matching prefixes, and if no matches are found for the given
+  <code>namespaceURI</code>, then the last <code>prefix</code> in the list is used. See
+  <a>copy a namespace prefix map</a> and <a>retrieve a preferred prefix string</a> for additional
+  details.</p>
+
+  <p>To <dfn>copy a namespace prefix map</dfn> <var>map</var> means to copy the <var>map</var>'s
+  keys into a new empty <a>namespace prefix map</a>, and to copy each of the values in the
+  <a data-lt="list">namespace prefix list</a> associated with each keys' value into a new
+  <a>list</a> which should be associated with the respective key in the new map.
+
+  <p>To <dfn data-lt="retrieving a preferred prefix string">retrieve a preferred prefix string</dfn>
+  <var>preferred prefix</var> from the <a>namespace prefix map</a> <var>map</var> given a namespace
+  <var>ns</var>, the user agent should:
+
+  <ol>
+    <li>Let <var>candidates list</var> be the result of retrieving a <a>list</a> from <var>map</var>
+    where there exists a key in <var>map</var> that matches the value of <var>ns</var> or if there
+    is no such key, then stop running these steps, and return the <code>null</code> value.
+
+    <li>Otherwise, for each prefix value <var>prefix</var> in <var>candidates list</var>, iterating
+    from beginning to end:
+
+    <p class=note>There will always be at least one prefix value in the list.</p>
+
+    <ol>
+      <li>If <var>prefix</var> matches <var>preferred prefix</var>, then stop running these steps
+      and return <var>prefix</var>.
+
+      <li>If <var>prefix</var> is the last item in the <var>candidates list</var>, then stop running
+      these steps and return <var>prefix</var>.
+    </ol>
+  </ol>
+
+  <p>To check if a prefix string <var>prefix</var> is <dfn>found</dfn> in a
+  <a>namespace prefix map</a> <var>map</var> given a namespace <var>ns</var>, the user agent should:
+
+  <ol>
+    <li>Let <var>candidates list</var> be the result of retrieving a <a>list</a> from <var>map</var>
+    where there exists a key in <var>map</var> that matches the value of <var>ns</var> or if there
+    is no such key, then stop running these steps, and return <code>false</code>.
+
+    <li>If the value of <var>prefix</var> occurs at least once in <var>candidates list</var>, return
+    <code>true</code>, otherwise return <code>false</code>.
+  </ol>
+
+  <p>To <dfn>add</dfn> a prefix string <var>prefix</var> to the <a>namespace prefix map</a>
+  <var>map</var> given a namespace <var>ns</var>, the user agent should:
+
+  <ol>
+    <li>Let <var>candidates list</var> be the result of retrieving a <a>list</a> from <var>map</var>
+    where there exists a key in <var>map</var> that matches the value of <var>ns</var> or if there
+    is no such key, then let <var>candidates list</var> be <code>null</code>.
+
+    <li>If <var>candidates list</var> is <code>null</code>, then create a new <a>list</a> with
+    <var>prefix</var> as the only item in the <a>list</a>, and associate that <a>list</a> with a new
+    key <var>ns</var> in <var>map</var>.
+
+    <li>Otherwise, append <var>prefix</var> to the end of <var>candidates list</var>.
+
+    <p class=note>The steps in <a>retrieve a preferred prefix string</a> use the <a>list</a> to
+    track the most recently used (MRU) <var>prefix</var> associated with a given namespace, which
+    will be the <var>prefix</var> at the end of the list. This list may contain duplicates of the
+    same <var>prefix</var> value seen earlier (and that's OK).</p>
+  </ol>
+
+</section><!-- The Namespace Prefix Map -->
 
 <section><h2>Serializing an Element's attributes</h2>
 
   <p>The <dfn>XML serialization of the attributes</dfn> of an <code><a>Element</a></code>
   <var>element</var> together with a <a>namespace prefix map</a> <var>map</var>, a
-  <a>generated namespace prefix index</a> <var>prefix index</var> reference, a flag
-  <var>ignore namespace definition attribute</var>, a <var>duplicate prefix definition</var> value,
-  and a flag <var>require well-formed</var>, is the result of the following algorithm:
+  <a>generated namespace prefix index</a> <var>prefix index</var> reference, a
+  <a>local prefixes map</a>, a <a><var>ignore namespace definition attribute</var></a> flag, and a
+  <a><var>require well-formed</var></a> flag, is the result of the following algorithm:
 
   <ol>
     <li>Let <var>result</var> be the empty string.
@@ -1026,7 +1282,7 @@ dl.domintro::before {
     <code><a>attributes</a></code>, in the order they are specified in the <var>element</var>'s
     <a>attribute list</a>:
     <ol>
-      <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and the
+      <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and the
       <var>localname set</var> contains a tuple whose values match those of a new tuple consisting
       of <var>attr</var>'s <code><a>namespaceURI</a></code> attribute and
       <code><a>localName</a></code> attribute, then <a>throw an exception</a>; the serialization of
@@ -1044,20 +1300,66 @@ dl.domintro::before {
 
       <li>If <var>attribute namespace</var> is not <code>null</code>, then run these sub-steps:
       <ol>
-        <li>If the value of <var>attribute namespace</var> is the <a>XMLNS namespace</a> and either
-        the <var>attr</var>'s <code><a>prefix</a></code> is <code>null</code> and the
-        <var>ignore namespace definition attribute</var> flag is <code>true</code> or the
-        <var>attr</var>'s <code><a>prefix</a></code> is not <code>null</code> and the
-        <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code> matches the value
-        of <var>duplicate prefix definition</var>, then stop running these steps and goto
-        <a>Loop</a> to visit the next attribute.
+        <li>Let <var>candidate prefix</var> be the result of
+        <a>retrieving a preferred prefix string</a> from <var>map</var> given namespace
+        <var>attribute namespace</var> with preferred prefix being <var>attr</var>'s
+        <code><a>prefix</a></code> value.
 
-        <li>Otherwise, if there exists a key in <var>map</var> that matches the value of
-        <var>attribute namespace</var>, then let <var>candidate prefix</var> be that key's value
-        from the <var>map</var>.
+        <li>If the value of <var>attribute namespace</var> is the <a>XMLNS namespace</a>, then run
+        these steps:
+        <ol>
+          <li>If any of the following are true, then stop running these steps and goto <a>Loop</a>
+          to visit the next attribute:
+          <ul>
+            <li>the <var>attr</var>'s <code><a>value</a></code> is the <a>XML namespace</a>;
 
-        <li>Otherwise, there is no key matching <var>attribute namespace</var> in <var>map</var> and
-        the <var>attribute namespace</var> is not the <a>XMLNS namespace</a>. Run these steps:
+            <p class=note>The <a>XML namespace</a> cannot be redeclared and survive
+            <a>round-tripping</a> (unless it defines the prefix "<code>xml</code>"). To avoid this
+            problem, this algorithm always prefixes elements in the <a>XML namespace</a> with
+            "<code>xml</code>" and drops any related definitions as seen in the above condition.</p>
+
+            <li>the <var>attr</var>'s <code><a>prefix</a></code> is <code>null</code> and the
+            <a><var>ignore namespace definition attribute</var></a> flag is <code>true</code> (the
+            <a>Element</a>'s default namespace attribute should be skipped);
+
+            <li>the <var>attr</var>'s <code><a>prefix</a></code> is not <code>null</code> and either
+            <ul>
+              <li>the <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code> is
+              not a key contained in the <a>local prefixes map</a>, or
+
+              <li>the <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code> is
+               present in the <a>local prefixes map</a> but the value of the key does not match
+               <var>attr</var>'s <code><a>value</a></code>
+            </ul>
+            and furthermore that the <var>attr</var>'s
+            <code><a data-lt="attr localName">localName</a></code> (as the <var>prefix</var> to
+            find) is <a>found</a> in the <a>namespace prefix map</a> given the namespace consisting
+            of the <var>attr</var>'s <code><a>value</a></code> (the current namespace prefix
+            definition was exactly defined previously--on an ancestor element not the current
+            element whose attributes are being processed).
+          </ul>
+
+          <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
+          the value of <var>attr</var>'s <code><a>value</a></code> attribute matches the
+          <a>XMLNS namespace</a>, then throw an exception; the serialization of this attribute would
+          produce invalid XML because the <a>XMLNS namespace</a> is reserved and cannot be applied
+          as an element's namespace via XML parsing.
+
+          <p class=note>DOM APIs do allow creation of elements in the <a>XMLNS namespace</a> but
+          with strict qualifications.</p>
+
+          <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
+          the value of <var>attr</var>'s <code><a>value</a></code> attribute is the empty string,
+          then throw an exception; namespace prefix declarations cannot be used to undeclare a
+          namespace (use a default namespace declaration instead).
+
+          <li>the <var>attr</var>'s <code><a>prefix</a></code> matches the string
+          "<code>xmlns</code>", then let <var>candidate prefix</var> be the string
+          "<code>xmlns</code>".
+        </ol>
+
+        <li>Otherwise, the <var>attribute namespace</var> in not the <a>XMLNS namespace</a>. Run
+        these steps:
         <ol>
           <li>Let <var>candidate prefix</var> be the result of <a>generating a prefix</a> providing
           <var>map</var>, <var>attribute namespace</var>, and <var>prefix index</var> as input.
@@ -1073,7 +1375,7 @@ dl.domintro::before {
             <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
             <li>The result of <a>serializing an attribute value</a> given <var>attribute namespace</var>
-            and the <a>require well-formed</a> flag as input;
+            and the <a><var>require well-formed</var></a> flag as input;
 
             <li>"<code>"</code>" (U+0022 QUOTATION MARK).
           </ol>
@@ -1084,14 +1386,14 @@ dl.domintro::before {
 
       <li>If <var>candidate prefix</var> is not <code>null</code>, then append to <var>result</var>
       the concatenation of <var>candidate prefix</var> with "<code>:</code>" (U+003A COLON).
-      <!-- Check for well-formed localName -->
-      <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and this
+
+      <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and this
       <var>attr</var>'s <code><a>localName</a></code> attribute contains the character
       "<code>:</code>" (U+003A COLON) or does not match the XML <a>Name</a> production or equals
       "<code>xmlns</code>" and <var>attribute namespace</var> is <code>null</code>, then
       <a>throw an exception</a>; the serialization of this <var>attr</var> would not be a
       well-formed attribute.
-      <!-- Write out the standard attribute -->
+
       <li>Append the following strings to <var>result</var>, in the order listed:
       <ol>
         <li>The value of <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code>;
@@ -1099,7 +1401,7 @@ dl.domintro::before {
         <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
         <li>The result of <a>serializing an attribute value</a> given <var>attr</var>'s
-        <code><a>value</a></code> attribute and the <a>require well-formed</a> flag as input;
+        <code><a>value</a></code> attribute and the <a><var>require well-formed</var></a> flag as input;
 
         <li>"<code>"</code>" (U+0022 QUOTATION MARK).
       </ol>
@@ -1108,10 +1410,10 @@ dl.domintro::before {
   </ol>
 
   <p>When <dfn>serializing an attribute value</dfn> given an <var>attribute value</var> and
-  <a>require well-formed</a> flag, the user agent must run the following steps:
+  <a><var>require well-formed</var></a> flag, the user agent must run the following steps:
 
   <ol>
-    <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and
+    <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
     <var>attribute value</var> contains characters that are not matched by the XML <a>Char</a>
     production, then <a>throw an exception</a>; the serialization of this <var>attribute value</var>
     would fail to produce a well-formed element serialization.
@@ -1121,9 +1423,9 @@ dl.domintro::before {
     <li>Otherwise, <var>attribute value</var> is a string. Return the value of
     <var>attribute value</var>, first replacing any occurrences of the following:
     <ol>
-      <li>"<code>&quot;</code>" with "<code>&amp;quot;</code>"
-
       <li>"<code>&amp;</code>" with "<code>&amp;amp;</code>"
+
+      <li>"<code>&quot;</code>" with "<code>&amp;quot;</code>"
 
       <li>"<code>&lt;</code>" with "<code>&amp;lt;</code>"
 
@@ -1148,8 +1450,8 @@ dl.domintro::before {
 
     <li>Let the value of <var>prefix index</var> be incremented by one.
 
-    <li>Append to <var>map</var> a new key <var>new namespace</var> whose key value is the
-    <var>generated prefix</var>.
+    <li><a>Add</a> to <var>map</var> the <var>generated prefix</var> given the
+    <var>new namespace</var> namespace.
 
     <li>Return the value of <var>generated prefix</var>.
   </ol>
@@ -1163,7 +1465,7 @@ dl.domintro::before {
   The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>Document</a> is
   as follows:
 
-  <p>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and this
+  <p>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and this
   <var>node</var> has no <code><a>documentElement</a></code> (the
   <code><a>documentElement</a></code> attribute's value is <code>null</code>), then
   <a>throw an exception</a>; the serialization of this <var>node</var> would not be a well-formed
@@ -1174,14 +1476,14 @@ dl.domintro::before {
     <li>Let <var>serialized document</var> be an empty string.
 
     <li>For each <a>child</a> <var>child</var> of <var>node</var>, in <a>tree order</a>, run the
-    <a>XML serialization algorithm</a> on the <var>child</var> passing along the provided arguments, 
+    <a>XML serialization algorithm</a> on the <var>child</var> passing along the provided arguments,
     and append the result to <var>serialized document</var>.
 
-    <p class=note>This will serialize any number of <a>ProcessingInstruction</a> and <a>Comment</a> 
+    <p class=note>This will serialize any number of <a>ProcessingInstruction</a> and <a>Comment</a>
     nodes both before and after the <a>Document</a>'s <a>documentElement</a> node, including
-    at most one <a>DocumentType</a> node. (<a>Text</a> nodes are not allowed as children of the 
+    at most one <a>DocumentType</a> node. (<a>Text</a> nodes are not allowed as children of the
     <a>Document</a>.)</p>
-    
+
     <li>Return the value of <var>serialized document</var>.
   </ol>
 
@@ -1192,7 +1494,7 @@ dl.domintro::before {
   The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>Comment</a> is as
   follows:
 
-  <p>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and
+  <p>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
   <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
   <a>Char</a> production or contains "<code>--</code>" (two adjacent U+002D HYPHEN-MINUS
   characters) or that ends with a "<code>-</code>" (U+002D HYPHEN-MINUS) character, then
@@ -1227,7 +1529,7 @@ dl.domintro::before {
   follows:
 
   <ol>
-    <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and
+    <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
     <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
     <a>Char</a> production, then <a>throw an exception</a>; the serialization of this
     <var>node</var>'s <code><a>data</a></code> would not be well-formed.
@@ -1257,10 +1559,9 @@ dl.domintro::before {
     <li>Let <var>markup</var> the empty string.
 
     <li>For each <a>child</a> <var>child</var> of <var>node</var>, in <a>tree order</a>, run the
-    <a>XML serialization algorithm</a> on the <var>child</var> given a <a>context namespace</a>
-    <var>namespace</var>, a <a>namespace prefix map</a> <var>prefix map</var>, a reference to a
-    <a>generated namespace prefix index</a> <var>prefix index</var>, and flag
-    <var>require well-formed</var>. Concatenate the result to <var>markup</var>.
+    <a>XML serialization algorithm</a> on the <var>child</var> given <a><var>namespace</var></a>,
+    <a><var>prefix map</var></a>, a reference to <a><var>prefix index</var></a>, and flag
+    <a><var>require well-formed</var></a>. Concatenate the result to <var>markup</var>.
 
     <li>Return the value of <var>markup</var>.
   </ol>
@@ -1273,12 +1574,12 @@ dl.domintro::before {
   is as follows:
 
   <ol>
-    <li>If the <a>require well-formed</a> flag is <code>true</code> and the <var>node</var>'s
+    <li>If the <a><var>require well-formed</var></a> flag is <code>true</code> and the <var>node</var>'s
     <code><a>publicId</a></code> attribute contains characters that are not matched by the XML
     <a>PubidChar</a> production, then <a>throw an exception</a>; the serialization of this
     <var>node</var> would not be a well-formed document type declaration.
 
-    <li>If the <a>require well-formed</a> flag is <code>true</code> and the <var>node</var>'s
+    <li>If the <a><var>require well-formed</var></a> flag is <code>true</code> and the <var>node</var>'s
     <code><a>systemId</a></code> attribute contains characters that are not matched by the XML
     <a>Char</a> production or that contains both a "<code>"</code>" (U+0022 QUOTATION MARK) and a
     "<code>'</code>" (U+0027 APOSTROPHE), then <a>throw an exception</a>; the serialization of this
@@ -1362,13 +1663,13 @@ dl.domintro::before {
   <a>ProcessingInstruction</a> is as follows:
 
   <ol>
-    <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and
+    <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
     <var>node</var>'s <code><a>target</a></code> contains a "<code>:</code>" (U+003A COLON)
     character or is an <a>ASCII case-insensitive</a> match for the string "<code>xml</code>", then
     <a>throw an exception</a>; the serialization of this <var>node</var>'s
     <code><a>target</a></code> would not be well-formed.
 
-    <li>If the <a>require well-formed</a> flag is set (its value is <code>true</code>), and
+    <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
     <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
     <a>Char</a> production or contains the string "<code>?></code>" (U+003F QUESTION MARK,
     U+003E GREATER-THAN SIGN), then <a>throw an exception</a>; the serialization of this
@@ -1426,7 +1727,7 @@ dl.domintro::before {
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#script">script</a></dfn> and
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#the-template-element">template</a></dfn>
     <li><dfn><a href="https://www.w3.org/TR/html5/single-page.html#void-elements">void elements</a></dfn>
-    <li>The <a>template</a>'s <dfn><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
+    <li>The <a>template</a>'s <dfn data-lt="template content"><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
   </ul>
 
   The DOM specification [[!DOM4]] defines the following terms used in this document:
@@ -1443,7 +1744,7 @@ dl.domintro::before {
       <dfn><a href="https://www.w3.org/TR/dom/#concept-document-encoding">encoding</a></dfn>;
       a <dfn><a href="https://www.w3.org/TR/dom/#html-document">HTML document</a></dfn>;
       a <dfn><a href="https://www.w3.org/TR/dom/#concept-element-local-name">local name</a></dfn>;
-      a <dfn><a href="https://www.w3.org/TR/dom/#concept-element-namespace">namespace</a></dfn>;
+      a <dfn data-lt="concept namespace"><a href="https://www.w3.org/TR/dom/#concept-element-namespace">namespace</a> concept</dfn>;
       a <dfn><a href="https://www.w3.org/TR/dom/#concept-node-document">node document</a></dfn>;
       the <dfn><a href="https://www.w3.org/TR/dom/#concept-node-append">append</a></dfn>,
       <dfn><a href="https://www.w3.org/TR/dom/#concept-node-insert">insert</a></dfn>,
@@ -1519,7 +1820,8 @@ dl.domintro::before {
 
   <ul>
     <li>2016-06 WD - Editorial restructuring of the document; monolithic XML serialization algorithm
-    factored into sections. Dependencies clarified.
+    factored into sections. Dependencies clarified. XML Serialization algorithm updated to get 
+    closer to interoperable browser behavior.
 
     <li><a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/LC2_comments.html">Incorporated
       non-normative changes from previous Last Call document.</a>
