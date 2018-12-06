@@ -118,7 +118,7 @@ dl.domintro::before {
   This specification concerns itself with defining various APIs for both parsing and serializing a
   DOM.
 
-  <div class=example>For example: the <a for="Element">innerHTML</a> API is a common way to both
+  <div class=example>For example: the <a data-link-for="Element">innerHTML</a> API is a common way to both
   parse and serialize a DOM (it does both). If a particular <a>Node</a>, has the following in-memory
   DOM:
   <pre>
@@ -134,7 +134,7 @@ dl.domintro::before {
   </pre>
   And the <code>HTMLDivElement</code> node is stored in a variable <code><var>myDiv</var></code>,
   then to serialize <code><var>myDiv</var></code>'s children simply <em>get</em> (read) the
-  <a>Element</a>'s <a for="Element">innerHTML</a> property (this triggers the serialization):
+  <a>Element</a>'s <a data-link-for="Element">innerHTML</a> property (this triggers the serialization):
 
   <pre class=javascript>
     var serializedChildren = myDiv.innerHTML;
@@ -143,7 +143,7 @@ dl.domintro::before {
   </pre>
 
   <p>To parse new children for <code><var>myDiv</var></code> from a string (replacing its existing
-  children), simply <em>set</em> the <a for="Element">innerHTML</a> property (this triggers
+  children), simply <em>set</em> the <a data-link-for="Element">innerHTML</a> property (this triggers
   parsing of the assigned string):
 
   <pre class=javascript>
@@ -221,10 +221,10 @@ dl.domintro::before {
   </pre>
 
   <dl class=domintro>
-    <dt><var>domparser</var> = new <a for=DOMParser>DOMParser</a> ()</var>
+    <dt><var>domparser</var> = new <a data-link-for=DOMParser>DOMParser</a> ()</var>
     <dd>Constructs a new DOMParser object.
 
-    <dt><var>document</var> = <var>domparser</var> . <a for=DOMParser>parseFromString</a> ( <var>str</var>, <var>type</var> )
+    <dt><var>document</var> = <var>domparser</var> . <a data-link-for=DOMParser>parseFromString</a> ( <var>str</var>, <var>type</var> )
     <dd>Parse <var>str</var> using a parser that matches <var>type</var>'s supported MIME types
     (either XML or HTML), and return a <a>Document</a> object contained the parsed content if
     successful. If not successful, returns a <a>Document</a> describing the error.
@@ -235,11 +235,11 @@ dl.domintro::before {
   <p>The <dfn><code>DOMParser</code></dfn> constructor must return a new <a>DOMParser</a> object.
 
   <p>The
-  <code><dfn for=DOMParser>parseFromString</dfn>(<var>str</var>, <var>type</var>)</code></dfn>
+  <code><dfn data-dfn-for=DOMParser>parseFromString</dfn>(<var>str</var>, <var>type</var>)</code></dfn>
   method must run these steps, depending on <var>type</var>:
 
   <dl class=switch>
-    <dt>"<dfn for=SupportedType><code>text/html</code></dfn>"
+    <dt>"<dfn data-dfn-for=SupportedType><code>text/html</code></dfn>"
     <dd>Parse <var>str</var> with an <code><a>HTML parser</a></code>, and return the newly created
     <a>Document</a>.
 
@@ -250,10 +250,10 @@ dl.domintro::before {
 
     <p class=note><code><a>script</a></code> elements get marked unexecutable and the contents of
     <code><a>noscript</a></code> get parsed as markup.
-    <dt>"<dfn for=SupportedType><code>text/xml</code></dfn>"
-    <dt>"<dfn for=SupportedType><code>application/xml</code></dfn>"
-    <dt>"<dfn for=SupportedType><code>application/xhtml+xml</code></dfn>"
-    <dt>"<dfn for=SupportedType><code>image/svg+xml</code></dfn>"
+    <dt>"<dfn data-dfn-for=SupportedType><code>text/xml</code></dfn>"
+    <dt>"<dfn data-dfn-for=SupportedType><code>application/xml</code></dfn>"
+    <dt>"<dfn data-dfn-for=SupportedType><code>application/xhtml+xml</code></dfn>"
+    <dt>"<dfn data-dfn-for=SupportedType><code>image/svg+xml</code></dfn>"
     <dd>
     <ol>
       <li>Parse <var>str</var> with a namespace-enabled <code><a>XML parser</a></code>.
@@ -299,10 +299,10 @@ dl.domintro::before {
   </pre>
 
   <dl class=domintro>
-    <dt><var>xmlserializer</var> = new <a for=XMLSerializer>XMLSerializer</a> ()</var>
+    <dt><var>xmlserializer</var> = new <a data-link-for=XMLSerializer>XMLSerializer</a> ()</var>
     <dd>Constructs a new XMLSerializer object.
 
-    <dt><var>string</var> = <var>xmlserializer</var> . <a for=XMLSerializer>serializeToString</a> ( <var>root</var> )
+    <dt><var>string</var> = <var>xmlserializer</var> . <a data-link-for=XMLSerializer>serializeToString</a> ( <var>root</var> )
     <dd>Serializes <var>root</var> into a string using an XML serialization. Throws a
     <a>TypeError</a> exception if <var>root</var> is not a <a>Node</a> or an <a>Attr</a> object.
   </dl>
@@ -310,7 +310,7 @@ dl.domintro::before {
   <p>The <dfn><code>XMLSerializer</code></dfn>() constructor must return a new <a>XMLSerializer</a>
   object.
 
-  <p>The <dfn for="XMLSerializer"><code>serializeToString</code></dfn>(<var>root</var>) method must
+  <p>The <dfn data-dfn-for="XMLSerializer"><code>serializeToString</code></dfn>(<var>root</var>) method must
   produce an <a>XML serialization</a> of <var>root</var> passing a value of <code>false</code> for
   the <a><var>require well-formed</var></a> parameter, and return the result.
 
@@ -328,11 +328,11 @@ dl.domintro::before {
 
   <!-- innerHTML -->
 
-  <p>The <dfn for="Element"><code>innerHTML</code></dfn> IDL attribute represents the markup of the
+  <p>The <dfn data-dfn-for="Element"><code>innerHTML</code></dfn> IDL attribute represents the markup of the
   <code><a>Element</a></code>'s contents.
 
   <dl class=domintro>
-    <dt><var>element</var> . <a for="Element">innerHTML</a> [ = <var>value</var> ]
+    <dt><var>element</var> . <a data-link-for="Element">innerHTML</a> [ = <var>value</var> ]
     <dd>Returns a fragment of HTML or XML that represents the element's contents.
 
     <p>Can be set, to replace the contents of the element with nodes parsed from the given string.
@@ -358,7 +358,7 @@ dl.domintro::before {
     <a>context object</a> be the <code><a>template</a></code>'s <a>template contents</a> (a
     <code><a>DocumentFragment</a></code>).
 
-    <p class=note>Setting <a for="Element">innerHTML</a> on a <a>template</a> element will replace
+    <p class=note>Setting <a data-link-for="Element">innerHTML</a> on a <a>template</a> element will replace
     all the nodes in its <a>template contents</a>
     (<a>template</a>.<a data-lt="template contents">content</a>) rather than its <a>children</a>.</p>
 
@@ -367,11 +367,11 @@ dl.domintro::before {
 
   <!-- outerHTML -->
 
-  <p>The <dfn for="Element"><code>outerHTML</code></dfn> IDL attribute represents the markup of the
+  <p>The <dfn data-dfn-for="Element"><code>outerHTML</code></dfn> IDL attribute represents the markup of the
   <code><a>Element</a></code> and its contents.
 
   <dl class=domintro>
-    <dt><var>element</var> . <a for="Element">outerHTML</a> [ = <var>value</var> ]
+    <dt><var>element</var> . <a data-link-for="Element">outerHTML</a> [ = <var>value</var> ]
     <dd>Returns a fragment of HTML or XML that represents the element and its contents.
 
     <p>Can be set, to replace the element with nodes parsed from the given string.
@@ -421,7 +421,7 @@ dl.domintro::before {
   <!-- insertAdjacentHTML -->
 
   <dl class=domintro>
-    <dt><var>element</var> . <a for="Element">insertAdjacentHTML</a> ( <var>position</var>, <var>text</var> )
+    <dt><var>element</var> . <a data-link-for="Element">insertAdjacentHTML</a> ( <var>position</var>, <var>text</var> )
     <dd>Parses the given string <var>text</var> as HTML or XML and inserts the resulting nodes into
     the tree in the position given by the <var>position</var> argument, as follows:
 
@@ -449,7 +449,7 @@ dl.domintro::before {
   </dl>
 
   <p>The
-  <dfn for="Element" data-lt="insertAdjacentHTML"><code>insertAdjacentHTML(<var>position</var>, <var>text</var>)</code></dfn>
+  <dfn data-dfn-for="Element" data-lt="insertAdjacentHTML"><code>insertAdjacentHTML(<var>position</var>, <var>text</var>)</code></dfn>
   method must run these steps:
 
   <ol>
@@ -524,10 +524,10 @@ dl.domintro::before {
 
   <p class=note>No special handling for <code><a>template</a></code> elements is included in the
   above "<code>afterbegin</code>" and "<code>beforeend</code>" cases. As with other direct
-  <a>Node</a>-manipulation APIs (and unlike <a for="Element">innerHTML</a>),
-  <a for="Element">insertAdjacentHTML</a> does not include any special handling for
+  <a>Node</a>-manipulation APIs (and unlike <a data-link-for="Element">innerHTML</a>),
+  <a data-link-for="Element">insertAdjacentHTML</a> does not include any special handling for
   <code><a>template</a></code> elements. In most cases you will wish to use
-  <a>template</a>.<a data-lt="template contents">content</a>.<a for="Element">insertAdjacentHTML</a>
+  <a>template</a>.<a data-lt="template contents">content</a>.<a data-link-for="Element">insertAdjacentHTML</a>
   instead of directly manipulating the <a>child nodes</a> of a <code><a>template</a></code>
   element.</p>
 
@@ -542,13 +542,13 @@ dl.domintro::before {
   </pre>
 
   <dl class=domintro>
-    <dt><var>docFragment</var> = <var>range</var> . <a for="Range">createContextualFragment</a> ( <var>fragment</var> )
+    <dt><var>docFragment</var> = <var>range</var> . <a data-link-for="Range">createContextualFragment</a> ( <var>fragment</var> )
     <dd>Returns a <code><a>DocumentFragment</a></code>, created from the markup string
     <var>fragment</var> using <var>range</var>'s start node as the context in which
     <var>fragment</var> is parsed.
   </dl>
 
-  <p>The <dfn for="Range"><code>createContextualFragment(<var>fragment</var>)</code></dfn> method
+  <p>The <dfn data-dfn-for="Range" data-lt="createContextualFragment"><code>createContextualFragment(<var>fragment</var>)</code></dfn> method
   must run these steps:
 
   <ol>
@@ -566,7 +566,7 @@ dl.domintro::before {
 
       <dt><code><a>Text</a></code>
       <dt><code><a>Comment</a></code>
-      <dd><var>node</var>'s <a>parent element</a>
+      <dd><var>node</var>'s <a data-cite="DOM#parent-element">parent element</a>
 
       <dt><code><a>DocumentType</a></code>
       <dt><code><a>ProcessingInstruction</a></code>
@@ -617,17 +617,17 @@ dl.domintro::before {
   </pre>
 
   <dl class=domintro>
-    <dt><var>text</var> . <a for="Text">serializeAsCDATA</a> [ = <var>value</var> ]
+    <dt><var>text</var> . <a data-link-for="Text">serializeAsCDATA</a> [ = <var>value</var> ]
     <dd>Controls whether, in XML, this node is serialized as a CDATA section.
   </dl>
 
   <p><code><a>Text</a></code> nodes have an additional associated flag, the
   <dfn>serialize as CDATA flag</dfn>.
 
-  <p>The <dfn for="Text"><code>serializeAsCDATA</code></dfn> attribute must return true if the
+  <p>The <dfn data-dfn-for="Text"><code>serializeAsCDATA</code></dfn> attribute must return true if the
   <a>context object</a> has its <a>serialize as CDATA flag</a> set, or false otherwise.
 
-  <p>Setting the <a for="Text">serializeAsCDATA</a> attribute must, if the new value is true, set
+  <p>Setting the <a data-link-for="Text">serializeAsCDATA</a> attribute must, if the new value is true, set
   the <a>context object</a>'s <a>serialize as CDATA flag</a>, or unset it otherwise.
 
 </section><!-- end Extensions to the Text interface -->
@@ -1848,8 +1848,8 @@ dl.domintro::before {
   and Boris Zbarsky,
   for their useful comments.
 
-  <p>Special thanks to Ian Hickson for first defining the <a for="Element">innerHTML</a> and <a for="Element">outerHTML</a>
-  attributes, and the <a for="Element">insertAdjacentHTML</a> method in [[HTML5]] and his useful comments.
+  <p>Special thanks to Ian Hickson for first defining the <a data-link-for="Element">innerHTML</a> and <a data-link-for="Element">outerHTML</a>
+  attributes, and the <a data-link-for="Element">insertAdjacentHTML</a> method in [[HTML5]] and his useful comments.
 </section>
 
 </body>
