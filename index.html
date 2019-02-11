@@ -293,7 +293,7 @@ dl.domintro::before {
 
   <pre class="idl">
     [Constructor, Exposed=Window] 
-      interface XMLSerializer {
+    interface XMLSerializer {
       DOMString serializeToString(Node root);
     };
   </pre>
@@ -316,29 +316,30 @@ dl.domintro::before {
 
 </section><!-- end XMLSerializer interface -->
 
-<section><h2>Extensions to the <code><a>Element</a></code> interface</h2>
+<section><h2>The <dfn>InnerHTML</dfn> mixin</h2>
 
   <pre class="idl">
-    partial interface Element {
+    interface mixin InnerHTML {
       [CEReactions, TreatNullAs=EmptyString] attribute DOMString innerHTML;
-      [CEReactions, TreatNullAs=EmptyString] attribute DOMString outerHTML;
-      [CEReactions] void insertAdjacentHTML(DOMString position, DOMString text);
     };
+
+    Element includes InnerHTML;
+    ShadowRoot includes InnerHTML;
   </pre>
 
   <!-- innerHTML -->
 
-  <p>The <dfn data-dfn-for="Element"><code>innerHTML</code></dfn> IDL attribute represents the markup of the
-  <code><a>Element</a></code>'s contents.
+  <p>The <dfn data-dfn-for="InnerHTML"><code>innerHTML</code></dfn> IDL attribute represents the markup of the
+  element's contents.
 
   <dl class=domintro>
-    <dt><var>element</var> . <a data-link-for="Element">innerHTML</a> [ = <var>value</var> ]
+    <dt><var>element</var> . <a data-link-for="InnerHTML">innerHTML</a> [ = <var>value</var> ]
     <dd>Returns a fragment of HTML or XML that represents the element's contents.
 
     <p>Can be set, to replace the contents of the element with nodes parsed from the given string.
 
     <p>In the case of an <a>XML document</a>, throws a "<code><a>InvalidStateError</a></code>"
-    <code><a>DOMException</a></code> if the <code><a>Element</a></code> cannot be serialized to XML,
+    <code><a>DOMException</a></code> if the element cannot be serialized to XML,
     or a "<code><a>SyntaxError</a></code>" <code><a>DOMException</a></code> if the given string is
     not well-formed.
   </dl>
@@ -350,9 +351,12 @@ dl.domintro::before {
   <p>On setting, these steps must be run:
 
   <ol>
+    <li>Let <var>context element</var> be the <a>context object</a>'s
+    <a data-cite="DOM#concept-documentfragment-host">host</a> if the <a>context object</a> is a
+    <a>ShadowRoot</a> object, or the <a>context object</a> otherwise.
+
     <li>Let <var>fragment</var> be the result of invoking the <a>fragment parsing algorithm</a> with
-    the new value as <var>markup</var>, and the <a>context object</a> as the
-    <var>context element</var>.
+    the new value as <var>markup</var>, and with <var>context element</var>.
 
     <li>If the <a>context object</a> is a <code><a>template</a></code> element, then let
     <a>context object</a> be the <code><a>template</a></code>'s <a>template contents</a> (a
@@ -364,6 +368,17 @@ dl.domintro::before {
 
     <li><a>Replace all</a> with <var>fragment</var> within the <a>context object</a>.
   </ol>
+
+</section><!-- end InnerHTML mixin -->
+
+<section><h2>Extensions to the <code><a>Element</a></code> interface</h2>
+
+  <pre class="idl">
+    partial interface Element {
+      [CEReactions, TreatNullAs=EmptyString] attribute DOMString outerHTML;
+      [CEReactions] void insertAdjacentHTML(DOMString position, DOMString text);
+    };
+  </pre>
 
   <!-- outerHTML -->
 
@@ -1789,6 +1804,12 @@ dl.domintro::before {
         "<dfn><a href="https://www.w3.org/TR/dom/#nomodificationallowederror">NoModificationAllowedError</a></dfn>" and
         "<dfn><a href="https://www.w3.org/TR/dom/#syntaxerror">SyntaxError</a></dfn>",
     <li><dfn><a href="https://www.w3.org/TR/dom/#xmldocument">XMLDocument</a></dfn>
+  </ul>
+  
+  The following terms used in this document are defined by [[DOM]]:
+
+  <ul>
+    <li>The <dfn data-cite="DOM#shadowroot">ShadowRoot</dfn> interface
   </ul>
 
   The following terms used in this document are defined by [[XML10]]:
