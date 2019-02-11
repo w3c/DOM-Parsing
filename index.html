@@ -351,10 +351,12 @@ dl.domintro::before {
   <p>On setting, these steps must be run:
 
   <ol>
+    <li>Let <var>context element</var> be the <a>context object</a>'s
+    <a data-cite="DOM#concept-documentfragment-host">host</a> if the <a>context object</a> is a
+    <a>ShadowRoot</a> object, or the <a>context object</a> otherwise.
+
     <li>Let <var>fragment</var> be the result of invoking the <a>fragment parsing algorithm</a> with
-    the new value as <var>markup</var>, and the <a data-cite="DOM#concept-documentfragment-host">host</a>
-    object as the <var>context element</var> if the <a>context object</a> is a <a>ShadowRoot</a> object or the
-    <a>context object</a> otherwise.
+    the new value as <var>markup</var>, and with <var>context element</var>.
 
     <li>If the <a>context object</a> is a <code><a>template</a></code> element, then let
     <a>context object</a> be the <code><a>template</a></code>'s <a>template contents</a> (a
