@@ -206,8 +206,9 @@ dl.domintro::before {
 <section><h2>The <code>DOMParser</code> interface</h2>
 
   <pre class=idl>
-    [Constructor, Exposed=Window]
+    [Exposed=Window]
     interface DOMParser {
+      constructor();
       [NewObject] Document parseFromString(DOMString str, SupportedType type);
     };
 
@@ -292,8 +293,9 @@ dl.domintro::before {
 <section><h2>The <code>XMLSerializer</code> interface</h2>
 
   <pre class="idl">
-    [Constructor, Exposed=Window] 
+    [Exposed=Window]
     interface XMLSerializer {
+      constructor();
       DOMString serializeToString(Node root);
     };
   </pre>
