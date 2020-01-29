@@ -205,88 +205,16 @@ dl.domintro::before {
 
 <section><h2>The <code>DOMParser</code> interface</h2>
 
-  <pre class=idl>
-    [Exposed=Window]
-    interface DOMParser {
-      constructor();
-      [NewObject] Document parseFromString(DOMString str, SupportedType type);
-    };
+  <span id="dom-domparser"></span>
+  <span id="dom-domparser-parsefromstring"></span>
+  <span id="idl-def-supportedtype"></span>
+  <span id="dom-supportedtype-text/html"></span>
+  <span id="dom-supportedtype-text/xml"></span>
+  <span id="dom-supportedtype-application/xml"></span>
+  <span id="dom-supportedtype-application/xhtml+xml"></span>
+  <span id="dom-supportedtype-image/svg+xml"></span>
 
-    enum SupportedType {
-      "text/html",
-      "text/xml",
-      "application/xml",
-      "application/xhtml+xml",
-      "image/svg+xml"
-    };
-  </pre>
-
-  <dl class=domintro>
-    <dt><var>domparser</var> = new <a data-link-for=DOMParser>DOMParser</a> ()</var>
-    <dd>Constructs a new DOMParser object.
-
-    <dt><var>document</var> = <var>domparser</var> . <a data-link-for=DOMParser>parseFromString</a> ( <var>str</var>, <var>type</var> )
-    <dd>Parse <var>str</var> using a parser that matches <var>type</var>'s supported MIME types
-    (either XML or HTML), and return a <a>Document</a> object contained the parsed content if
-    successful. If not successful, returns a <a>Document</a> describing the error.
-    <dd>If <var>type</var> does not match a value in the <a>SupportedType</a> enumeration, an
-    exception is thrown [[WEBIDL]].
-  </dl>
-
-  <p>The <dfn><code>DOMParser</code></dfn> constructor must return a new <a>DOMParser</a> object.
-
-  <p>The
-  <code><dfn data-dfn-for=DOMParser>parseFromString</dfn>(<var>str</var>, <var>type</var>)</code></dfn>
-  method must run these steps, depending on <var>type</var>:
-
-  <dl class=switch>
-    <dt>"<dfn data-dfn-for=SupportedType><code>text/html</code></dfn>"
-    <dd>Parse <var>str</var> with an <code><a>HTML parser</a></code>, and return the newly created
-    <a>Document</a>.
-
-    <p>The <a>scripting flag</a> must be set to "disabled".
-
-    <p class=note><code><a>meta</a></code> elements are not taken into account for the encoding
-    used, as a Unicode stream is passed into the parser.
-
-    <p class=note><code><a>script</a></code> elements get marked unexecutable and the contents of
-    <code><a>noscript</a></code> get parsed as markup.
-    <dt>"<dfn data-dfn-for=SupportedType><code>text/xml</code></dfn>"
-    <dt>"<dfn data-dfn-for=SupportedType><code>application/xml</code></dfn>"
-    <dt>"<dfn data-dfn-for=SupportedType><code>application/xhtml+xml</code></dfn>"
-    <dt>"<dfn data-dfn-for=SupportedType><code>image/svg+xml</code></dfn>"
-    <dd>
-    <ol>
-      <li>Parse <var>str</var> with a namespace-enabled <code><a>XML parser</a></code>.
-
-      <p class=note>For all XHTML <code><a>script</a></code> elements parsed using the
-      <code><a>XML parser</a></code>, the equivalent of the <a>scripting flag</a> must be set to
-      "disabled".</p>
-
-      <li>If the previous step didn't return an error, return the newly created <a>Document</a>.
-
-      <li>Let <var>document</var> be a newly-created <a>XML Document</a>. <span class=note>The
-      <var>document</var> will use the <code><a>Document</a></code> interface rather than the
-      <code><a>XMLDocument</a></code> interface.</span>
-
-      <li>Let <var>root</var> be a new <code><a>Element</a></code>, with its <a>local name</a> set
-      to "<code>parsererror</code>" and its <a data-lt="concept namespace">namespace</a> set to
-      "<code>http://www.mozilla.org/newlayout/xml/parsererror.xml</code>".
-
-      <p>At this point user agents may <a>append</a> nodes to <var>root</var>, for example to
-      describe the nature of the error.
-
-      <li><a>Append</a> <var>root</var> to <var>document</var>.
-
-      <li>Return the value of <var>document</var>.
-    </ol>
-  </dl>
-
-  <p>In any case, the returned <a>Document</a>'s <a>content type</a> must be the <var>type</var>
-  argument. Additionally, the <a>Document</a> must have a <a>URL</a> value equal to the URL of the
-  <a>active document</a>, and a <a>location</a> value of <code>null</code>.
-
-  <p class=note>The returned <a>Document</a>'s <a>encoding</a> is the default, UTF-8.
+  <p>The definition of <code>DOMParser</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#domparser">the HTML Standard</a>.</p>
 
 </section><!-- end DOMParser interface -->
 
@@ -1807,7 +1735,7 @@ dl.domintro::before {
         "<dfn><a href="https://www.w3.org/TR/dom/#syntaxerror">SyntaxError</a></dfn>",
     <li><dfn><a href="https://www.w3.org/TR/dom/#xmldocument">XMLDocument</a></dfn>
   </ul>
-  
+
   The following terms used in this document are defined by [[DOM]]:
 
   <ul>
@@ -1844,7 +1772,7 @@ dl.domintro::before {
 
   <ul>
     <li>2016-06 WD - Editorial restructuring of the document; monolithic XML serialization algorithm
-    factored into sections. Dependencies clarified. XML Serialization algorithm updated to get 
+    factored into sections. Dependencies clarified. XML Serialization algorithm updated to get
     closer to interoperable browser behavior.
 
     <li><a href="https://dvcs.w3.org/hg/innerhtml/raw-file/tip/LC2_comments.html">Incorporated
@@ -1877,4 +1805,3 @@ dl.domintro::before {
 
 </body>
 </html>
-
