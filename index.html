@@ -250,7 +250,7 @@ dl.domintro::before {
 
   <pre class="idl">
     interface mixin InnerHTML {
-      [CEReactions] attribute [TreatNullAs=EmptyString] DOMString innerHTML;
+      [CEReactions] attribute [LegacyNullToEmptyString] DOMString innerHTML;
     };
 
     Element includes InnerHTML;
@@ -305,7 +305,7 @@ dl.domintro::before {
 
   <pre class="idl">
     partial interface Element {
-      [CEReactions] attribute [TreatNullAs=EmptyString] DOMString outerHTML;
+      [CEReactions] attribute [LegacyNullToEmptyString] DOMString outerHTML;
       [CEReactions] void insertAdjacentHTML(DOMString position, DOMString text);
     };
   </pre>
@@ -1758,6 +1758,12 @@ dl.domintro::before {
 
   <ul>
     <li>The <dfn><a href="https://tc39.github.io/ecma262/#sec-error-objects">TypeError</a></dfn> exception
+  </ul>
+
+  The Web IDL [[WebIDL]] specification defines:
+
+  <ul>
+    <li>The <dfn data-lt="LegacyNullToEmptyString"><a href="https://heycam.github.io/webidl/#LegacyNullToEmptyString">[LegacyNullToEmptyString]</a></dfn> IDL <a>extended attribute</a>
   </ul>
 </section>
 
