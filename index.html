@@ -1294,7 +1294,8 @@ dl.domintro::before {
           <p class=note>DOM APIs do allow creation of elements in the <a>XMLNS namespace</a> but
           with strict qualifications.</p>
 
-          <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
+          <li>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), the
+          value of <var>attr</var>'s <code><a>prefix</a></code> attribute is not <code>null</code>, and
           the value of <var>attr</var>'s <code><a>value</a></code> attribute is the empty string,
           then throw an exception; namespace prefix declarations cannot be used to undeclare a
           namespace (use a default namespace declaration instead).
