@@ -1304,11 +1304,19 @@ dl.domintro::before {
           "<code>xmlns</code>".
         </ol>
 
-        <li>Otherwise, the <var>attribute namespace</var> in not the <a>XMLNS namespace</a>. Run
-        these steps:
+        <li>Otherwise, the <var>attribute namespace</var> is not the <a>XMLNS namespace</a>. If
+        <var>candidate prefix</var> is null, run these steps:
         <ol>
-          <li>Let <var>candidate prefix</var> be the result of <a>generating a prefix</a> providing
-          <var>map</var>, <var>attribute namespace</var>, and <var>prefix index</var> as input.
+          <li>Let <var>new prefix</var> be <var>attr</var>'s <code><a>prefix</a></code> attribute if it is
+          not <code>null</code> and the <var>local prefixes map</var> does not contain a key matching
+          <var>attr</var>'s <code><a>prefix</a></code>, or the result of <a>generating a prefix</a> providing
+          <var>map</var>, <var>attribute namespace</var>, and <var>prefix index</var> as input otherwise.
+
+          <li><a>Add</a> <var>new prefix</var> to <var>map</var> given namespace <var>attribute namespace</var>.
+
+          <li>Add the value of <var>new prefix</var> as a new key to the <var>local prefixes map</var>, with
+          the <var>attribute namespace</var> as the key's value replacing the value of <code>null</code> with
+          the empty string if applicable.
 
           <li>Append the following to <var>result</var>, in the order listed:
           <ol>
@@ -1316,7 +1324,7 @@ dl.domintro::before {
 
             <li>The string "<code>xmlns:</code>";
 
-            <li>The value of <var>candidate prefix</var>;
+            <li>The value of <var>new prefix</var>;
 
             <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
