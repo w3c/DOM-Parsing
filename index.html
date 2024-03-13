@@ -250,7 +250,7 @@ dl.domintro::before {
 
   <pre class="idl">
     interface mixin InnerHTML {
-      [CEReactions] attribute [LegacyNullToEmptyString] DOMString innerHTML;
+      [CEReactions] attribute [LegacyNullToEmptyString] HTMLString innerHTML;
     };
 
     Element includes InnerHTML;
@@ -305,8 +305,8 @@ dl.domintro::before {
 
   <pre class="idl">
     partial interface Element {
-      [CEReactions] attribute [LegacyNullToEmptyString] DOMString outerHTML;
-      [CEReactions] undefined insertAdjacentHTML(DOMString position, DOMString text);
+      [CEReactions] attribute [LegacyNullToEmptyString] HTMLString outerHTML;
+      [CEReactions] undefined insertAdjacentHTML(DOMString position, HTMLString text);
     };
   </pre>
 
@@ -482,7 +482,7 @@ dl.domintro::before {
 
   <pre class="idl">
     partial interface Range {
-      [CEReactions, NewObject] DocumentFragment createContextualFragment(DOMString fragment);
+      [CEReactions, NewObject] DocumentFragment createContextualFragment(HTMLString fragment);
     };
   </pre>
 
@@ -1764,6 +1764,12 @@ dl.domintro::before {
 
   <ul>
     <li>The <dfn data-lt="LegacyNullToEmptyString"><a href="https://heycam.github.io/webidl/#LegacyNullToEmptyString">[LegacyNullToEmptyString]</a></dfn> IDL <a>extended attribute</a>
+  </ul>
+
+  The Trusted Types [[TRUSTED-TYPES]] specification defines:
+
+  <ul>
+    <li>The <dfn data-lt="HTMLString"><a href="https://w3c.github.io/trusted-types/dist/spec/#typedefdef-htmlstring">HTMLString</a></dfn> IDL <a>typedef</a>
   </ul>
 </section>
 
