@@ -7,9 +7,11 @@ var respecConfig = {
     { name: "Travis Leithead", company: "Microsoft", mailto: "travis.leithead@microsoft.com", companyURL: "http://www.microsoft.com", w3cid: "40117" }
   ],
   edDraftURI: "https://w3c.github.io/DOM-Parsing/",
+  xref: ["webidl", "html"],
   //format: "markdown",
   shortName:  "DOM-Parsing",
   wg:         ["Web Platform Working Group"],
+  group: "wg/webapps",
   wgURI:    ["https://www.w3.org/WebPlatform/WG/"],
   license: "w3c-software-doc",
   wgPublicList: "www-dom",
