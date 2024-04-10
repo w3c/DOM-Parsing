@@ -258,63 +258,15 @@ dl.domintro::before {
 
   <pre class="idl">
     partial interface Element {
-      [CEReactions] attribute [LegacyNullToEmptyString] HTMLString outerHTML;
       [CEReactions] undefined insertAdjacentHTML(DOMString position, HTMLString text);
     };
   </pre>
 
   <!-- outerHTML -->
 
-  <p>The <dfn data-dfn-for="Element"><code>outerHTML</code></dfn> IDL attribute represents the markup of the
-  <code><a>Element</a></code> and its contents.
+  <span id="dom-element-outerhtml"></span>
 
-  <dl class=domintro>
-    <dt><var>element</var> . <a data-link-for="Element">outerHTML</a> [ = <var>value</var> ]
-    <dd>Returns a fragment of HTML or XML that represents the element and its contents.
-
-    <p>Can be set, to replace the element with nodes parsed from the given string.
-
-    <p>In the case of an <a>XML document</a>, throws a "<code><a>InvalidStateError</a></code>"
-    <code><a>DOMException</a></code> if the element cannot be serialized to XML, or a
-    "<code><a>SyntaxError</a></code>" <code><a>DOMException</a></code> if the given string is not
-    well-formed.
-
-    <p>Throws a "<code><a>NoModificationAllowedError</a></code>" <code><a>DOMException</a></code>
-    if the parent of the element is a <code><a>Document</a></code>.
-  </dl>
-
-  <p>On getting, return the result of invoking the <a>fragment serializing algorithm</a> on a
-  fictional node whose only child is the <a>context object</a> providing <code>true</code> for the
-  <a><var>require well-formed</var></a> flag (this might throw an exception instead of returning a string).
-
-  <p>On setting, the following steps must be run:
-
-  <ol>
-    <li>Let <var>parent</var> be the <a>context object</a>'s <a>parent</a>.
-
-    <li>If <var>parent</var> is null, terminate these steps. There would be no way to obtain a
-    reference to the nodes created even if the remaining steps were run.
-
-    <li>If <var>parent</var> is a <code><a>Document</a></code>, throw a
-    "<code><a>NoModificationAllowedError</a></code>" <code><a>DOMException</a></code>.
-
-    <li>If <var>parent</var> is a <code><a>DocumentFragment</a></code>, let <var>parent</var> be a
-    new <code><a>Element</a></code> with:
-
-    <ul>
-      <li><code>body</code> as its <a>local name</a>,
-
-      <li>The <a>HTML namespace</a> as its <a data-lt="concept namespace">namespace</a>, and
-
-      <li>The <a>context object</a>'s <a>node document</a> as its <a>node document</a>.
-    </ul>
-
-    <li>Let <var>fragment</var> be the result of invoking the <a>fragment parsing algorithm</a> with
-    the new value as <var>markup</var>, and <var>parent</var> as the <var>context element</var>.
-
-    <li><a>Replace</a> the <a>context object</a> with <var>fragment</var> within the
-    <a>context object</a>'s <a>parent</a>.
-  </ol>
+  <p>The definition of <code>outerHTML</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-outerhtml-property">the HTML Standard</a>.</p>
 
   <!-- insertAdjacentHTML -->
 
@@ -1574,7 +1526,6 @@ dl.domintro::before {
         an <dfn><a href="https://www.w3.org/TR/html5/single-page.html#active-document">active document</a></dfn>;
     <li>Parsing concepts:
         the <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#fragment-parsing-algorithm-steps">fragment parsing algorithm</a></dfn>;
-        the <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#fragment-serializing-algorithm-steps">fragment serializing algorithm</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#html-parser">HTML parser</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#parsing-xhtml-documents">parsing XHTML documents</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#xml-parser">XML parser</a></dfn>;
@@ -1588,6 +1539,7 @@ dl.domintro::before {
     <li>The <a>template</a>'s <dfn data-lt="template content"><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
     <li>The <dfn data-lt="CEReactions"><a href="https://www.w3.org/TR/html5/single-page.html#cereactios">[CEReactions]</a></dfn> IDL <a>extended attribute</a>
     <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-innerhtml">innerHTML</a></dfn> property;
+    <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-outerhtml">outerHTML</a></dfn> property;
   </ul>
 
   The DOM specification [[!DOM4]] defines the following terms used in this document:
