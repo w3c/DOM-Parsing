@@ -246,58 +246,11 @@ dl.domintro::before {
 
 </section><!-- end XMLSerializer interface -->
 
-<section><h2>The <dfn>InnerHTML</dfn> mixin</h2>
+<section><h2>The <code>InnerHTML</code> mixin</h2>
 
-  <pre class="idl">
-    interface mixin InnerHTML {
-      [CEReactions] attribute [LegacyNullToEmptyString] HTMLString innerHTML;
-    };
+  <span id="dom-innerhtml"></span>
 
-    Element includes InnerHTML;
-    ShadowRoot includes InnerHTML;
-  </pre>
-
-  <!-- innerHTML -->
-
-  <p>The <dfn data-dfn-for="InnerHTML"><code>innerHTML</code></dfn> IDL attribute represents the markup of the
-  element's contents.
-
-  <dl class=domintro>
-    <dt><var>element</var> . <a data-link-for="InnerHTML">innerHTML</a> [ = <var>value</var> ]
-    <dd>Returns a fragment of HTML or XML that represents the element's contents.
-
-    <p>Can be set, to replace the contents of the element with nodes parsed from the given string.
-
-    <p>In the case of an <a>XML document</a>, throws a "<code><a>InvalidStateError</a></code>"
-    <code><a>DOMException</a></code> if the element cannot be serialized to XML,
-    or a "<code><a>SyntaxError</a></code>" <code><a>DOMException</a></code> if the given string is
-    not well-formed.
-  </dl>
-
-  <p>On getting, return the result of invoking the <a>fragment serializing algorithm</a> on the
-  <a>context object</a> providing <code>true</code> for the <a><var>require well-formed</var></a> flag (this
-  might throw an exception instead of returning a string).
-
-  <p>On setting, these steps must be run:
-
-  <ol>
-    <li>Let <var>context element</var> be the <a>context object</a>'s
-    <a data-cite="DOM#concept-documentfragment-host">host</a> if the <a>context object</a> is a
-    <a>ShadowRoot</a> object, or the <a>context object</a> otherwise.
-
-    <li>Let <var>fragment</var> be the result of invoking the <a>fragment parsing algorithm</a> with
-    the new value as <var>markup</var>, and with <var>context element</var>.
-
-    <li>If the <a>context object</a> is a <code><a>template</a></code> element, then let
-    <a>context object</a> be the <code><a>template</a></code>'s <a>template contents</a> (a
-    <code><a>DocumentFragment</a></code>).
-
-    <p class=note>Setting <a data-link-for="Element">innerHTML</a> on a <a>template</a> element will replace
-    all the nodes in its <a>template contents</a>
-    (<a>template</a>.<a data-lt="template contents">content</a>) rather than its <a>children</a>.</p>
-
-    <li><a>Replace all</a> with <var>fragment</var> within the <a>context object</a>.
-  </ol>
+  <p>The definition of <code>InnerHTML</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-innerhtml-property">the HTML Standard</a>.</p>
 
 </section><!-- end InnerHTML mixin -->
 
@@ -583,64 +536,27 @@ dl.domintro::before {
 
 <section><h2>Parsing</h2>
 
-  <p>The following steps form the <dfn>fragment parsing algorithm</dfn>, whose arguments are a
-  <var>markup</var> string and a <var>context element</var>:
+  <span id="dfn-fragment-parsing-algorithm"></span>
 
-  <ol>
-    <li>If the <var>context element</var>'s <a>node document</a> is an <a>HTML document</a>: let
-    <var>algorithm</var> be the <a>HTML fragment parsing algorithm</a>.
-
-    <p>If the <var>context element</var>'s <a>node document</a> is an <a>XML document</a>: let
-    <var>algorithm</var> be the <a>XML fragment parsing algorithm</a>.
-
-    <li>Let <var>new children</var> be the result of invoking <var>algorithm</var> with
-    <var>markup</var> as the <var>input</var>, and <var>context element</var> as the
-    <var><a>context</a></var> element.
-
-    <li>Let <var>fragment</var> be a new <code><a>DocumentFragment</a></code> whose
-    <a>node document</a> is <var>context element</var>'s <a>node document</a>.
-
-    <li><a>Append</a> each <a>Node</a> in <var>new children</var> to <var>fragment</var> (in
-    <a>tree order</a>).
-
-    <p class=note>This ensures the <a>node document</a> for the new <a>nodes</a> is correct.</p>
-
-    <li>Return the value of <var>fragment</var>.
-  </ol>
+  <p>The definition of <code>fragment parsing algorithm</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#fragment-parsing-algorithm-steps">the HTML Standard</a>.</p>
 
 </section><!-- end Parsing -->
 
 <section><h2>Serializing</h2>
 
-  <p>The following steps form the <dfn>fragment serializing algorithm</dfn>, whose arguments are a
-  <code><a>Node</a></code> <var>node</var> and a flag <dfn>require well-formed</dfn>:
+  <span id="dfn-fragment-serializing-algorithm"></span>
 
-  <ol>
-    <li>Let <var>context document</var> be the value of <var>node</var>'s <a>node document</a>.
-
-    <li>If <var>context document</var> is an <a>HTML document</a>, return an
-    <a>HTML serialization</a> of <var>node</var>.
-
-    <li>Otherwise, <var>context document</var> is an <a>XML document</a>; return an
-    <a>XML serialization</a> of <var>node</var> passing the flag <a><var>require well-formed</var></a>.
-
-    <p class=note>The <a>XML serialization</a> defined in this document conforms to the requirements
-    of the <a>XML fragment serialization algorithm</a> defined in [[HTML5]].</p>
-  </ol>
-
-  <p>To produce an <dfn>HTML serialization</dfn> of a <code><a>Node</a></code> <var>node</var>, the
-  user agent must run the <a>HTML fragment serialization algorithm</a> on <var>node</var> and return
-  the string produced.
+  <p>The definition of <code>fragment serializing algorithm</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#fragment-serializing-algorithm-steps">the HTML Standard</a>.</p>
 
 <section><h2>XML Serialization</h2>
 
-  <p>An <a>XML serialization</a> differs from an <a>HTML serialization</a> in the following ways:
+  <p>An <a>XML serialization</a> differs from an HTML serialization in the following ways:
 
   <ul>
     <li><a>Elements</a> and <a data-lt="attribute">attributes</a> will always be serialized such
     that their <code>namespaceURI</code> is preserved. In some cases this means that an existing
     <code>prefix</code>, prefix declaration attribute or default namespace declaration attribute
-    might be dropped, substituted or changed. An <a>HTML serialization</a> does not attempt to
+    might be dropped, substituted or changed. An HTML serialization does not attempt to
     preserve the <code>namespaceURI</code>.
 
     <li><a>Elements</a> not in the <a>HTML namespace</a> containing no <a>children</a>, are
@@ -658,7 +574,7 @@ dl.domintro::before {
   <a>Attr</a> object will result in an empty string.
 
   <p>To produce an <dfn>XML serialization</dfn> of a <code><a>Node</a></code> <var>node</var> given
-  a flag <a><var>require well-formed</var></a>, run the following steps:
+  a flag <a><dfn>require well-formed</dfn></a>, run the following steps:
 
   <ol>
     <li>Let <a><var>namespace</var></a> be a <a>context namespace</a> with value <code>null</code>.
@@ -1657,15 +1573,11 @@ dl.domintro::before {
     <li>The general concepts:
         an <dfn><a href="https://www.w3.org/TR/html5/single-page.html#active-document">active document</a></dfn>;
     <li>Parsing concepts:
-        a fragment parsing <dfn><a href="https://www.w3.org/TR/html5/single-page.html#concept-frag-parse-context">context</a></dfn>;
-        the <dfn><a href="https://www.w3.org/TR/html5/single-page.html#html-fragment-parsing-algorithm">HTML fragment parsing algorithm</a></dfn>;
-        the <dfn><a href="https://www.w3.org/TR/html5/single-page.html#html-fragment-serialization-algorithm">HTML fragment serialization algorithm</a></dfn>;
+        the <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#fragment-parsing-algorithm-steps">fragment parsing algorithm</a></dfn>;
+        the <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#fragment-serializing-algorithm-steps">fragment serializing algorithm</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#html-parser">HTML parser</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#parsing-xhtml-documents">parsing XHTML documents</a></dfn>;
-        the <dfn><a href="https://www.w3.org/TR/html5/single-page.html#xml-fragment-parsing-algorithm">XML fragment parsing algorithm</a></dfn>;
-        the <dfn><a href="https://www.w3.org/TR/html5/single-page.html#xml-fragment-serialization-algorithm">XML fragment serialization algorithm</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#xml-parser">XML parser</a></dfn>;
-    <li>A <dfn><a href="https://www.w3.org/TR/html5/single-page.html#scripting-flag">scripting flag</a></dfn>
     <li>A document <dfn><a href="https://www.w3.org/TR/html5/single-page.html#location">location</a></dfn>
     <li>The following elements:
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#meta">meta</a></dfn>,
@@ -1675,6 +1587,7 @@ dl.domintro::before {
     <li><dfn><a href="https://www.w3.org/TR/html5/single-page.html#void-elements">void elements</a></dfn>
     <li>The <a>template</a>'s <dfn data-lt="template content"><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
     <li>The <dfn data-lt="CEReactions"><a href="https://www.w3.org/TR/html5/single-page.html#cereactios">[CEReactions]</a></dfn> IDL <a>extended attribute</a>
+    <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-innerhtml">innerHTML</a></dfn> property;
   </ul>
 
   The DOM specification [[!DOM4]] defines the following terms used in this document:
@@ -1694,9 +1607,8 @@ dl.domintro::before {
       a <dfn data-lt="concept namespace"><a href="https://www.w3.org/TR/dom/#concept-element-namespace">namespace</a> concept</dfn>;
       a <dfn><a href="https://www.w3.org/TR/dom/#concept-node-document">node document</a></dfn>;
       the <dfn><a href="https://www.w3.org/TR/dom/#concept-node-append">append</a></dfn>,
-      <dfn><a href="https://www.w3.org/TR/dom/#concept-node-insert">insert</a></dfn>,
-      <dfn><a href="https://www.w3.org/TR/dom/#concept-node-replace">replace</a></dfn> and
-      <dfn><a href="https://www.w3.org/TR/dom/#concept-node-replace-all">replace all</a></dfn> operations;
+      <dfn><a href="https://www.w3.org/TR/dom/#concept-node-insert">insert</a></dfn> and
+      <dfn><a href="https://www.w3.org/TR/dom/#concept-node-replace">replace</a></dfn> operations;
       <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-order">tree order</a></dfn>;
       a range's <dfn><a href="https://www.w3.org/TR/dom/#concept-range-start-node">start node</a></dfn>;
       document <dfn><a href="https://www.w3.org/TR/dom/#concept-document-url">URL</a></dfn>;
