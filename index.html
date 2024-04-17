@@ -272,73 +272,10 @@ dl.domintro::before {
 
 <section><h2>Extensions to the <code><a>Range</a></code> interface</h2>
 
-  <pre class="idl">
-    partial interface Range {
-      [CEReactions, NewObject] DocumentFragment createContextualFragment(HTMLString fragment);
-    };
-  </pre>
+  <span id="dom-range-createcontextualfragment"></span>
 
-  <dl class=domintro>
-    <dt><var>docFragment</var> = <var>range</var> . <a data-link-for="Range">createContextualFragment</a> ( <var>fragment</var> )
-    <dd>Returns a <code><a>DocumentFragment</a></code>, created from the markup string
-    <var>fragment</var> using <var>range</var>'s start node as the context in which
-    <var>fragment</var> is parsed.
-  </dl>
+  <p>The definition of <code>createContextualFragment</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-createcontextualfragment()-method">the HTML Standard</a>.</p>
 
-  <p>The <dfn data-dfn-for="Range" data-lt="createContextualFragment"><code>createContextualFragment(<var>fragment</var>)</code></dfn> method
-  must run these steps:
-
-  <ol>
-    <li>Let <var>node</var> be the <a>context object</a>'s <a>start node</a>.
-
-    <p>Let <var>element</var> be as follows, depending on <var>node</var>'s interface:
-
-    <dl class=switch>
-      <dt><code><a>Document</a></code>
-      <dt><code><a>DocumentFragment</a></code>
-      <dd>null
-
-      <dt><code><a>Element</a></code>
-      <dd><var>node</var>
-
-      <dt><code><a>Text</a></code>
-      <dt><code><a>Comment</a></code>
-      <dd><var>node</var>'s <a data-cite="DOM#parent-element">parent element</a>
-
-      <dt><code><a>DocumentType</a></code>
-      <dt><code><a>ProcessingInstruction</a></code>
-      <dd>[[DOM4]] prevents this case.
-    </dl>
-
-    <li>If either <var>element</var> is null or the following are all true:
-
-    <ul>
-      <li><var>element</var>'s <a>node document</a> is an <a>HTML document</a>,
-
-      <li><var>element</var>'s <a>local name</a> is "<code>html</code>", and
-
-      <li><var>element</var>'s <a data-lt="concept namespace">namespace</a> is the
-      <a>HTML namespace</a>;
-    </ul>
-
-    <p>let <var>element</var> be a new <a>Element</a> with
-
-    <ul>
-      <li>"<code>body</code>" as its <a>local name</a>,
-
-      <li>The <a>HTML namespace</a> as its <a data-lt="concept namespace">namespace</a>, and
-
-      <li>The <a>context object</a>'s <a>node document</a> as its <a>node document</a>.
-    </ul>
-
-    <li>Let <var>fragment node</var> be the result of invoking the <a>fragment parsing algorithm</a>
-    with <var>fragment</var> as <var>markup</var>, and <var>element</var> as the
-    <var>context element</var>.
-
-    <li>Unmark all scripts in <var>fragment node</var> as "already started" and as "parser-inserted".
-
-    <li>Return the value of <var>fragment node</var>.
-  </ol>
 </section><!-- end Extensions to the Range interface -->
 
 
@@ -1516,12 +1453,6 @@ dl.domintro::before {
 
   <ul>
     <li>The <dfn data-lt="LegacyNullToEmptyString"><a href="https://heycam.github.io/webidl/#LegacyNullToEmptyString">[LegacyNullToEmptyString]</a></dfn> IDL <a>extended attribute</a>
-  </ul>
-
-  The Trusted Types [[TRUSTED-TYPES]] specification defines:
-
-  <ul>
-    <li>The <dfn data-lt="HTMLString"><a href="https://w3c.github.io/trusted-types/dist/spec/#typedefdef-htmlstring">HTMLString</a></dfn> IDL <a>typedef</a>
   </ul>
 </section>
 
