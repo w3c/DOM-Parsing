@@ -256,12 +256,6 @@ dl.domintro::before {
 
 <section><h2>Extensions to the <code><a>Element</a></code> interface</h2>
 
-  <pre class="idl">
-    partial interface Element {
-      [CEReactions] undefined insertAdjacentHTML(DOMString position, HTMLString text);
-    };
-  </pre>
-
   <!-- outerHTML -->
 
   <span id="dom-element-outerhtml"></span>
@@ -270,116 +264,9 @@ dl.domintro::before {
 
   <!-- insertAdjacentHTML -->
 
-  <dl class=domintro>
-    <dt><var>element</var> . <a data-link-for="Element">insertAdjacentHTML</a> ( <var>position</var>, <var>text</var> )
-    <dd>Parses the given string <var>text</var> as HTML or XML and inserts the resulting nodes into
-    the tree in the position given by the <var>position</var> argument, as follows:
+  <span id="dom-element-insertadjacenthtml"></span>
 
-    <dl>
-      <dt>"beforebegin"
-      <dd>Before the element itself (i.e., after <var>element</var>'s previous sibling)
-
-      <dt>"afterbegin"
-      <dd>Just inside the element, before its first child.
-
-      <dt>"beforeend"
-      <dd>Just inside the element, after its last child.
-
-      <dt>"afterend"
-      <dd>After the element itself (i.e., before <var>element</var>'s next sibling)
-    </dl>
-
-    <p>Throws a "<code><a>SyntaxError</a></code>" <code><a>DOMException</a></code> if the arguments
-    have invalid values (e.g., in the case of an <a>XML document</a>, if the given string is not
-    well-formed).
-
-    <p>Throws a "<code><a>NoModificationAllowedError</a></code>" <code><a>DOMException</a></code> if
-    the given position isn't possible (e.g. inserting elements after the root element of a
-    <code><a>Document</a></code>).
-  </dl>
-
-  <p>The
-  <dfn data-dfn-for="Element" data-lt="insertAdjacentHTML"><code>insertAdjacentHTML(<var>position</var>, <var>text</var>)</code></dfn>
-  method must run these steps:
-
-  <ol>
-    <li>Use the first matching item from this list:
-
-    <dl class=switch>
-      <dt>If <var>position</var> is an <a>ASCII case-insensitive</a> match for the string
-      "<code>beforebegin</code>"
-      <dt>If <var>position</var> is an <a>ASCII case-insensitive</a> match for the string
-      "<code>afterend</code>"
-      <dd>Let <var>context</var> be the <a>context object</a>'s <a>parent</a>.
-
-      <p>If <var>context</var> is null or a <a>Document</a>, throw a
-      "<code><a>NoModificationAllowedError</a></code>" <code><a>DOMException</a></code>.
-
-      <dt>If <var>position</var> is an <a>ASCII case-insensitive</a> match for the string
-      "<code>afterbegin</code>"
-      <dt>If <var>position</var> is an <a>ASCII case-insensitive</a> match for the string
-      "<code>beforeend</code>"
-      <dd>Let <var>context</var> be the <a>context object</a>.
-
-      <dt>Otherwise
-      <dd>Throw a "<code><a>SyntaxError</a></code>" <code><a>DOMException</a></code>.
-    </dl>
-
-    <li>If <var>context</var> is not an <code><a>Element</a></code> or the following are all true:
-    <ul>
-      <li><var>context</var>'s <a>node document</a> is an <a>HTML document</a>,
-
-      <li><var>context</var>'s <a>local name</a> is "<code>html</code>", and
-
-      <li><var>context</var>'s <a data-lt="concept namespace">namespace</a> is the
-      <a>HTML namespace</a>;
-    </ul>
-
-    <p>let <var>context</var> be a new <code><a>Element</a></code> with
-
-    <ul>
-      <li><code>body</code> as its <a>local name</a>,
-
-      <li>The <a>HTML namespace</a> as its <a data-lt="concept namespace">namespace</a>, and
-
-      <li>The <a>context object</a>'s <a>node document</a> as its <a>node document</a>.
-    </ul>
-
-    <li>Let <var>fragment</var> be the result of invoking the <a>fragment parsing algorithm</a> with
-    <var>text</var> as <var>markup</var>, and <var>context</var> as the <var>context element</var>.
-
-    <li>Use the first matching item from this list:
-
-    <dl class=switch>
-      <dt>If <var>position</var> is an <a>ASCII case-insensitive</a> match for the string
-      "<code>beforebegin</code>"
-      <dd><a>Insert</a> <var>fragment</var> into the <a>context object</a>'s <a>parent</a> before
-      the <a>context object</a>.
-
-      <dt>If <var>position</var> is an <a>ASCII case-insensitive</a> match for the string
-      "<code>afterbegin</code>"
-      <dd><a>Insert</a> <var>fragment</var> into the <a>context object</a> before its
-      <a>first child</a>.
-
-      <dt>If <var>position</var> is an <a>ASCII case-insensitive</a> match for the string
-      "<code>beforeend</code>"
-      <dd><a>Append</a> <var>fragment</var> to the <a>context object</a>.
-
-      <dt>If <var>position</var> is an <a>ASCII case-insensitive</a> match for the string
-      "<code>afterend</code>"
-      <dd><a>Insert</a> <var>fragment</var> into the <a>context object</a>'s <a>parent</a> before
-      the <a>context object</a>'s <a>next sibling</a>.
-    </dl>
-  </ol>
-
-  <p class=note>No special handling for <code><a>template</a></code> elements is included in the
-  above "<code>afterbegin</code>" and "<code>beforeend</code>" cases. As with other direct
-  <a>Node</a>-manipulation APIs (and unlike <a data-link-for="Element">innerHTML</a>),
-  <a data-link-for="Element">insertAdjacentHTML</a> does not include any special handling for
-  <code><a>template</a></code> elements. In most cases you will wish to use
-  <a>template</a>.<a data-lt="template contents">content</a>.<a data-link-for="Element">insertAdjacentHTML</a>
-  instead of directly manipulating the <a>child nodes</a> of a <code><a>template</a></code>
-  element.</p>
+  <p>The definition of <code>insertAdjacentHTML</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-insertadjacenthtml()-method">the HTML Standard</a>.</p>
 
 </section><!-- end Extensions to the Element interface -->
 
@@ -1540,6 +1427,7 @@ dl.domintro::before {
     <li>The <dfn data-lt="CEReactions"><a href="https://www.w3.org/TR/html5/single-page.html#cereactios">[CEReactions]</a></dfn> IDL <a>extended attribute</a>
     <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-innerhtml">innerHTML</a></dfn> property;
     <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-outerhtml">outerHTML</a></dfn> property;
+    <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-insertadjacenthtml">insertAdjacentHTML</a></dfn> method;
   </ul>
 
   The DOM specification [[!DOM4]] defines the following terms used in this document:
