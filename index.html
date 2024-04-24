@@ -244,15 +244,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       ]
     }
   ],
-  "publishISODate": "2024-04-19T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 19 April 2024"
+  "publishISODate": "2024-04-24T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 24 April 2024"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head>
 <body class="h-entry" data-cite="WEBIDL webidl html"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">DOM Parsing and Serialization</h1> <h2 id="subtitle" class="subtitle">DOMParser, XMLSerializer, innerHTML, and similar APIs</h2>
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-04-19">19 April 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-04-24">24 April 2024</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -350,7 +350,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   </p><p>
                       This document is governed by the
                       <a id="w3c_process_revision" href="https://www.w3.org/2023/Process-20231103/">03 November 2023 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
-                    </p></section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#crec">Candidate Recommendation Exit Criteria</a></li><li class="tocline"><a class="tocxref" href="#extensibility">Extensibility</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#apis-for-parsing-and-serializing-dom"><bdi class="secno">2. </bdi>APIs for parsing and serializing DOM</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#the-domparser-interface"><bdi class="secno">2.1 </bdi>The <code>DOMParser</code> interface</a></li><li class="tocline"><a class="tocxref" href="#the-xmlserializer-interface"><bdi class="secno">2.2 </bdi>The <code>XMLSerializer</code> interface</a></li><li class="tocline"><a class="tocxref" href="#the-innerhtml-mixin"><bdi class="secno">2.3 </bdi>The <code>InnerHTML</code> mixin</a></li><li class="tocline"><a class="tocxref" href="#extensions-to-the-element-interface"><bdi class="secno">2.4 </bdi>Extensions to the <code><span class="formerLink" data-link-type="dfn">Element</span></code> interface</a></li><li class="tocline"><a class="tocxref" href="#extensions-to-the-range-interface"><bdi class="secno">2.5 </bdi>Extensions to the <code><span class="formerLink" data-link-type="idl"><code>Range</code></span></code> interface</a></li></ol></li><li class="tocline"><a class="tocxref" href="#algorithms-for-parsing-and-serializing"><bdi class="secno">3. </bdi>Algorithms for parsing and serializing</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#parsing"><bdi class="secno">3.1 </bdi>Parsing</a></li><li class="tocline"><a class="tocxref" href="#serializing"><bdi class="secno">3.2 </bdi>Serializing</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#xml-serialization"><bdi class="secno">3.2.1 </bdi>XML Serialization</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#xml-serializing-an-element-node"><bdi class="secno">3.2.1.1 </bdi><span>XML serializing an Element node</span></a><ol class="toc"><li class="tocline"><a class="tocxref" href="#recording-the-namespace"><bdi class="secno">3.2.1.1.1 </bdi>Recording the namespace</a></li><li class="tocline"><a class="tocxref" href="#the-namespace-prefix-map"><bdi class="secno">3.2.1.1.2 </bdi>The Namespace Prefix Map</a></li><li class="tocline"><a class="tocxref" href="#serializing-an-element-s-attributes"><bdi class="secno">3.2.1.1.3 </bdi>Serializing an Element's attributes</a></li><li class="tocline"><a class="tocxref" href="#generating-namespace-prefixes"><bdi class="secno">3.2.1.1.4 </bdi>Generating namespace prefixes</a></li></ol></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-document-node"><bdi class="secno">3.2.1.2 </bdi><span>XML serializing a Document node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-comment-node"><bdi class="secno">3.2.1.3 </bdi><span>XML serializing a Comment node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-text-node"><bdi class="secno">3.2.1.4 </bdi><span>XML serializing a Text node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-documentfragment-node"><bdi class="secno">3.2.1.5 </bdi><span>XML serializing a DocumentFragment node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-documenttype-node"><bdi class="secno">3.2.1.6 </bdi><span>XML serializing a DocumentType node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-processinginstruction-node"><bdi class="secno">3.2.1.7 </bdi><span>XML serializing a ProcessingInstruction node</span></a></li></ol></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#dependencies"><bdi class="secno">A. </bdi>Dependencies</a></li><li class="tocline"><a class="tocxref" href="#revision-history"><bdi class="secno">B. </bdi>Revision History</a></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><bdi class="secno">C. </bdi>Acknowledgements</a></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">D. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">D.1 </bdi>Normative references</a></li></ol></li></ol></nav>
+                    </p></section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#crec">Candidate Recommendation Exit Criteria</a></li><li class="tocline"><a class="tocxref" href="#extensibility">Extensibility</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#apis-for-parsing-and-serializing-dom"><bdi class="secno">2. </bdi>APIs for parsing and serializing DOM</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#the-domparser-interface"><bdi class="secno">2.1 </bdi>The <code>DOMParser</code> interface</a></li><li class="tocline"><a class="tocxref" href="#the-xmlserializer-interface"><bdi class="secno">2.2 </bdi>The <code>XMLSerializer</code> interface</a></li><li class="tocline"><a class="tocxref" href="#the-innerhtml-mixin"><bdi class="secno">2.3 </bdi>The <code>InnerHTML</code> mixin</a></li><li class="tocline"><a class="tocxref" href="#extensions-to-the-element-interface"><bdi class="secno">2.4 </bdi>Extensions to the <code><span class="formerLink" data-link-type="dfn">Element</span></code> interface</a></li><li class="tocline"><a class="tocxref" href="#extensions-to-the-range-interface"><bdi class="secno">2.5 </bdi>Extensions to the <code><span class="formerLink" data-link-type="dfn">Range</span></code> interface</a></li></ol></li><li class="tocline"><a class="tocxref" href="#algorithms-for-parsing-and-serializing"><bdi class="secno">3. </bdi>Algorithms for parsing and serializing</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#parsing"><bdi class="secno">3.1 </bdi>Parsing</a></li><li class="tocline"><a class="tocxref" href="#serializing"><bdi class="secno">3.2 </bdi>Serializing</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#xml-serialization"><bdi class="secno">3.2.1 </bdi>XML Serialization</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#xml-serializing-an-element-node"><bdi class="secno">3.2.1.1 </bdi><span>XML serializing an Element node</span></a><ol class="toc"><li class="tocline"><a class="tocxref" href="#recording-the-namespace"><bdi class="secno">3.2.1.1.1 </bdi>Recording the namespace</a></li><li class="tocline"><a class="tocxref" href="#the-namespace-prefix-map"><bdi class="secno">3.2.1.1.2 </bdi>The Namespace Prefix Map</a></li><li class="tocline"><a class="tocxref" href="#serializing-an-element-s-attributes"><bdi class="secno">3.2.1.1.3 </bdi>Serializing an Element's attributes</a></li><li class="tocline"><a class="tocxref" href="#generating-namespace-prefixes"><bdi class="secno">3.2.1.1.4 </bdi>Generating namespace prefixes</a></li></ol></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-document-node"><bdi class="secno">3.2.1.2 </bdi><span>XML serializing a Document node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-comment-node"><bdi class="secno">3.2.1.3 </bdi><span>XML serializing a Comment node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-text-node"><bdi class="secno">3.2.1.4 </bdi><span>XML serializing a Text node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-documentfragment-node"><bdi class="secno">3.2.1.5 </bdi><span>XML serializing a DocumentFragment node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-documenttype-node"><bdi class="secno">3.2.1.6 </bdi><span>XML serializing a DocumentType node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-processinginstruction-node"><bdi class="secno">3.2.1.7 </bdi><span>XML serializing a ProcessingInstruction node</span></a></li></ol></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#dependencies"><bdi class="secno">A. </bdi>Dependencies</a></li><li class="tocline"><a class="tocxref" href="#revision-history"><bdi class="secno">B. </bdi>Revision History</a></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><bdi class="secno">C. </bdi>Acknowledgements</a></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">D. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">D.1 </bdi>Normative references</a></li></ol></li></ol></nav>
 
 <section id="crec" class="introductory"><div class="header-wrapper"><h2 id="candidate-recommendation-exit-criteria">Candidate Recommendation Exit Criteria</h2><a class="self-link" href="#crec" aria-label="Permalink for this Section"></a></div>
   
@@ -481,7 +481,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 <span class="hljs-comment">// "&lt;root&gt;&lt;script xmlns="http://www.w3.org/1999/xhtml"&gt;alert('hello world')&lt;/script&gt;&lt;/root&gt;"</span></code></pre>
   </div>
 
-  <p>The term <dfn id="dfn-context-object" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">context object</dfn> means the object on which the API being discussed was
+  <p>The term <dfn id="dfn-context-object" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;context object&quot;, but nothing links to it. This is usually a spec bug!">context object</dfn> means the object on which the API being discussed was
   called.
 
   </p><p>The following terms are understood to represent their respective namespaces in this
@@ -562,73 +562,12 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 
 </section>
 
-<section id="extensions-to-the-range-interface"><div class="header-wrapper"><h3 id="x2-5-extensions-to-the-range-interface"><bdi class="secno">2.5 </bdi>Extensions to the <code><a href="#dom-range" class="internalDFN" data-link-type="idl" id="ref-for-dom-range-1"><code>Range</code></a></code> interface</h3><a class="self-link" href="#extensions-to-the-range-interface" aria-label="Permalink for Section 2.5"></a></div>
+<section id="extensions-to-the-range-interface"><div class="header-wrapper"><h3 id="x2-5-extensions-to-the-range-interface"><bdi class="secno">2.5 </bdi>Extensions to the <code><a href="#dfn-range" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-range-1">Range</a></code> interface</h3><a class="self-link" href="#extensions-to-the-range-interface" aria-label="Permalink for Section 2.5"></a></div>
 
-  <pre class="idl def" id="webidl-1881988415"><span class="idlHeader"><a class="self-link" href="#webidl-1881988415">WebIDL</a></span><code><span data-idl="" class="idlInterface" id="idl-def-range-partial-1" data-title="Range">partial interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-range" id="ref-for-dom-range-2"><code>Range</code></a> {<span data-idl="" class="idlMethod" id="idl-def-range-createcontextualfragment-fragment" data-title="createContextualFragment" data-dfn-for="Range">
-  [<span class="extAttr"><a data-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/custom-elements.html#cereactions">CEReactions</a></span>, <span class="extAttr"><a data-type="extended-attribute" href="https://webidl.spec.whatwg.org/#NewObject">NewObject</a></span>]<span class="idlType"> <a data-link-type="idl" href="#dfn-documentfragment" class="internalDFN" id="ref-for-dfn-documentfragment-1">DocumentFragment</a></span> <a class="internalDFN idlName" data-link-type="method" href="#dom-range-createcontextualfragment" id="ref-for-dom-range-createcontextualfragment-1"><code>createContextualFragment</code></a>(<span class="idlType"><a data-link-type="idl" href="#dfn-htmlstring" class="internalDFN" id="ref-for-dfn-htmlstring-1">HTMLString</a></span> <span class="idlParamName">fragment</span>);</span>
-};</span></code></pre>
+  <span id="dom-range-createcontextualfragment"></span>
 
-  <dl class="domintro">
-    <dt><var>docFragment</var> = <var>range</var> . <a href="#dom-range-createcontextualfragment" class="internalDFN" data-link-type="idl" id="ref-for-dom-range-createcontextualfragment-2"><code>createContextualFragment</code></a> ( <var>fragment</var> )
-    </dt><dd>Returns a <code><a href="#dfn-documentfragment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documentfragment-2">DocumentFragment</a></code>, created from the markup string
-    <var>fragment</var> using <var>range</var>'s start node as the context in which
-    <var>fragment</var> is parsed.
-  </dd></dl>
+  <p>The definition of <code>createContextualFragment</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-createcontextualfragment()-method">the HTML Standard</a>.</p>
 
-  <p>The <dfn data-dfn-for="Range" data-lt="createContextualFragment(fragment)|createContextualFragment()" data-export="" data-dfn-type="method" id="dom-range-createcontextualfragment" data-idl="operation" data-title="createContextualFragment(fragment)" data-type="DocumentFragment" data-local-lt="Range.createContextualFragment|Range.createContextualFragment()|createContextualFragment" tabindex="0" aria-haspopup="dialog"><code>createContextualFragment(<var>fragment</var>)</code></dfn> method
-  must run these steps:
-
-  </p><ol>
-    <li>Let <var>node</var> be the <a href="#dfn-context-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-context-object-1">context object</a>'s <a href="#dfn-start-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-start-node-1">start node</a>.
-
-    <p>Let <var>element</var> be as follows, depending on <var>node</var>'s interface:
-
-    </p><dl class="switch">
-      <dt><code><a href="#dfn-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-document-1">Document</a></code>
-      </dt><dt><code><a href="#dfn-documentfragment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documentfragment-3">DocumentFragment</a></code>
-      </dt><dd>null
-
-      </dd><dt><code><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-3">Element</a></code>
-      </dt><dd><var>node</var>
-
-      </dd><dt><code><a href="#dfn-text" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-text-1">Text</a></code>
-      </dt><dt><code><a href="#dfn-comment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-comment-1">Comment</a></code>
-      </dt><dd><var>node</var>'s <a href="https://dom.spec.whatwg.org/#parent-element">parent element</a>
-
-      </dd><dt><code><a href="#dfn-documenttype" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documenttype-1">DocumentType</a></code>
-      </dt><dt><code><a href="#dfn-processinginstruction" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-processinginstruction-1">ProcessingInstruction</a></code>
-      </dt><dd>[<cite><a class="bibref" data-link-type="biblio" href="#bib-dom4" title="DOM Standard">DOM4</a></cite>] prevents this case.
-    </dd></dl>
-
-    </li><li>If either <var>element</var> is null or the following are all true:
-
-    <ul>
-      <li><var>element</var>'s <a href="#dfn-node-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-document-1">node document</a> is an <a href="#dfn-html-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-document-1">HTML document</a>,
-
-      </li><li><var>element</var>'s <a href="#dfn-local-name" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-local-name-1">local name</a> is "<code>html</code>", and
-
-      </li><li><var>element</var>'s <a data-lt="concept namespace" href="#dfn-concept-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-concept-namespace-2">namespace</a> is the
-      <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-1">HTML namespace</a>;
-    </li></ul>
-
-    <p>let <var>element</var> be a new <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-4">Element</a> with
-
-    </p><ul>
-      <li>"<code>body</code>" as its <a href="#dfn-local-name" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-local-name-2">local name</a>,
-
-      </li><li>The <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-2">HTML namespace</a> as its <a data-lt="concept namespace" href="#dfn-concept-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-concept-namespace-3">namespace</a>, and
-
-      </li><li>The <a href="#dfn-context-object" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-context-object-2">context object</a>'s <a href="#dfn-node-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-document-2">node document</a> as its <a href="#dfn-node-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-document-3">node document</a>.
-    </li></ul>
-
-    </li><li>Let <var>fragment node</var> be the result of invoking the <a href="#dfn-fragment-parsing-algorithm-0" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-fragment-parsing-algorithm-0-1">fragment parsing algorithm</a>
-    with <var>fragment</var> as <var>markup</var>, and <var>element</var> as the
-    <var>context element</var>.
-
-    </li><li>Unmark all scripts in <var>fragment node</var> as "already started" and as "parser-inserted".
-
-    </li><li>Return the value of <var>fragment node</var>.
-  </li></ol>
 </section>
 
 
@@ -657,20 +596,20 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
   <p>An <a href="#dfn-xml-serialization" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serialization-2">XML serialization</a> differs from an HTML serialization in the following ways:
 
   </p><ul>
-    <li><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-5">Elements</a> and <a data-lt="attribute" href="#dfn-attribute" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-attribute-2">attributes</a> will always be serialized such
+    <li><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-3">Elements</a> and <a data-lt="attribute" href="#dfn-attribute" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-attribute-2">attributes</a> will always be serialized such
     that their <code>namespaceURI</code> is preserved. In some cases this means that an existing
     <code>prefix</code>, prefix declaration attribute or default namespace declaration attribute
     might be dropped, substituted or changed. An HTML serialization does not attempt to
     preserve the <code>namespaceURI</code>.
 
-    </li><li><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-6">Elements</a> not in the <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-3">HTML namespace</a> containing no <a href="#dfn-child" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-child-1">children</a>, are
+    </li><li><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-4">Elements</a> not in the <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-1">HTML namespace</a> containing no <a href="#dfn-child" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-child-1">children</a>, are
     serialized using the <a href="#dfn-empty-element-tag" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-empty-element-tag-1">empty-element tag</a> syntax (i.e., according to the XML
     <a href="#dfn-emptyelemtag" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-emptyelemtag-1">EmptyElemTag</a> production).
   </li></ul>
 
   <p>Otherwise, the algorithm for producing an <a href="#dfn-xml-serialization" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serialization-3">XML serialization</a> is designed to produce a
   serialization that is compatible with the <a href="#dfn-html-parser" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-parser-1">HTML parser</a>. For example, elements in the
-  <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-4">HTML namespace</a> that contain no <a href="#dfn-child" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-child-2">child nodes</a> are serialized with an explicit begin and end
+  <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-2">HTML namespace</a> that contain no <a href="#dfn-child" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-child-2">child nodes</a> are serialized with an explicit begin and end
   tag rather than using the <a href="#dfn-empty-element-tag" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-empty-element-tag-2">empty-element tag</a> syntax.
 
   </p><div class="note" role="note" id="issue-container-generatedID"><div role="heading" class="note-title marker" id="h-note" aria-level="5"><span>Note</span></div><p class="">Per [<cite><a class="bibref" data-link-type="biblio" href="#bib-dom4" title="DOM Standard">DOM4</a></cite>], <code><a href="#dfn-attribute" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-attribute-3">Attr</a></code> objects do not inherit from <a href="#dfn-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-10">Node</a>, and
@@ -683,9 +622,9 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
   </p><ol>
     <li>Let <a href="#dfn-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-namespace-1"><var>namespace</var></a> be a <a href="#dfn-context-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-context-namespace-1">context namespace</a> with value <code>null</code>.
     The <dfn id="dfn-context-namespace" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">context namespace</dfn> tracks the <a href="#dfn-xml-serialization" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serialization-4">XML serialization</a> algorithm's current default
-    namespace. The <a href="#dfn-context-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-context-namespace-2">context namespace</a> is changed when either an <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-7">Element</a> <a href="#dfn-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-12">Node</a> has
+    namespace. The <a href="#dfn-context-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-context-namespace-2">context namespace</a> is changed when either an <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-5">Element</a> <a href="#dfn-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-12">Node</a> has
     a default namespace declaration, or the algorithm generates a default namespace declaration for
-    the <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-8">Element</a> <a href="#dfn-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-13">Node</a> to match its own namespace. The algorithm assumes no namespace
+    the <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-6">Element</a> <a href="#dfn-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-node-13">Node</a> to match its own namespace. The algorithm assumes no namespace
     (<code>null</code>) to start.
 
     </li><li>Let <a href="#dfn-prefix-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prefix-map-1"><var>prefix map</var></a> be a new <a href="#dfn-namespace-prefix-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-namespace-prefix-map-1">namespace prefix map</a>.
@@ -725,27 +664,27 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
   caller. Re-throw any exceptions. If <var>node</var>'s interface is:</p>
 
   <dl class="switch">
-    <dt><code><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-9">Element</a></code>
+    <dt><code><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-7">Element</a></code>
     </dt><dd>Run the algorithm for <a href="#dfn-xml-serializing-an-element-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serializing-an-element-node-1">XML serializing an Element node</a> <var>node</var>.
 
-    </dd><dt><code><a href="#dfn-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-document-2">Document</a></code>
+    </dd><dt><code><a href="#dfn-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-document-1">Document</a></code>
     </dt><dd>Run the algorithm for <a href="#dfn-xml-serializing-a-document-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serializing-a-document-node-1">XML serializing a Document node</a> <var>node</var>.
 
-    </dd><dt><code><a href="#dfn-comment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-comment-2">Comment</a></code>
+    </dd><dt><code><a href="#dfn-comment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-comment-1">Comment</a></code>
     </dt><dd>Run the algorithm for <a href="#dfn-xml-serializing-a-comment-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serializing-a-comment-node-1">XML serializing a Comment node</a> <var>node</var>.
 
     
 
-    </dd><dt><code><a href="#dfn-text" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-text-2">Text</a></code>
+    </dd><dt><code><a href="#dfn-text" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-text-1">Text</a></code>
     </dt><dd>Run the algorithm for <a href="#dfn-xml-serializing-a-text-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serializing-a-text-node-1">XML serializing a Text node</a> <var>node</var>.
 
-    </dd><dt><code><a href="#dfn-documentfragment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documentfragment-4">DocumentFragment</a></code>
+    </dd><dt><code><a href="#dfn-documentfragment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documentfragment-1">DocumentFragment</a></code>
     </dt><dd>Run the algorithm for <a href="#dfn-xml-serializing-a-documentfragment-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serializing-a-documentfragment-node-1">XML serializing a DocumentFragment node</a> <var>node</var>.
 
-    </dd><dt><code><a href="#dfn-documenttype" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documenttype-2">DocumentType</a></code>
+    </dd><dt><code><a href="#dfn-documenttype" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documenttype-1">DocumentType</a></code>
     </dt><dd>Run the algorithm for <a href="#dfn-xml-serializing-a-documenttype-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serializing-a-documenttype-node-1">XML serializing a DocumentType node</a> <var>node</var>.
 
-    </dd><dt><code><a href="#dfn-processinginstruction" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-processinginstruction-2">ProcessingInstruction</a></code>
+    </dd><dt><code><a href="#dfn-processinginstruction" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-processinginstruction-1">ProcessingInstruction</a></code>
     </dt><dd>Run the algorithm for <a href="#dfn-xml-serializing-a-processinginstruction-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serializing-a-processinginstruction-node-1">XML serializing a ProcessingInstruction node</a> <var>node</var>.
 
     </dd><dt>An <code><a href="#dfn-attribute" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-attribute-5">Attr</a></code> object
@@ -760,7 +699,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 
 <section id="xml-serializing-an-element-node"><div class="header-wrapper"><h5 id="x3-2-1-1-xml-serializing-an-element-node"><bdi class="secno">3.2.1.1 </bdi><dfn id="dfn-xml-serializing-an-element-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">XML serializing an Element node</dfn></h5><a class="self-link" href="#xml-serializing-an-element-node" aria-label="Permalink for Section 3.2.1.1"></a></div>
 
-  The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-2">producing an XML serialization of a DOM node</a> of type <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-10">Element</a> is as
+  The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-2">producing an XML serialization of a DOM node</a> of type <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-8">Element</a> is as
   follows:
 
   <ol>
@@ -793,7 +732,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
     prefix definitions when
     <a data-lt="XML serialization of the attributes" href="#dfn-xml-serialization-of-the-attributes" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serialization-of-the-attributes-1">writing an element's attributes</a>: the map
     allows the algorithm to distinguish between a <code>prefix</code> in the
-    <a href="#dfn-namespace-prefix-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-namespace-prefix-map-4">namespace prefix map</a> that might be locally-defined (to the current <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-11">Element</a>) and
+    <a href="#dfn-namespace-prefix-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-namespace-prefix-map-4">namespace prefix map</a> that might be locally-defined (to the current <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-9">Element</a>) and
     one that is not.</p></div>
 
     </li><li>Let <dfn id="dfn-local-default-namespace" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><var>local default namespace</var></dfn> be the result of
@@ -844,7 +783,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       steps:
       <ol>
         <li>If the <a href="#dfn-require-well-formed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-require-well-formed-6"><var>require well-formed</var></a> flag is set, then throw an error. An
-        <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-12">Element</a> with <code><a data-lt="element prefix" href="#dfn-prefix" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prefix-3">prefix</a></code> "<code>xmlns</code>"
+        <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-10">Element</a> with <code><a data-lt="element prefix" href="#dfn-prefix" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prefix-3">prefix</a></code> "<code>xmlns</code>"
         will not legally round-trip in a conforming <a href="#dfn-xml-parser" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-parser-1">XML parser</a>.
 
         </li><li>Let <var>candidate prefix</var> be the value of <var>prefix</var>.
@@ -854,7 +793,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <code>null</code> (a namespace prefix is defined which maps to <var>ns</var>), then:
 
       <div class="note" role="note" id="issue-container-generatedID-3"><div role="heading" class="note-title marker" id="h-note-3" aria-level="6"><span>Note</span></div><p class="">The following may serialize a different
-      <code><a data-lt="element prefix" href="#dfn-prefix" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prefix-4">prefix</a></code> than the <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-13">Element</a>'s existing
+      <code><a data-lt="element prefix" href="#dfn-prefix" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prefix-4">prefix</a></code> than the <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-11">Element</a>'s existing
       <code><a data-lt="element prefix" href="#dfn-prefix" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prefix-5">prefix</a></code> if it already had one. However, the
       <a href="#dfn-retrieving-a-preferred-prefix-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-retrieving-a-preferred-prefix-string-2">retrieving a preferred prefix string</a> algorithm already tried to match the existing
       prefix if possible.</p></div>
@@ -988,7 +927,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
     <a href="#dfn-ignore-namespace-definition-attribute" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ignore-namespace-definition-attribute-3"><var>ignore namespace definition attribute</var></a> flag, and
     <a href="#dfn-require-well-formed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-require-well-formed-9"><var>require well-formed</var></a> flag.
 
-    </li><li>If <var>ns</var> is the <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-5">HTML namespace</a>, and the <var>node</var>'s list of
+    </li><li>If <var>ns</var> is the <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-3">HTML namespace</a>, and the <var>node</var>'s list of
     <a href="#dfn-child" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-child-4">children</a> is empty, and the <var>node</var>'s <code><a href="#dfn-localname" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-localname-8">localName</a></code> matches any
     one of the following <a href="#dfn-void-elements" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-void-elements-1">void elements</a>:
     "<code>area</code>",
@@ -1018,7 +957,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
     </li></ol>
     and set the <a href="#dfn-skip-end-tag" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-skip-end-tag-1"><var>skip end tag</var></a> flag to <code>true</code>.
 
-    </li><li>If <var>ns</var> is not the <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-6">HTML namespace</a>, and the <var>node</var>'s list of
+    </li><li>If <var>ns</var> is not the <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-4">HTML namespace</a>, and the <var>node</var>'s list of
     <a href="#dfn-child" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-child-5">children</a> is empty, then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
     and set the <a href="#dfn-skip-end-tag" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-skip-end-tag-2"><var>skip end tag</var></a> flag to <code>true</code>.
 
@@ -1027,11 +966,11 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
     </li><li>If the value of <a href="#dfn-skip-end-tag" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-skip-end-tag-3"><var>skip end tag</var></a> is <code>true</code>, then return the value of
     <var>markup</var> and skip the remaining steps. The <var>node</var> is a leaf-node.
 
-    </li><li>If <var>ns</var> is the <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-7">HTML namespace</a>, and the <var>node</var>'s
+    </li><li>If <var>ns</var> is the <a href="#dfn-html-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-namespace-5">HTML namespace</a>, and the <var>node</var>'s
     <code><a href="#dfn-localname" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-localname-9">localName</a></code> matches the string "<code>template</code>", then this is a
     <code><a href="#dfn-template" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-template-1">template</a></code> element. Append to <var>markup</var> the result of
     <a href="#dfn-xml-serializing-a-documentfragment-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serializing-a-documentfragment-node-2">XML serializing a DocumentFragment node</a> given the <a href="#dfn-template" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-template-2">template</a> element's
-    <a href="#dfn-template-content" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-template-content-1">template contents</a> (a <code><a href="#dfn-documentfragment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documentfragment-5">DocumentFragment</a></code>), providing
+    <a href="#dfn-template-content" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-template-content-1">template contents</a> (a <code><a href="#dfn-documentfragment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documentfragment-2">DocumentFragment</a></code>), providing
     <a href="#dfn-inherited-ns" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-inherited-ns-8"><var>inherited ns</var></a>, <var>map</var>, <a href="#dfn-prefix-index" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prefix-index-5"><var>prefix index</var></a>, and the
     <a href="#dfn-require-well-formed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-require-well-formed-10"><var>require well-formed</var></a> flag.
 
@@ -1062,7 +1001,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
   and return a <a href="#dfn-local-default-namespace" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-local-default-namespace-12"><var>local default namespace</var></a> value defined by a default namespace attribute if one
   exists. Otherwise it returns <code>null</code>.</p>
 
-  <p>When <dfn id="dfn-recording-the-namespace-information" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">recording the namespace information</dfn> for an <code><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-14">Element</a></code>
+  <p>When <dfn id="dfn-recording-the-namespace-information" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">recording the namespace information</dfn> for an <code><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-12">Element</a></code>
   <var>element</var>, given a <a href="#dfn-namespace-prefix-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-namespace-prefix-map-6">namespace prefix map</a> <var>map</var> and a
   <a href="#dfn-local-prefixes-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-local-prefixes-map-6"><var>local prefixes map</var></a> (initially empty), the user agent must run the following
   steps:
@@ -1219,7 +1158,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 
 <section id="serializing-an-element-s-attributes"><div class="header-wrapper"><h6 id="x3-2-1-1-3-serializing-an-element-s-attributes"><bdi class="secno">3.2.1.1.3 </bdi>Serializing an Element's attributes</h6><a class="self-link" href="#serializing-an-element-s-attributes" aria-label="Permalink for Section 3.2.1.1.3"></a></div>
 
-  <p>The <dfn id="dfn-xml-serialization-of-the-attributes" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">XML serialization of the attributes</dfn> of an <code><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-15">Element</a></code>
+  <p>The <dfn id="dfn-xml-serialization-of-the-attributes" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">XML serialization of the attributes</dfn> of an <code><a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-13">Element</a></code>
   <var>element</var> together with a <a href="#dfn-namespace-prefix-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-namespace-prefix-map-12">namespace prefix map</a> <var>map</var>, a
   <a href="#dfn-generated-namespace-prefix-index" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-generated-namespace-prefix-index-4">generated namespace prefix index</a> <var>prefix index</var> reference, a
   <a href="#dfn-local-prefixes-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-local-prefixes-map-8">local prefixes map</a>, a <a href="#dfn-ignore-namespace-definition-attribute" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ignore-namespace-definition-attribute-4"><var>ignore namespace definition attribute</var></a> flag, and a
@@ -1278,7 +1217,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 
             </li><li>the <var>attr</var>'s <code><a href="#dfn-prefix" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prefix-8">prefix</a></code> is <code>null</code> and the
             <a href="#dfn-ignore-namespace-definition-attribute" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-ignore-namespace-definition-attribute-5"><var>ignore namespace definition attribute</var></a> flag is <code>true</code> (the
-            <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-16">Element</a>'s default namespace attribute should be skipped);
+            <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-14">Element</a>'s default namespace attribute should be skipped);
 
             </li><li>the <var>attr</var>'s <code><a href="#dfn-prefix" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-prefix-9">prefix</a></code> is not <code>null</code> and either
             <ul>
@@ -1420,7 +1359,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 
 <section id="xml-serializing-a-document-node"><div class="header-wrapper"><h5 id="x3-2-1-2-xml-serializing-a-document-node"><bdi class="secno">3.2.1.2 </bdi><dfn id="dfn-xml-serializing-a-document-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">XML serializing a Document node</dfn></h5><a class="self-link" href="#xml-serializing-a-document-node" aria-label="Permalink for Section 3.2.1.2"></a></div>
 
-  The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-3">producing an XML serialization of a DOM node</a> of type <a href="#dfn-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-document-3">Document</a> is
+  The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-3">producing an XML serialization of a DOM node</a> of type <a href="#dfn-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-document-2">Document</a> is
   as follows:
 
   <p>If the <a href="#dfn-require-well-formed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-require-well-formed-21"><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and this
@@ -1437,10 +1376,10 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
     <a href="#dfn-xml-serialization-algorithm" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-xml-serialization-algorithm-4">XML serialization algorithm</a> on the <var>child</var> passing along the provided arguments,
     and append the result to <var>serialized document</var>.
 
-    <div class="note" role="note" id="issue-container-generatedID-22"><div role="heading" class="note-title marker" id="h-note-22" aria-level="6"><span>Note</span></div><p class="">This will serialize any number of <a href="#dfn-processinginstruction" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-processinginstruction-3">ProcessingInstruction</a> and <a href="#dfn-comment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-comment-3">Comment</a>
-    nodes both before and after the <a href="#dfn-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-document-4">Document</a>'s <a href="#dfn-documentelement" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documentelement-3">documentElement</a> node, including
-    at most one <a href="#dfn-documenttype" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documenttype-3">DocumentType</a> node. (<a href="#dfn-text" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-text-3">Text</a> nodes are not allowed as children of the
-    <a href="#dfn-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-document-5">Document</a>.)</p></div>
+    <div class="note" role="note" id="issue-container-generatedID-22"><div role="heading" class="note-title marker" id="h-note-22" aria-level="6"><span>Note</span></div><p class="">This will serialize any number of <a href="#dfn-processinginstruction" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-processinginstruction-2">ProcessingInstruction</a> and <a href="#dfn-comment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-comment-2">Comment</a>
+    nodes both before and after the <a href="#dfn-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-document-3">Document</a>'s <a href="#dfn-documentelement" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documentelement-3">documentElement</a> node, including
+    at most one <a href="#dfn-documenttype" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documenttype-2">DocumentType</a> node. (<a href="#dfn-text" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-text-2">Text</a> nodes are not allowed as children of the
+    <a href="#dfn-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-document-4">Document</a>.)</p></div>
 
     </li><li>Return the value of <var>serialized document</var>.
   </li></ol>
@@ -1449,7 +1388,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 
 <section id="xml-serializing-a-comment-node"><div class="header-wrapper"><h5 id="x3-2-1-3-xml-serializing-a-comment-node"><bdi class="secno">3.2.1.3 </bdi><dfn id="dfn-xml-serializing-a-comment-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">XML serializing a Comment node</dfn></h5><a class="self-link" href="#xml-serializing-a-comment-node" aria-label="Permalink for Section 3.2.1.3"></a></div>
 
-  The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-4">producing an XML serialization of a DOM node</a> of type <a href="#dfn-comment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-comment-4">Comment</a> is as
+  The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-4">producing an XML serialization of a DOM node</a> of type <a href="#dfn-comment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-comment-3">Comment</a> is as
   follows:
 
   <p>If the <a href="#dfn-require-well-formed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-require-well-formed-22"><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
@@ -1468,7 +1407,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 
 <section id="xml-serializing-a-text-node"><div class="header-wrapper"><h5 id="x3-2-1-4-xml-serializing-a-text-node"><bdi class="secno">3.2.1.4 </bdi><dfn id="dfn-xml-serializing-a-text-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">XML serializing a Text node</dfn></h5><a class="self-link" href="#xml-serializing-a-text-node" aria-label="Permalink for Section 3.2.1.4"></a></div>
 
-  The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-5">producing an XML serialization of a DOM node</a> of type <a href="#dfn-text" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-text-4">Text</a> is as
+  The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-5">producing an XML serialization of a DOM node</a> of type <a href="#dfn-text" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-text-3">Text</a> is as
   follows:
 
   <ol>
@@ -1496,7 +1435,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 <section id="xml-serializing-a-documentfragment-node"><div class="header-wrapper"><h5 id="x3-2-1-5-xml-serializing-a-documentfragment-node"><bdi class="secno">3.2.1.5 </bdi><dfn id="dfn-xml-serializing-a-documentfragment-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">XML serializing a DocumentFragment node</dfn></h5><a class="self-link" href="#xml-serializing-a-documentfragment-node" aria-label="Permalink for Section 3.2.1.5"></a></div>
 
   The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-6">producing an XML serialization of a DOM node</a> of type
-  <a href="#dfn-documentfragment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documentfragment-6">DocumentFragment</a> is as follows:
+  <a href="#dfn-documentfragment" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documentfragment-3">DocumentFragment</a> is as follows:
 
   <ol>
     <li>Let <var>markup</var> the empty string.
@@ -1513,7 +1452,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 
 <section id="xml-serializing-a-documenttype-node"><div class="header-wrapper"><h5 id="x3-2-1-6-xml-serializing-a-documenttype-node"><bdi class="secno">3.2.1.6 </bdi><dfn id="dfn-xml-serializing-a-documenttype-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">XML serializing a DocumentType node</dfn></h5><a class="self-link" href="#xml-serializing-a-documenttype-node" aria-label="Permalink for Section 3.2.1.6"></a></div>
 
-  The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-7">producing an XML serialization of a DOM node</a> of type <a href="#dfn-documenttype" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documenttype-4">DocumentType</a>
+  The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-7">producing an XML serialization of a DOM node</a> of type <a href="#dfn-documenttype" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-documenttype-3">DocumentType</a>
   is as follows:
 
   <ol>
@@ -1535,7 +1474,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
     </li><li>Append "<code> </code>" (U+0020 SPACE) to <var>markup</var>.
 
     </li><li>Append the value of the <var>node</var>'s <code><a data-lt="doctype name" href="#dfn-doctype-name" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-doctype-name-1">name</a></code>
-    attribute to <var>markup</var>. For a <var>node</var> belonging to an <a href="#dfn-html-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-document-2">HTML document</a>, the
+    attribute to <var>markup</var>. For a <var>node</var> belonging to an <a href="#dfn-html-document" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-html-document-1">HTML document</a>, the
     value will be all lowercase.
 
     </li><li>If the <var>node</var>'s <code><a href="#dfn-publicid" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-publicid-2">publicId</a></code> is not the empty string then append
@@ -1586,7 +1525,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 <section id="xml-serializing-a-processinginstruction-node"><div class="header-wrapper"><h5 id="x3-2-1-7-xml-serializing-a-processinginstruction-node"><bdi class="secno">3.2.1.7 </bdi><dfn id="dfn-xml-serializing-a-processinginstruction-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">XML serializing a ProcessingInstruction node</dfn></h5><a class="self-link" href="#xml-serializing-a-processinginstruction-node" aria-label="Permalink for Section 3.2.1.7"></a></div>
 
   The algorithm for <a href="#dfn-producing-an-xml-serialization-of-a-dom-node" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-producing-an-xml-serialization-of-a-dom-node-8">producing an XML serialization of a DOM node</a> of type
-  <a href="#dfn-processinginstruction" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-processinginstruction-4">ProcessingInstruction</a> is as follows:
+  <a href="#dfn-processinginstruction" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-processinginstruction-3">ProcessingInstruction</a> is as follows:
 
   <ol>
     <li>If the <a href="#dfn-require-well-formed" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-require-well-formed-27"><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
@@ -1637,7 +1576,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
     <li>The general concepts:
         an <dfn id="dfn-active-document" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;active document&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/html5/single-page.html#active-document">active document</a></dfn>;
     </li><li>Parsing concepts:
-        the <dfn id="dfn-fragment-parsing-algorithm-0" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#fragment-parsing-algorithm-steps">fragment parsing algorithm</a></dfn>;
+        the <dfn id="dfn-fragment-parsing-algorithm-0" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;fragment parsing algorithm&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#fragment-parsing-algorithm-steps">fragment parsing algorithm</a></dfn>;
         <dfn id="dfn-html-parser" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/html5/single-page.html#html-parser">HTML parser</a></dfn>;
         <dfn id="dfn-parsing-xhtml-documents" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/html5/single-page.html#parsing-xhtml-documents">parsing XHTML documents</a></dfn>;
         <dfn id="dfn-xml-parser" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/html5/single-page.html#xml-parser">XML parser</a></dfn>;
@@ -1668,14 +1607,14 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       the <dfn id="dfn-content-type" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;content type&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/dom/#concept-document-content-type">content type</a></dfn> and
       <dfn id="dfn-encoding" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;encoding&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/dom/#concept-document-encoding">encoding</a></dfn>;
       a <dfn id="dfn-html-document" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#html-document">HTML document</a></dfn>;
-      a <dfn id="dfn-local-name" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#concept-element-local-name">local name</a></dfn>;
+      a <dfn id="dfn-local-name" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;local name&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/dom/#concept-element-local-name">local name</a></dfn>;
       a <dfn data-lt="concept namespace|namespace concept" id="dfn-concept-namespace" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#concept-element-namespace">namespace</a> concept</dfn>;
-      a <dfn id="dfn-node-document" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#concept-node-document">node document</a></dfn>;
+      a <dfn id="dfn-node-document" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;node document&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/dom/#concept-node-document">node document</a></dfn>;
       the <dfn id="dfn-append" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;append&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/dom/#concept-node-append">append</a></dfn>,
       <dfn id="dfn-insert" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;insert&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/dom/#concept-node-insert">insert</a></dfn> and
       <dfn id="dfn-replace" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;replace&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/dom/#concept-node-replace">replace</a></dfn> operations;
       <dfn id="dfn-tree-order" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#concept-tree-order">tree order</a></dfn>;
-      a range's <dfn id="dfn-start-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#concept-range-start-node">start node</a></dfn>;
+      a range's <dfn id="dfn-start-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;start node&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/dom/#concept-range-start-node">start node</a></dfn>;
       document <dfn id="dfn-url" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;URL&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/dom/#concept-document-url">URL</a></dfn>;
       a <dfn id="dfn-xml-document" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;XML document&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/dom/#xml-document">XML document</a></dfn>;
     </li>
@@ -1705,7 +1644,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
     </li><li>The <dfn data-lt="Node|Nodes" id="dfn-node" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#node">Node</a></dfn> interface
     </li><li>The <dfn id="dfn-processinginstruction" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#interface-processinginstruction">ProcessingInstruction</a></dfn> interface and its
         <dfn id="dfn-target" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#dom-processinginstruction-target">target</a></dfn> attribute
-    </li><li>The <dfn id="dom-range" data-idl="interface" data-title="Range" data-dfn-for="" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><code><a href="https://www.w3.org/TR/dom/#range">Range</a></code></dfn> interface
+    </li><li>The <dfn id="dfn-range" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#range">Range</a></dfn> interface
     </li><li>The <dfn id="dfn-text" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#interface-text">Text</a></dfn> interface
     </li><li>The following <dfn id="dfn-domexception" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#domexception">DOMException</a></dfn>s:
         "<dfn id="dfn-invalidstateerror" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/dom/#invalidstateerror">InvalidStateError</a></dfn>",
@@ -1741,12 +1680,6 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
 
   <ul>
     <li>The <dfn data-lt="LegacyNullToEmptyString|[LegacyNullToEmptyString]" id="dfn-legacynulltoemptystring" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;[LegacyNullToEmptyString]&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://heycam.github.io/webidl/#LegacyNullToEmptyString">[LegacyNullToEmptyString]</a></dfn> IDL <a data-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-extended-attribute">extended attribute</a>
-  </li></ul>
-
-  The Trusted Types [<cite><a class="bibref" data-link-type="biblio" href="#bib-trusted-types" title="Trusted Types">TRUSTED-TYPES</a></cite>] specification defines:
-
-  <ul>
-    <li>The <dfn data-lt="HTMLString" id="dfn-htmlstring" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://w3c.github.io/trusted-types/dist/spec/#typedefdef-htmlstring">HTMLString</a></dfn> IDL <a data-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-typedef">typedef</a>
   </li></ul>
 </section>
 
@@ -1801,12 +1734,8 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Anne van Kesteren.  WHATWG. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
     </dd><dt id="bib-ecma-262">[ECMA-262]</dt><dd>
       <a href="https://tc39.es/ecma262/multipage/"><cite>ECMAScript Language Specification</cite></a>.  Ecma International. URL: <a href="https://tc39.es/ecma262/multipage/">https://tc39.es/ecma262/multipage/</a>
-    </dd><dt id="bib-html">[html]</dt><dd>
-      <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Anne van Kesteren; Domenic Denicola; Ian Hickson; Philip Jägenstedt; Simon Pieters.  WHATWG. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
     </dd><dt id="bib-html5">[HTML5]</dt><dd>
       <a href="https://www.w3.org/TR/html5/"><cite>HTML5</cite></a>. Ian Hickson; Robin Berjon; Steve Faulkner; Travis Leithead; Erika Doyle Navara; Theresa O'Connor; Silvia Pfeiffer.  W3C. 27 March 2018. W3C Recommendation. URL: <a href="https://www.w3.org/TR/html5/">https://www.w3.org/TR/html5/</a>
-    </dd><dt id="bib-trusted-types">[TRUSTED-TYPES]</dt><dd>
-      <a href="https://www.w3.org/TR/trusted-types/"><cite>Trusted Types</cite></a>. Krzysztof Kotowicz.  W3C. 27 September 2022. W3C Working Draft. URL: <a href="https://www.w3.org/TR/trusted-types/">https://www.w3.org/TR/trusted-types/</a>
     </dd><dt id="bib-webidl">[WEBIDL]</dt><dd>
       <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Edgar Chen; Timothy Gu.  WHATWG. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
     </dd><dt id="bib-xml10">[XML10]</dt><dd>
@@ -1870,10 +1799,8 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
-    <li>
-      <a href="#ref-for-dfn-context-object-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> <a href="#ref-for-dfn-context-object-2" title="Reference 2">(2)</a> 
-    </li>
-  </ul>
+      <li>Not referenced in this document.</li>
+    </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-html-namespace" aria-label="Links in this document to definition: HTML namespace">
       <span class="caret"></span>
       <div>
@@ -1883,11 +1810,9 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-html-namespace-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> <a href="#ref-for-dfn-html-namespace-2" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-html-namespace-1" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> <a href="#ref-for-dfn-html-namespace-2" title="Reference 2">(2)</a> 
     </li><li>
-      <a href="#ref-for-dfn-html-namespace-3" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> <a href="#ref-for-dfn-html-namespace-4" title="Reference 2">(2)</a> 
-    </li><li>
-      <a href="#ref-for-dfn-html-namespace-5" title="§ 3.2.1.1 XML serializing an Element node">§ 3.2.1.1 XML serializing an Element node</a> <a href="#ref-for-dfn-html-namespace-6" title="Reference 2">(2)</a> <a href="#ref-for-dfn-html-namespace-7" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-html-namespace-3" title="§ 3.2.1.1 XML serializing an Element node">§ 3.2.1.1 XML serializing an Element node</a> <a href="#ref-for-dfn-html-namespace-4" title="Reference 2">(2)</a> <a href="#ref-for-dfn-html-namespace-5" title="Reference 3">(3)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-namespace" aria-label="Links in this document to definition: XML namespace">
@@ -1954,18 +1879,6 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <ul>
     <li>
       <a href="#ref-for-dom-xmlserializer-serializetostring-1" title="§ 2.2 The XMLSerializer interface">§ 2.2 The XMLSerializer interface</a> <a href="#ref-for-dom-xmlserializer-serializetostring-2" title="Reference 2">(2)</a> 
-    </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dom-range-createcontextualfragment" aria-label="Links in this document to definition: createContextualFragment(fragment)">
-      <span class="caret"></span>
-      <div>
-        <a class="self-link" href="#dom-range-createcontextualfragment" aria-label="Permalink for definition: createContextualFragment(fragment). Activate to close this dialog.">Permalink</a>
-        <span class="marker dfn-exported" title="Definition can be referenced by other specifications">exported</span> <a class="marker idl-block" title="Jump to IDL declaration" href="#webidl-1881988415">IDL</a>
-      </div>
-      <p><b>Referenced in:</b></p>
-      <ul>
-    <li>
-      <a href="#ref-for-dom-range-createcontextualfragment-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> <a href="#ref-for-dom-range-createcontextualfragment-2" title="Reference 2">(2)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serialization" aria-label="Links in this document to definition: XML serialization">
@@ -2528,10 +2441,8 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
-    <li>
-      <a href="#ref-for-dfn-fragment-parsing-algorithm-0-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> 
-    </li>
-  </ul>
+      <li>Not referenced in this document.</li>
+    </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-html-parser" aria-label="Links in this document to definition: HTML parser">
       <span class="caret"></span>
       <div>
@@ -2795,9 +2706,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-html-document-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> 
-    </li><li>
-      <a href="#ref-for-dfn-html-document-2" title="§ 3.2.1.6 XML serializing a DocumentType node">§ 3.2.1.6 XML serializing a DocumentType node</a> 
+      <a href="#ref-for-dfn-html-document-1" title="§ 3.2.1.6 XML serializing a DocumentType node">§ 3.2.1.6 XML serializing a DocumentType node</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-local-name" aria-label="Links in this document to definition: local name">
@@ -2808,10 +2717,8 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
-    <li>
-      <a href="#ref-for-dfn-local-name-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> <a href="#ref-for-dfn-local-name-2" title="Reference 2">(2)</a> 
-    </li>
-  </ul>
+      <li>Not referenced in this document.</li>
+    </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-concept-namespace" aria-label="Links in this document to definition: namespace concept">
       <span class="caret"></span>
       <div>
@@ -2822,8 +2729,6 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <ul>
     <li>
       <a href="#ref-for-dfn-concept-namespace-1" title="§ 1. Introduction">§ 1. Introduction</a> 
-    </li><li>
-      <a href="#ref-for-dfn-concept-namespace-2" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> <a href="#ref-for-dfn-concept-namespace-3" title="Reference 2">(2)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-node-document" aria-label="Links in this document to definition: node document">
@@ -2834,10 +2739,8 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
-    <li>
-      <a href="#ref-for-dfn-node-document-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> <a href="#ref-for-dfn-node-document-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-node-document-3" title="Reference 3">(3)</a> 
-    </li>
-  </ul>
+      <li>Not referenced in this document.</li>
+    </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-append" aria-label="Links in this document to definition: append">
       <span class="caret"></span>
       <div>
@@ -2892,10 +2795,8 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
-    <li>
-      <a href="#ref-for-dfn-start-node-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> 
-    </li>
-  </ul>
+      <li>Not referenced in this document.</li>
+    </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-url" aria-label="Links in this document to definition: URL">
       <span class="caret"></span>
       <div>
@@ -3019,13 +2920,11 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-comment-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> 
+      <a href="#ref-for-dfn-comment-1" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
     </li><li>
-      <a href="#ref-for-dfn-comment-2" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
+      <a href="#ref-for-dfn-comment-2" title="§ 3.2.1.2 XML serializing a Document node">§ 3.2.1.2 XML serializing a Document node</a> 
     </li><li>
-      <a href="#ref-for-dfn-comment-3" title="§ 3.2.1.2 XML serializing a Document node">§ 3.2.1.2 XML serializing a Document node</a> 
-    </li><li>
-      <a href="#ref-for-dfn-comment-4" title="§ 3.2.1.3 XML serializing a Comment node">§ 3.2.1.3 XML serializing a Comment node</a> 
+      <a href="#ref-for-dfn-comment-3" title="§ 3.2.1.3 XML serializing a Comment node">§ 3.2.1.3 XML serializing a Comment node</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-document" aria-label="Links in this document to definition: Document">
@@ -3037,11 +2936,9 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-document-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> 
+      <a href="#ref-for-dfn-document-1" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
     </li><li>
-      <a href="#ref-for-dfn-document-2" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
-    </li><li>
-      <a href="#ref-for-dfn-document-3" title="§ 3.2.1.2 XML serializing a Document node">§ 3.2.1.2 XML serializing a Document node</a> <a href="#ref-for-dfn-document-4" title="Reference 2">(2)</a> <a href="#ref-for-dfn-document-5" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-document-2" title="§ 3.2.1.2 XML serializing a Document node">§ 3.2.1.2 XML serializing a Document node</a> <a href="#ref-for-dfn-document-3" title="Reference 2">(2)</a> <a href="#ref-for-dfn-document-4" title="Reference 3">(3)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-doctype" aria-label="Links in this document to definition: doctype">
@@ -3075,13 +2972,11 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-documenttype-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> 
+      <a href="#ref-for-dfn-documenttype-1" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
     </li><li>
-      <a href="#ref-for-dfn-documenttype-2" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
+      <a href="#ref-for-dfn-documenttype-2" title="§ 3.2.1.2 XML serializing a Document node">§ 3.2.1.2 XML serializing a Document node</a> 
     </li><li>
-      <a href="#ref-for-dfn-documenttype-3" title="§ 3.2.1.2 XML serializing a Document node">§ 3.2.1.2 XML serializing a Document node</a> 
-    </li><li>
-      <a href="#ref-for-dfn-documenttype-4" title="§ 3.2.1.6 XML serializing a DocumentType node">§ 3.2.1.6 XML serializing a DocumentType node</a> 
+      <a href="#ref-for-dfn-documenttype-3" title="§ 3.2.1.6 XML serializing a DocumentType node">§ 3.2.1.6 XML serializing a DocumentType node</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-doctype-name" aria-label="Links in this document to definition: doctype.name">
@@ -3129,13 +3024,11 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-documentfragment-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> <a href="#ref-for-dfn-documentfragment-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-documentfragment-3" title="Reference 3">(3)</a> 
+      <a href="#ref-for-dfn-documentfragment-1" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
     </li><li>
-      <a href="#ref-for-dfn-documentfragment-4" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
+      <a href="#ref-for-dfn-documentfragment-2" title="§ 3.2.1.1 XML serializing an Element node">§ 3.2.1.1 XML serializing an Element node</a> 
     </li><li>
-      <a href="#ref-for-dfn-documentfragment-5" title="§ 3.2.1.1 XML serializing an Element node">§ 3.2.1.1 XML serializing an Element node</a> 
-    </li><li>
-      <a href="#ref-for-dfn-documentfragment-6" title="§ 3.2.1.5 XML serializing a DocumentFragment node">§ 3.2.1.5 XML serializing a DocumentFragment node</a> 
+      <a href="#ref-for-dfn-documentfragment-3" title="§ 3.2.1.5 XML serializing a DocumentFragment node">§ 3.2.1.5 XML serializing a DocumentFragment node</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-element" aria-label="Links in this document to definition: Element">
@@ -3151,15 +3044,13 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
     </li><li>
       <a href="#ref-for-dfn-element-2" title="§ 2.4 Extensions to the Element interface">§ 2.4 Extensions to the Element interface</a> 
     </li><li>
-      <a href="#ref-for-dfn-element-3" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> <a href="#ref-for-dfn-element-4" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-element-3" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> <a href="#ref-for-dfn-element-4" title="Reference 2">(2)</a> <a href="#ref-for-dfn-element-5" title="Reference 3">(3)</a> <a href="#ref-for-dfn-element-6" title="Reference 4">(4)</a> <a href="#ref-for-dfn-element-7" title="Reference 5">(5)</a> 
     </li><li>
-      <a href="#ref-for-dfn-element-5" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> <a href="#ref-for-dfn-element-6" title="Reference 2">(2)</a> <a href="#ref-for-dfn-element-7" title="Reference 3">(3)</a> <a href="#ref-for-dfn-element-8" title="Reference 4">(4)</a> <a href="#ref-for-dfn-element-9" title="Reference 5">(5)</a> 
+      <a href="#ref-for-dfn-element-8" title="§ 3.2.1.1 XML serializing an Element node">§ 3.2.1.1 XML serializing an Element node</a> <a href="#ref-for-dfn-element-9" title="Reference 2">(2)</a> <a href="#ref-for-dfn-element-10" title="Reference 3">(3)</a> <a href="#ref-for-dfn-element-11" title="Reference 4">(4)</a> 
     </li><li>
-      <a href="#ref-for-dfn-element-10" title="§ 3.2.1.1 XML serializing an Element node">§ 3.2.1.1 XML serializing an Element node</a> <a href="#ref-for-dfn-element-11" title="Reference 2">(2)</a> <a href="#ref-for-dfn-element-12" title="Reference 3">(3)</a> <a href="#ref-for-dfn-element-13" title="Reference 4">(4)</a> 
+      <a href="#ref-for-dfn-element-12" title="§ 3.2.1.1.1 Recording the namespace">§ 3.2.1.1.1 Recording the namespace</a> 
     </li><li>
-      <a href="#ref-for-dfn-element-14" title="§ 3.2.1.1.1 Recording the namespace">§ 3.2.1.1.1 Recording the namespace</a> 
-    </li><li>
-      <a href="#ref-for-dfn-element-15" title="§ 3.2.1.1.3 Serializing an Element's attributes">§ 3.2.1.1.3 Serializing an Element's attributes</a> <a href="#ref-for-dfn-element-16" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-element-13" title="§ 3.2.1.1.3 Serializing an Element's attributes">§ 3.2.1.1.3 Serializing an Element's attributes</a> <a href="#ref-for-dfn-element-14" title="Reference 2">(2)</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-attributes" aria-label="Links in this document to definition: attributes">
@@ -3251,13 +3142,11 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-processinginstruction-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> 
+      <a href="#ref-for-dfn-processinginstruction-1" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
     </li><li>
-      <a href="#ref-for-dfn-processinginstruction-2" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
+      <a href="#ref-for-dfn-processinginstruction-2" title="§ 3.2.1.2 XML serializing a Document node">§ 3.2.1.2 XML serializing a Document node</a> 
     </li><li>
-      <a href="#ref-for-dfn-processinginstruction-3" title="§ 3.2.1.2 XML serializing a Document node">§ 3.2.1.2 XML serializing a Document node</a> 
-    </li><li>
-      <a href="#ref-for-dfn-processinginstruction-4" title="§ 3.2.1.7 XML serializing a ProcessingInstruction node">§ 3.2.1.7 XML serializing a ProcessingInstruction node</a> 
+      <a href="#ref-for-dfn-processinginstruction-3" title="§ 3.2.1.7 XML serializing a ProcessingInstruction node">§ 3.2.1.7 XML serializing a ProcessingInstruction node</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-target" aria-label="Links in this document to definition: target">
@@ -3272,16 +3161,16 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <a href="#ref-for-dfn-target-1" title="§ 3.2.1.7 XML serializing a ProcessingInstruction node">§ 3.2.1.7 XML serializing a ProcessingInstruction node</a> <a href="#ref-for-dfn-target-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-target-3" title="Reference 3">(3)</a> 
     </li>
   </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dom-range" aria-label="Links in this document to definition: Range">
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-range" aria-label="Links in this document to definition: Range">
       <span class="caret"></span>
       <div>
-        <a class="self-link" href="#dom-range" aria-label="Permalink for definition: Range. Activate to close this dialog.">Permalink</a>
+        <a class="self-link" href="#dfn-range" aria-label="Permalink for definition: Range. Activate to close this dialog.">Permalink</a>
          
       </div>
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dom-range-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> <a href="#ref-for-dom-range-2" title="Reference 2">(2)</a> 
+      <a href="#ref-for-dfn-range-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-text" aria-label="Links in this document to definition: Text">
@@ -3293,13 +3182,11 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <p><b>Referenced in:</b></p>
       <ul>
     <li>
-      <a href="#ref-for-dfn-text-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> 
+      <a href="#ref-for-dfn-text-1" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
     </li><li>
-      <a href="#ref-for-dfn-text-2" title="§ 3.2.1 XML Serialization">§ 3.2.1 XML Serialization</a> 
+      <a href="#ref-for-dfn-text-2" title="§ 3.2.1.2 XML serializing a Document node">§ 3.2.1.2 XML serializing a Document node</a> 
     </li><li>
-      <a href="#ref-for-dfn-text-3" title="§ 3.2.1.2 XML serializing a Document node">§ 3.2.1.2 XML serializing a Document node</a> 
-    </li><li>
-      <a href="#ref-for-dfn-text-4" title="§ 3.2.1.4 XML serializing a Text node">§ 3.2.1.4 XML serializing a Text node</a> 
+      <a href="#ref-for-dfn-text-3" title="§ 3.2.1.4 XML serializing a Text node">§ 3.2.1.4 XML serializing a Text node</a> 
     </li>
   </ul>
     </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-domexception" aria-label="Links in this document to definition: DOMException">
@@ -3462,18 +3349,6 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
       <ul>
       <li>Not referenced in this document.</li>
     </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-htmlstring" aria-label="Links in this document to definition: HTMLString">
-      <span class="caret"></span>
-      <div>
-        <a class="self-link" href="#dfn-htmlstring" aria-label="Permalink for definition: HTMLString. Activate to close this dialog.">Permalink</a>
-         
-      </div>
-      <p><b>Referenced in:</b></p>
-      <ul>
-    <li>
-      <a href="#ref-for-dfn-htmlstring-1" title="§ 2.5 Extensions to the Range interface">§ 2.5 Extensions to the Range interface</a> 
-    </li>
-  </ul>
     </div><script id="respec-dfn-panel">(() => {
 // @ts-check
 if (document.respec) {
