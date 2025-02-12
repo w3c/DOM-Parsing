@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en" dir="ltr"><head>
 <meta charset="UTF-8">
-<meta name="generator" content="ReSpec 35.0.0">
+<meta name="generator" content="ReSpec 35.2.2">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 .issue-label{text-transform:initial}
@@ -149,6 +149,7 @@ dd{margin-left:0}
 .removeOnSave{display:none}
 }
 </style>
+<meta name="color-scheme" content="light">
 <style>
 .hljs{--base:#fafafa;--mono-1:#383a42;--mono-2:#686b77;--mono-3:#717277;--hue-1:#0b76c5;--hue-2:#336ae3;--hue-3:#a626a4;--hue-4:#42803c;--hue-5:#ca4706;--hue-5-2:#c91243;--hue-6:#986801;--hue-6-2:#9a6a01}
 @media (prefers-color-scheme:dark){
@@ -244,15 +245,15 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       ]
     }
   ],
-  "publishISODate": "2024-04-24T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 24 April 2024"
+  "publishISODate": "2025-02-12T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 12 February 2025"
 }</script>
 <link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head>
 <body class="h-entry" data-cite="WEBIDL webidl html"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">DOM Parsing and Serialization</h1> <h2 id="subtitle" class="subtitle">DOMParser, XMLSerializer, innerHTML, and similar APIs</h2>
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2024-04-24">24 April 2024</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2025-02-12">12 February 2025</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -300,7 +301,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <p class="copyright">
     <a href="https://www.w3.org/policies/#copyright">Copyright</a>
     ©
-    2024
+    2025
     
     <a href="https://www.w3.org/">World Wide Web Consortium</a>.
     <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup>
@@ -333,7 +334,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     
         This document was produced by a group
         operating under the
-        <a href="https://www.w3.org/Consortium/Patent-Policy/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent
+        <a href="https://www.w3.org/policies/patent-policy/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent
           Policy</a>.
       
     
@@ -343,13 +344,13 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
           the group; that page also includes
           instructions for disclosing a patent. An individual who has actual
           knowledge of a patent which the individual believes contains
-          <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a>
+          <a href="https://www.w3.org/policies/patent-policy/#def-essential">Essential Claim(s)</a>
           must disclose the information in accordance with
-          <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+          <a href="https://www.w3.org/policies/patent-policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
         
   </p><p>
                       This document is governed by the
-                      <a id="w3c_process_revision" href="https://www.w3.org/2023/Process-20231103/">03 November 2023 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
+                      <a id="w3c_process_revision" href="https://www.w3.org/policies/process/20231103/">03 November 2023 <abbr title="World Wide Web Consortium">W3C</abbr> Process Document</a>.
                     </p></section><nav id="toc"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ol class="toc"><li class="tocline"><a class="tocxref" href="#abstract">Abstract</a></li><li class="tocline"><a class="tocxref" href="#sotd">Status of This Document</a></li><li class="tocline"><a class="tocxref" href="#crec">Candidate Recommendation Exit Criteria</a></li><li class="tocline"><a class="tocxref" href="#extensibility">Extensibility</a></li><li class="tocline"><a class="tocxref" href="#introduction"><bdi class="secno">1. </bdi>Introduction</a></li><li class="tocline"><a class="tocxref" href="#apis-for-parsing-and-serializing-dom"><bdi class="secno">2. </bdi>APIs for parsing and serializing DOM</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#the-domparser-interface"><bdi class="secno">2.1 </bdi>The <code>DOMParser</code> interface</a></li><li class="tocline"><a class="tocxref" href="#the-xmlserializer-interface"><bdi class="secno">2.2 </bdi>The <code>XMLSerializer</code> interface</a></li><li class="tocline"><a class="tocxref" href="#the-innerhtml-mixin"><bdi class="secno">2.3 </bdi>The <code>InnerHTML</code> mixin</a></li><li class="tocline"><a class="tocxref" href="#extensions-to-the-element-interface"><bdi class="secno">2.4 </bdi>Extensions to the <code><span class="formerLink" data-link-type="dfn">Element</span></code> interface</a></li><li class="tocline"><a class="tocxref" href="#extensions-to-the-range-interface"><bdi class="secno">2.5 </bdi>Extensions to the <code><span class="formerLink" data-link-type="dfn">Range</span></code> interface</a></li></ol></li><li class="tocline"><a class="tocxref" href="#algorithms-for-parsing-and-serializing"><bdi class="secno">3. </bdi>Algorithms for parsing and serializing</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#parsing"><bdi class="secno">3.1 </bdi>Parsing</a></li><li class="tocline"><a class="tocxref" href="#serializing"><bdi class="secno">3.2 </bdi>Serializing</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#xml-serialization"><bdi class="secno">3.2.1 </bdi>XML Serialization</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#xml-serializing-an-element-node"><bdi class="secno">3.2.1.1 </bdi><span>XML serializing an Element node</span></a><ol class="toc"><li class="tocline"><a class="tocxref" href="#recording-the-namespace"><bdi class="secno">3.2.1.1.1 </bdi>Recording the namespace</a></li><li class="tocline"><a class="tocxref" href="#the-namespace-prefix-map"><bdi class="secno">3.2.1.1.2 </bdi>The Namespace Prefix Map</a></li><li class="tocline"><a class="tocxref" href="#serializing-an-element-s-attributes"><bdi class="secno">3.2.1.1.3 </bdi>Serializing an Element's attributes</a></li><li class="tocline"><a class="tocxref" href="#generating-namespace-prefixes"><bdi class="secno">3.2.1.1.4 </bdi>Generating namespace prefixes</a></li></ol></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-document-node"><bdi class="secno">3.2.1.2 </bdi><span>XML serializing a Document node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-comment-node"><bdi class="secno">3.2.1.3 </bdi><span>XML serializing a Comment node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-text-node"><bdi class="secno">3.2.1.4 </bdi><span>XML serializing a Text node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-documentfragment-node"><bdi class="secno">3.2.1.5 </bdi><span>XML serializing a DocumentFragment node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-documenttype-node"><bdi class="secno">3.2.1.6 </bdi><span>XML serializing a DocumentType node</span></a></li><li class="tocline"><a class="tocxref" href="#xml-serializing-a-processinginstruction-node"><bdi class="secno">3.2.1.7 </bdi><span>XML serializing a ProcessingInstruction node</span></a></li></ol></li></ol></li></ol></li><li class="tocline"><a class="tocxref" href="#dependencies"><bdi class="secno">A. </bdi>Dependencies</a></li><li class="tocline"><a class="tocxref" href="#revision-history"><bdi class="secno">B. </bdi>Revision History</a></li><li class="tocline"><a class="tocxref" href="#acknowledgements"><bdi class="secno">C. </bdi>Acknowledgements</a></li><li class="tocline"><a class="tocxref" href="#references"><bdi class="secno">D. </bdi>References</a><ol class="toc"><li class="tocline"><a class="tocxref" href="#normative-references"><bdi class="secno">D.1 </bdi>Normative references</a></li></ol></li></ol></nav>
 
 <section id="crec" class="introductory"><div class="header-wrapper"><h2 id="candidate-recommendation-exit-criteria">Candidate Recommendation Exit Criteria</h2><a class="self-link" href="#crec" aria-label="Permalink for this Section"></a></div>
@@ -438,7 +439,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   then to serialize <code><var>myDiv</var></code>'s children simply <em>get</em> (read) the
   <a href="#dfn-element" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-element-1">Element</a>'s <a href="#dfn-innerhtml" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-innerhtml-2">innerHTML</a> property (this triggers the serialization):
 
-  <pre aria-busy="false"><code class="hljs javascript"><span class="hljs-keyword">var</span> serializedChildren = myDiv.innerHTML;
+  <pre aria-busy="false"><code class="hljs javascript"><span class="hljs-keyword">var</span> serializedChildren = myDiv.<span class="hljs-property">innerHTML</span>;
 <span class="hljs-comment">// serializedChildren has the value:</span>
 <span class="hljs-comment">// "&lt;span&gt;some &lt;/span&gt;&lt;em&gt;text!&lt;/em&gt;"</span></code></pre>
 
@@ -446,7 +447,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   children), simply <em>set</em> the <a href="#dfn-innerhtml" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-innerhtml-3">innerHTML</a> property (this triggers
   parsing of the assigned string):
 
-  </p><pre aria-busy="false"><code class="hljs javascript">myDiv.innerHTML = <span class="hljs-string">"&lt;span&gt;new&lt;/span&gt;&lt;em&gt;children!&lt;/em&gt;"</span>;</code></pre>
+  </p><pre aria-busy="false"><code class="hljs javascript">myDiv.<span class="hljs-property">innerHTML</span> = <span class="hljs-string">"&lt;span&gt;new&lt;/span&gt;&lt;em&gt;children!&lt;/em&gt;"</span>;</code></pre>
   </div>
 
   <p>This specification describes two flavors of <a href="#dfn-parsing" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parsing-1">parsing</a> and <a href="#dfn-serializing" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-serializing-1">serializing</a>: HTML and
@@ -476,7 +477,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   <a data-lt="round-tripping" href="#dfn-round-tripping" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-round-tripping-2">round-trip</a> through an XML parser. Assuming that <code>root</code>
   is in a variable named <code><var>root</var></code>:
 
-  <pre aria-busy="false"><code class="hljs javascript"><span class="hljs-keyword">var</span> xmlSerialization = <span class="hljs-keyword">new</span> XMLSerializer().serializeToString(root);
+  <pre aria-busy="false"><code class="hljs javascript"><span class="hljs-keyword">var</span> xmlSerialization = <span class="hljs-keyword">new</span> <span class="hljs-title class_">XMLSerializer</span>().<span class="hljs-title function_">serializeToString</span>(root);
 <span class="hljs-comment">// xmlSerialization has the value:</span>
 <span class="hljs-comment">// "&lt;root&gt;&lt;script xmlns="http://www.w3.org/1999/xhtml"&gt;alert('hello world')&lt;/script&gt;&lt;/root&gt;"</span></code></pre>
   </div>
@@ -514,10 +515,10 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
 <section id="the-xmlserializer-interface"><div class="header-wrapper"><h3 id="x2-2-the-xmlserializer-interface"><bdi class="secno">2.2 </bdi>The <code>XMLSerializer</code> interface</h3><a class="self-link" href="#the-xmlserializer-interface" aria-label="Permalink for Section 2.2"></a></div>
 
-  <pre class="idl def" id="webidl-1703602265"><span class="idlHeader"><a class="self-link" href="#webidl-1703602265">WebIDL</a></span><code><span data-idl="" class="idlInterface" id="idl-def-xmlserializer" data-title="XMLSerializer">[<span class="extAttr"><a data-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed">Exposed</a>=Window</span>]
+  <pre class="idl def" id="webidl-1703602265"><span class="idlHeader"><a class="self-link" href="#webidl-1703602265">WebIDL</a></span><code><span data-idl="" class="idlInterface" id="idl-def-xmlserializer" data-title="XMLSerializer">[<span class="extAttr"><a data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed">Exposed</a>=Window</span>]
 interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xmlserializer" id="ref-for-dom-xmlserializer-1"><code>XMLSerializer</code></a> {<span data-idl="" class="idlConstructor" id="idl-def-xmlserializer-constructor" data-title="constructor" data-dfn-for="XMLSerializer">
   <dfn data-export="" data-dfn-type="constructor" id="dom-xmlserializer-constructor" data-idl="constructor" data-title="constructor" data-dfn-for="XMLSerializer" data-lt="constructor()" data-local-lt="XMLSerializer.constructor|XMLSerializer.constructor()|constructor" tabindex="0" aria-haspopup="dialog"><code>constructor</code></dfn>();</span><span data-idl="" class="idlMethod" id="idl-def-xmlserializer-serializetostring-root" data-title="serializeToString" data-dfn-for="XMLSerializer"><span class="idlType">
-  <a data-link-type="idl" data-type="interface" href="https://webidl.spec.whatwg.org/#idl-DOMString">DOMString</a></span> <a class="internalDFN idlName" data-link-type="method" href="#dom-xmlserializer-serializetostring" id="ref-for-dom-xmlserializer-serializetostring-1"><code>serializeToString</code></a>(<span class="idlType"><a data-link-type="idl" href="#dfn-node" class="internalDFN" id="ref-for-dfn-node-8">Node</a></span> <span class="idlParamName">root</span>);</span>
+  <a data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-DOMString">DOMString</a></span> <a class="internalDFN idlName" data-link-type="method" href="#dom-xmlserializer-serializetostring" id="ref-for-dom-xmlserializer-serializetostring-1"><code>serializeToString</code></a>(<span class="idlType"><a data-link-type="idl" href="#dfn-node" class="internalDFN" id="ref-for-dfn-node-8">Node</a></span> <span class="idlParamName">root</span>);</span>
 };</span></code></pre>
 
   <dl class="domintro">
@@ -1588,7 +1589,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
         <dfn id="dfn-template" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/html5/single-page.html#the-template-element">template</a></dfn>
     </li><li><dfn id="dfn-void-elements" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/html5/single-page.html#void-elements">void elements</a></dfn>
     </li><li>The <a href="#dfn-template" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-template-3">template</a>'s <dfn data-lt="template content|template contents" id="dfn-template-content" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
-    </li><li>The <dfn data-lt="CEReactions|[CEReactions]" id="dfn-cereactions" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;[CEReactions]&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/html5/single-page.html#cereactios">[CEReactions]</a></dfn> IDL <a data-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-extended-attribute">extended attribute</a>
+    </li><li>The <dfn data-lt="CEReactions|[CEReactions]" id="dfn-cereactions" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;[CEReactions]&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://www.w3.org/TR/html5/single-page.html#cereactios">[CEReactions]</a></dfn> IDL <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-extended-attribute">extended attribute</a>
     </li><li>The <dfn id="dfn-innerhtml" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-innerhtml">innerHTML</a></dfn> property;
     </li><li>The <dfn id="dfn-outerhtml" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-outerhtml">outerHTML</a></dfn> property;
     </li><li>The <dfn id="dfn-insertadjacenthtml" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn"><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-insertadjacenthtml">insertAdjacentHTML</a></dfn> method;
@@ -1679,7 +1680,7 @@ interface <a class="internalDFN idlID" data-link-type="interface" href="#dom-xml
   The Web IDL [<cite><a class="bibref" data-link-type="biblio" href="#bib-webidl" title="Web IDL Standard">WebIDL</a></cite>] specification defines:
 
   <ul>
-    <li>The <dfn data-lt="LegacyNullToEmptyString|[LegacyNullToEmptyString]" id="dfn-legacynulltoemptystring" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;[LegacyNullToEmptyString]&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://heycam.github.io/webidl/#LegacyNullToEmptyString">[LegacyNullToEmptyString]</a></dfn> IDL <a data-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-extended-attribute">extended attribute</a>
+    <li>The <dfn data-lt="LegacyNullToEmptyString|[LegacyNullToEmptyString]" id="dfn-legacynulltoemptystring" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn" class="respec-offending-element" title="Found definition for &quot;[LegacyNullToEmptyString]&quot;, but nothing links to it. This is usually a spec bug!"><a href="https://heycam.github.io/webidl/#LegacyNullToEmptyString">[LegacyNullToEmptyString]</a></dfn> IDL <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-extended-attribute">extended attribute</a>
   </li></ul>
 </section>
 
