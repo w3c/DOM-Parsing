@@ -219,30 +219,11 @@ dl.domintro::before {
 </section><!-- end DOMParser interface -->
 
 <section><h2>The <code>XMLSerializer</code> interface</h2>
+  <span id="dom-xmlserializer"></span>
+  <span id="dom-xmlserializer-constructor"></span>
+  <span id="dom-xmlserializer-serializetostring"></span>
 
-  <pre class="idl">
-    [Exposed=Window]
-    interface XMLSerializer {
-      constructor();
-      DOMString serializeToString(Node root);
-    };
-  </pre>
-
-  <dl class=domintro>
-    <dt><var>xmlserializer</var> = new <a data-link-for=XMLSerializer>XMLSerializer</a> ()</var>
-    <dd>Constructs a new XMLSerializer object.
-
-    <dt><var>string</var> = <var>xmlserializer</var> . <a data-link-for=XMLSerializer>serializeToString</a> ( <var>root</var> )
-    <dd>Serializes <var>root</var> into a string using an XML serialization. Throws a
-    <a>TypeError</a> exception if <var>root</var> is not a <a>Node</a> or an <a>Attr</a> object.
-  </dl>
-
-  <p>The <dfn><code>XMLSerializer</code></dfn>() constructor must return a new <a>XMLSerializer</a>
-  object.
-
-  <p>The <dfn data-dfn-for="XMLSerializer"><code>serializeToString</code></dfn>(<var>root</var>) method must
-  produce an <a>XML serialization</a> of <var>root</var> passing a value of <code>false</code> for
-  the <a><var>require well-formed</var></a> parameter, and return the result.
+  <p>The definition of <code>XMLSerializer</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#xmlserializer">the HTML Standard</a>.</p>
 
 </section><!-- end XMLSerializer interface -->
 
