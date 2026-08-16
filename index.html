@@ -938,15 +938,16 @@ dl.domintro::before {
 
     <li>[=list/For each=] <var>attr</var> of <var>element</var>'s [=Element/attribute list=]:
     <ol>
-      <li>If <var>require well-formed</var> is true, and <var>localname set</var> contains a tuple
-      whose values match those of a new tuple consisting of <var>attr</var>'s [=Attr/namespace=] and
-      [=Attr/local name=], then <a>throw an exception</a>; the serialization of
-      <var>attr</var> would fail to produce a well-formed element serialization.
-
-      <li>Create a new tuple consisting of <var>attr</var>'s [=Attr/namespace=] and
-      [=Attr/local name=], and add it to <var>localname set</var>.
-
       <li>Let <var>attribute namespace</var> be <var>attr</var>'s [=Attr/namespace=].
+
+      <li>Let |attrName| be a new tuple (|attribute namespace|, <var>attr</var>'s
+      [=Attr/local name=]).
+
+      <li>If <var>require well-formed</var> is true, and <var>localname set</var> [=set/contains=]
+      |attrName|, then <a>throw an exception</a>. <span class="note">The serialization of
+      <var>attr</var> would not be well-formed.</span>
+
+      <li>[=set/Append=] |attrName| to <var>localname set</var>.
 
       <!-- Check for an unregistered attribute namespace, and if so, serialize a definition for it -->
       <li>Let <var>candidate prefix</var> be null.
