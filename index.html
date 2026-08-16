@@ -744,7 +744,7 @@ dl.domintro::before {
       <ol>
         <li>If <var>attribute prefix</var> is null, then <var>attr</var> is a default
         namespace declaration. Set the <var>default namespace attr value</var> to <var>attr</var>'s
-        <code><a>value</a></code> and stop running these steps, returning to <a>Main</a> to visit
+        [=Attr/value=] and stop running these steps, returning to <a>Main</a> to visit
         the next attribute.
 
         <li>Otherwise, the <var>attribute prefix</var> is not null and <var>attr</var>
@@ -752,8 +752,7 @@ dl.domintro::before {
         <ol>
           <li>Let <var>prefix definition</var> be <var>attr</var>'s [=Attr/local name=].
 
-          <li>Let <var>namespace definition</var> be <var>attr</var>'s
-          <code><a>value</a></code>.
+          <li>Let <var>namespace definition</var> be <var>attr</var>'s [=Attr/value=].
 
           <li>If <var>namespace definition</var> is the <a>XML namespace</a>, then stop running
           these steps, and return to <a>Main</a> to visit the next attribute.
@@ -931,7 +930,7 @@ dl.domintro::before {
           <li>If any of the following are true, then stop running these steps and goto <a>Loop</a>
           to visit the next attribute:
           <ul>
-            <li>the <var>attr</var>'s <code><a>value</a></code> is the <a>XML namespace</a>;
+            <li>the <var>attr</var>'s [=Attr/value=] is the <a>XML namespace</a>;
 
             <p class=note>The <a>XML namespace</a> cannot be redeclared and survive
             <a>round-tripping</a> (unless it defines the prefix "<code>xml</code>"). To avoid this
@@ -947,19 +946,18 @@ dl.domintro::before {
               <li>the <var>attr</var>'s [=Attr/local name=] is
               not a key contained in the <var>local prefixes map</var>, or
 
-              <li>the <var>attr</var>'s [=Attr/local name=] is
-               present in the <var>local prefixes map</var> but the value of the key does not match
-               <var>attr</var>'s <code><a>value</a></code>
+              <li>the <var>attr</var>'s [=Attr/local name=] is present in the
+              <var>local prefixes map</var> but the value of the key is not <var>attr</var>'s
+              [=Attr/value=]
             </ul>
             and furthermore that the <var>attr</var>'s [=Attr/local name=] (as the prefix to
             find) is <a>found</a> in <var>map</var> given the namespace consisting
-            of the <var>attr</var>'s <code><a>value</a></code> (the current namespace prefix
+            of the <var>attr</var>'s [=Attr/value=] (the current namespace prefix
             definition was exactly defined previously—on an ancestor element not the current
             element whose attributes are being processed).
           </ul>
 
-          <li>If <var>require well-formed</var> is true, and
-          <var>attr</var>'s <code><a>value</a></code> attribute matches the
+          <li>If <var>require well-formed</var> is true, and <var>attr</var>'s [=Attr/value=] is the
           <a>XMLNS namespace</a>, then throw an exception; the serialization of this attribute would
           produce invalid XML because the <a>XMLNS namespace</a> is reserved and cannot be applied
           as an element's namespace via XML parsing.
@@ -967,10 +965,9 @@ dl.domintro::before {
           <p class=note>DOM APIs do allow creation of elements in the <a>XMLNS namespace</a> but
           with strict qualifications.</p>
 
-          <li>If <var>require well-formed</var> is true, and
-          <var>attr</var>'s <code><a>value</a></code> attribute is the empty string,
-          then throw an exception; namespace prefix declarations cannot be used to undeclare a
-          namespace (use a default namespace declaration instead).
+          <li>If <var>require well-formed</var> is true, and <var>attr</var>'s [=Attr/value=] is the
+          empty string, then throw an exception; namespace prefix declarations cannot be used to
+          undeclare a namespace (use a default namespace declaration instead).
 
           <li>If the <var>attr</var>'s [=Attr/namespace prefix=] matches the string
           "<code>xmlns</code>", then let <var>candidate prefix</var> be the string
@@ -1020,7 +1017,7 @@ dl.domintro::before {
         <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
         <li>The result of <a>serializing an attribute value</a> given <var>attr</var>'s
-        <code><a>value</a></code> attribute and <var>require well-formed</var> as input;
+        [=Attr/value=] and <var>require well-formed</var> as input;
 
         <li>"<code>"</code>" (U+0022 QUOTATION MARK).
       </ol>
@@ -1394,8 +1391,7 @@ dl.domintro::before {
       a <dfn><a href="https://www.w3.org/TR/dom/#html-document">HTML document</a></dfn>;
       <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-order">tree order</a></dfn>;
     </li>
-    <li>The <dfn data-lt="attribute"><a href="https://www.w3.org/TR/dom/#interface-attr">Attr</a></dfn> interface and its
-        <dfn data-lt="value">attr.<a href="https://www.w3.org/TR/dom/#dom-attr-value">value</a></dfn> attribute
+    <li>The <dfn data-lt="attribute"><a href="https://www.w3.org/TR/dom/#interface-attr">Attr</a></dfn> interface
     <li>The CharacterData interface's <dfn><a href="https://www.w3.org/TR/dom/#dom-characterdata-data">data</a></dfn> attribute
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-comment">Comment</a></dfn> interface
 <!--<li>The <dfn><a href="https://www.w3.org/TR/dom/#cdata">CDATASection</a></dfn> interface-->
