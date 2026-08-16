@@ -322,7 +322,7 @@ dl.domintro::before {
 
   <div class="algorithm">
   <p>To produce an <dfn>XML serialization</dfn> of a <code><a>Node</a></code> <var>node</var> given
-  a flag <var>require well-formed</var>, run the following steps:
+  a boolean <var>require well-formed</var>, run the following steps:
 
   <ol>
     <li>Let <var>namespace</var> be a <a>context namespace</a> with value null.
@@ -346,7 +346,7 @@ dl.domintro::before {
 
     <li>Return the result of running the <a>XML serialization algorithm</a> given <var>node</var>,
     <var>namespace</var>, <var>prefix map</var>, <a>generated namespace prefix index</a> reference
-    to <var>prefix index</var>, and the flag <var>require well-formed</var>. If an
+    to <var>prefix index</var>, and <var>require well-formed</var>. If an
     <dfn data-lt="throw an exception">exception</dfn> occurs during the execution of the algorithm,
     then catch that exception and throw an "<code><a>InvalidStateError</a></code>"
     <code><a>DOMException</a></code>.
@@ -360,7 +360,7 @@ dl.domintro::before {
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
   a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
   and
-  a <var>require well-formed</var> flag,
+  a boolean <var>require well-formed</var>,
   must run the following steps:
 
   <ol>
@@ -418,11 +418,11 @@ dl.domintro::before {
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
   a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
   and
-  a <var>require well-formed</var> flag,
+  a boolean <var>require well-formed</var>,
   must run the following steps:
 
   <ol>
-    <li>If the <var>require well-formed</var> flag is set (its value is true),
+    <li>If <var>require well-formed</var> is true,
     and this <var>node</var>'s <code><a>localName</a></code> attribute contains the character
     "<code>:</code>" (U+003A COLON) or does not match the XML <a>Name</a> production, then
     <a>throw an exception</a>; the serialization of this <var>node</var> would not be a well-formed
@@ -432,10 +432,9 @@ dl.domintro::before {
 
     <li>Let <var>qualified name</var> be the empty string.
 
-    <li>Let <var>skip end tag</var> be a boolean flag with value false.
+    <li>Let <var>skip end tag</var> be false.
 
-    <li>Let <var>ignore namespace definition attribute</var> be a boolean flag with value
-    false.
+    <li>Let <var>ignore namespace definition attribute</var> be false.
 
     <li>Given <var>prefix map</var>, <a>copy a namespace prefix map</a> and let
     <var>map</var> be the result.
@@ -505,7 +504,7 @@ dl.domintro::before {
       <li>If the value of <var>prefix</var> matches "<code>xmlns</code>", then run the following
       steps:
       <ol>
-        <li>If the <var>require well-formed</var> flag is set, then throw an error. An
+        <li>If <var>require well-formed</var> is true, then throw an error. An
         <a>Element</a> with <code><a data-lt="element prefix">prefix</a></code> "<code>xmlns</code>"
         will not legally round-trip in a conforming <a>XML parser</a>.
 
@@ -580,8 +579,8 @@ dl.domintro::before {
 
           <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
-          <li>The result of <a>serializing an attribute value</a> given <var>ns</var> and the
-          <var>require well-formed</var> flag as input;
+          <li>The result of <a>serializing an attribute value</a> given <var>ns</var> and
+          <var>require well-formed</var> as input;
 
           <li>"<code>"</code>" (U+0022 QUOTATION MARK).
         </ol>
@@ -603,8 +602,7 @@ dl.domintro::before {
       default declaration if present.</p>
 
       <ol>
-        <li>Set the <var>ignore namespace definition attribute</var> flag to
-        true.
+        <li>Set <var>ignore namespace definition attribute</var> to true.
 
         <li>Append to <var>qualified name</var> the value of <var>node</var>'s
         <code><a>localName</a></code>.
@@ -629,8 +627,8 @@ dl.domintro::before {
 
           <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
-          <li>The result of <a>serializing an attribute value</a> given <var>ns</var> and the
-          <var>require well-formed</var> flag as input;
+          <li>The result of <a>serializing an attribute value</a> given <var>ns</var> and
+          <var>require well-formed</var> as input;
 
           <li>"<code>"</code>" (U+0022 QUOTATION MARK).
         </ol>
@@ -650,8 +648,7 @@ dl.domintro::before {
     <li>Append to <var>markup</var> the result of the
     <a data-lt="XML serialization of the attributes">XML serialization of <var>node</var>'s attributes</a>
     given <var>map</var>, <var>prefix index</var>, <var>local prefixes map</var>,
-    <var>ignore namespace definition attribute</var> flag, and
-    <var>require well-formed</var> flag.
+    <var>ignore namespace definition attribute</var>, and <var>require well-formed</var>.
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s list of
     <a>children</a> is empty, and the <var>node</var>'s <code><a>localName</a></code> matches any
@@ -681,11 +678,11 @@ dl.domintro::before {
 
       <li>"<code>/</code>" (U+002F SOLIDUS).
     </ol>
-    and set the <var>skip end tag</var> flag to true.
+    and set <var>skip end tag</var> to true.
 
     <li>If <var>ns</var> is not the <a>HTML namespace</a>, and the <var>node</var>'s list of
     <a>children</a> is empty, then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
-    and set the <var>skip end tag</var> flag to true.
+    and set <var>skip end tag</var> to true.
 
     <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
 
@@ -697,16 +694,16 @@ dl.domintro::before {
     <code><a>template</a></code> element. Append to <var>markup</var> the result of
     <a>XML serializing a DocumentFragment node</a> given the <a>template</a> element's
     <a>template contents</a> (a <code><a>DocumentFragment</a></code>),
-    <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>, and the
-    <var>require well-formed</var> flag.
+    <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>, and
+    <var>require well-formed</var>.
 
     <p class=note>This allows <a>template content</a> to round-trip, given the rules for
     <a>parsing XHTML documents</a>.</p>
 
     <li>Otherwise, append to <var>markup</var> the result of running the
     <a>XML serialization algorithm</a> on each of <var>node</var>'s <a>children</a>, in
-    <a>tree order</a>, given <var>inherited ns</var>, <var>map</var>,
-    <var>prefix index</var>, and the <var>require well-formed</var> flag.
+    <a>tree order</a>, given the child, <var>inherited ns</var>, <var>map</var>,
+    <var>prefix index</var>, and <var>require well-formed</var>.
 
     <li>Append the following to <var>markup</var>, in the order listed:
     <ol>
@@ -899,8 +896,8 @@ dl.domintro::before {
   <var>element</var> together with a <a>namespace prefix map</a> <var>map</var>, a
   <a>generated namespace prefix index</a> <var>prefix index</var> reference,
   an [=ordered map=] <var>local prefixes map</var>,
-  an <var>ignore namespace definition attribute</var> flag, and
-  a <var>require well-formed</var> flag, is the result of the following algorithm:
+  a boolean <var>ignore namespace definition attribute</var>, and
+  a boolean <var>require well-formed</var>, is the result of the following algorithm:
 
   <ol>
     <li>Let <var>result</var> be the empty string.
@@ -917,7 +914,7 @@ dl.domintro::before {
     <code><a>attributes</a></code>, in the order they are specified in the <var>element</var>'s
     <a>attribute list</a>:
     <ol>
-      <li>If the <var>require well-formed</var> flag is set (its value is true), and the
+      <li>If <var>require well-formed</var> is true, and the
       <var>localname set</var> contains a tuple whose values match those of a new tuple consisting
       of <var>attr</var>'s <code><a>namespaceURI</a></code> attribute and
       <code><a>localName</a></code> attribute, then <a>throw an exception</a>; the serialization of
@@ -953,8 +950,8 @@ dl.domintro::before {
             problem, this algorithm always prefixes elements in the <a>XML namespace</a> with
             "<code>xml</code>" and drops any related definitions as seen in the above condition.</p>
 
-            <li>the <var>attr</var>'s <code><a>prefix</a></code> is null and the
-            <var>ignore namespace definition attribute</var> flag is true (the
+            <li>the <var>attr</var>'s <code><a>prefix</a></code> is null and
+            <var>ignore namespace definition attribute</var> is true (the
             <a>Element</a>'s default namespace attribute is to be skipped);
 
             <li>the <var>attr</var>'s <code><a>prefix</a></code> is not null and either
@@ -974,7 +971,7 @@ dl.domintro::before {
             element whose attributes are being processed).
           </ul>
 
-          <li>If the <var>require well-formed</var> flag is set (its value is true), and
+          <li>If <var>require well-formed</var> is true, and
           the value of <var>attr</var>'s <code><a>value</a></code> attribute matches the
           <a>XMLNS namespace</a>, then throw an exception; the serialization of this attribute would
           produce invalid XML because the <a>XMLNS namespace</a> is reserved and cannot be applied
@@ -983,7 +980,7 @@ dl.domintro::before {
           <p class=note>DOM APIs do allow creation of elements in the <a>XMLNS namespace</a> but
           with strict qualifications.</p>
 
-          <li>If the <var>require well-formed</var> flag is set (its value is true), and
+          <li>If <var>require well-formed</var> is true, and
           the value of <var>attr</var>'s <code><a>value</a></code> attribute is the empty string,
           then throw an exception; namespace prefix declarations cannot be used to undeclare a
           namespace (use a default namespace declaration instead).
@@ -1010,7 +1007,7 @@ dl.domintro::before {
             <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
             <li>The result of <a>serializing an attribute value</a> given <var>attribute namespace</var>
-            and the <var>require well-formed</var> flag as input;
+            and <var>require well-formed</var> as input;
 
             <li>"<code>"</code>" (U+0022 QUOTATION MARK).
           </ol>
@@ -1022,7 +1019,7 @@ dl.domintro::before {
       <li>If <var>candidate prefix</var> is not null, then append to <var>result</var>
       the concatenation of <var>candidate prefix</var> with "<code>:</code>" (U+003A COLON).
 
-      <li>If the <var>require well-formed</var> flag is set (its value is true), and this
+      <li>If <var>require well-formed</var> is true, and this
       <var>attr</var>'s <code><a>localName</a></code> attribute contains the character
       "<code>:</code>" (U+003A COLON) or does not match the XML <a>Name</a> production or equals
       "<code>xmlns</code>" and <var>attribute namespace</var> is null, then
@@ -1036,7 +1033,7 @@ dl.domintro::before {
         <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
         <li>The result of <a>serializing an attribute value</a> given <var>attr</var>'s
-        <code><a>value</a></code> attribute and the <var>require well-formed</var> flag as input;
+        <code><a>value</a></code> attribute and <var>require well-formed</var> as input;
 
         <li>"<code>"</code>" (U+0022 QUOTATION MARK).
       </ol>
@@ -1046,11 +1043,11 @@ dl.domintro::before {
   </div>
 
   <div class="algorithm">
-  <p>When <dfn>serializing an attribute value</dfn> given an <var>attribute value</var> and
-  <var>require well-formed</var> flag, run the following steps:
+  <p>When <dfn>serializing an attribute value</dfn> given an <var>attribute value</var> and a
+  boolean <var>require well-formed</var>, run the following steps:
 
   <ol>
-    <li>If the <var>require well-formed</var> flag is set (its value is true), and
+    <li>If <var>require well-formed</var> is true, and
     <var>attribute value</var> contains characters that are not matched by the XML <a>Char</a>
     production, then <a>throw an exception</a>; the serialization of this <var>attribute value</var>
     would fail to produce a well-formed element serialization.
@@ -1109,10 +1106,10 @@ dl.domintro::before {
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
   a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
   and
-  a <var>require well-formed</var> flag,
+  a boolean <var>require well-formed</var>,
   must run the following steps:
 
-  <p>If the <var>require well-formed</var> flag is set (its value is true), and this
+  <p>If <var>require well-formed</var> is true, and this
   <var>node</var> has no <code><a>documentElement</a></code> (the
   <code><a>documentElement</a></code> attribute's value is null), then
   <a>throw an exception</a>; the serialization of this <var>node</var> would not be a well-formed
@@ -1144,10 +1141,10 @@ dl.domintro::before {
   <p>The algorithm for <dfn>XML serializing a Comment node</dfn>, given
   a {{Comment}} |node:Comment|,
   and
-  a <var>require well-formed</var> flag,
+  a boolean <var>require well-formed</var>,
   must run the following steps:
 
-  <p>If the <var>require well-formed</var> flag is set (its value is true), and
+  <p>If <var>require well-formed</var> is true, and
   <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
   <a>Char</a> production or contains "<code>--</code>" (two adjacent U+002D HYPHEN-MINUS
   characters) or ends with a "<code>-</code>" (U+002D HYPHEN-MINUS) character, then
@@ -1167,7 +1164,7 @@ dl.domintro::before {
   <p>The algorithm for <dfn>XML serializing a CDATASection node</dfn>, given
   a {{CDATASection}} |node:CDATASection|,
   and
-  a <var>require well-formed</var> flag,
+  a boolean <var>require well-formed</var>,
   must run the following steps:
 
   <ol>
@@ -1188,11 +1185,11 @@ dl.domintro::before {
   <p>The algorithm for <dfn>XML serializing a Text node</dfn>, given
   a {{Text}} |node:Text|,
   and
-  a <var>require well-formed</var> flag,
+  a boolean <var>require well-formed</var>,
   must run the following steps:
 
   <ol>
-    <li>If the <var>require well-formed</var> flag is set (its value is true), and
+    <li>If <var>require well-formed</var> is true, and
     <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
     <a>Char</a> production, then <a>throw an exception</a>; the serialization of this
     <var>node</var>'s <code><a>data</a></code> would not be well-formed.
@@ -1223,7 +1220,7 @@ dl.domintro::before {
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
   a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
   and
-  a <var>require well-formed</var> flag,
+  a boolean <var>require well-formed</var>,
   must run the following steps:
 
   <ol>
@@ -1231,7 +1228,7 @@ dl.domintro::before {
 
     <li>For each <a>child</a> <var>child</var> of <var>node</var>, in <a>tree order</a>, run the
     <a>XML serialization algorithm</a> given <var>child</var>, <var>namespace</var>,
-    <var>prefix map</var>, a reference to <var>prefix index</var>, and flag
+    <var>prefix map</var>, a reference to <var>prefix index</var>, and
     <var>require well-formed</var>. Concatenate the result to <var>markup</var>.
 
     <li>Return the value of <var>markup</var>.
@@ -1246,16 +1243,16 @@ dl.domintro::before {
   <p>The algorithm for <dfn>XML serializing a DocumentType node</dfn>, given
   a {{DocumentType}} |node:DocumentType|,
   and
-  a <var>require well-formed</var> flag,
+  a boolean <var>require well-formed</var>,
   must run the following steps:
 
   <ol>
-    <li>If the <var>require well-formed</var> flag is true and the <var>node</var>'s
+    <li>If <var>require well-formed</var> is true and the <var>node</var>'s
     <code><a>publicId</a></code> attribute contains characters that are not matched by the XML
     <a>PubidChar</a> production, then <a>throw an exception</a>; the serialization of this
     <var>node</var> would not be a well-formed document type declaration.
 
-    <li>If the <var>require well-formed</var> flag is true and the <var>node</var>'s
+    <li>If <var>require well-formed</var> is true and the <var>node</var>'s
     <code><a>systemId</a></code> attribute contains characters that are not matched by the XML
     <a>Char</a> production or that contains both a "<code>"</code>" (U+0022 QUOTATION MARK) and a
     "<code>'</code>" (U+0027 APOSTROPHE), then <a>throw an exception</a>; the serialization of this
@@ -1340,17 +1337,17 @@ dl.domintro::before {
   <p>The algorithm for <dfn>XML serializing a ProcessingInstruction node</dfn>, given
   a {{ProcessingInstruction}} |node:ProcessingInstruction|,
   and
-  a <var>require well-formed</var> flag,
+  a boolean <var>require well-formed</var>,
   must run the following steps:
 
   <ol>
-    <li>If the <var>require well-formed</var> flag is set (its value is true), and
+    <li>If <var>require well-formed</var> is true, and
     <var>node</var>'s <code><a>target</a></code> contains a "<code>:</code>" (U+003A COLON)
     character or is an <a>ASCII case-insensitive</a> match for the string "<code>xml</code>", then
     <a>throw an exception</a>; the serialization of this <var>node</var>'s
     <code><a>target</a></code> would not be well-formed.
 
-    <li>If the <var>require well-formed</var> flag is set (its value is true), and
+    <li>If <var>require well-formed</var> is true, and
     <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
     <a>Char</a> production or contains the string "<code>?></code>" (U+003F QUESTION MARK,
     U+003E GREATER-THAN SIGN), then <a>throw an exception</a>; the serialization of this
