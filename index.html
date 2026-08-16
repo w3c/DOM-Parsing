@@ -671,8 +671,8 @@ dl.domintro::before {
 
     <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
 
-    <li>If <var>skip end tag</var> is true, then return <var>markup</var> and skip the remaining
-    steps. <var>node</var> is a leaf-node.
+    <li>If <var>skip end tag</var> is true, then return <var>markup</var>.
+    <span class="note"><var>node</var> is a leaf node.</span>
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and <var>node</var>'s
     [=Element/local name=] is "<code>template</code>" (this is a [^template^] element), append to
@@ -720,8 +720,7 @@ dl.domintro::before {
   <ol>
     <li>Let <var>default namespace attr value</var> be null.
 
-    <li><dfn>Main</dfn>: [=list/For each=] <var>attr</var> of <var>element</var>'s
-    [=Element/attribute list=]:
+    <li>[=list/For each=] <var>attr</var> of <var>element</var>'s [=Element/attribute list=]:
 
     <p class="note">The following conditional steps find namespace prefixes. Only
     <a data-cite="dom">attributes</a> in the <a>XMLNS namespace</a> are considered (e.g.,
@@ -738,8 +737,7 @@ dl.domintro::before {
       <ol>
         <li>If <var>attribute prefix</var> is null, then <var>attr</var> is a default
         namespace declaration. Set <var>default namespace attr value</var> to <var>attr</var>'s
-        [=Attr/value=] and stop running these steps, returning to <a>Main</a> to visit
-        the next attribute.
+        [=Attr/value=], and [=iteration/continue=].
 
         <li>Otherwise, <var>attribute prefix</var> is not null and <var>attr</var>
         is a namespace prefix definition. Run the following steps:
@@ -748,8 +746,8 @@ dl.domintro::before {
 
           <li>Let <var>namespace definition</var> be <var>attr</var>'s [=Attr/value=].
 
-          <li>If <var>namespace definition</var> is the <a>XML namespace</a>, then stop running
-          these steps, and return to <a>Main</a> to visit the next attribute.
+          <li>If <var>namespace definition</var> is the <a>XML namespace</a>, then
+          [=iteration/continue=].
 
           <p class=note><a>XML namespace</a> definitions in prefixes are completely ignored (in
           order to avoid unnecessary work when there might be prefix conflicts).
@@ -761,8 +759,7 @@ dl.domintro::before {
           instead.
 
           <li>If <var>prefix definition</var> is <a>found</a> in <var>map</var> given the namespace
-          <var>namespace definition</var>, then stop running these steps, and return to <a>Main</a>
-          to visit the next attribute.
+          <var>namespace definition</var>, then [=iteration/continue=].
 
           <p class=note>This step avoids adding duplicate prefix definitions for the same namespace
           in <var>map</var>. This has the side-effect of avoiding later serialization of
@@ -894,8 +891,7 @@ dl.domintro::before {
     otherwise identical <a data-cite="dom">attributes</a> on the same element differ only by their
     prefix values.</span>
 
-    <li><dfn>Loop</dfn>: [=list/For each=] <var>attr</var> of <var>element</var>'s
-    [=Element/attribute list=]:
+    <li>[=list/For each=] <var>attr</var> of <var>element</var>'s [=Element/attribute list=]:
     <ol>
       <li>If <var>require well-formed</var> is true, and <var>localname set</var> contains a tuple
       whose values match those of a new tuple consisting of <var>attr</var>'s [=Attr/namespace=] and
@@ -920,8 +916,7 @@ dl.domintro::before {
         <li>If <var>attribute namespace</var> is the <a>XMLNS namespace</a>, then run
         these steps:
         <ol>
-          <li>If any of the following are true, then stop running these steps and goto <a>Loop</a>
-          to visit the next attribute:
+          <li>If any of the following are true, then [=iteration/continue=]:
           <ul>
             <li><var>attr</var>'s [=Attr/value=] is the <a>XML namespace</a>;
 
