@@ -491,7 +491,7 @@ dl.domintro::before {
       <li>If <var>prefix</var> matches "<code>xmlns</code>", then run the following
       steps:
       <ol>
-        <li>If <var>require well-formed</var> is true, then throw an error. An
+        <li>If <var>require well-formed</var> is true, then <a>throw an exception</a>. An
         {{Element}} with [=Element/namespace prefix=] "<code>xmlns</code>"
         will not legally round-trip in a conforming <a>XML parser</a>.
 
@@ -954,16 +954,16 @@ dl.domintro::before {
           </ul>
 
           <li>If <var>require well-formed</var> is true, and <var>attr</var>'s [=Attr/value=] is the
-          <a>XMLNS namespace</a>, then throw an exception; the serialization of this attribute would
-          produce invalid XML because the <a>XMLNS namespace</a> is reserved and cannot be applied
-          as an element's namespace via XML parsing.
+          <a>XMLNS namespace</a>, then <a>throw an exception</a>; the serialization of this
+          attribute would produce invalid XML because the <a>XMLNS namespace</a> is reserved and
+          cannot be applied as an element's namespace via XML parsing.
 
           <p class=note>DOM APIs do allow creation of elements in the <a>XMLNS namespace</a> but
           with strict qualifications.</p>
 
           <li>If <var>require well-formed</var> is true, and <var>attr</var>'s [=Attr/value=] is the
-          empty string, then throw an exception; namespace prefix declarations cannot be used to
-          undeclare a namespace (use a default namespace declaration instead).
+          empty string, then <a>throw an exception</a>; namespace prefix declarations cannot be used
+          to undeclare a namespace (use a default namespace declaration instead).
 
           <li>If |prefix| matches the string "<code>xmlns</code>", then let
           <var>candidate prefix</var> be the string "<code>xmlns</code>".
