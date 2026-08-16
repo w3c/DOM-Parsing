@@ -320,8 +320,9 @@ dl.domintro::before {
   thus cannot be serialized by the <a>XML serialization algorithm</a>. An attempt to serialize an
   <a>Attr</a> object will result in the empty string.
 
+  <div class="algorithm">
   <p>To produce an <dfn>XML serialization</dfn> of a <code><a>Node</a></code> <var>node</var> given
-  a flag <a><dfn>require well-formed</dfn></a>, run the following steps:
+  a flag <var>require well-formed</var>, run the following steps:
 
   <ol>
     <li>Let <var>namespace</var> be a <a>context namespace</a> with value null.
@@ -345,11 +346,12 @@ dl.domintro::before {
 
     <li>Return the result of running the <a>XML serialization algorithm</a> given <var>node</var>,
     <var>namespace</var>, <var>prefix map</var>, <a>generated namespace prefix index</a> reference
-    to <var>prefix index</var>, and the flag <a><var>require well-formed</var></a>. If an
+    to <var>prefix index</var>, and the flag <var>require well-formed</var>. If an
     <dfn data-lt="throw an exception">exception</dfn> occurs during the execution of the algorithm,
     then catch that exception and throw an "<code><a>InvalidStateError</a></code>"
     <code><a>DOMException</a></code>.
   </ol>
+  </div>
 
   <div class="algorithm">
   <p>The <dfn>XML serialization algorithm</dfn>, given
