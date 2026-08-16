@@ -1013,10 +1013,23 @@ dl.domintro::before {
           "<code>xmlns</code>".
         </ol>
 
-        <li>Otherwise (<var>attribute namespace</var> is not the <a>XMLNS namespace</a>):
+        <li>Otherwise (<var>attribute namespace</var> is not the <a>XMLNS namespace</a>),
+        if <var>candidate prefix</var> is null:
+
         <ol>
-          <li>Set <var>candidate prefix</var> to the result of <a>generating a prefix</a> given
-          <var>map</var>, <var>attribute namespace</var>, and <var>prefix index</var>.
+          <li>If |prefix| is not null and |local prefixes map| does not [=map/contain=]
+          |prefix|, set |candidate prefix| to |prefix|.
+
+          <li>Otherwise, set <var>candidate prefix</var> to the result of
+          <a>generating a prefix</a> given <var>map</var>, <var>attribute namespace</var>,
+          and <var>prefix index</var>.
+
+          <li>[=Add=] |candidate prefix| to |map| given |attribute namespace|.
+
+          <li>Let |map value| be the empty string if |attribute namespace| is null, and
+          |attribute namespace| otherwise.
+
+          <li>[=map/Set=] |local prefixes map|[|candidate prefix|] to |map value|.
 
           <li>Append the following to <var>result</var>, in the order listed:
           <ol>
