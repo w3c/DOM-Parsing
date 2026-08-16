@@ -892,11 +892,13 @@ dl.domintro::before {
 
 <section><h2>Serializing an Element's attributes</h2>
 
+  <div class="algorithm">
   <p>The <dfn>XML serialization of the attributes</dfn> of an <code><a>Element</a></code>
   <var>element</var> together with a <a>namespace prefix map</a> <var>map</var>, a
-  <a>generated namespace prefix index</a> <var>prefix index</var> reference, a
-  <a>local prefixes map</a>, a <a><var>ignore namespace definition attribute</var></a> flag, and a
-  <a><var>require well-formed</var></a> flag, is the result of the following algorithm:
+  <a>generated namespace prefix index</a> <var>prefix index</var> reference,
+  an [=ordered map=] <var>local prefixes map</var>,
+  an <var>ignore namespace definition attribute</var> flag, and
+  a <var>require well-formed</var> flag, is the result of the following algorithm:
 
   <ol>
     <li>Let <var>result</var> be the empty string.
@@ -913,7 +915,7 @@ dl.domintro::before {
     <code><a>attributes</a></code>, in the order they are specified in the <var>element</var>'s
     <a>attribute list</a>:
     <ol>
-      <li>If the <a><var>require well-formed</var></a> flag is set (its value is true), and the
+      <li>If the <var>require well-formed</var> flag is set (its value is true), and the
       <var>localname set</var> contains a tuple whose values match those of a new tuple consisting
       of <var>attr</var>'s <code><a>namespaceURI</a></code> attribute and
       <code><a>localName</a></code> attribute, then <a>throw an exception</a>; the serialization of
@@ -950,7 +952,7 @@ dl.domintro::before {
             "<code>xml</code>" and drops any related definitions as seen in the above condition.</p>
 
             <li>the <var>attr</var>'s <code><a>prefix</a></code> is null and the
-            <a><var>ignore namespace definition attribute</var></a> flag is true (the
+            <var>ignore namespace definition attribute</var> flag is true (the
             <a>Element</a>'s default namespace attribute is to be skipped);
 
             <li>the <var>attr</var>'s <code><a>prefix</a></code> is not null and either
@@ -964,13 +966,13 @@ dl.domintro::before {
             </ul>
             and furthermore that the <var>attr</var>'s
             <code><a data-lt="attr localName">localName</a></code> (as the <var>prefix</var> to
-            find) is <a>found</a> in the <a>namespace prefix map</a> given the namespace consisting
+            find) is <a>found</a> in <var>map</var> given the namespace consisting
             of the <var>attr</var>'s <code><a>value</a></code> (the current namespace prefix
             definition was exactly defined previously—on an ancestor element not the current
             element whose attributes are being processed).
           </ul>
 
-          <li>If the <a><var>require well-formed</var></a> flag is set (its value is true), and
+          <li>If the <var>require well-formed</var> flag is set (its value is true), and
           the value of <var>attr</var>'s <code><a>value</a></code> attribute matches the
           <a>XMLNS namespace</a>, then throw an exception; the serialization of this attribute would
           produce invalid XML because the <a>XMLNS namespace</a> is reserved and cannot be applied
@@ -979,7 +981,7 @@ dl.domintro::before {
           <p class=note>DOM APIs do allow creation of elements in the <a>XMLNS namespace</a> but
           with strict qualifications.</p>
 
-          <li>If the <a><var>require well-formed</var></a> flag is set (its value is true), and
+          <li>If the <var>require well-formed</var> flag is set (its value is true), and
           the value of <var>attr</var>'s <code><a>value</a></code> attribute is the empty string,
           then throw an exception; namespace prefix declarations cannot be used to undeclare a
           namespace (use a default namespace declaration instead).
@@ -1006,7 +1008,7 @@ dl.domintro::before {
             <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
             <li>The result of <a>serializing an attribute value</a> given <var>attribute namespace</var>
-            and the <a><var>require well-formed</var></a> flag as input;
+            and the <var>require well-formed</var> flag as input;
 
             <li>"<code>"</code>" (U+0022 QUOTATION MARK).
           </ol>
@@ -1018,7 +1020,7 @@ dl.domintro::before {
       <li>If <var>candidate prefix</var> is not null, then append to <var>result</var>
       the concatenation of <var>candidate prefix</var> with "<code>:</code>" (U+003A COLON).
 
-      <li>If the <a><var>require well-formed</var></a> flag is set (its value is true), and this
+      <li>If the <var>require well-formed</var> flag is set (its value is true), and this
       <var>attr</var>'s <code><a>localName</a></code> attribute contains the character
       "<code>:</code>" (U+003A COLON) or does not match the XML <a>Name</a> production or equals
       "<code>xmlns</code>" and <var>attribute namespace</var> is null, then
@@ -1032,19 +1034,21 @@ dl.domintro::before {
         <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
         <li>The result of <a>serializing an attribute value</a> given <var>attr</var>'s
-        <code><a>value</a></code> attribute and the <a><var>require well-formed</var></a> flag as input;
+        <code><a>value</a></code> attribute and the <var>require well-formed</var> flag as input;
 
         <li>"<code>"</code>" (U+0022 QUOTATION MARK).
       </ol>
     </ol>
     <li>Return the value of <var>result</var>.
   </ol>
+  </div>
 
+  <div class="algorithm">
   <p>When <dfn>serializing an attribute value</dfn> given an <var>attribute value</var> and
-  <a><var>require well-formed</var></a> flag, the user agent must run the following steps:
+  <var>require well-formed</var> flag, run the following steps:
 
   <ol>
-    <li>If the <a><var>require well-formed</var></a> flag is set (its value is true), and
+    <li>If the <var>require well-formed</var> flag is set (its value is true), and
     <var>attribute value</var> contains characters that are not matched by the XML <a>Char</a>
     production, then <a>throw an exception</a>; the serialization of this <var>attribute value</var>
     would fail to produce a well-formed element serialization.
@@ -1066,6 +1070,7 @@ dl.domintro::before {
     requirement in the XML specification's <a>AttValue</a> production by also replacing
     "<code>&gt;</code>" characters.</p>
   </ol>
+  </div>
 
 </section><!-- Serializing an Element's attributes -->
 
