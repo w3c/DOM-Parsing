@@ -439,7 +439,7 @@ dl.domintro::before {
     represented by the empty string).
 
     <p class=note>This map is local to each element. It is used to ensure there are no conflicting
-    prefixes should a new namespace <code>prefix</code> attribute need to be
+    prefixes if a new namespace <code>prefix</code> attribute needs to be
     <a data-lt="generate a prefix">generated</a>. It is also used to enable skipping of duplicate
     prefix definitions when
     <a data-lt="XML serialization of the attributes">writing an element's attributes</a>: the map
@@ -816,11 +816,11 @@ dl.domintro::before {
   <p>To <dfn>copy a namespace prefix map</dfn> <var>map</var> means to copy the <var>map</var>'s
   keys into a new empty <a>namespace prefix map</a>, and to copy each of the values in the
   <a data-lt="list">namespace prefix list</a> associated with each keys' value into a new
-  <a>list</a> which should be associated with the respective key in the new map.
+  <a>list</a> which is associated with the respective key in the new map.
 
   <p>To <dfn data-lt="retrieving a preferred prefix string">retrieve a preferred prefix string</dfn>
   <var>preferred prefix</var> from the <a>namespace prefix map</a> <var>map</var> given a namespace
-  <var>ns</var>, the user agent should:
+  <var>ns</var>, the user agent must:
 
   <ol>
     <li>Let <var>candidates list</var> be the result of retrieving a <a>list</a> from <var>map</var>
@@ -842,7 +842,7 @@ dl.domintro::before {
   </ol>
 
   <p>To check if a prefix string <var>prefix</var> is <dfn>found</dfn> in a
-  <a>namespace prefix map</a> <var>map</var> given a namespace <var>ns</var>, the user agent should:
+  <a>namespace prefix map</a> <var>map</var> given a namespace <var>ns</var>, the user agent must:
 
   <ol>
     <li>Let <var>candidates list</var> be the result of retrieving a <a>list</a> from <var>map</var>
@@ -854,7 +854,7 @@ dl.domintro::before {
   </ol>
 
   <p>To <dfn>add</dfn> a prefix string <var>prefix</var> to the <a>namespace prefix map</a>
-  <var>map</var> given a namespace <var>ns</var>, the user agent should:
+  <var>map</var> given a namespace <var>ns</var>, the user agent must:
 
   <ol>
     <li>Let <var>candidates list</var> be the result of retrieving a <a>list</a> from <var>map</var>
@@ -936,7 +936,7 @@ dl.domintro::before {
 
             <li>the <var>attr</var>'s <code><a>prefix</a></code> is <code>null</code> and the
             <a><var>ignore namespace definition attribute</var></a> flag is <code>true</code> (the
-            <a>Element</a>'s default namespace attribute should be skipped);
+            <a>Element</a>'s default namespace attribute is to be skipped);
 
             <li>the <var>attr</var>'s <code><a>prefix</a></code> is not <code>null</code> and either
             <ul>
