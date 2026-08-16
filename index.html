@@ -1096,11 +1096,9 @@ dl.domintro::before {
   a boolean <var>require well-formed</var>,
   must run the following steps:
 
-  <p>If <var>require well-formed</var> is true, and this
-  <var>node</var> has no <code><a>documentElement</a></code> (the
-  <code><a>documentElement</a></code> attribute's value is null), then
-  <a>throw an exception</a>; the serialization of this <var>node</var> would not be a well-formed
-  document.
+  <p>If <var>require well-formed</var> is true, and <var>node</var>'s [=document element=] is
+  null, then <a>throw an exception</a>; the serialization of this <var>node</var> would not be a
+  well-formed document.
 
   <p>Otherwise, run the following steps:
   <ol>
@@ -1112,7 +1110,7 @@ dl.domintro::before {
     result to <var>serialized document</var>.
 
     <p class=note>This will serialize any number of <a>ProcessingInstruction</a> and <a>Comment</a>
-    nodes both before and after the <a>Document</a>'s <a>documentElement</a> node, including
+    nodes both before and after the [=document element=], including
     at most one <a>DocumentType</a> node. (<a>Text</a> nodes are not allowed as children of the
     <a>Document</a>.)</p>
 
@@ -1402,8 +1400,6 @@ dl.domintro::before {
     <li>The CharacterData interface's <dfn><a href="https://www.w3.org/TR/dom/#dom-characterdata-data">data</a></dfn> attribute
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-comment">Comment</a></dfn> interface
 <!--<li>The <dfn><a href="https://www.w3.org/TR/dom/#cdata">CDATASection</a></dfn> interface-->
-    <li>The <dfn><a href="https://www.w3.org/TR/dom/#document">Document</a></dfn> interface and its
-        <dfn><a href="https://www.w3.org/TR/dom/#dom-document-documentelement">documentElement</a></dfn> attribute
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-documenttype">DocumentType</a></dfn> interface and its
         <dfn data-lt="doctype name">doctype.<a href="https://www.w3.org/TR/dom/#dom-documenttype-name">name</a></dfn>,
     <!--<dfn><a href="https://www.w3.org/TR/dom/#dom-documenttype-internalSubset">internalSubset</a></dfn>,-->
