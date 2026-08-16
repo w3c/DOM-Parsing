@@ -1126,15 +1126,14 @@ dl.domintro::before {
   a boolean <var>require well-formed</var>,
   must run the following steps:
 
-  <p>If <var>require well-formed</var> is true, and
-  <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
-  <a>Char</a> production or contains "<code>--</code>" (two adjacent U+002D HYPHEN-MINUS
-  characters) or ends with a "<code>-</code>" (U+002D HYPHEN-MINUS) character, then
-  <a>throw an exception</a>; the serialization of this <var>node</var>'s <code><a>data</a></code>
-  would not be well-formed.
+  <p>If <var>require well-formed</var> is true, and <var>node</var>'s [=CharacterData/data=]
+  contains characters that are not matched by the XML <a>Char</a> production or contains
+  "<code>--</code>" (two adjacent U+002D HYPHEN-MINUS characters) or ends with a
+  "<code>-</code>" (U+002D HYPHEN-MINUS) character, then <a>throw an exception</a>; the
+  serialization of this <var>node</var>'s [=CharacterData/data=] would not be well-formed.
 
   <p>Otherwise, return the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
-  <code><a>data</a></code>, and "<code>--></code>".
+  [=CharacterData/data=], and "<code>--></code>".
   </div>
 
 </section><!-- XML serializing a Comment node -->
@@ -1151,7 +1150,7 @@ dl.domintro::before {
 
   <ol>
     <li>Let <var>markup</var> be the concatenation of "<code>&lt;![CDATA[</code>",
-    <var>node</var>'s <code><a>data</a></code>, and "<code>]]></code>".
+    <var>node</var>'s [=CharacterData/data=], and "<code>]]></code>".
 
     <li>Return <var>markup</var>.
   </ol>
@@ -1171,12 +1170,12 @@ dl.domintro::before {
   must run the following steps:
 
   <ol>
-    <li>If <var>require well-formed</var> is true, and
-    <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
-    <a>Char</a> production, then <a>throw an exception</a>; the serialization of this
-    <var>node</var>'s <code><a>data</a></code> would not be well-formed.
+    <li>If <var>require well-formed</var> is true, and <var>node</var>'s [=CharacterData/data=]
+    contains characters that are not matched by the XML <a>Char</a> production, then
+    <a>throw an exception</a>; the serialization of this <var>node</var>'s [=CharacterData/data=]
+    would not be well-formed.
 
-    <li>Let <var>markup</var> be <var>node</var>'s <code><a>data</a></code>.
+    <li>Let <var>markup</var> be <var>node</var>'s [=CharacterData/data=].
 
     <li>Replace any occurrences of "<code>&amp;</code>" in <var>markup</var> by
     "<code>&amp;amp;</code>".
@@ -1392,7 +1391,6 @@ dl.domintro::before {
       <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-order">tree order</a></dfn>;
     </li>
     <li>The <dfn data-lt="attribute"><a href="https://www.w3.org/TR/dom/#interface-attr">Attr</a></dfn> interface
-    <li>The CharacterData interface's <dfn><a href="https://www.w3.org/TR/dom/#dom-characterdata-data">data</a></dfn> attribute
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-comment">Comment</a></dfn> interface
 <!--<li>The <dfn><a href="https://www.w3.org/TR/dom/#cdata">CDATASection</a></dfn> interface-->
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#documentfragment">DocumentFragment</a></dfn> interface
