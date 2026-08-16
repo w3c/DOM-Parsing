@@ -324,91 +324,103 @@ dl.domintro::before {
   a flag <a><dfn>require well-formed</dfn></a>, run the following steps:
 
   <ol>
-    <li>Let <a><var>namespace</var></a> be a <a>context namespace</a> with value null.
+    <li>Let <var>namespace</var> be a <a>context namespace</a> with value null.
     The <dfn>context namespace</dfn> tracks the <a>XML serialization</a> algorithm's current default
     namespace. The <a>context namespace</a> is changed when either an <a>Element</a> <a>Node</a> has
     a default namespace declaration, or the algorithm generates a default namespace declaration for
     the <a>Element</a> <a>Node</a> to match its own namespace. The algorithm assumes no namespace
     (null) to start.
 
-    <li>Let <a><var>prefix map</var></a> be a new <a>namespace prefix map</a>.
+    <li>Let <var>prefix map</var> be a new <a>namespace prefix map</a>.
 
     <li><a>Add</a> the <a>XML namespace</a> with prefix value "<code>xml</code>" to
-    <a><var>prefix map</var></a>.
+    <var>prefix map</var>.
 
-    <li>Let <a><var>prefix index</var></a> be a <a>generated namespace prefix index</a> with value
+    <li>Let <var>prefix index</var> be a <a>generated namespace prefix index</a> with value
     <code>1</code>. The <dfn>generated namespace prefix index</dfn> is used to generate a new unique
     prefix value when no suitable existing namespace prefix is available to serialize a
     <var>node</var>'s <code>namespaceURI</code> (or the <code>namespaceURI</code> of one of
     <var>node</var>'s attributes). <span class=note>See the <a>generate a prefix</a> algorithm.
     </span>
 
-    <li>Return the result of running the <a>XML serialization algorithm</a> on <var>node</var>
-    passing the <a>context namespace</a> <a><var>namespace</var></a>, <a>namespace prefix map</a>
-    <a><var>prefix map</var></a>, <a>generated namespace prefix index</a> reference to
-    <a><var>prefix index</var></a>, and the flag <a><var>require well-formed</var></a>. If an
+    <li>Return the result of running the <a>XML serialization algorithm</a> given <var>node</var>,
+    <var>namespace</var>, <var>prefix map</var>, <a>generated namespace prefix index</a> reference
+    to <var>prefix index</var>, and the flag <a><var>require well-formed</var></a>. If an
     <dfn data-lt="throw an exception">exception</dfn> occurs during the execution of the algorithm,
     then catch that exception and throw an "<code><a>InvalidStateError</a></code>"
     <code><a>DOMException</a></code>.
   </ol>
 
-  <p>Each of the following algorithms for <dfn>producing an XML serialization of a DOM node</dfn>
-  take as input a <var>node</var> to serialize and the following arguments:
-  <ul>
-    <li>A <a>context namespace</a> <dfn><var>namespace</var></dfn>
-    <li>A <a>namespace prefix map</a> <dfn><var>prefix map</var></dfn>
-    <li>A <a>generated namespace prefix index</a> <dfn><var>prefix index</var></dfn>
-    <li>The <a><var>require well-formed</var></a> flag
-  </ul>
-
-  <p>The <dfn>XML serialization algorithm</dfn>
-  <a data-lt="producing an XML serialization of a DOM node">produces an XML serialization of an arbitrary DOM node</a>
-  <var>node</var> based on the <var>node</var>'s interface type. Each referenced algorithm is
-  to be passed the arguments as they were recieved by the caller and return their result to the
-  caller. Re-throw any exceptions. If <var>node</var>'s interface is:</p>
-
-  <dl class=switch>
-    <dt><code><a>Element</a></code>
-    <dd>Run the algorithm for <a>XML serializing an Element node</a> <var>node</var>.
-
-    <dt><code><a>Document</a></code>
-    <dd>Run the algorithm for <a>XML serializing a Document node</a> <var>node</var>.
-
-    <dt><code><a>Comment</a></code>
-    <dd>Run the algorithm for <a>XML serializing a Comment node</a> <var>node</var>.
-
-    <!--<dt><code><a>CDATASection</a></code>
-    <dd>Run the algorithm for <a>XML serializing a CDATASection node</a> <var>node</var>.-->
-
-    <dt><code><a>Text</a></code>
-    <dd>Run the algorithm for <a>XML serializing a Text node</a> <var>node</var>.
-
-    <dt><code><a>DocumentFragment</a></code>
-    <dd>Run the algorithm for <a>XML serializing a DocumentFragment node</a> <var>node</var>.
-
-    <dt><code><a>DocumentType</a></code>
-    <dd>Run the algorithm for <a>XML serializing a DocumentType node</a> <var>node</var>.
-
-    <dt><code><a>ProcessingInstruction</a></code>
-    <dd>Run the algorithm for <a>XML serializing a ProcessingInstruction node</a> <var>node</var>.
-
-    <dt>An <code><a>Attr</a></code> object
-    <dd>Return the empty string.
-
-    <dt>Anything else
-    <dd>Throw a <a>TypeError</a>. Only <a>Node</a>s and <a>Attr</a> objects can be serialized by
-    this algorithm.
-  </dl>
-
-  Each of the above referenced algorithms are detailed in the sections that follow.
-
-<section><h2><dfn>XML serializing an Element node</dfn></h2>
-
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>Element</a> is as
-  follows:
+  <div class="algorithm">
+  <p>The <dfn>XML serialization algorithm</dfn>, given
+  a {{Node}} |node:Node|,
+  a string |namespace:string|,
+  a [=namespace prefix map=] |prefix map:namespace prefix map|,
+  a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
+  and
+  a <var>require well-formed</var> flag,
+  must run the following steps:
 
   <ol>
-    <li>If the <a><var>require well-formed</var></a> flag is set (its value is true),
+    <li><p>If <var>node</var>'s interface is:</p>
+
+    <dl class=switch>
+      <dt>{{Element}}
+      <dd>Run the algorithm for <a>XML serializing an Element node</a> given |node|, |namespace|,
+        |namespace prefix map|, |prefix index| and <var>require well-formed</var>.
+
+      <dt>{{Document}}
+      <dd>Run the algorithm for <a>XML serializing a Document node</a> given |node|, |namespace|,
+        |namespace prefix map|, |prefix index| and <var>require well-formed</var>.
+
+      <dt>{{Comment}}
+      <dd>Run the algorithm for <a>XML serializing a Comment node</a> given |node| and
+        <var>require well-formed</var>.
+
+      <!--<dt>{{CDATASection}}
+      <dd>Run the algorithm for <a>XML serializing a CDATASection node</a> given |node| and
+        <var>require well-formed</var>.-->
+
+      <dt>{{Text}}
+      <dd>Run the algorithm for <a>XML serializing a Text node</a> given |node| and
+        <var>require well-formed</var>.
+
+      <dt>{{DocumentFragment}}
+      <dd>Run the algorithm for <a>XML serializing a DocumentFragment node</a> given |node|,
+        |namespace|, |namespace prefix map|, |prefix index| and <var>require well-formed</var>.
+
+      <dt>{{DocumentType}}
+      <dd>Run the algorithm for <a>XML serializing a DocumentType node</a> given |node| and
+        <var>require well-formed</var>.
+
+      <dt>{{ProcessingInstruction}}
+      <dd>Run the algorithm for <a>XML serializing a ProcessingInstruction node</a> given |node| and
+        <var>require well-formed</var>.
+
+      <dt>{{Attr}}
+      <dd>Return the empty string.
+
+      <dt>Anything else
+      <dd>Throw a {{TypeError}}. Only {{Node}}s and {{Attr}}s can be serialized by this algorithm.
+    </dl>
+  </ol>
+  </div>
+  Each of the above referenced algorithms are detailed in the sections that follow.
+
+<section><h2>XML serializing an Element node</h2>
+
+  <div class="algorithm">
+  <p>The algorithm for <dfn>XML serializing an Element node</dfn>, given
+  an {{Element}} |node:Element|,
+  a string |namespace:string|,
+  a [=namespace prefix map=] |prefix map:namespace prefix map|,
+  a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
+  and
+  a <var>require well-formed</var> flag,
+  must run the following steps:
+
+  <ol>
+    <li>If the <var>require well-formed</var> flag is set (its value is true),
     and this <var>node</var>'s <code><a>localName</a></code> attribute contains the character
     "<code>:</code>" (U+003A COLON) or does not match the XML <a>Name</a> production, then
     <a>throw an exception</a>; the serialization of this <var>node</var> would not be a well-formed
@@ -423,7 +435,7 @@ dl.domintro::before {
     <li>Let <dfn><var>ignore namespace definition attribute</var></dfn> be a boolean flag with value
     false.
 
-    <li>Given <a><var>prefix map</var></a>, <a>copy a namespace prefix map</a> and let
+    <li>Given <var>prefix map</var>, <a>copy a namespace prefix map</a> and let
     <var>map</var> be the result.
 
     <li>Let <dfn><var>local prefixes map</var></dfn> be an empty map. The map has unique <a>Node</a>
@@ -449,7 +461,7 @@ dl.domintro::before {
     return a <a><var>local default namespace</var></a> value defined by a default namespace attribute if one
     exists. Otherwise it returns null.</p>
 
-    <li>Let <dfn><var>inherited ns</var></dfn> be a copy of <a><var>namespace</var></a>.
+    <li>Let <dfn><var>inherited ns</var></dfn> be a copy of <var>namespace</var>.
 
     <li>Let <var>ns</var> be the value of <var>node</var>'s
     <code><a data-lt="element namespaceURI">namespaceURI</a></code> attribute.
@@ -491,7 +503,7 @@ dl.domintro::before {
       <li>If the value of <var>prefix</var> matches "<code>xmlns</code>", then run the following
       steps:
       <ol>
-        <li>If the <a><var>require well-formed</var></a> flag is set, then throw an error. An
+        <li>If the <var>require well-formed</var> flag is set, then throw an error. An
         <a>Element</a> with <code><a data-lt="element prefix">prefix</a></code> "<code>xmlns</code>"
         will not legally round-trip in a conforming <a>XML parser</a>.
 
@@ -543,7 +555,7 @@ dl.domintro::before {
       <ol>
         <li>If the <a><var>local prefixes map</var></a> contains a key matching <var>prefix</var>,
         then let <var>prefix</var> be the result of <a>generating a prefix</a> providing as input
-        <var>map</var>, <var>ns</var>, and <a>prefix index</a>.
+        <var>map</var>, <var>ns</var>, and <var>prefix index</var>.
 
         <li><a>Add</a> <var>prefix</var> to <var>map</var> given namespace <var>ns</var>.
 
@@ -567,7 +579,7 @@ dl.domintro::before {
           <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
           <li>The result of <a>serializing an attribute value</a> given <var>ns</var> and the
-          <a><var>require well-formed</var></a> flag as input;
+          <var>require well-formed</var> flag as input;
 
           <li>"<code>"</code>" (U+0022 QUOTATION MARK).
         </ol>
@@ -616,7 +628,7 @@ dl.domintro::before {
           <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
           <li>The result of <a>serializing an attribute value</a> given <var>ns</var> and the
-          <a><var>require well-formed</var></a> flag as input;
+          <var>require well-formed</var> flag as input;
 
           <li>"<code>"</code>" (U+0022 QUOTATION MARK).
         </ol>
@@ -635,9 +647,9 @@ dl.domintro::before {
 
     <li>Append to <var>markup</var> the result of the
     <a data-lt="XML serialization of the attributes">XML serialization of <var>node</var>'s attributes</a>
-    given <var>map</var>, <a><var>prefix index</var></a>, <a><var>local prefixes map</var></a>,
+    given <var>map</var>, <var>prefix index</var>, <a><var>local prefixes map</var></a>,
     <a><var>ignore namespace definition attribute</var></a> flag, and
-    <a><var>require well-formed</var></a> flag.
+    <var>require well-formed</var> flag.
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s list of
     <a>children</a> is empty, and the <var>node</var>'s <code><a>localName</a></code> matches any
@@ -682,17 +694,17 @@ dl.domintro::before {
     <code><a>localName</a></code> matches the string "<code>template</code>", then this is a
     <code><a>template</a></code> element. Append to <var>markup</var> the result of
     <a>XML serializing a DocumentFragment node</a> given the <a>template</a> element's
-    <a>template contents</a> (a <code><a>DocumentFragment</a></code>), providing
-    <a><var>inherited ns</var></a>, <var>map</var>, <a><var>prefix index</var></a>, and the
-    <a><var>require well-formed</var></a> flag.
+    <a>template contents</a> (a <code><a>DocumentFragment</a></code>),
+    <a><var>inherited ns</var></a>, <var>map</var>, <var>prefix index</var>, and the
+    <var>require well-formed</var> flag.
 
     <p class=note>This allows <a>template content</a> to round-trip, given the rules for
     <a>parsing XHTML documents</a>.</p>
 
     <li>Otherwise, append to <var>markup</var> the result of running the
     <a>XML serialization algorithm</a> on each of <var>node</var>'s <a>children</a>, in
-    <a>tree order</a>, providing <a><var>inherited ns</var></a>, <var>map</var>,
-    <a><var>prefix index</var></a>, and the <a><var>require well-formed</var></a> flag.
+    <a>tree order</a>, given the child, <a><var>inherited ns</var></a>, <var>map</var>,
+    <var>prefix index</var>, and the <var>require well-formed</var> flag.
 
     <li>Append the following to <var>markup</var>, in the order listed:
     <ol>
@@ -705,6 +717,7 @@ dl.domintro::before {
 
     <li>Return the value of <var>markup</var>.
   </ol>
+  </div>
 
 <section><h2>Recording the namespace</h2>
 
@@ -1078,12 +1091,19 @@ dl.domintro::before {
 
 </section><!-- XML serializing an Element node -->
 
-<section><h2><dfn>XML serializing a Document node</dfn></h2>
+<section><h2>XML serializing a Document node</h2>
 
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>Document</a> is
-  as follows:
+  <div class="algorithm">
+  <p>The algorithm for <dfn>XML serializing a Document node</dfn>, given
+  a {{Document}} |node:Document|,
+  a string |namespace:string|,
+  a [=namespace prefix map=] |prefix map:namespace prefix map|,
+  a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
+  and
+  a <var>require well-formed</var> flag,
+  must run the following steps:
 
-  <p>If the <a><var>require well-formed</var></a> flag is set (its value is true), and this
+  <p>If the <var>require well-formed</var> flag is set (its value is true), and this
   <var>node</var> has no <code><a>documentElement</a></code> (the
   <code><a>documentElement</a></code> attribute's value is null), then
   <a>throw an exception</a>; the serialization of this <var>node</var> would not be a well-formed
@@ -1094,8 +1114,9 @@ dl.domintro::before {
     <li>Let <var>serialized document</var> be the empty string.
 
     <li>For each <a>child</a> <var>child</var> of <var>node</var>, in <a>tree order</a>, run the
-    <a>XML serialization algorithm</a> on the <var>child</var> passing along the provided arguments,
-    and append the result to <var>serialized document</var>.
+    <a>XML serialization algorithm</a> given <var>child</var>, <var>inherited ns</var>,
+    <var>map</var>, <var>prefix index</var>, and <var>require well-formed</var>, and append the
+    result to <var>serialized document</var>.
 
     <p class=note>This will serialize any number of <a>ProcessingInstruction</a> and <a>Comment</a>
     nodes both before and after the <a>Document</a>'s <a>documentElement</a> node, including
@@ -1104,15 +1125,20 @@ dl.domintro::before {
 
     <li>Return the value of <var>serialized document</var>.
   </ol>
+  </div>
 
 </section><!-- XML serializing a Document node -->
 
-<section><h2><dfn>XML serializing a Comment node</dfn></h2>
+<section><h2>XML serializing a Comment node</h2>
 
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>Comment</a> is as
-  follows:
+  <div class="algorithm">
+  <p>The algorithm for <dfn>XML serializing a Comment node</dfn>, given
+  a {{Comment}} |node:Comment|,
+  and
+  a <var>require well-formed</var> flag,
+  must run the following steps:
 
-  <p>If the <a><var>require well-formed</var></a> flag is set (its value is true), and
+  <p>If the <var>require well-formed</var> flag is set (its value is true), and
   <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
   <a>Char</a> production or contains "<code>--</code>" (two adjacent U+002D HYPHEN-MINUS
   characters) or ends with a "<code>-</code>" (U+002D HYPHEN-MINUS) character, then
@@ -1121,14 +1147,19 @@ dl.domintro::before {
 
   <p>Otherwise, return the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
   <code><a>data</a></code>, and "<code>--></code>".
+  </div>
 
 </section><!-- XML serializing a Comment node -->
 
 <!-- Removing CDATA Serialization steps as this interface type is removed from DOM4
-<section><h2><dfn>XML serializing a CDATASection node</dfn></h2>
+<section><h2>XML serializing a CDATASection node</h2>
 
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>CDATASection</a>
-  is as follows:
+  <div class="algorithm">
+  <p>The algorithm for <dfn>XML serializing a CDATASection node</dfn>, given
+  a {{CDATASection}} |node:CDATASection|,
+  and
+  a <var>require well-formed</var> flag,
+  must run the following steps:
 
   <ol>
     <li>Let <var>markup</var> be the concatenation of "<code>&lt;![CDATA[</code>",
@@ -1136,18 +1167,23 @@ dl.domintro::before {
 
     <li>Return the value of <var>markup</var>.
   </ol>
+  </div>
 
   <p class=note>CDATASection objects may be created by the historical
   <code>document.createCDATASection</code> API, or as a result of parsing an <a>XML document</a>.
 </section><!-- XML serializing a CDATASection node -->
 
-<section><h2><dfn>XML serializing a Text node</dfn></h2>
+<section><h2>XML serializing a Text node</h2>
 
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>Text</a> is as
-  follows:
+  <div class="algorithm">
+  <p>The algorithm for <dfn>XML serializing a Text node</dfn>, given
+  a {{Text}} |node:Text|,
+  and
+  a <var>require well-formed</var> flag,
+  must run the following steps:
 
   <ol>
-    <li>If the <a><var>require well-formed</var></a> flag is set (its value is true), and
+    <li>If the <var>require well-formed</var> flag is set (its value is true), and
     <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
     <a>Char</a> production, then <a>throw an exception</a>; the serialization of this
     <var>node</var>'s <code><a>data</a></code> would not be well-formed.
@@ -1165,39 +1201,52 @@ dl.domintro::before {
 
     <li>Return the value of <var>markup</var>.
   </ol>
+  </div>
 
 </section><!-- XML serializing a Text node -->
 
-<section><h2><dfn>XML serializing a DocumentFragment node</dfn></h2>
+<section><h2>XML serializing a DocumentFragment node</h2>
 
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type
-  <a>DocumentFragment</a> is as follows:
+  <div class="algorithm">
+  <p>The algorithm for <dfn>XML serializing a DocumentFragment node</dfn>, given
+  a {{DocumentFragment}} |node:DocumentFragment|,
+  a string |namespace:string|,
+  a [=namespace prefix map=] |prefix map:namespace prefix map|,
+  a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
+  and
+  a <var>require well-formed</var> flag,
+  must run the following steps:
 
   <ol>
     <li>Let <var>markup</var> be the empty string.
 
     <li>For each <a>child</a> <var>child</var> of <var>node</var>, in <a>tree order</a>, run the
-    <a>XML serialization algorithm</a> on the <var>child</var> given <a><var>namespace</var></a>,
-    <a><var>prefix map</var></a>, a reference to <a><var>prefix index</var></a>, and flag
-    <a><var>require well-formed</var></a>. Concatenate the result to <var>markup</var>.
+    <a>XML serialization algorithm</a> given <var>child</var>, <var>namespace</var>,
+    <var>prefix map</var>, a reference to <var>prefix index</var>, and flag
+    <var>require well-formed</var>. Concatenate the result to <var>markup</var>.
 
     <li>Return the value of <var>markup</var>.
   </ol>
+  </div>
 
 </section><!-- XML serializing a DocumentFragment node -->
 
-<section><h2><dfn>XML serializing a DocumentType node</dfn></h2>
+<section><h2>XML serializing a DocumentType node</h2>
 
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type <a>DocumentType</a>
-  is as follows:
+  <div class="algorithm">
+  <p>The algorithm for <dfn>XML serializing a DocumentType node</dfn>, given
+  a {{DocumentType}} |node:DocumentType|,
+  and
+  a <var>require well-formed</var> flag,
+  must run the following steps:
 
   <ol>
-    <li>If the <a><var>require well-formed</var></a> flag is true and the <var>node</var>'s
+    <li>If the <var>require well-formed</var> flag is true and the <var>node</var>'s
     <code><a>publicId</a></code> attribute contains characters that are not matched by the XML
     <a>PubidChar</a> production, then <a>throw an exception</a>; the serialization of this
     <var>node</var> would not be a well-formed document type declaration.
 
-    <li>If the <a><var>require well-formed</var></a> flag is true and the <var>node</var>'s
+    <li>If the <var>require well-formed</var> flag is true and the <var>node</var>'s
     <code><a>systemId</a></code> attribute contains characters that are not matched by the XML
     <a>Char</a> production or that contains both a "<code>"</code>" (U+0022 QUOTATION MARK) and a
     "<code>'</code>" (U+0027 APOSTROPHE), then <a>throw an exception</a>; the serialization of this
@@ -1272,22 +1321,27 @@ dl.domintro::before {
 
     <li>Return the value of <var>markup</var>.
   </ol>
+  </div>
 
 </section><!-- XML serializing a DocumentType node -->
 
-<section><h2><dfn>XML serializing a ProcessingInstruction node</dfn></h2>
+<section><h2>XML serializing a ProcessingInstruction node</h2>
 
-  The algorithm for <a>producing an XML serialization of a DOM node</a> of type
-  <a>ProcessingInstruction</a> is as follows:
+  <div class="algorithm">
+  <p>The algorithm for <dfn>XML serializing a ProcessingInstruction node</dfn>, given
+  a {{ProcessingInstruction}} |node:ProcessingInstruction|,
+  and
+  a <var>require well-formed</var> flag,
+  must run the following steps:
 
   <ol>
-    <li>If the <a><var>require well-formed</var></a> flag is set (its value is true), and
+    <li>If the <var>require well-formed</var> flag is set (its value is true), and
     <var>node</var>'s <code><a>target</a></code> contains a "<code>:</code>" (U+003A COLON)
     character or is an <a>ASCII case-insensitive</a> match for the string "<code>xml</code>", then
     <a>throw an exception</a>; the serialization of this <var>node</var>'s
     <code><a>target</a></code> would not be well-formed.
 
-    <li>If the <a><var>require well-formed</var></a> flag is set (its value is true), and
+    <li>If the <var>require well-formed</var> flag is set (its value is true), and
     <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
     <a>Char</a> production or contains the string "<code>?></code>" (U+003F QUESTION MARK,
     U+003E GREATER-THAN SIGN), then <a>throw an exception</a>; the serialization of this
@@ -1308,6 +1362,7 @@ dl.domintro::before {
 
     <li>Return the value of <var>markup</var>.
   </ol>
+  </div>
 
 </section><!-- XML serializing a ProcessingInstruction node -->
 
@@ -1394,12 +1449,6 @@ dl.domintro::before {
         <dfn><a href="https://www.w3.org/TR/xml/#NT-Name"><code>Name</code></a></dfn> and
         <dfn><a href="https://www.w3.org/TR/xml/#NT-PubidChar"><code>PubidChar</code></a></dfn> productions
     <li><dfn><a href="https://www.w3.org/TR/xml/#dt-eetag">empty-element tag</a></dfn>
-  </ul>
-
-  The ECMAScript [[ECMA-262]] (commonly "JavaScript") specification defines these terms:
-
-  <ul>
-    <li>The <dfn><a href="https://tc39.github.io/ecma262/#sec-error-objects">TypeError</a></dfn> exception
   </ul>
 </section>
 
