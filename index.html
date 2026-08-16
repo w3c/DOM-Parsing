@@ -498,7 +498,7 @@ dl.domintro::before {
         {{Element}} with [=Element/namespace prefix=] "<code>xmlns</code>"
         will not legally round-trip in a conforming <a>XML parser</a>.
 
-        <li>Let <var>candidate prefix</var> be <var>prefix</var>.
+        <li>Set <var>candidate prefix</var> to <var>prefix</var>.
       </ol>
       <!-- Found a suitable prefix to use, either locally, or inherited through a parent node that
       matches the node's namespace. This prefix will be used in serialization even if the node
@@ -547,7 +547,7 @@ dl.domintro::before {
 
       <ol>
         <li>If <var>local prefixes map</var> [=map/contains=] <var>prefix</var>,
-        then let <var>prefix</var> be the result of <a>generating a prefix</a> given
+        then set <var>prefix</var> to the result of <a>generating a prefix</a> given
         <var>map</var>, <var>ns</var>, and <var>prefix index</var>.
 
         <li><a>Add</a> <var>prefix</var> to <var>map</var> given <var>ns</var>.
@@ -601,7 +601,7 @@ dl.domintro::before {
 
         <li>Append <var>node</var>'s [=Element/local name=] to <var>qualified name</var>.
 
-        <li>Let <var>inherited ns</var> be <var>ns</var>.
+        <li>Set <var>inherited ns</var> to <var>ns</var>.
 
         <p class=note>The new default namespace will be used in the serialization to define
         <var>node</var>'s [=Element/namespace=] and act as the context namespace for its
@@ -633,7 +633,7 @@ dl.domintro::before {
       <ol>
         <li>Append <var>node</var>'s [=Element/local name=] to <var>qualified name</var>.
 
-        <li>Let <var>inherited ns</var> be <var>ns</var>.
+        <li>Set <var>inherited ns</var> to <var>ns</var>.
 
         <li>Append <var>qualified name</var> to <var>markup</var>.
       </ol>
@@ -766,8 +766,7 @@ dl.domintro::before {
           if necessary) the element's localname with the reserved "<code>xml</code>" prefix.</p>
 
           <li>If <var>namespace definition</var> is the empty string (the declarative form of
-          having no namespace), then let <var>namespace definition</var> be null
-          instead.
+          having no namespace), then set <var>namespace definition</var> to null.
 
           <li>If <var>prefix definition</var> is <a>found</a> in <var>map</var> given
           <var>namespace definition</var>, then [=iteration/continue=].
@@ -979,14 +978,14 @@ dl.domintro::before {
           empty string, then <a>throw an exception</a>; namespace prefix declarations cannot be used
           to undeclare a namespace (use a default namespace declaration instead).
 
-          <li>If |prefix| is "<code>xmlns</code>", then let <var>candidate prefix</var> be
+          <li>If |prefix| is "<code>xmlns</code>", then set <var>candidate prefix</var> to
           "<code>xmlns</code>".
         </ol>
 
         <li>Otherwise, <var>attribute namespace</var> in not the <a>XMLNS namespace</a>. Run
         these steps:
         <ol>
-          <li>Let <var>candidate prefix</var> be the result of <a>generating a prefix</a> given
+          <li>Set <var>candidate prefix</var> to the result of <a>generating a prefix</a> given
           <var>map</var>, <var>attribute namespace</var>, and <var>prefix index</var>.
 
           <li>Append the following to <var>result</var>, in the order listed:
