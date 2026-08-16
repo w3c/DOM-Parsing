@@ -566,7 +566,7 @@ dl.domintro::before {
           <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
           <li>The result of <a>serializing an attribute value</a> given <var>ns</var> and
-          <var>require well-formed</var> as input;
+          <var>require well-formed</var>;
 
           <li>"<code>"</code>" (U+0022 QUOTATION MARK).
         </ol>
@@ -613,7 +613,7 @@ dl.domintro::before {
           <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
           <li>The result of <a>serializing an attribute value</a> given <var>ns</var> and
-          <var>require well-formed</var> as input;
+          <var>require well-formed</var>;
 
           <li>"<code>"</code>" (U+0022 QUOTATION MARK).
         </ol>
@@ -630,9 +630,8 @@ dl.domintro::before {
       preserving its original [=Element/namespace=].</p>
     </ol>
 
-    <li>Append to <var>markup</var> the result of the
-    <a data-lt="XML serialization of the attributes">XML serialization of <var>node</var>'s attributes</a>
-    given <var>map</var>, <var>prefix index</var>, <var>local prefixes map</var>,
+    <li>Append to <var>markup</var> the result of the [=XML serialization of the attributes=] of
+    <var>node</var> given <var>map</var>, <var>prefix index</var>, <var>local prefixes map</var>,
     <var>ignore namespace definition attribute</var>, and <var>require well-formed</var>.
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and <var>node</var>'s [=tree/children=]
@@ -883,7 +882,7 @@ dl.domintro::before {
 
   <div class="algorithm">
   <p>The <dfn>XML serialization of the attributes</dfn> of an {{Element}}
-  <var>element</var> together with a <a>namespace prefix map</a> <var>map</var>,
+  <var>element</var> given a <a>namespace prefix map</a> <var>map</var>,
   a mutable reference to an integer <var>prefix index</var>,
   an [=ordered map=] <var>local prefixes map</var>,
   a boolean <var>ignore namespace definition attribute</var>, and
@@ -985,8 +984,8 @@ dl.domintro::before {
 
             <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
-            <li>The result of <a>serializing an attribute value</a> given <var>attribute namespace</var>
-            and <var>require well-formed</var> as input;
+            <li>The result of <a>serializing an attribute value</a> given
+            <var>attribute namespace</var> and <var>require well-formed</var>;
 
             <li>"<code>"</code>" (U+0022 QUOTATION MARK).
           </ol>
@@ -1011,7 +1010,7 @@ dl.domintro::before {
         <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
         <li>The result of <a>serializing an attribute value</a> given <var>attr</var>'s
-        [=Attr/value=] and <var>require well-formed</var> as input;
+        [=Attr/value=] and <var>require well-formed</var>;
 
         <li>"<code>"</code>" (U+0022 QUOTATION MARK).
       </ol>
