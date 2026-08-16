@@ -423,7 +423,7 @@ dl.domintro::before {
 
   <ol>
     <li>If <var>require well-formed</var> is true,
-    and this <var>node</var>'s <code><a>localName</a></code> attribute contains the character
+    and this <var>node</var>'s [=Element/local name=] contains the character
     "<code>:</code>" (U+003A COLON) or does not match the XML <a>Name</a> production, then
     <a>throw an exception</a>; the serialization of this <var>node</var> would not be a well-formed
     element.
@@ -474,10 +474,10 @@ dl.domintro::before {
 
       <li>If <var>ns</var> is the <a>XML namespace</a>, then append to
       <var>qualified name</var> the concatenation of the string "<code>xml:</code>" and
-      <var>node</var>'s <code><a>localName</a></code>.
+      <var>node</var>'s [=Element/local name=].
 
       <li>Otherwise, append to <var>qualified name</var> <var>node</var>'s
-      <code><a>localName</a></code>. <span class=note>The <var>node</var>'s
+      [=Element/local name=]. <span class=note>The <var>node</var>'s
       <code><a data-lt="element prefix">prefix</a></code> if it exists, is dropped.</span>
 
       <li>Append <var>qualified name</var> to <var>markup</var>.
@@ -524,8 +524,8 @@ dl.domintro::before {
 
       <ol>
         <li>Append to <var>qualified name</var> the concatenation of
-        <var>candidate prefix</var>, "<code>:</code>" (U+003A COLON), and <var>node</var>'s <code>
-        <a>localName</a></code>. <span class="note">There exists on this <var>node</var> or the
+        <var>candidate prefix</var>, "<code>:</code>" (U+003A COLON), and <var>node</var>'s
+        [=Element/local name=]. <span class="note">There exists on this <var>node</var> or the
         <var>node</var>'s ancestry a namespace prefix definition that defines the <var>node</var>'s
         namespace.</span>
 
@@ -550,7 +550,7 @@ dl.domintro::before {
       <var>prefix</var> otherwise the step labelled <a>Found a suitable namespace prefix</a> would
       have been followed. The sub-steps that follow will create a new namespace prefix declaration
       for <var>prefix</var> and ensure that <var>prefix</var> does not conflict with an existing
-      namespace prefix declaration of the same <code>localName</code> in <var>node</var>'s
+      namespace prefix declaration of the same [=Attr/local name=] in <var>node</var>'s
       <a>attribute list</a>.</p>
 
       <ol>
@@ -561,7 +561,7 @@ dl.domintro::before {
         <li><a>Add</a> <var>prefix</var> to <var>map</var> given namespace <var>ns</var>.
 
         <li>Append to <var>qualified name</var> the concatenation of <var>prefix</var>,
-        "<code>:</code>" (U+003A COLON), and <var>node</var>'s <code><a>localName</a></code>.
+        "<code>:</code>" (U+003A COLON), and <var>node</var>'s [=Element/local name=].
 
         <li>Append <var>qualified name</var> to <var>markup</var>.
 
@@ -604,8 +604,7 @@ dl.domintro::before {
       <ol>
         <li>Set <var>ignore namespace definition attribute</var> to true.
 
-        <li>Append to <var>qualified name</var> <var>node</var>'s
-        <code><a>localName</a></code>.
+        <li>Append to <var>qualified name</var> <var>node</var>'s [=Element/local name=].
 
         <li>Let <var>inherited ns</var> be <var>ns</var>.
 
@@ -637,7 +636,7 @@ dl.domintro::before {
       So, we'll just use that and drop the prefix -->
       <li>Otherwise, the <var>node</var> has a <var>local default namespace</var> that matches
       <var>ns</var>. Append to <var>qualified name</var> <var>node</var>'s
-      <code><a>localName</a></code>, let <var>inherited ns</var> be <var>ns</var>,
+      [=Element/local name=], let <var>inherited ns</var> be <var>ns</var>,
       and append <var>qualified name</var> to <var>markup</var>.
 
       <p class=note>All of the combinations where <var>ns</var> is not equal to
@@ -651,7 +650,7 @@ dl.domintro::before {
     <var>ignore namespace definition attribute</var>, and <var>require well-formed</var>.
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s list of
-    <a>children</a> is empty, and the <var>node</var>'s <code><a>localName</a></code> matches any
+    <a>children</a> is empty, and the <var>node</var>'s [=Element/local name=] matches any
     one of the following <a>void elements</a>:
     "<code>area</code>",
     "<code>base</code>",
@@ -690,7 +689,7 @@ dl.domintro::before {
     steps. The <var>node</var> is a leaf-node.
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s
-    <code><a>localName</a></code> matches the string "<code>template</code>", then this is a
+    [=Element/local name=] matches the string "<code>template</code>", then this is a
     <code><a>template</a></code> element. Append to <var>markup</var> the result of
     <a>XML serializing a DocumentFragment node</a> given the <a>template</a> element's
     <a>template contents</a> (a <code><a>DocumentFragment</a></code>),
@@ -759,8 +758,7 @@ dl.domintro::before {
         <li>Otherwise, the <var>attribute prefix</var> is not null and <var>attr</var>
         is a namespace prefix definition. Run the following steps:
         <ol>
-          <li>Let <var>prefix definition</var> be <var>attr</var>'s
-          <code><a data-lt="attr localName">localName</a></code>.
+          <li>Let <var>prefix definition</var> be <var>attr</var>'s [=Attr/local name=].
 
           <li>Let <var>namespace definition</var> be <var>attr</var>'s
           <code><a>value</a></code>.
@@ -904,10 +902,10 @@ dl.domintro::before {
 
     <li>Let <var>localname set</var> be a new empty <var>namespace localname set</var>. This
     <var>localname set</var> will contain tuples of unique attribute
-    <code><a>namespaceURI</a></code> and <code><a>localName</a></code> pairs, and is populated as
+    <code><a>namespaceURI</a></code> and [=Attr/local name=] pairs, and is populated as
     each <var>attr</var> is processed. <span class="note">This set is used to [optionally] enforce
     the well-formed constraint that an element cannot have two attributes with the same
-    <code><a>namespaceURI</a></code> and <code><a>localName</a></code>. This can occur when two
+    <code><a>namespaceURI</a></code> and [=Attr/local name=]. This can occur when two
     otherwise identical attributes on the same element differ only by their prefix values.</span>
 
     <li><dfn>Loop</dfn>: For each <a>attribute</a> <var>attr</var> in <var>element</var>'s
@@ -917,11 +915,11 @@ dl.domintro::before {
       <li>If <var>require well-formed</var> is true, and the
       <var>localname set</var> contains a tuple whose values match those of a new tuple consisting
       of <var>attr</var>'s <code><a>namespaceURI</a></code> attribute and
-      <code><a>localName</a></code> attribute, then <a>throw an exception</a>; the serialization of
+      [=Attr/local name=], then <a>throw an exception</a>; the serialization of
       this <var>attr</var> would fail to produce a well-formed element serialization.
 
       <li>Create a new tuple consisting of <var>attr</var>'s <code><a>namespaceURI</a></code>
-      attribute and <code><a>localName</a></code> attribute, and add it to the
+      attribute and [=Attr/local name=], and add it to the
       <var>localname set</var>.
 
       <li>Let <var>attribute namespace</var> be <var>attr</var>'s
@@ -956,15 +954,15 @@ dl.domintro::before {
 
             <li>the <var>attr</var>'s <code><a>prefix</a></code> is not null and either
             <ul>
-              <li>the <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code> is
+              <li>the <var>attr</var>'s [=Attr/local name=] is
               not a key contained in the <var>local prefixes map</var>, or
 
-              <li>the <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code> is
+              <li>the <var>attr</var>'s [=Attr/local name=] is
                present in the <var>local prefixes map</var> but the value of the key does not match
                <var>attr</var>'s <code><a>value</a></code>
             </ul>
             and furthermore that the <var>attr</var>'s
-            <code><a data-lt="attr localName">localName</a></code> (as the <var>prefix</var> to
+            [=Attr/local name=] (as the <var>prefix</var> to
             find) is <a>found</a> in <var>map</var> given the namespace consisting
             of the <var>attr</var>'s <code><a>value</a></code> (the current namespace prefix
             definition was exactly defined previously—on an ancestor element not the current
@@ -1020,7 +1018,7 @@ dl.domintro::before {
       the concatenation of <var>candidate prefix</var> with "<code>:</code>" (U+003A COLON).
 
       <li>If <var>require well-formed</var> is true, and this
-      <var>attr</var>'s <code><a>localName</a></code> attribute contains the character
+      <var>attr</var>'s [=Attr/local name=] contains the character
       "<code>:</code>" (U+003A COLON) or does not match the XML <a>Name</a> production or equals
       "<code>xmlns</code>" and <var>attribute namespace</var> is null, then
       <a>throw an exception</a>; the serialization of this <var>attr</var> would not be a
@@ -1028,7 +1026,7 @@ dl.domintro::before {
 
       <li>Append the following strings to <var>result</var>, in the order listed:
       <ol>
-        <li><var>attr</var>'s <code><a data-lt="attr localName">localName</a></code>;
+        <li><var>attr</var>'s [=Attr/local name=];
 
         <li>"<code>="</code>" (U+003D EQUALS SIGN, U+0022 QUOTATION MARK);
 
@@ -1412,7 +1410,6 @@ dl.domintro::before {
       <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-order">tree order</a></dfn>;
     </li>
     <li>The <dfn data-lt="attribute"><a href="https://www.w3.org/TR/dom/#interface-attr">Attr</a></dfn> interface and its
-        <dfn data-lt="attr localName">attr.<a href="https://www.w3.org/TR/dom/#dom-attr-localname">localName</a></dfn>,
         <dfn data-lt="namespaceURI">attr.<a href="https://www.w3.org/TR/dom/#dom-attr-namespaceuri">namespaceURI</a></dfn>,
         <dfn data-lt="prefix">attr.<a href="https://www.w3.org/TR/dom/#dom-attr-prefix">prefix</a></dfn> and
         <dfn data-lt="value">attr.<a href="https://www.w3.org/TR/dom/#dom-attr-value">value</a></dfn> attributes
@@ -1429,7 +1426,6 @@ dl.domintro::before {
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#documentfragment">DocumentFragment</a></dfn> interface
     <li>The <dfn data-lt="Element|Elements"><a href="https://www.w3.org/TR/dom/#element">Element</a></dfn> interface and its
         <dfn data-lt="attributes|attribute list"><a href="https://www.w3.org/TR/dom/#dom-element-attributes">attributes</a></dfn> list,
-        <dfn data-lt="localName">element.<a href="https://www.w3.org/TR/dom/#dom-element-localname">localName</a></dfn>,
         <dfn><a href="https://www.w3.org/TR/dom/#dom-element-setattribute">setAttribute</a></dfn> method
     <li>The <dfn data-lt="Node|Nodes"><a href="https://www.w3.org/TR/dom/#node">Node</a></dfn> interface
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-processinginstruction">ProcessingInstruction</a></dfn> interface and its
