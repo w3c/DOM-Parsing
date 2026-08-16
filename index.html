@@ -422,13 +422,13 @@ dl.domintro::before {
     <a>throw an exception</a>; the serialization of <var>node</var> would not be a well-formed
     element.
 
-    <li>Let <var>markup</var> be "<code>&lt;</code>" (U+003C LESS-THAN SIGN).
+    <li>Let |markup:string| be "<code>&lt;</code>" (U+003C LESS-THAN SIGN).
 
-    <li>Let <var>qualified name</var> be the empty string.
+    <li>Let |qualified name:string| be the empty string.
 
-    <li>Let <var>skip end tag</var> be false.
+    <li>Let |skip end tag:boolean| be false.
 
-    <li>Let <var>ignore namespace definition attribute</var> be false.
+    <li>Let |ignore namespace definition attribute:boolean| be false.
 
     <li>Let |map:namespace prefix map| be the result of <a>copy a namespace prefix map</a> given
     <var>prefix map</var>.
