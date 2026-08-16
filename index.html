@@ -807,11 +807,14 @@ dl.domintro::before {
   <a>copy a namespace prefix map</a> and <a>retrieve a preferred prefix string</a> for additional
   details.</p>
 
+  <div class="algorithm">
   <p>To <dfn>copy a namespace prefix map</dfn> <var>map</var> means to copy the <var>map</var>'s
   keys into a new empty <a>namespace prefix map</a>, and to copy each of the values in the
   <a data-lt="list">namespace prefix list</a> associated with each keys' value into a new
   <a>list</a> which is associated with the respective key in the new map.
+  </div>
 
+  <div class="algorithm">
   <p>To <dfn data-lt="retrieving a preferred prefix string">retrieve a preferred prefix string</dfn>
   <var>preferred prefix</var> from the <a>namespace prefix map</a> <var>map</var> given a namespace
   <var>ns</var>, the user agent must:
@@ -834,7 +837,9 @@ dl.domintro::before {
       these steps and return <var>prefix</var>.
     </ol>
   </ol>
+  </div>
 
+  <div class="algorithm">
   <p>To check if a prefix string <var>prefix</var> is <dfn>found</dfn> in a
   <a>namespace prefix map</a> <var>map</var> given a namespace <var>ns</var>, the user agent must:
 
@@ -846,7 +851,9 @@ dl.domintro::before {
     <li>If the value of <var>prefix</var> occurs at least once in <var>candidates list</var>, return
     true, otherwise return false.
   </ol>
+  </div>
 
+  <div class="algorithm">
   <p>To <dfn>add</dfn> a prefix string <var>prefix</var> to the <a>namespace prefix map</a>
   <var>map</var> given a namespace <var>ns</var>, the user agent must:
 
@@ -862,10 +869,11 @@ dl.domintro::before {
     <li>Otherwise, append <var>prefix</var> to the end of <var>candidates list</var>.
 
     <p class=note>The steps in <a>retrieve a preferred prefix string</a> use the <a>list</a> to
-    track the most recently used (MRU) <var>prefix</var> associated with a given namespace, which
-    will be the <var>prefix</var> at the end of the list. This list can contain duplicates of the
-    same <var>prefix</var> value seen earlier (and that's OK).</p>
+    track the most recently used (MRU) prefix associated with a given namespace, which
+    will be the prefix at the end of the list. This list can contain duplicates of the
+    same prefix value seen earlier (and that's OK).</p>
   </ol>
+  </div>
 
 </section><!-- The Namespace Prefix Map -->
 
