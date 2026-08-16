@@ -318,7 +318,7 @@ dl.domintro::before {
 
   <p class=note>Per [[DOM4]], <code><a>Attr</a></code> objects do not inherit from <a>Node</a>, and
   thus cannot be serialized by the <a>XML serialization algorithm</a>. An attempt to serialize an
-  <a>Attr</a> object will result in an empty string.
+  <a>Attr</a> object will result in the empty string.
 
   <p>To produce an <dfn>XML serialization</dfn> of a <code><a>Node</a></code> <var>node</var> given
   a flag <a><dfn>require well-formed</dfn></a>, run the following steps:
@@ -393,7 +393,7 @@ dl.domintro::before {
     <dd>Run the algorithm for <a>XML serializing a ProcessingInstruction node</a> <var>node</var>.
 
     <dt>An <code><a>Attr</a></code> object
-    <dd>Return an empty string.
+    <dd>Return the empty string.
 
     <dt>Anything else
     <dd>Throw a <a>TypeError</a>. Only <a>Node</a>s and <a>Attr</a> objects can be serialized by
@@ -416,7 +416,7 @@ dl.domintro::before {
 
     <li>Let <var>markup</var> be the string "<code>&lt;</code>" (U+003C LESS-THAN SIGN).
 
-    <li>Let <dfn><var>qualified name</var></dfn> be an empty string.
+    <li>Let <dfn><var>qualified name</var></dfn> be the empty string.
 
     <li>Let <dfn><var>skip end tag</var></dfn> be a boolean flag with value <code>false</code>.
 
@@ -1082,7 +1082,7 @@ dl.domintro::before {
 
   <p>Otherwise, run the following steps:
   <ol>
-    <li>Let <var>serialized document</var> be an empty string.
+    <li>Let <var>serialized document</var> be the empty string.
 
     <li>For each <a>child</a> <var>child</var> of <var>node</var>, in <a>tree order</a>, run the
     <a>XML serialization algorithm</a> on the <var>child</var> passing along the provided arguments,
@@ -1194,7 +1194,7 @@ dl.domintro::before {
     "<code>'</code>" (U+0027 APOSTROPHE), then <a>throw an exception</a>; the serialization of this
     <var>node</var> would not be a well-formed document type declaration.
 
-    <li>Let <var>markup</var> be an empty string.
+    <li>Let <var>markup</var> be the empty string.
 
     <li>Append the string "<code>&lt;!DOCTYPE</code>" to <var>markup</var>.
 
