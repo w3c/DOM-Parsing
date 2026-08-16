@@ -636,7 +636,7 @@ dl.domintro::before {
     <var>ignore namespace definition attribute</var>, and <var>require well-formed</var>.
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and <var>node</var>'s [=tree/children=]
-    is empty, and <var>node</var>'s [=Element/local name=] matches any
+    [=set/is empty=], and <var>node</var>'s [=Element/local name=] matches any
     one of the following <a>void elements</a>:
     "<code>area</code>",
     "<code>base</code>",
@@ -665,8 +665,8 @@ dl.domintro::before {
     </ol>
     and set <var>skip end tag</var> to true.
 
-    <li>If <var>ns</var> is not the <a>HTML namespace</a>, and <var>node</var>'s
-    [=tree/children=] is empty, then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
+    <li>If <var>ns</var> is not the <a>HTML namespace</a>, and <var>node</var>'s [=tree/children=]
+    [=set/is empty=], then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
     and set <var>skip end tag</var> to true.
 
     <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
