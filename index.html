@@ -1078,28 +1078,30 @@ dl.domintro::before {
   a boolean <var>require well-formed</var>,
   must run the following steps:
 
-  <p>If <var>require well-formed</var> is true, and <var>node</var>'s [=document element=] is
-  null, then <a>throw an exception</a>; the serialization of <var>node</var> would not be a
-  well-formed document.
-
-  <p>Otherwise, run the following steps:
   <ol>
-    <li>Let <var>serialized document</var> be the empty string.
+    <li>If <var>require well-formed</var> is true, and <var>node</var>'s [=document element=] is
+    null, then <a>throw an exception</a>; the serialization of <var>node</var> would not be a
+    well-formed document.
 
-    <li>
-      <p>[=set/For each=] <var>child</var> of <var>node</var>'s [=tree/children=]:
-      <ol>
-        <li>Append to <var>serialized document</var> the result of running the
-        <a>XML serialization algorithm</a> given |child|, <var>inherited ns</var>, <var>map</var>,
-        <var>prefix index</var>, and <var>require well-formed</var>.
-      </ol>
+    <li>Otherwise, run the following steps:
+    <ol>
+      <li>Let <var>serialized document</var> be the empty string.
 
-      <p class=note>This will serialize any number of {{ProcessingInstruction}} and {{Comment}}
-      nodes both before and after the [=document element=], including
-      at most one {{DocumentType}} node. ({{Text}} nodes are not allowed as children of the
-      {{Document}}.)</p>
+      <li>
+        <p>[=set/For each=] <var>child</var> of <var>node</var>'s [=tree/children=]:
+        <ol>
+          <li>Append to <var>serialized document</var> the result of running the
+          <a>XML serialization algorithm</a> given |child|, <var>inherited ns</var>, <var>map</var>,
+          <var>prefix index</var>, and <var>require well-formed</var>.
+        </ol>
 
-    <li>Return <var>serialized document</var>.
+        <p class=note>This will serialize any number of {{ProcessingInstruction}} and {{Comment}}
+        nodes both before and after the [=document element=], including
+        at most one {{DocumentType}} node. ({{Text}} nodes are not allowed as children of the
+        {{Document}}.)</p>
+
+      <li>Return <var>serialized document</var>.
+    </ol>
   </ol>
   </div>
 
@@ -1114,14 +1116,16 @@ dl.domintro::before {
   a boolean <var>require well-formed</var>,
   must run the following steps:
 
-  <p>If <var>require well-formed</var> is true, and <var>node</var>'s [=CharacterData/data=]
-  contains characters that are not matched by the XML <a>Char</a> production or contains
-  "<code>--</code>" (two adjacent U+002D HYPHEN-MINUS characters) or ends with a
-  "<code>-</code>" (U+002D HYPHEN-MINUS) character, then <a>throw an exception</a>; the
-  serialization of <var>node</var>'s [=CharacterData/data=] would not be well-formed.
+  <ol>
+    <li>If <var>require well-formed</var> is true, and <var>node</var>'s [=CharacterData/data=]
+    contains characters that are not matched by the XML <a>Char</a> production or contains
+    "<code>--</code>" (two adjacent U+002D HYPHEN-MINUS characters) or ends with a
+    "<code>-</code>" (U+002D HYPHEN-MINUS) character, then <a>throw an exception</a>; the
+    serialization of <var>node</var>'s [=CharacterData/data=] would not be well-formed.
 
-  <p>Otherwise, return the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
-  [=CharacterData/data=], and "<code>--></code>".
+    <li>Otherwise, return the concatenation of "<code>&lt;!--</code>", <var>node</var>'s
+    [=CharacterData/data=], and "<code>--></code>".
+  </ol>
   </div>
 
 </section><!-- XML serializing a Comment node -->
