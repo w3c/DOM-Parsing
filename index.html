@@ -693,10 +693,13 @@ dl.domintro::before {
     <p class=note>This allows <a>template content</a> to round-trip, given the rules for
     <a>parsing XHTML documents</a>.</p>
 
-    <li>Otherwise, append to <var>markup</var> the result of running the
-    <a>XML serialization algorithm</a> on each of <var>node</var>'s <a>children</a>, in
-    <a>tree order</a>, given the child, <var>inherited ns</var>, <var>map</var>,
-    <var>prefix index</var>, and <var>require well-formed</var>.
+    <li>
+      <p>Otherwise, [=set/for each=] <var>child</var> of <var>node</var>'s [=tree/children=]:
+      <ol>
+        <li>Append to <var>markup</var> the result of running the <a>XML serialization algorithm</a>
+        given |child|, <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>, and
+        <var>require well-formed</var>.
+      </ol>
 
     <li>Append the following to <var>markup</var>, in the order listed:
     <ol>
@@ -1101,15 +1104,18 @@ dl.domintro::before {
   <ol>
     <li>Let <var>serialized document</var> be the empty string.
 
-    <li>For each <a>child</a> <var>child</var> of <var>node</var>, in <a>tree order</a>, run the
-    <a>XML serialization algorithm</a> given <var>child</var>, <var>inherited ns</var>,
-    <var>map</var>, <var>prefix index</var>, and <var>require well-formed</var>, and append the
-    result to <var>serialized document</var>.
+    <li>
+      <p>[=set/For each=] <var>child</var> of <var>node</var>'s [=tree/children=]:
+      <ol>
+        <li>Append to <var>serialized document</var> the result of running the
+        <a>XML serialization algorithm</a> given |child|, <var>inherited ns</var>, <var>map</var>,
+        <var>prefix index</var>, and <var>require well-formed</var>.
+      </ol>
 
-    <p class=note>This will serialize any number of {{ProcessingInstruction}} and <a>Comment</a>
-    nodes both before and after the [=document element=], including
-    at most one {{DocumentType}} node. (<a>Text</a> nodes are not allowed as children of the
-    <a>Document</a>.)</p>
+      <p class=note>This will serialize any number of {{ProcessingInstruction}} and <a>Comment</a>
+      nodes both before and after the [=document element=], including
+      at most one {{DocumentType}} node. (<a>Text</a> nodes are not allowed as children of the
+      <a>Document</a>.)</p>
 
     <li>Return <var>serialized document</var>.
   </ol>
@@ -1207,10 +1213,13 @@ dl.domintro::before {
   <ol>
     <li>Let <var>markup</var> be the empty string.
 
-    <li>For each <a>child</a> <var>child</var> of <var>node</var>, in <a>tree order</a>, run the
-    <a>XML serialization algorithm</a> given <var>child</var>, <var>namespace</var>,
-    <var>prefix map</var>, a reference to <var>prefix index</var>, and
-    <var>require well-formed</var>. Concatenate the result to <var>markup</var>.
+    <li>
+      <p>[=set/For each=] <var>child</var> of <var>node</var>'s [=tree/children=]:
+      <ol>
+        <li>Append to <var>markup</var> the result of running the <a>XML serialization algorithm</a>
+        given |child|, <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>, and
+        <var>require well-formed</var>.
+      </ol>
 
     <li>Return <var>markup</var>.
   </ol>
@@ -1388,7 +1397,6 @@ dl.domintro::before {
       <dfn><a href="https://www.w3.org/TR/dom/#ascii-case-insensitive">ASCII case-insensitive</a></dfn> string comparisons;
       a node's <dfn data-lt="child|child nodes"><a href="https://www.w3.org/TR/dom/#concept-tree-child">children</a></dfn>,
       a <dfn><a href="https://www.w3.org/TR/dom/#html-document">HTML document</a></dfn>;
-      <dfn><a href="https://www.w3.org/TR/dom/#concept-tree-order">tree order</a></dfn>;
     </li>
     <li>The <dfn data-lt="attribute"><a href="https://www.w3.org/TR/dom/#interface-attr">Attr</a></dfn> interface
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-comment">Comment</a></dfn> interface
