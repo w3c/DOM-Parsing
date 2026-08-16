@@ -430,17 +430,17 @@ dl.domintro::before {
 
     <li>Let <var>markup</var> be the string "<code>&lt;</code>" (U+003C LESS-THAN SIGN).
 
-    <li>Let <dfn><var>qualified name</var></dfn> be the empty string.
+    <li>Let <var>qualified name</var> be the empty string.
 
-    <li>Let <dfn><var>skip end tag</var></dfn> be a boolean flag with value false.
+    <li>Let <var>skip end tag</var> be a boolean flag with value false.
 
-    <li>Let <dfn><var>ignore namespace definition attribute</var></dfn> be a boolean flag with value
+    <li>Let <var>ignore namespace definition attribute</var> be a boolean flag with value
     false.
 
     <li>Given <var>prefix map</var>, <a>copy a namespace prefix map</a> and let
     <var>map</var> be the result.
 
-    <li>Let <dfn><var>local prefixes map</var></dfn> be an empty map. The map has unique <a>Node</a>
+    <li>Let <var>local prefixes map</var> be an empty map. The map has unique <a>Node</a>
     <code>prefix</code> strings as its keys, with corresponding <code>namespaceURI</code>
     <a>Node</a> values as the map's key values (in this map, the null namespace is
     represented by the empty string).
@@ -454,37 +454,37 @@ dl.domintro::before {
     <a>namespace prefix map</a> that might be locally-defined (to the current <a>Element</a>) and
     one that is not.</p>
 
-    <li>Let <dfn><var>local default namespace</var></dfn> be the result of
+    <li>Let <var>local default namespace</var> be the result of
     <a>recording the namespace information</a> for <var>node</var> given <var>map</var> and
-    <a><var>local prefixes map</var></a>.
+    <var>local prefixes map</var>.
 
     <p class="note">The above step will update <var>map</var> with any found namespace prefix
-    definitions, add the found prefix definitions to the <a><var>local prefixes map</var></a> and
-    return a <a><var>local default namespace</var></a> value defined by a default namespace attribute if one
+    definitions, add the found prefix definitions to the <var>local prefixes map</var> and
+    return a <var>local default namespace</var> value defined by a default namespace attribute if one
     exists. Otherwise it returns null.</p>
 
-    <li>Let <dfn><var>inherited ns</var></dfn> be a copy of <var>namespace</var>.
+    <li>Let <var>inherited ns</var> be a copy of <var>namespace</var>.
 
     <li>Let <var>ns</var> be the value of <var>node</var>'s
     <code><a data-lt="element namespaceURI">namespaceURI</a></code> attribute.
 
-    <li>If <a><var>inherited ns</var></a> is equal to <var>ns</var>, then:
+    <li>If <var>inherited ns</var> is equal to <var>ns</var>, then:
     <ol>
-      <li>If <a><var>local default namespace</var></a> is not null, then set
-      <a><var>ignore namespace definition attribute</var></a> to true.
+      <li>If <var>local default namespace</var> is not null, then set
+      <var>ignore namespace definition attribute</var> to true.
 
       <li>If <var>ns</var> is the <a>XML namespace</a>, then append to
-      <a><var>qualified name</var></a> the concatenation of the string "<code>xml:</code>" and the
+      <var>qualified name</var> the concatenation of the string "<code>xml:</code>" and the
       value of <var>node</var>'s <code><a>localName</a></code>.
 
-      <li>Otherwise, append to <a><var>qualified name</var></a> the value of <var>node</var>'s
+      <li>Otherwise, append to <var>qualified name</var> the value of <var>node</var>'s
       <code><a>localName</a></code>. <span class=note>The <var>node</var>'s
       <code><a data-lt="element prefix">prefix</a></code> if it exists, is dropped.</span>
 
-      <li>Append the value of <a><var>qualified name</var></a> to <var>markup</var>.
+      <li>Append the value of <var>qualified name</var> to <var>markup</var>.
     </ol>
 
-    <li>Otherwise, <a><var>inherited ns</var></a> is not equal to <var>ns</var> (the <var>node</var>'s
+    <li>Otherwise, <var>inherited ns</var> is not equal to <var>ns</var> (the <var>node</var>'s
     own namespace is different from the context namespace of its parent). Run these sub-steps:
     <!-- The serialization algorithm must differentiate this node's namespace from it's parent's
     default namespace. There are two ways to do this: (1) [preferred due to assumed minimum length]
@@ -524,24 +524,24 @@ dl.domintro::before {
       prefix if possible.</p>
 
       <ol>
-        <li>Append to <a><var>qualified name</var></a> the concatenation of
+        <li>Append to <var>qualified name</var> the concatenation of
         <var>candidate prefix</var>, "<code>:</code>" (U+003A COLON), and <var>node</var>'s <code>
         <a>localName</a></code>. <span class="note">There exists on this <var>node</var> or the
         <var>node</var>'s ancestry a namespace prefix definition that defines the <var>node</var>'s
         namespace.</span>
 
-        <li>If the <a><var>local default namespace</var></a> is not null (there exists
+        <li>If the <var>local default namespace</var> is not null (there exists
         a locally-defined default namespace declaration attribute) and its value is not the
-        <a>XML namespace</a>, then let <a><var>inherited ns</var></a> get the value of
-        <a><var>local default namespace</var></a> unless the
-        <a><var>local default namespace</var></a> is the empty string in which case let it get
+        <a>XML namespace</a>, then let <var>inherited ns</var> get the value of
+        <var>local default namespace</var> unless the
+        <var>local default namespace</var> is the empty string in which case let it get
         null (the <a>context namespace</a> is changed to the declared default, rather
         than this <var>node</var>'s own namespace).
 
         <p class=note>Any default namespace definitions or namespace prefixes that define the
         <a>XML namespace</a> are omitted when serializing this node's attributes.</p>
 
-        <li>Append the value of <a><var>qualified name</var></a> to <var>markup</var>.
+        <li>Append the value of <var>qualified name</var> to <var>markup</var>.
       </ol>
 
       <li>Otherwise, if <var>prefix</var> is not null, then:
@@ -555,16 +555,16 @@ dl.domintro::before {
       <a>attribute list</a>.</p>
 
       <ol>
-        <li>If the <a><var>local prefixes map</var></a> contains a key matching <var>prefix</var>,
+        <li>If the <var>local prefixes map</var> contains a key matching <var>prefix</var>,
         then let <var>prefix</var> be the result of <a>generating a prefix</a> providing as input
         <var>map</var>, <var>ns</var>, and <var>prefix index</var>.
 
         <li><a>Add</a> <var>prefix</var> to <var>map</var> given namespace <var>ns</var>.
 
-        <li>Append to <a><var>qualified name</var></a> the concatenation of <var>prefix</var>,
+        <li>Append to <var>qualified name</var> the concatenation of <var>prefix</var>,
         "<code>:</code>" (U+003A COLON), and <var>node</var>'s <code><a>localName</a></code>.
 
-        <li>Append the value of <a><var>qualified name</var></a> to <var>markup</var>.
+        <li>Append the value of <var>qualified name</var> to <var>markup</var>.
 
         <li>Append the following to <var>markup</var>, in the order listed:
 
@@ -586,15 +586,15 @@ dl.domintro::before {
           <li>"<code>"</code>" (U+0022 QUOTATION MARK).
         </ol>
 
-        <li>If <a><var>local default namespace</var></a> is not null (there exists a
+        <li>If <var>local default namespace</var> is not null (there exists a
         locally-defined default namespace declaration attribute), then let
-        <a><var>inherited ns</var></a> get the value of <a><var>local default namespace</var></a>
-        unless the <a><var>local default namespace</var></a> is the empty string in which case let
+        <var>inherited ns</var> get the value of <var>local default namespace</var>
+        unless the <var>local default namespace</var> is the empty string in which case let
         it get null.
       </ol>
 
-      <li>Otherwise, if <a><var>local default namespace</var></a> is null, or
-      <a><var>local default namespace</var></a> is not null and its value is not equal
+      <li>Otherwise, if <var>local default namespace</var> is null, or
+      <var>local default namespace</var> is not null and its value is not equal
       to <var>ns</var>, then:
 
       <p class=note>At this point, the namespace for this node still needs to be serialized, but
@@ -603,19 +603,19 @@ dl.domintro::before {
       default declaration if present.</p>
 
       <ol>
-        <li>Set the <a><var>ignore namespace definition attribute</var></a> flag to
+        <li>Set the <var>ignore namespace definition attribute</var> flag to
         true.
 
-        <li>Append to <a><var>qualified name</var></a> the value of <var>node</var>'s
+        <li>Append to <var>qualified name</var> the value of <var>node</var>'s
         <code><a>localName</a></code>.
 
-        <li>Let the value of <a><var>inherited ns</var></a> be <var>ns</var>.
+        <li>Let the value of <var>inherited ns</var> be <var>ns</var>.
 
         <p class=note>The new default namespace will be used in the serialization to define this
         <var>node</var>'s namespace and act as the <a>context namespace</a> for its
         <a>children</a>.</p>
 
-        <li>Append the value of <a><var>qualified name</var></a> to <var>markup</var>.
+        <li>Append the value of <var>qualified name</var> to <var>markup</var>.
 
         <li>Append the following to <var>markup</var>, in the order listed:
 
@@ -637,20 +637,20 @@ dl.domintro::before {
       </ol>
       <!-- Finally, regardless of prefix, the node has a local default namespace that matches 'ns'.
       So, we'll just use that and drop the prefix -->
-      <li>Otherwise, the <var>node</var> has a <a><var>local default namespace</var></a> that matches
-      <var>ns</var>. Append to <a><var>qualified name</var></a> the value of <var>node</var>'s
-      <code><a>localName</a></code>, let the value of <a><var>inherited ns</var></a> be <var>ns</var>,
-      and append the value of <a><var>qualified name</var></a> to <var>markup</var>.
+      <li>Otherwise, the <var>node</var> has a <var>local default namespace</var> that matches
+      <var>ns</var>. Append to <var>qualified name</var> the value of <var>node</var>'s
+      <code><a>localName</a></code>, let the value of <var>inherited ns</var> be <var>ns</var>,
+      and append the value of <var>qualified name</var> to <var>markup</var>.
 
       <p class=note>All of the combinations where <var>ns</var> is not equal to
-      <a><var>inherited ns</var></a> are handled above such that <var>node</var> will be serialized
+      <var>inherited ns</var> are handled above such that <var>node</var> will be serialized
       preserving its original <code><a data-lt="element namespaceURI">namespaceURI</a></code>.</p>
     </ol>
 
     <li>Append to <var>markup</var> the result of the
     <a data-lt="XML serialization of the attributes">XML serialization of <var>node</var>'s attributes</a>
-    given <var>map</var>, <var>prefix index</var>, <a><var>local prefixes map</var></a>,
-    <a><var>ignore namespace definition attribute</var></a> flag, and
+    given <var>map</var>, <var>prefix index</var>, <var>local prefixes map</var>,
+    <var>ignore namespace definition attribute</var> flag, and
     <var>require well-formed</var> flag.
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s list of
@@ -681,15 +681,15 @@ dl.domintro::before {
 
       <li>"<code>/</code>" (U+002F SOLIDUS).
     </ol>
-    and set the <a><var>skip end tag</var></a> flag to true.
+    and set the <var>skip end tag</var> flag to true.
 
     <li>If <var>ns</var> is not the <a>HTML namespace</a>, and the <var>node</var>'s list of
     <a>children</a> is empty, then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
-    and set the <a><var>skip end tag</var></a> flag to true.
+    and set the <var>skip end tag</var> flag to true.
 
     <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
 
-    <li>If the value of <a><var>skip end tag</var></a> is true, then return the value of
+    <li>If the value of <var>skip end tag</var> is true, then return the value of
     <var>markup</var> and skip the remaining steps. The <var>node</var> is a leaf-node.
 
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s
@@ -697,7 +697,7 @@ dl.domintro::before {
     <code><a>template</a></code> element. Append to <var>markup</var> the result of
     <a>XML serializing a DocumentFragment node</a> given the <a>template</a> element's
     <a>template contents</a> (a <code><a>DocumentFragment</a></code>),
-    <a><var>inherited ns</var></a>, <var>map</var>, <var>prefix index</var>, and the
+    <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>, and the
     <var>require well-formed</var> flag.
 
     <p class=note>This allows <a>template content</a> to round-trip, given the rules for
@@ -705,14 +705,14 @@ dl.domintro::before {
 
     <li>Otherwise, append to <var>markup</var> the result of running the
     <a>XML serialization algorithm</a> on each of <var>node</var>'s <a>children</a>, in
-    <a>tree order</a>, given the child, <a><var>inherited ns</var></a>, <var>map</var>,
+    <a>tree order</a>, given <var>inherited ns</var>, <var>map</var>,
     <var>prefix index</var>, and the <var>require well-formed</var> flag.
 
     <li>Append the following to <var>markup</var>, in the order listed:
     <ol>
       <li>"<code>&lt;/</code>" (U+003C LESS-THAN SIGN, U+002F SOLIDUS);
 
-      <li>The value of <a><var>qualified name</var></a>;
+      <li>The value of <var>qualified name</var>;
 
       <li>"<code>&gt;</code>" (U+003E GREATER-THAN SIGN).
     </ol>
@@ -960,10 +960,10 @@ dl.domintro::before {
             <li>the <var>attr</var>'s <code><a>prefix</a></code> is not null and either
             <ul>
               <li>the <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code> is
-              not a key contained in the <a>local prefixes map</a>, or
+              not a key contained in the <var>local prefixes map</var>, or
 
               <li>the <var>attr</var>'s <code><a data-lt="attr localName">localName</a></code> is
-               present in the <a>local prefixes map</a> but the value of the key does not match
+               present in the <var>local prefixes map</var> but the value of the key does not match
                <var>attr</var>'s <code><a>value</a></code>
             </ul>
             and furthermore that the <var>attr</var>'s
