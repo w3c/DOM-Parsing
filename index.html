@@ -731,8 +731,8 @@ dl.domintro::before {
 
     <p class="note">The following conditional steps find namespace prefixes. Only attributes
     in the <a>XMLNS namespace</a> are considered (e.g., attributes made to look like namespace
-    declarations via <code><a>setAttribute</a>(<em>"xmlns:pretend-prefix"</em>,
-    <em>"pretend-namespace"</em>)</code> are not included).</p>
+    declarations via {{Element/setAttribute(qualifiedName,
+    value)|setAttribute("xmlns:pretend-prefix", "pretend-namespace")}} are not included).</p>
 
     <ol>
       <li>Let <var>attribute namespace</var> be <var>attr</var>'s [=Attr/namespace=].
@@ -1395,7 +1395,6 @@ dl.domintro::before {
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#documentfragment">DocumentFragment</a></dfn> interface
     <li>The <dfn data-lt="Element|Elements"><a href="https://www.w3.org/TR/dom/#element">Element</a></dfn> interface and its
         <dfn data-lt="attributes|attribute list"><a href="https://www.w3.org/TR/dom/#dom-element-attributes">attributes</a></dfn> list,
-        <dfn><a href="https://www.w3.org/TR/dom/#dom-element-setattribute">setAttribute</a></dfn> method
     <li>The <dfn data-lt="Node|Nodes"><a href="https://www.w3.org/TR/dom/#node">Node</a></dfn> interface
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#range">Range</a></dfn> interface
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-text">Text</a></dfn> interface
