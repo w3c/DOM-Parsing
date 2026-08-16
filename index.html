@@ -1111,7 +1111,7 @@ dl.domintro::before {
 
     <p class=note>This will serialize any number of <a>ProcessingInstruction</a> and <a>Comment</a>
     nodes both before and after the [=document element=], including
-    at most one <a>DocumentType</a> node. (<a>Text</a> nodes are not allowed as children of the
+    at most one {{DocumentType}} node. (<a>Text</a> nodes are not allowed as children of the
     <a>Document</a>.)</p>
 
     <li>Return <var>serialized document</var>.
@@ -1232,16 +1232,16 @@ dl.domintro::before {
   must run the following steps:
 
   <ol>
-    <li>If <var>require well-formed</var> is true and the <var>node</var>'s
-    <code><a>publicId</a></code> attribute contains characters that are not matched by the XML
-    <a>PubidChar</a> production, then <a>throw an exception</a>; the serialization of this
-    <var>node</var> would not be a well-formed document type declaration.
+    <li>If <var>require well-formed</var> is true, and <var>node</var>'s [=DocumentType/public ID=]
+    contains characters that are not matched by the XML <a>PubidChar</a> production, then
+    <a>throw an exception</a>; the serialization of this <var>node</var> would not be a well-formed
+    document type declaration.
 
-    <li>If <var>require well-formed</var> is true and the <var>node</var>'s
-    <code><a>systemId</a></code> attribute contains characters that are not matched by the XML
-    <a>Char</a> production or that contains both a "<code>"</code>" (U+0022 QUOTATION MARK) and a
-    "<code>'</code>" (U+0027 APOSTROPHE), then <a>throw an exception</a>; the serialization of this
-    <var>node</var> would not be a well-formed document type declaration.
+    <li>If <var>require well-formed</var> is true, and <var>node</var>'s [=DocumentType/system ID=]
+    contains characters that are not matched by the XML <a>Char</a> production or that contains
+    both a "<code>"</code>" (U+0022 QUOTATION MARK) and a "<code>'</code>" (U+0027 APOSTROPHE),
+    then <a>throw an exception</a>; the serialization of this <var>node</var> would not be a
+    well-formed document type declaration.
 
     <li>Let <var>markup</var> be the empty string.
 
@@ -1249,11 +1249,10 @@ dl.domintro::before {
 
     <li>Append "<code> </code>" (U+0020 SPACE) to <var>markup</var>.
 
-    <li>Append the <var>node</var>'s <code><a data-lt="doctype name">name</a></code>
-    attribute to <var>markup</var>. For a <var>node</var> belonging to an <a>HTML document</a>, the
-    value will be all lowercase.
+    <li>Append <var>node</var>'s [=DocumentType/name=] to <var>markup</var>. For a <var>node</var>
+    belonging to an <a>HTML document</a>, the value will be all lowercase.
 
-    <li>If the <var>node</var>'s <code><a>publicId</a></code> is not the empty string then append
+    <li>If <var>node</var>'s [=DocumentType/public ID=] is not the empty string, then append
     the following, in the order listed, to <var>markup</var>:
     <ol>
       <li>"<code> </code>" (U+0020 SPACE);
@@ -1264,13 +1263,13 @@ dl.domintro::before {
 
       <li>"<code>"</code>" (U+0022 QUOTATION MARK);
 
-      <li>the <var>node</var>'s <code><a>publicId</a></code> attribute;
+      <li><var>node</var>'s [=DocumentType/public ID=];
 
       <li>"<code>"</code>" (U+0022 QUOTATION MARK).
     </ol>
 
-    <li>If the <var>node</var>'s <code><a>systemId</a></code> is not the empty string and the
-    <var>node</var>'s <code><a>publicId</a></code> is set to the empty string, then append the
+    <li>If <var>node</var>'s [=DocumentType/system ID=] is not the empty string and
+    <var>node</var>'s [=DocumentType/public ID=] is the empty string, then append the
     following, in the order listed, to <var>markup</var>:
     <ol>
       <li>"<code> </code>" (U+0020 SPACE);
@@ -1278,14 +1277,14 @@ dl.domintro::before {
       <li>The string "<code>SYSTEM</code>".
     </ol>
 
-    <li>If the <var>node</var>'s <code><a>systemId</a></code> is not the empty string then append
+    <li>If <var>node</var>'s [=DocumentType/system ID=] is not the empty string, then append
     the following, in the order listed, to <var>markup</var>:
     <ol>
       <li>"<code> </code>" (U+0020 SPACE);
 
       <li>"<code>"</code>" (U+0022 QUOTATION MARK);
 
-      <li>the <var>node</var>'s <code><a>systemId</a></code> attribute;
+      <li><var>node</var>'s [=DocumentType/system ID=];
 
       <li>"<code>"</code>" (U+0022 QUOTATION MARK).
     </ol>
@@ -1400,11 +1399,6 @@ dl.domintro::before {
     <li>The CharacterData interface's <dfn><a href="https://www.w3.org/TR/dom/#dom-characterdata-data">data</a></dfn> attribute
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-comment">Comment</a></dfn> interface
 <!--<li>The <dfn><a href="https://www.w3.org/TR/dom/#cdata">CDATASection</a></dfn> interface-->
-    <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-documenttype">DocumentType</a></dfn> interface and its
-        <dfn data-lt="doctype name">doctype.<a href="https://www.w3.org/TR/dom/#dom-documenttype-name">name</a></dfn>,
-    <!--<dfn><a href="https://www.w3.org/TR/dom/#dom-documenttype-internalSubset">internalSubset</a></dfn>,-->
-        <dfn><a href="https://www.w3.org/TR/dom/#dom-documenttype-publicid">publicId</a></dfn> and
-        <dfn><a href="https://www.w3.org/TR/dom/#dom-documenttype-systemid">systemId</a></dfn> attributes
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#documentfragment">DocumentFragment</a></dfn> interface
     <li>The <dfn data-lt="Element|Elements"><a href="https://www.w3.org/TR/dom/#element">Element</a></dfn> interface and its
         <dfn data-lt="attributes|attribute list"><a href="https://www.w3.org/TR/dom/#dom-element-attributes">attributes</a></dfn> list,
