@@ -489,7 +489,7 @@ dl.domintro::before {
       <code><a data-lt="element prefix">prefix</a></code> attribute.
 
       <li>Let <var>candidate prefix</var> be the result of
-      <a>retrieving a preferred prefix string</a> <var>prefix</var> from <var>map</var></a> given
+      <a>retrieving a preferred prefix string</a> <var>prefix</var> from <var>map</var> given
       namespace <var>ns</var>.
 
       <p class=note>The above may return <code>null</code> if no namespace key <var>ns</var> exists
@@ -591,8 +591,8 @@ dl.domintro::before {
       to <var>ns</var>, then:
 
       <p class=note>At this point, the namespace for this node still needs to be serialized, but
-      there's no <code>prefix</code> (or <var>candidate prefix</var>) availble; the following uses
-      the default namespace declaration to define the namespace--optionally replacing an existing
+      there's no <code>prefix</code> (or <var>candidate prefix</var>) available; the following uses
+      the default namespace declaration to define the namespace—optionally replacing an existing
       default declaration if present.</p>
 
       <ol>
@@ -693,7 +693,7 @@ dl.domintro::before {
     <a><var>inherited ns</var></a>, <var>map</var>, <a><var>prefix index</var></a>, and the
     <a><var>require well-formed</var></a> flag.
 
-    <p class=note>This allows <a>template content</a> to round-trip , given the rules for
+    <p class=note>This allows <a>template content</a> to round-trip, given the rules for
     <a>parsing XHTML documents</a>.</p>
 
     <li>Otherwise, append to <var>markup</var> the result of running the
@@ -951,7 +951,7 @@ dl.domintro::before {
             <code><a data-lt="attr localName">localName</a></code> (as the <var>prefix</var> to
             find) is <a>found</a> in the <a>namespace prefix map</a> given the namespace consisting
             of the <var>attr</var>'s <code><a>value</a></code> (the current namespace prefix
-            definition was exactly defined previously--on an ancestor element not the current
+            definition was exactly defined previously—on an ancestor element not the current
             element whose attributes are being processed).
           </ul>
 
@@ -969,7 +969,7 @@ dl.domintro::before {
           then throw an exception; namespace prefix declarations cannot be used to undeclare a
           namespace (use a default namespace declaration instead).
 
-          <li>the <var>attr</var>'s <code><a>prefix</a></code> matches the string
+          <li>If the <var>attr</var>'s <code><a>prefix</a></code> matches the string
           "<code>xmlns</code>", then let <var>candidate prefix</var> be the string
           "<code>xmlns</code>".
         </ol>
@@ -1113,7 +1113,7 @@ dl.domintro::before {
   <p>If the <a><var>require well-formed</var></a> flag is set (its value is <code>true</code>), and
   <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
   <a>Char</a> production or contains "<code>--</code>" (two adjacent U+002D HYPHEN-MINUS
-  characters) or that ends with a "<code>-</code>" (U+002D HYPHEN-MINUS) character, then
+  characters) or ends with a "<code>-</code>" (U+002D HYPHEN-MINUS) character, then
   <a>throw an exception</a>; the serialization of this <var>node</var>'s <code><a>data</a></code>
   would not be well-formed.
 
@@ -1172,7 +1172,7 @@ dl.domintro::before {
   <a>DocumentFragment</a> is as follows:
 
   <ol>
-    <li>Let <var>markup</var> the empty string.
+    <li>Let <var>markup</var> be the empty string.
 
     <li>For each <a>child</a> <var>child</var> of <var>node</var>, in <a>tree order</a>, run the
     <a>XML serialization algorithm</a> on the <var>child</var> given <a><var>namespace</var></a>,
