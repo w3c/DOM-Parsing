@@ -865,12 +865,16 @@ dl.domintro::before {
 
     <li>[=Assert=]: <var>candidates</var> [=list/is not empty=].</li>
 
-    <li>[=list/For each=] <var>prefix</var> of <var>candidates</var>:
-
+    <li>
+      <p>If <var>prefix</var> is not null, then:
       <ol>
-        <li>If <var>prefix</var> is <var>preferred prefix</var>, return <var>prefix</var>.
-      </ol>
+        <li>
+          <p>[=list/For each=] <var>prefix</var> of <var>candidates</var>:
 
+          <ol>
+            <li>If <var>prefix</var> is <var>preferred prefix</var>, return <var>prefix</var>.
+          </ol>
+      </ol>
     <li>Return <var>candidates</var>[[=list/size=] of <var>candidates</var> - 1].
   </ol>
   </div>
