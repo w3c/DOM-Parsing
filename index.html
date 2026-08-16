@@ -306,15 +306,15 @@ dl.domintro::before {
     might be dropped, substituted or changed. An HTML serialization does not attempt to
     preserve the namespace.
 
-    <li><a>Elements</a> not in the <a>HTML namespace</a> containing no <a>children</a>, are
+    <li><a>Elements</a> not in the <a>HTML namespace</a> containing no [=tree/children=], are
     serialized using the <a>empty-element tag</a> syntax (i.e., according to the XML
     <a>EmptyElemTag</a> production).
   </ul>
 
   <p>Otherwise, the algorithm for producing an <a>XML serialization</a> is designed to produce a
   serialization that is compatible with the <a>HTML parser</a>. For example, elements in the
-  <a>HTML namespace</a> that contain no <a>child nodes</a> are serialized with an explicit begin and end
-  tag rather than using the <a>empty-element tag</a> syntax.
+  <a>HTML namespace</a> that contain no [=tree/children=] are serialized with an explicit begin and
+  end tag rather than using the <a>empty-element tag</a> syntax.
 
   <p class=note>Per [[DOM4]], <code><a>Attr</a></code> objects do not inherit from <a>Node</a>, and
   thus cannot be serialized by the <a>XML serialization algorithm</a>. An attempt to serialize an
@@ -604,7 +604,7 @@ dl.domintro::before {
 
         <p class=note>The new default namespace will be used in the serialization to define this
         <var>node</var>'s [=Element/namespace=] and act as the <a>context namespace</a> for its
-        <a>children</a>.</p>
+        [=tree/children=].</p>
 
         <li>Append <var>qualified name</var> to <var>markup</var>.
 
@@ -643,8 +643,8 @@ dl.domintro::before {
     given <var>map</var>, <var>prefix index</var>, <var>local prefixes map</var>,
     <var>ignore namespace definition attribute</var>, and <var>require well-formed</var>.
 
-    <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s list of
-    <a>children</a> is empty, and the <var>node</var>'s [=Element/local name=] matches any
+    <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s [=tree/children=]
+    is empty, and the <var>node</var>'s [=Element/local name=] matches any
     one of the following <a>void elements</a>:
     "<code>area</code>",
     "<code>base</code>",
@@ -673,8 +673,8 @@ dl.domintro::before {
     </ol>
     and set <var>skip end tag</var> to true.
 
-    <li>If <var>ns</var> is not the <a>HTML namespace</a>, and the <var>node</var>'s list of
-    <a>children</a> is empty, then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
+    <li>If <var>ns</var> is not the <a>HTML namespace</a>, and the <var>node</var>'s
+    [=tree/children=] is empty, then append "<code>/</code>" (U+002F SOLIDUS) to <var>markup</var>
     and set <var>skip end tag</var> to true.
 
     <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
@@ -1392,7 +1392,6 @@ dl.domintro::before {
     <li>The following concepts:
       <dfn><a href="https://www.w3.org/TR/dom/#case-sensitive">case-sensitive</a></dfn> and
       <dfn><a href="https://www.w3.org/TR/dom/#ascii-case-insensitive">ASCII case-insensitive</a></dfn> string comparisons;
-      a node's <dfn data-lt="child|child nodes"><a href="https://www.w3.org/TR/dom/#concept-tree-child">children</a></dfn>
     </li>
     <li>The <dfn data-lt="attribute"><a href="https://www.w3.org/TR/dom/#interface-attr">Attr</a></dfn> interface
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-comment">Comment</a></dfn> interface
