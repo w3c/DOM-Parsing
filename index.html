@@ -519,9 +519,13 @@ dl.domintro::before {
 
         <li>If <var>local default namespace</var> is not null (there exists
         a locally-defined default namespace declaration attribute) and its value is not the
-        <a>XML namespace</a>, then let <var>inherited ns</var> get the value of
-        <var>local default namespace</var> unless <var>local default namespace</var> is the empty
-        string in which case let it get null (the context namespace is changed to the
+        <a>XML namespace</a>, then:
+        <ol>
+          <li>If <var>local default namespace</var> is the empty string, set
+          <var>inherited ns</var> to null.
+          <li>Otherwise, set <var>inherited ns</var> to <var>local default namespace</var>.
+        </ol>
+        (the context namespace is changed to the
         declared default, rather than <var>node</var>'s [=Element/namespace=]).
 
         <p class=note>Any default namespace definitions or namespace prefixes that define the
@@ -574,10 +578,13 @@ dl.domintro::before {
         </ol>
 
         <li>If <var>local default namespace</var> is not null (there exists a
-        locally-defined default namespace declaration attribute), then let
-        <var>inherited ns</var> get <var>local default namespace</var>
-        unless <var>local default namespace</var> is the empty string in which case let
-        it get null.
+        locally-defined default namespace declaration attribute), then:
+
+        <ol>
+          <li>If <var>local default namespace</var> is the empty string, set
+          <var>inherited ns</var> to null.
+          <li>Otherwise, set <var>inherited ns</var> to <var>local default namespace</var>.
+        </ol>
       </ol>
 
       <li>Otherwise, if <var>local default namespace</var> is null, or
@@ -623,9 +630,13 @@ dl.domintro::before {
       <!-- Finally, regardless of prefix, the node has a local default namespace that matches 'ns'.
       So, we'll just use that and drop the prefix -->
       <li>Otherwise, <var>local default namespace</var> is <var>ns</var>.
-      Append <var>node</var>'s [=Element/local name=] to <var>qualified name</var>,
-      let <var>inherited ns</var> be <var>ns</var>,
-      and append <var>qualified name</var> to <var>markup</var>.
+      <ol>
+        <li>Append <var>node</var>'s [=Element/local name=] to <var>qualified name</var>.
+
+        <li>Let <var>inherited ns</var> be <var>ns</var>.
+
+        <li>Append <var>qualified name</var> to <var>markup</var>.
+      </ol>
 
       <p class=note>All of the combinations where <var>ns</var> is not equal to
       <var>inherited ns</var> are handled above such that <var>node</var> will be serialized
