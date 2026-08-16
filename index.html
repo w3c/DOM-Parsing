@@ -708,15 +708,15 @@ dl.domintro::before {
 
 <section><h2>Recording the namespace</h2>
 
+  <div class="algorithm">
   <p>This following algorithm will update the <a>namespace prefix map</a> with any found namespace
-  prefix definitions, add the found prefix definitions to the <a><var>local prefixes map</var></a>,
-  and return a <a><var>local default namespace</var></a> value defined by a default namespace attribute if one
+  prefix definitions, add the found prefix definitions to the <var>local prefixes map</var>,
+  and return a local default namespace value defined by a default namespace attribute if one
   exists. Otherwise it returns null.</p>
 
   <p>When <dfn>recording the namespace information</dfn> for an <code><a>Element</a></code>
   <var>element</var>, given a <a>namespace prefix map</a> <var>map</var> and a
-  <a><var>local prefixes map</var></a> (initially empty), the user agent must run the following
-  steps:
+  <var>local prefixes map</var> (initially empty), run the following steps:
 
   <ol>
     <li>Let <var>default namespace attr value</var> be null.
@@ -777,7 +777,7 @@ dl.domintro::before {
           <var>namespace definition</var>.
 
           <li>Add the value of <var>prefix definition</var> as a new key to the
-          <a><var>local prefixes map</var></a>, with the <var>namespace definition</var> as the
+          <var>local prefixes map</var>, with the <var>namespace definition</var> as the
           key's value replacing the value of null with the empty string if applicable.
         </ol>
       </ol>
@@ -787,6 +787,7 @@ dl.domintro::before {
     <p class=note>The empty string is a legitimate return value and is not converted to
     null.</p>
   </ol>
+  </div>
 
 </section><!-- Recording the namespace -->
 
