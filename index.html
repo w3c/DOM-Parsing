@@ -329,18 +329,19 @@ dl.domintro::before {
 
     <li><a>Add</a> "<code>xml</code>" to <var>prefix map</var> given the <a>XML namespace</a>.
 
-    <li>Let <var>prefix index</var> be a <a>generated namespace prefix index</a> with value
-    <code>1</code>. The <dfn>generated namespace prefix index</dfn> is used to generate a new unique
-    prefix value when no suitable existing namespace prefix is available to serialize a
-    <var>node</var>'s [=Element/namespace=] (or the [=Attr/namespace=] of one of the
-    <a data-cite="dom">attributes</a> in <var>node</var>'s [=Element/attribute list=]).
-    <span class=note>See the <a>generate a prefix</a> algorithm.</span>
+    <li>
+      <p>Let |prefix index:integer| be 1.
+      <p class="note"><var>prefix index</var> is used to generate a new unique prefix when no
+      suitable existing namespace prefix is available to serialize a node's [=Element/namespace=]
+      (or the [=Attr/namespace=] of one of the <a data-cite="dom">attributes</a> in
+      <var>node</var>'s [=Element/attribute list=]).
+      See the <a>generate a prefix</a> algorithm.
 
     <li>Return the result of running the <a>XML serialization algorithm</a> given <var>node</var>,
-    <var>namespace</var>, <var>prefix map</var>, <a>generated namespace prefix index</a> reference
-    to <var>prefix index</var>, and <var>require well-formed</var>. If an
-    <dfn data-lt="throw an exception">exception</dfn> occurs during the execution of the algorithm,
-    then catch that exception and throw an {{"InvalidStateError"}} {{DOMException}}.
+    <var>namespace</var>, <var>prefix map</var>, a mutable reference to <var>prefix index</var>, and
+    <var>require well-formed</var>.
+    If an <dfn data-lt="throw an exception">exception</dfn> occurs during the execution of the
+    algorithm, then catch that exception and throw an {{"InvalidStateError"}} {{DOMException}}.
   </ol>
   </div>
 
@@ -349,7 +350,7 @@ dl.domintro::before {
   a {{Node}} |node:Node|,
   a string |namespace:string|,
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
-  a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
+  a mutable reference to an integer |prefix index:mutable reference to an integer|,
   and
   a boolean <var>require well-formed</var>,
   must run the following steps:
@@ -407,7 +408,7 @@ dl.domintro::before {
   an {{Element}} |node:Element|,
   a string |namespace:string|,
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
-  a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
+  a mutable reference to an integer |prefix index:mutable reference to an integer|,
   and
   a boolean <var>require well-formed</var>,
   must run the following steps:
@@ -540,7 +541,7 @@ dl.domintro::before {
 
       <ol>
         <li>If <var>local prefixes map</var> contains a key matching <var>prefix</var>,
-        then let <var>prefix</var> be the result of <a>generating a prefix</a> providing as input
+        then let <var>prefix</var> be the result of <a>generating a prefix</a> given
         <var>map</var>, <var>ns</var>, and <var>prefix index</var>.
 
         <li><a>Add</a> <var>prefix</var> to <var>map</var> given <var>ns</var>.
@@ -882,8 +883,8 @@ dl.domintro::before {
 
   <div class="algorithm">
   <p>The <dfn>XML serialization of the attributes</dfn> of an {{Element}}
-  <var>element</var> together with a <a>namespace prefix map</a> <var>map</var>, a
-  <a>generated namespace prefix index</a> <var>prefix index</var> reference,
+  <var>element</var> together with a <a>namespace prefix map</a> <var>map</var>,
+  a mutable reference to an integer <var>prefix index</var>,
   an [=ordered map=] <var>local prefixes map</var>,
   a boolean <var>ignore namespace definition attribute</var>, and
   a boolean <var>require well-formed</var>, is the result of the following algorithm:
@@ -971,8 +972,8 @@ dl.domintro::before {
         <li>Otherwise, <var>attribute namespace</var> in not the <a>XMLNS namespace</a>. Run
         these steps:
         <ol>
-          <li>Let <var>candidate prefix</var> be the result of <a>generating a prefix</a> providing
-          <var>map</var>, <var>attribute namespace</var>, and <var>prefix index</var> as input.
+          <li>Let <var>candidate prefix</var> be the result of <a>generating a prefix</a> given
+          <var>map</var>, <var>attribute namespace</var>, and <var>prefix index</var>.
 
           <li>Append the following to <var>result</var>, in the order listed:
           <ol>
@@ -1054,14 +1055,14 @@ dl.domintro::before {
 
   <div class="algorithm">
   <p>To <dfn data-lt="generating a prefix">generate a prefix</dfn> given a
-  <a>namespace prefix map</a> <var>map</var>, a string <var>new namespace</var>, and a reference to
-  a <a>generated namespace prefix index</a> <var>prefix index</var>, the user agent must run the
-  following steps:
+  <a>namespace prefix map</a> <var>map</var>, a string <var>new namespace</var>, and a mutable
+  reference to an integer <var>prefix index</var>:
+
   <ol>
     <li>Let <var>generated prefix</var> be the concatenation of the string "<code>ns</code>" and the
     current numerical value of <var>prefix index</var>.
 
-    <li>Let the value of <var>prefix index</var> be incremented by one.
+    <li>Increment the value of <var>prefix index</var> by one.
 
     <li><a>Add</a> <var>generated prefix</var> to <var>map</var> given <var>new namespace</var>.
 
@@ -1080,7 +1081,7 @@ dl.domintro::before {
   a {{Document}} |node:Document|,
   a string |namespace:string|,
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
-  a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
+  a mutable reference to an integer |prefix index:mutable reference to an integer|,
   and
   a boolean <var>require well-formed</var>,
   must run the following steps:
@@ -1198,7 +1199,7 @@ dl.domintro::before {
   a {{DocumentFragment}} |node:DocumentFragment|,
   a string |namespace:string|,
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
-  a <a>generated namespace prefix index</a> |prefix index:generated namespace prefix index|,
+  a mutable reference to an integer |prefix index:mutable reference to an integer|,
   and
   a boolean <var>require well-formed</var>,
   must run the following steps:
