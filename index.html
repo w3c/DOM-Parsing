@@ -325,10 +325,9 @@ dl.domintro::before {
     the {{Element}} to match its own namespace. The algorithm assumes no namespace
     (null) to start.
 
-    <li>Let <var>prefix map</var> be a new <a>namespace prefix map</a>.
+    <li>Let |prefix map:namespace prefix map| be «» (a <a>namespace prefix map</a>).
 
-    <li><a>Add</a> the <a>XML namespace</a> with prefix value "<code>xml</code>" to
-    <var>prefix map</var>.
+    <li><a>Add</a> "<code>xml</code>" to <var>prefix map</var> given the <a>XML namespace</a>.
 
     <li>Let <var>prefix index</var> be a <a>generated namespace prefix index</a> with value
     <code>1</code>. The <dfn>generated namespace prefix index</dfn> is used to generate a new unique
@@ -428,8 +427,8 @@ dl.domintro::before {
 
     <li>Let <var>ignore namespace definition attribute</var> be false.
 
-    <li>Given <var>prefix map</var>, <a>copy a namespace prefix map</a> and let
-    <var>map</var> be the result.
+    <li>Let |map:namespace prefix map| be the result of <a>copy a namespace prefix map</a> given
+    <var>prefix map</var>.
 
     <li>Let <var>local prefixes map</var> be an empty map. The map has unique prefix strings as its
     keys, with corresponding namespaces as the map's key values (in this map, the null namespace is
@@ -483,7 +482,7 @@ dl.domintro::before {
 
       <li>Let <var>candidate prefix</var> be the result of
       <a>retrieving a preferred prefix string</a> <var>prefix</var> from <var>map</var> given
-      namespace <var>ns</var>.
+      <var>ns</var>.
 
       <p class=note>The above can return null if no namespace key <var>ns</var> exists
       in <var>map</var>.</p>
@@ -544,7 +543,7 @@ dl.domintro::before {
         then let <var>prefix</var> be the result of <a>generating a prefix</a> providing as input
         <var>map</var>, <var>ns</var>, and <var>prefix index</var>.
 
-        <li><a>Add</a> <var>prefix</var> to <var>map</var> given namespace <var>ns</var>.
+        <li><a>Add</a> <var>prefix</var> to <var>map</var> given <var>ns</var>.
 
         <li>Append to <var>qualified name</var> the concatenation of <var>prefix</var>,
         "<code>:</code>" (U+003A COLON), and <var>node</var>'s [=Element/local name=].
@@ -758,14 +757,14 @@ dl.domintro::before {
           having no namespace), then let <var>namespace definition</var> be null
           instead.
 
-          <li>If <var>prefix definition</var> is <a>found</a> in <var>map</var> given the namespace
+          <li>If <var>prefix definition</var> is <a>found</a> in <var>map</var> given
           <var>namespace definition</var>, then [=iteration/continue=].
 
           <p class=note>This step avoids adding duplicate prefix definitions for the same namespace
           in <var>map</var>. This has the side-effect of avoiding later serialization of
           duplicate namespace prefix declarations in any descendant nodes.</p>
 
-          <li><a>Add</a> the prefix <var>prefix definition</var> to <var>map</var> given namespace
+          <li><a>Add</a> <var>prefix definition</var> to <var>map</var> given
           <var>namespace definition</var>.
 
           <li>Add <var>prefix definition</var> as a new key to <var>local prefixes map</var>, with
@@ -785,87 +784,97 @@ dl.domintro::before {
 
 <section><h2>The Namespace Prefix Map</h2>
 
-  <p>A <dfn>namespace prefix map</dfn> is a map that associates namespace and
-  <dfn data-lt="list">namespace prefix lists</dfn>, where namespace values are the
-  map's unique keys (which can include the null value representing no namespace), and
-  ordered lists of associated prefix values are the map's key values. The
-  <a>namespace prefix map</a> will be populated by previously seen namespaces and all their
-  previously encountered prefix associations for a given node and its ancestors.
+  <p>A <dfn>namespace prefix map</dfn> is an <a>ordered map</a> from <a>strings</a> or null
+  to <a>lists</a> of <a>strings</a>.</p>
 
-  <p class=note><strong>Note:</strong> the last seen prefix for a given
-  namespace is at the end of its respective <a>list</a>. The list is searched to
-  find potentially matching prefixes, and if no matches are found for the given
-  namespace, then the last prefix in the list is used. See
-  <a>copy a namespace prefix map</a> and <a>retrieve a preferred prefix string</a> for additional
-  details.</p>
+  <div class="note">
+  <p>The keys are namespaces, with null representing no namespace; the values are
+  <a>lists</a> of prefixes that map to that namespace.
+
+  <p>An empty <a>namespace prefix map</a> will be created at the start of the
+  <a>XML serialization</a> algorithm. Whenever a new {{Element}} is encountered, the map will be
+  cloned (<a>copy a namespace prefix map</a>) and new associations will be added for that
+  {{Element}} (primarily in <a>recording the namespace information</a>, but also when adding
+  new namespace declarations because no prefix is available for a particular namespace).
+
+  <p>The last seen prefix for a given namespace is at the end of its respective [=list=].
+  When serializing, the [=Element=]'s [=Element/namespace prefix=] will be used if it is in the
+  [=list=]; otherwise the last prefix in the [=list=] is used. See
+  <a>retrieve a preferred prefix string</a> for additional details.</p>
+  </div>
 
   <div class="algorithm">
-  <p>To <dfn>copy a namespace prefix map</dfn> <var>map</var> means to copy <var>map</var>'s
-  keys into a new empty <a>namespace prefix map</a>, and to copy each of the values in the
-  <a data-lt="list">namespace prefix list</a> associated with each keys' value into a new
-  <a>list</a> which is associated with the respective key in the new map.
+  <p>To <dfn>copy a namespace prefix map</dfn> <var>map</var>:
+  <ol>
+    <li>Let |copy| be a new [=namespace prefix map=].
+    <li>
+      <p>[=map/For each=] |key| → |value| in <var>map</var>:
+      <ol>
+        <li>Set |copy|[|key|] to a [=list/clone=] of |value|.
+      </ol>
+    <li>Return |copy|.
+  </ol>
   </div>
 
   <div class="algorithm">
   <p>To <dfn data-lt="retrieving a preferred prefix string">retrieve a preferred prefix string</dfn>
-  <var>preferred prefix</var> from the <a>namespace prefix map</a> <var>map</var> given a namespace
-  <var>ns</var>, the user agent must:
+  <var>preferred prefix</var> (a string or null) from the <a>namespace prefix map</a> <var>map</var>
+  given a namespace <var>ns</var>:
 
   <ol>
-    <li>Let <var>candidates list</var> be the result of retrieving a <a>list</a> from <var>map</var>
-    where there exists a key in <var>map</var> that matches the value of <var>ns</var> or if there
-    is no such key, then stop running these steps, and return the null value.
+    <li>If <var>map</var> does not [=map/contain=] <var>ns</var>, return null.
 
-    <li>Otherwise, for each prefix value <var>prefix</var> in <var>candidates list</var>, iterating
-    from beginning to end:
+    <li>Let <var>candidates</var> be <var>map</var>[<var>ns</var>].
 
-    <p class=note>There will always be at least one prefix value in the list.</p>
+    <li>[=Assert=]: <var>candidates</var> [=list/is not empty=].</li>
 
-    <ol>
-      <li>If <var>prefix</var> matches <var>preferred prefix</var>, then stop running these steps
-      and return <var>prefix</var>.
+    <li>[=list/For each=] <var>prefix</var> of <var>candidates</var>:
 
-      <li>If <var>prefix</var> is the last item in <var>candidates list</var>, then stop running
-      these steps and return <var>prefix</var>.
-    </ol>
+      <ol>
+        <li>If <var>prefix</var> is <var>preferred prefix</var>, return <var>prefix</var>.
+      </ol>
+
+    <li>Return <var>candidates</var>[[=list/size=] of <var>candidates</var> - 1].
   </ol>
   </div>
 
   <div class="algorithm">
-  <p>To check if a prefix string <var>prefix</var> is <dfn>found</dfn> in a
-  <a>namespace prefix map</a> <var>map</var> given a namespace <var>ns</var>, the user agent must:
+  <p>To check if a string <var>prefix</var> is <dfn>found</dfn> in a <a>namespace prefix map</a>
+  <var>map</var> given a namespace <var>ns</var>:
 
   <ol>
-    <li>Let <var>candidates list</var> be the result of retrieving a <a>list</a> from <var>map</var>
-    where there exists a key in <var>map</var> that matches the value of <var>ns</var> or if there
-    is no such key, then stop running these steps, and return false.
+    <li>If <var>map</var> does not [=map/contain=] <var>ns</var>, return false.
 
-    <li>If <var>prefix</var> occurs at least once in <var>candidates list</var>, return
-    true, otherwise return false.
+    <li>Let <var>candidates</var> be <var>map</var>[<var>ns</var>].
+
+    <li>If |candidates| [=list/contains=] <var>prefix</var>, return true, otherwise return false.
   </ol>
   </div>
 
   <div class="algorithm">
-  <p>To <dfn>add</dfn> a prefix string <var>prefix</var> to the <a>namespace prefix map</a>
-  <var>map</var> given a namespace <var>ns</var>, the user agent must:
+  <p>To <dfn>add</dfn> a string <var>prefix</var> to a <a>namespace prefix map</a> <var>map</var>
+  given a namespace <var>ns</var>:
 
   <ol>
-    <li>Let <var>candidates list</var> be the result of retrieving a <a>list</a> from <var>map</var>
-    where there exists a key in <var>map</var> that matches the value of <var>ns</var> or if there
-    is no such key, then let <var>candidates list</var> be null.
-
-    <li>If <var>candidates list</var> is null, then create a new <a>list</a> with
-    <var>prefix</var> as the only item in the <a>list</a>, and associate that <a>list</a> with a new
-    key <var>ns</var> in <var>map</var>.
-
-    <li>Otherwise, append <var>prefix</var> to the end of <var>candidates list</var>.
-
-    <p class=note>The steps in <a>retrieve a preferred prefix string</a> use the <a>list</a> to
-    track the most recently used (MRU) prefix associated with a given namespace, which
-    will be the prefix at the end of the list. This list can contain duplicates of the
-    same prefix value seen earlier (and that's OK).</p>
+    <li>
+      <p>If |map| does not [=map/contain=] |ns|:
+      <ol>
+        <li>Let |candidates| be « |prefix| ».
+        <li>Set |map|[|ns|] to |candidates|.
+      </ol>
+    <li>
+      <p>Otherwise:
+      <ol>
+        <li>Let |candidates| be |map|[|ns|].
+        <li>[=list/Append=] |prefix| to |candidates|.
+      </ol>
   </ol>
   </div>
+
+  <p class=note>The steps in <a>retrieve a preferred prefix string</a> use the <a>list</a> to track
+  the most recently used prefix associated with a given namespace, which will be the prefix at the
+  end of the list. This list can contain duplicates of the same prefix seen earlier (and that's
+  OK).</p>
 
 </section><!-- The Namespace Prefix Map -->
 
@@ -908,10 +917,11 @@ dl.domintro::before {
 
       <li>If <var>attribute namespace</var> is not null, then run these sub-steps:
       <ol>
-        <li>Let <var>candidate prefix</var> be the result of
-        <a>retrieving a preferred prefix string</a> from <var>map</var> given namespace
-        <var>attribute namespace</var> with preferred prefix being <var>attr</var>'s
-        [=Attr/namespace prefix=].
+        <li>Let |prefix| be <var>attr</var>'s [=Attr/namespace prefix=].
+
+        <li>Set <var>candidate prefix</var> to the result of
+        <a>retrieving a preferred prefix string</a> |prefix| from <var>map</var> given
+        <var>attribute namespace</var>.
 
         <li>If <var>attribute namespace</var> is the <a>XMLNS namespace</a>, then run
         these steps:
@@ -925,11 +935,10 @@ dl.domintro::before {
             problem, this algorithm always prefixes elements in the <a>XML namespace</a> with
             "<code>xml</code>" and drops any related definitions as seen in the above condition.</p>
 
-            <li><var>attr</var>'s [=Attr/namespace prefix=] is null and
-            <var>ignore namespace definition attribute</var> is true (the
+            <li>|prefix| is null and <var>ignore namespace definition attribute</var> is true (the
             {{Element}}'s default namespace attribute is to be skipped);
 
-            <li><var>attr</var>'s [=Attr/namespace prefix=] is not null and either
+            <li>|prefix| is not null and either
             <ul>
               <li><var>attr</var>'s [=Attr/local name=] is
               not a key contained in <var>local prefixes map</var>, or
@@ -937,9 +946,8 @@ dl.domintro::before {
               <li><var>attr</var>'s [=Attr/local name=] is present in <var>local prefixes map</var>
               but the value of the key is not <var>attr</var>'s [=Attr/value=]
             </ul>
-            and furthermore that <var>attr</var>'s [=Attr/local name=] (as the prefix to
-            find) is <a>found</a> in <var>map</var> given the namespace consisting
-            of <var>attr</var>'s [=Attr/value=] (the current namespace prefix
+            and furthermore that <var>attr</var>'s [=Attr/local name=] is <a>found</a> in
+            <var>map</var> given <var>attr</var>'s [=Attr/value=] (the current namespace prefix
             definition was exactly defined previously—on an ancestor element not the current
             element whose <a data-cite="dom">attributes</a> are being processed).
           </ul>
@@ -956,9 +964,8 @@ dl.domintro::before {
           empty string, then throw an exception; namespace prefix declarations cannot be used to
           undeclare a namespace (use a default namespace declaration instead).
 
-          <li>If <var>attr</var>'s [=Attr/namespace prefix=] matches the string
-          "<code>xmlns</code>", then let <var>candidate prefix</var> be the string
-          "<code>xmlns</code>".
+          <li>If |prefix| matches the string "<code>xmlns</code>", then let
+          <var>candidate prefix</var> be the string "<code>xmlns</code>".
         </ol>
 
         <li>Otherwise, <var>attribute namespace</var> in not the <a>XMLNS namespace</a>. Run
@@ -1056,7 +1063,7 @@ dl.domintro::before {
 
     <li>Let the value of <var>prefix index</var> be incremented by one.
 
-    <li><a>Add</a> to <var>map</var> <var>generated prefix</var> given <var>new namespace</var>.
+    <li><a>Add</a> <var>generated prefix</var> to <var>map</var> given <var>new namespace</var>.
 
     <li>Return the value of <var>generated prefix</var>.
   </ol>
