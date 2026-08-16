@@ -431,12 +431,15 @@ dl.domintro::before {
     <li>Let |map:namespace prefix map| be the result of <a>copy a namespace prefix map</a> given
     <var>prefix map</var>.
 
-    <li>Let <var>local prefixes map</var> be an empty map. The map has unique prefix strings as its
-    keys, with corresponding namespaces as the map's key values (in this map, the null namespace is
-    represented by the empty string).
+    <li>
+    <p>Let |local prefixes map:map| be « » (an [=ordered map=] from strings to strings).
+
+    <p class="note">Its keys will be prefixes, and its values will be namespaces. In this map,
+    the null namespace is represented by the empty string.
 
     <p class=note>This map is local to each element. It is used to ensure there are no conflicting
-    prefixes if a new namespace prefix needs to be <a data-lt="generate a prefix">generated</a>.
+    prefixes if a new namespace prefix attribute needs to be
+    <a data-lt="generate a prefix">generated</a>.
     It is also used to enable skipping of duplicate prefix definitions when
     <a data-lt="XML serialization of the attributes">writing an element's attributes</a>: the map
     allows the algorithm to distinguish between a prefix in the <a>namespace prefix map</a> that
@@ -537,7 +540,7 @@ dl.domintro::before {
       [=Element/attribute list=].</p>
 
       <ol>
-        <li>If <var>local prefixes map</var> contains a key matching <var>prefix</var>,
+        <li>If <var>local prefixes map</var> [=map/contains=] <var>prefix</var>,
         then let <var>prefix</var> be the result of <a>generating a prefix</a> given
         <var>map</var>, <var>ns</var>, and <var>prefix index</var>.
 
@@ -709,8 +712,8 @@ dl.domintro::before {
   exists. Otherwise it returns null.</p>
 
   <p>When <dfn>recording the namespace information</dfn> for an {{Element}}
-  <var>element</var>, given a <a>namespace prefix map</a> <var>map</var> and a
-  <var>local prefixes map</var> (initially empty), run the following steps:
+  <var>element</var>, given a <a>namespace prefix map</a> <var>map</var> and an [=ordered map=]
+  <var>local prefixes map</var>, run the following steps:
 
   <ol>
     <li>Let <var>default namespace attr value</var> be null.
@@ -763,9 +766,11 @@ dl.domintro::before {
           <li><a>Add</a> <var>prefix definition</var> to <var>map</var> given
           <var>namespace definition</var>.
 
-          <li>Add <var>prefix definition</var> as a new key to <var>local prefixes map</var>, with
-          <var>namespace definition</var> as the key's value replacing null with the empty string if
-          applicable.
+          <li>If <var>namespace definition</var> is null, then set <var>namespace definition</var> to
+          the empty string.
+
+          <li>Set <var>local prefixes map</var>[<var>prefix definition</var>] to
+          <var>namespace definition</var>.
         </ol>
       </ol>
     </ol>
@@ -935,11 +940,13 @@ dl.domintro::before {
 
             <li>|prefix| is not null and either
             <ul>
-              <li><var>attr</var>'s [=Attr/local name=] is
-              not a key contained in <var>local prefixes map</var>, or
+              <li><var>local prefixes map</var> does not [=map/contain=] <var>attr</var>'s
+              [=Attr/local name=], or
 
-              <li><var>attr</var>'s [=Attr/local name=] is present in <var>local prefixes map</var>
-              but the value of the key is not <var>attr</var>'s [=Attr/value=]
+              <li><var>local prefixes map</var> does [=map/contain=] <var>attr</var>'s
+              [=Attr/local name=], but
+              <var>local prefixes map</var>[<var>attr</var>'s [=Attr/local name=]] is not
+              <var>attr</var>'s [=Attr/value=]
             </ul>
             and furthermore that <var>attr</var>'s [=Attr/local name=] is <a>found</a> in
             <var>map</var> given <var>attr</var>'s [=Attr/value=] (the current namespace prefix
