@@ -313,10 +313,6 @@ dl.domintro::before {
   <a>HTML namespace</a> that contain no [=tree/children=] are serialized with an explicit begin and
   end tag rather than using the <a>empty-element tag</a> syntax.
 
-  <p class=note>Per [[DOM4]], {{Attr}} objects do not inherit from {{Node}}, and
-  thus cannot be serialized by the <a>XML serialization algorithm</a>. An attempt to serialize an
-  {{Attr}} object will result in the empty string.
-
   <div class="algorithm">
   <p>To produce an <dfn>XML serialization</dfn> of a {{Node}} <var>node</var> given
   a boolean <var>require well-formed</var>, run the following steps:
