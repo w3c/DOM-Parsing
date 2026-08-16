@@ -175,9 +175,9 @@ dl.domintro::before {
        ┗━ Text (data: "alert('hello world')")
   </pre>
   An XML serialization must include the {{HTMLScriptElement}}'s [=Element/namespace=] in order to
-  preserve the identity of the <code>script</code> element, and to allow the serialized string to
+  preserve the identity of the [^script^] element, and to allow the serialized string to
   <a data-lt="round-tripping">round-trip</a> through an XML parser. Assuming that <code>root</code>
-  is in a variable named <code><var>root</var></code>:
+  is in a variable named <var>root</var>:
 
   <pre class=javascript>
     var xmlSerialization = new XMLSerializer().serializeToString(root);
@@ -1386,7 +1386,7 @@ dl.domintro::before {
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#html-parser">HTML parser</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#parsing-xhtml-documents">parsing XHTML documents</a></dfn>;
         <dfn><a href="https://www.w3.org/TR/html5/single-page.html#xml-parser">XML parser</a></dfn>
-    <li>The <a>template</a>'s <dfn data-lt="template content"><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
+    <li>The [^template^]'s <dfn data-lt="template content"><a href="https://www.w3.org/TR/html5/single-page.html#template-contents">template contents</a></dfn>
     <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-innerhtml">innerHTML</a></dfn> property;
     <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-outerhtml">outerHTML</a></dfn> property;
     <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-insertadjacenthtml">insertAdjacentHTML</a></dfn> method;
