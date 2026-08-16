@@ -492,7 +492,7 @@ dl.domintro::before {
       <a>retrieving a preferred prefix string</a> <var>prefix</var> from <var>map</var> given
       namespace <var>ns</var>.
 
-      <p class=note>The above may return <code>null</code> if no namespace key <var>ns</var> exists
+      <p class=note>The above can return <code>null</code> if no namespace key <var>ns</var> exists
       in <var>map</var>.</p>
 
       <li>If the value of <var>prefix</var> matches "<code>xmlns</code>", then run the following
@@ -510,7 +510,7 @@ dl.domintro::before {
       <li><dfn>Found a suitable namespace prefix</dfn>: if <var>candidate prefix</var> is not
       <code>null</code> (a namespace prefix is defined which maps to <var>ns</var>), then:
 
-      <p class=note>The following may serialize a different
+      <p class=note>The following can serialize a different
       <code><a data-lt="element prefix">prefix</a></code> than the <a>Element</a>'s existing
       <code><a data-lt="element prefix">prefix</a></code> if it already had one. However, the
       <a>retrieving a preferred prefix string</a> algorithm already tried to match the existing
@@ -869,7 +869,7 @@ dl.domintro::before {
 
     <p class=note>The steps in <a>retrieve a preferred prefix string</a> use the <a>list</a> to
     track the most recently used (MRU) <var>prefix</var> associated with a given namespace, which
-    will be the <var>prefix</var> at the end of the list. This list may contain duplicates of the
+    will be the <var>prefix</var> at the end of the list. This list can contain duplicates of the
     same <var>prefix</var> value seen earlier (and that's OK).</p>
   </ol>
 
