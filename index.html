@@ -1103,9 +1103,8 @@ dl.domintro::before {
         </ol>
 
         <p class=note>This will serialize any number of {{ProcessingInstruction}} and {{Comment}}
-        nodes both before and after the [=document element=], including
-        at most one {{DocumentType}} node. ({{Text}} nodes are not allowed as children of the
-        {{Document}}.)</p>
+        nodes both before and after the [=document element=], as well as at most one
+        {{DocumentType}} node. ({{Text}} nodes are not allowed as children of a {{Document}}.)
 
       <li>Return <var>serialized document</var>.
     </ol>
