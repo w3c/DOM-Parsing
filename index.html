@@ -1109,7 +1109,7 @@ dl.domintro::before {
     <var>map</var>, <var>prefix index</var>, and <var>require well-formed</var>, and append the
     result to <var>serialized document</var>.
 
-    <p class=note>This will serialize any number of <a>ProcessingInstruction</a> and <a>Comment</a>
+    <p class=note>This will serialize any number of {{ProcessingInstruction}} and <a>Comment</a>
     nodes both before and after the [=document element=], including
     at most one {{DocumentType}} node. (<a>Text</a> nodes are not allowed as children of the
     <a>Document</a>.)</p>
@@ -1325,27 +1325,27 @@ dl.domintro::before {
   must run the following steps:
 
   <ol>
-    <li>If <var>require well-formed</var> is true, and
-    <var>node</var>'s <code><a>target</a></code> contains a "<code>:</code>" (U+003A COLON)
+    <li>If <var>require well-formed</var> is true, and <var>node</var>'s
+    [=ProcessingInstruction/target=] contains a "<code>:</code>" (U+003A COLON)
     character or is an <a>ASCII case-insensitive</a> match for the string "<code>xml</code>", then
     <a>throw an exception</a>; the serialization of this <var>node</var>'s
-    <code><a>target</a></code> would not be well-formed.
+    [=ProcessingInstruction/target=] would not be well-formed.
 
-    <li>If <var>require well-formed</var> is true, and
-    <var>node</var>'s <code><a>data</a></code> contains characters that are not matched by the XML
+    <li>If <var>require well-formed</var> is true, and <var>node</var>'s [=CharacterData/data=]
+    contains characters that are not matched by the XML
     <a>Char</a> production or contains the string "<code>?></code>" (U+003F QUESTION MARK,
     U+003E GREATER-THAN SIGN), then <a>throw an exception</a>; the serialization of this
-    <var>node</var>'s <code><a>data</a></code> would not be well-formed.
+    <var>node</var>'s [=CharacterData/data=] would not be well-formed.
 
     <li>Let <var>markup</var> be the concatenation of the following, in the order listed:
     <ol>
       <li>"<code>&lt;?</code>" (U+003C LESS-THAN SIGN, U+003F QUESTION MARK);
 
-      <li><var>node</var>'s <code><a>target</a></code>;
+      <li><var>node</var>'s [=ProcessingInstruction/target=];
 
       <li>"<code> </code>" (U+0020 SPACE);
 
-      <li><var>node</var>'s <code><a>data</a></code>;
+      <li><var>node</var>'s [=CharacterData/data=];
 
       <li>"<code>?></code>" (U+003F QUESTION MARK, U+003E GREATER-THAN SIGN).
     </ol>
@@ -1404,8 +1404,6 @@ dl.domintro::before {
         <dfn data-lt="attributes|attribute list"><a href="https://www.w3.org/TR/dom/#dom-element-attributes">attributes</a></dfn> list,
         <dfn><a href="https://www.w3.org/TR/dom/#dom-element-setattribute">setAttribute</a></dfn> method
     <li>The <dfn data-lt="Node|Nodes"><a href="https://www.w3.org/TR/dom/#node">Node</a></dfn> interface
-    <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-processinginstruction">ProcessingInstruction</a></dfn> interface and its
-        <dfn><a href="https://www.w3.org/TR/dom/#dom-processinginstruction-target">target</a></dfn> attribute
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#range">Range</a></dfn> interface
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-text">Text</a></dfn> interface
     <li>The following <dfn><a href="https://www.w3.org/TR/dom/#domexception">DOMException</a></dfn>:
