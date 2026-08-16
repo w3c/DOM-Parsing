@@ -340,9 +340,9 @@ dl.domintro::before {
     <li>Let <var>prefix index</var> be a <a>generated namespace prefix index</a> with value
     <code>1</code>. The <dfn>generated namespace prefix index</dfn> is used to generate a new unique
     prefix value when no suitable existing namespace prefix is available to serialize a
-    <var>node</var>'s [=Element/namespace=] (or the [=Attr/namespace=] of one of
-    <var>node</var>'s attributes). <span class=note>See the <a>generate a prefix</a> algorithm.
-    </span>
+    <var>node</var>'s [=Element/namespace=] (or the [=Attr/namespace=] of one of the
+    <a data-cite="dom">attributes</a> in <var>node</var>'s [=Element/attribute list=]).
+    <span class=note>See the <a>generate a prefix</a> algorithm.</span>
 
     <li>Return the result of running the <a>XML serialization algorithm</a> given <var>node</var>,
     <var>namespace</var>, <var>prefix map</var>, <a>generated namespace prefix index</a> reference
@@ -531,7 +531,8 @@ dl.domintro::before {
         than this <var>node</var>'s own [=Element/namespace=]).
 
         <p class=note>Any default namespace definitions or namespace prefixes that define the
-        <a>XML namespace</a> are omitted when serializing this node's attributes.</p>
+        <a>XML namespace</a> are omitted when serializing <a data-cite="dom">attributes</a> in this
+        <var>node</var>'s [=Element/attribute list=].</p>
 
         <li>Append <var>qualified name</var> to <var>markup</var>.
       </ol>
@@ -544,7 +545,7 @@ dl.domintro::before {
       have been followed. The sub-steps that follow will create a new namespace prefix declaration
       for <var>prefix</var> and ensure that <var>prefix</var> does not conflict with an existing
       namespace prefix declaration of the same [=Attr/local name=] in <var>node</var>'s
-      <a>attribute list</a>.</p>
+      [=Element/attribute list=].</p>
 
       <ol>
         <li>If the <var>local prefixes map</var> contains a key matching <var>prefix</var>,
@@ -725,14 +726,14 @@ dl.domintro::before {
   <ol>
     <li>Let <var>default namespace attr value</var> be null.
 
-    <li><dfn>Main</dfn>: For each <a>attribute</a> <var>attr</var> in <var>element</var>'s
-    <code><a>attributes</a></code>, in the order they are specified in the <var>element</var>'s
-    <a>attribute list</a>:
+    <li><dfn>Main</dfn>: [=list/For each=] <var>attr</var> of <var>element</var>'s
+    [=Element/attribute list=]:
 
-    <p class="note">The following conditional steps find namespace prefixes. Only attributes
-    in the <a>XMLNS namespace</a> are considered (e.g., attributes made to look like namespace
-    declarations via {{Element/setAttribute(qualifiedName,
-    value)|setAttribute("xmlns:pretend-prefix", "pretend-namespace")}} are not included).</p>
+    <p class="note">The following conditional steps find namespace prefixes. Only
+    <a data-cite="dom">attributes</a> in the <a>XMLNS namespace</a> are considered (e.g.,
+    <a data-cite="dom">attributes</a> made to look like namespace declarations via
+    {{Element/setAttribute(qualifiedName, value)|setAttribute("xmlns:pretend-prefix",
+    "pretend-namespace")}} are not included).</p>
 
     <ol>
       <li>Let <var>attribute namespace</var> be <var>attr</var>'s [=Attr/namespace=].
@@ -894,13 +895,13 @@ dl.domintro::before {
     <var>localname set</var> will contain tuples of unique attribute
     [=Attr/namespace=] and [=Attr/local name=] pairs, and is populated as
     each <var>attr</var> is processed. <span class="note">This set is used to [optionally] enforce
-    the well-formed constraint that an element cannot have two attributes with the same
-    [=Attr/namespace=] and [=Attr/local name=]. This can occur when two
-    otherwise identical attributes on the same element differ only by their prefix values.</span>
+    the well-formed constraint that an element cannot have two <a data-cite="dom">attributes</a>
+    with the same [=Attr/namespace=] and [=Attr/local name=]. This can occur when two
+    otherwise identical <a data-cite="dom">attributes</a> on the same element differ only by their
+    prefix values.</span>
 
-    <li><dfn>Loop</dfn>: For each <a>attribute</a> <var>attr</var> in <var>element</var>'s
-    <code><a>attributes</a></code>, in the order they are specified in the <var>element</var>'s
-    <a>attribute list</a>:
+    <li><dfn>Loop</dfn>: [=list/For each=] <var>attr</var> of <var>element</var>'s
+    [=Element/attribute list=]:
     <ol>
       <li>If <var>require well-formed</var> is true, and the
       <var>localname set</var> contains a tuple whose values match those of a new tuple consisting
@@ -953,7 +954,7 @@ dl.domintro::before {
             find) is <a>found</a> in <var>map</var> given the namespace consisting
             of the <var>attr</var>'s [=Attr/value=] (the current namespace prefix
             definition was exactly defined previously—on an ancestor element not the current
-            element whose attributes are being processed).
+            element whose <a data-cite="dom">attributes</a> are being processed).
           </ul>
 
           <li>If <var>require well-formed</var> is true, and <var>attr</var>'s [=Attr/value=] is the
@@ -1393,8 +1394,7 @@ dl.domintro::before {
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-comment">Comment</a></dfn> interface
 <!--<li>The <dfn><a href="https://www.w3.org/TR/dom/#cdata">CDATASection</a></dfn> interface-->
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#documentfragment">DocumentFragment</a></dfn> interface
-    <li>The <dfn data-lt="Element|Elements"><a href="https://www.w3.org/TR/dom/#element">Element</a></dfn> interface and its
-        <dfn data-lt="attributes|attribute list"><a href="https://www.w3.org/TR/dom/#dom-element-attributes">attributes</a></dfn> list,
+    <li>The <dfn data-lt="Element|Elements"><a href="https://www.w3.org/TR/dom/#element">Element</a></dfn> interface
     <li>The <dfn data-lt="Node|Nodes"><a href="https://www.w3.org/TR/dom/#node">Node</a></dfn> interface
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#range">Range</a></dfn> interface
     <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-text">Text</a></dfn> interface
