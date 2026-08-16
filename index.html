@@ -109,17 +109,17 @@ dl.domintro::before {
 
 <section><h2>Introduction</h2>
 
-  <p>A document object model (DOM) is an in-memory representation of various types of <a>Node</a>s
-  where each <a>Node</a> is connected in a tree. The [[HTML5]] and [[DOM4]] specifications describe
-  DOM and its <a>Node</a>s is greater detail.
+  <p>A document object model (DOM) is an in-memory representation of various types of {{Node}}s
+  where each {{Node}} is connected in a tree. The [[HTML5]] and [[DOM4]] specifications describe
+  DOM and its {{Node}}s is greater detail.
 
   <p><dfn>Parsing</dfn> is the term used for converting a string representation of a DOM into an
   actual DOM, and <dfn>Serializing</dfn> is the term used to transform a DOM back into a string.
   This specification concerns itself with defining various APIs for both parsing and serializing a
   DOM.
 
-  <div class=example>For example: the <a data-link-for="Element">innerHTML</a> API is a common way to both
-  parse and serialize a DOM (it does both). If a particular <a>Node</a>, has the following in-memory
+  <div class=example>For example: the {{Element.innerHTML}} API is a common way to both
+  parse and serialize a DOM (it does both). If a particular {{Node}} has the following in-memory
   DOM:
   <pre>
     HTMLDivElement (nodeName: "div")
@@ -134,7 +134,7 @@ dl.domintro::before {
   </pre>
   And the <code>HTMLDivElement</code> node is stored in a variable <code><var>myDiv</var></code>,
   then to serialize <code><var>myDiv</var></code>'s children simply <em>get</em> (read) the
-  <a>Element</a>'s <a data-link-for="Element">innerHTML</a> property (this triggers the serialization):
+  {{Element.innerHTML}} property (this triggers the serialization):
 
   <pre class=javascript>
     var serializedChildren = myDiv.innerHTML;
@@ -143,7 +143,7 @@ dl.domintro::before {
   </pre>
 
   <p>To parse new children for <code><var>myDiv</var></code> from a string (replacing its existing
-  children), simply <em>set</em> the <a data-link-for="Element">innerHTML</a> property (this triggers
+  children), simply <em>set</em> the {{Element.innerHTML}} property (this triggers
   parsing of the assigned string):
 
   <pre class=javascript>
@@ -160,10 +160,10 @@ dl.domintro::before {
 
   <p><dfn>Round-tripping</dfn> a DOM means to serialize and then immediately parse the serialized
   string back into a DOM. Ideally, this process does not result in any data loss with respect to the
-  identity and attributes of the <a>Node</a> in the DOM.
+  identity and attributes of the {{Node}} in the DOM.
 
   <a>Round-tripping</a> is especially tricky for an XML serialization, which must be concerned with
-  preserving the <a>Node</a>'s namespace identity in the serialization (wereas namespaces are
+  preserving the {{Node}}'s namespace identity in the serialization (wereas namespaces are
   ignored in HTML).
 
   <div class=example>Consider the XML serialization of the following in-memory DOM:
@@ -174,9 +174,8 @@ dl.domintro::before {
        ┃
        ┗━ Text (data: "alert('hello world')")
   </pre>
-  An XML serialization must include the <code>HTMLScriptElement</code> <a>Node</a>'s
-  [=Element/namespace=] in order to preserve the identity of the
-  <code>script</code> element, and to allow the serialized string to
+  An XML serialization must include the {{HTMLScriptElement}}'s [=Element/namespace=] in order to
+  preserve the identity of the <code>script</code> element, and to allow the serialized string to
   <a data-lt="round-tripping">round-trip</a> through an XML parser. Assuming that <code>root</code>
   is in a variable named <code><var>root</var></code>:
 
@@ -191,7 +190,7 @@ dl.domintro::before {
 
 <section><h1>APIs for parsing and serializing DOM</h1>
 
-<section><h2>The <code>DOMParser</code> interface</h2>
+<section><h2>The {{DOMParser}} interface</h2>
 
   <span id="dom-domparser"></span>
   <span id="dom-domparser-parsefromstring"></span>
@@ -202,16 +201,16 @@ dl.domintro::before {
   <span id="dom-supportedtype-application/xhtml+xml"></span>
   <span id="dom-supportedtype-image/svg+xml"></span>
 
-  <p>The definition of <code>DOMParser</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#domparser">the HTML Standard</a>.</p>
+  <p>The definition of {{DOMParser}} has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#domparser">the HTML Standard</a>.</p>
 
 </section><!-- end DOMParser interface -->
 
-<section><h2>The <code>XMLSerializer</code> interface</h2>
+<section><h2>The {{XMLSerializer}} interface</h2>
   <span id="dom-xmlserializer"></span>
   <span id="dom-xmlserializer-constructor"></span>
   <span id="dom-xmlserializer-serializetostring"></span>
 
-  <p>The definition of <code>XMLSerializer</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#xmlserializer">the HTML Standard</a>.</p>
+  <p>The definition of {{XMLSerializer}} has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#xmlserializer">the HTML Standard</a>.</p>
 
 </section><!-- end XMLSerializer interface -->
 
@@ -219,31 +218,31 @@ dl.domintro::before {
 
   <span id="dom-innerhtml"></span>
 
-  <p>The definition of <code>InnerHTML</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-innerhtml-property">the HTML Standard</a>.</p>
+  <p>The definition of {{Element.innerHTML}} has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-innerhtml-property">the HTML Standard</a>.</p>
 
 </section><!-- end InnerHTML mixin -->
 
-<section><h2>Extensions to the <code><a>Element</a></code> interface</h2>
+<section><h2>Extensions to the {{Element}} interface</h2>
 
   <!-- outerHTML -->
 
   <span id="dom-element-outerhtml"></span>
 
-  <p>The definition of <code>outerHTML</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-outerhtml-property">the HTML Standard</a>.</p>
+  <p>The definition of {{Element.outerHTML}} has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-outerhtml-property">the HTML Standard</a>.</p>
 
   <!-- insertAdjacentHTML -->
 
   <span id="dom-element-insertadjacenthtml"></span>
 
-  <p>The definition of <code>insertAdjacentHTML</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-insertadjacenthtml()-method">the HTML Standard</a>.</p>
+  <p>The definition of {{Element.insertAdjacentHTML}} has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-insertadjacenthtml()-method">the HTML Standard</a>.</p>
 
 </section><!-- end Extensions to the Element interface -->
 
-<section><h2>Extensions to the <code><a>Range</a></code> interface</h2>
+<section><h2>Extensions to the {{Range}} interface</h2>
 
   <span id="dom-range-createcontextualfragment"></span>
 
-  <p>The definition of <code>createContextualFragment</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-createcontextualfragment()-method">the HTML Standard</a>.</p>
+  <p>The definition of {{Range.createContextualFragment()}} has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#the-createcontextualfragment()-method">the HTML Standard</a>.</p>
 
 </section><!-- end Extensions to the Range interface -->
 
@@ -283,7 +282,7 @@ dl.domintro::before {
 
   <span id="dfn-fragment-parsing-algorithm"></span>
 
-  <p>The definition of <code>fragment parsing algorithm</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#fragment-parsing-algorithm-steps">the HTML Standard</a>.</p>
+  <p>The definition of <a data-lt="fragment parsing algorithm steps">fragment parsing algorithm</a> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#fragment-parsing-algorithm-steps">the HTML Standard</a>.</p>
 
 </section><!-- end Parsing -->
 
@@ -291,20 +290,20 @@ dl.domintro::before {
 
   <span id="dfn-fragment-serializing-algorithm"></span>
 
-  <p>The definition of <code>fragment serializing algorithm</code> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#fragment-serializing-algorithm-steps">the HTML Standard</a>.</p>
+  <p>The definition of <a data-lt="fragment serializing algorithm steps">fragment serializing algorithm</a> has moved to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#fragment-serializing-algorithm-steps">the HTML Standard</a>.</p>
 
 <section><h2>XML Serialization</h2>
 
   <p>An <a>XML serialization</a> differs from an HTML serialization in the following ways:
 
   <ul>
-    <li><a>Elements</a> and <a data-lt="attribute">attributes</a> will always be serialized such
+    <li>{{Element}}s and <a data-cite="dom">attributes</a> will always be serialized such
     that their namespace is preserved. In some cases this means that an existing
     prefix, prefix declaration attribute or default namespace declaration attribute
     might be dropped, substituted or changed. An HTML serialization does not attempt to
     preserve the namespace.
 
-    <li><a>Elements</a> not in the <a>HTML namespace</a> containing no [=tree/children=], are
+    <li>{{Element}}s not in the <a>HTML namespace</a> containing no [=tree/children=], are
     serialized using the <a>empty-element tag</a> syntax (i.e., according to the XML
     <a>EmptyElemTag</a> production).
   </ul>
@@ -314,20 +313,20 @@ dl.domintro::before {
   <a>HTML namespace</a> that contain no [=tree/children=] are serialized with an explicit begin and
   end tag rather than using the <a>empty-element tag</a> syntax.
 
-  <p class=note>Per [[DOM4]], <code><a>Attr</a></code> objects do not inherit from <a>Node</a>, and
+  <p class=note>Per [[DOM4]], {{Attr}} objects do not inherit from {{Node}}, and
   thus cannot be serialized by the <a>XML serialization algorithm</a>. An attempt to serialize an
-  <a>Attr</a> object will result in the empty string.
+  {{Attr}} object will result in the empty string.
 
   <div class="algorithm">
-  <p>To produce an <dfn>XML serialization</dfn> of a <code><a>Node</a></code> <var>node</var> given
+  <p>To produce an <dfn>XML serialization</dfn> of a {{Node}} <var>node</var> given
   a boolean <var>require well-formed</var>, run the following steps:
 
   <ol>
     <li>Let <var>namespace</var> be a <a>context namespace</a> with value null.
     The <dfn>context namespace</dfn> tracks the <a>XML serialization</a> algorithm's current default
-    namespace. The <a>context namespace</a> is changed when either an <a>Element</a> <a>Node</a> has
+    namespace. The <a>context namespace</a> is changed when either an {{Element}} has
     a default namespace declaration, or the algorithm generates a default namespace declaration for
-    the <a>Element</a> <a>Node</a> to match its own namespace. The algorithm assumes no namespace
+    the {{Element}} to match its own namespace. The algorithm assumes no namespace
     (null) to start.
 
     <li>Let <var>prefix map</var> be a new <a>namespace prefix map</a>.
@@ -445,7 +444,7 @@ dl.domintro::before {
     It is also used to enable skipping of duplicate prefix definitions when
     <a data-lt="XML serialization of the attributes">writing an element's attributes</a>: the map
     allows the algorithm to distinguish between a prefix in the <a>namespace prefix map</a> that
-    might be locally-defined (to the current <a>Element</a>) and one that is not.</p>
+    might be locally-defined (to the current {{Element}}) and one that is not.</p>
 
     <li>Let <var>local default namespace</var> be the result of
     <a>recording the namespace information</a> for <var>node</var> given <var>map</var> and
@@ -497,7 +496,7 @@ dl.domintro::before {
       steps:
       <ol>
         <li>If <var>require well-formed</var> is true, then throw an error. An
-        <a>Element</a> with [=Element/namespace prefix=] "<code>xmlns</code>"
+        {{Element}} with [=Element/namespace prefix=] "<code>xmlns</code>"
         will not legally round-trip in a conforming <a>XML parser</a>.
 
         <li>Let <var>candidate prefix</var> be <var>prefix</var>.
@@ -509,7 +508,7 @@ dl.domintro::before {
       null (a namespace prefix is defined which maps to <var>ns</var>), then:
 
       <p class=note>The following can serialize a different [=Element/namespace prefix=] than the
-      <a>Element</a>'s existing [=Element/namespace prefix=] if it already had one. However, the
+      {{Element}}'s existing [=Element/namespace prefix=] if it already had one. However, the
       <a>retrieving a preferred prefix string</a> algorithm already tried to match the existing
       prefix if possible.</p>
 
@@ -538,7 +537,7 @@ dl.domintro::before {
       <li>Otherwise, if <var>prefix</var> is not null, then:
 
       <p class=note>By this step, there is no namespace or prefix mapping declaration in this
-      <var>node</var> (or any parent <var>node</var> visited by this algorithm) that defines
+      <var>node</var> (or any parent {{Node}} visited by this algorithm) that defines
       <var>prefix</var> otherwise the step labelled <a>Found a suitable namespace prefix</a> would
       have been followed. The sub-steps that follow will create a new namespace prefix declaration
       for <var>prefix</var> and ensure that <var>prefix</var> does not conflict with an existing
@@ -683,7 +682,7 @@ dl.domintro::before {
     <li>If <var>ns</var> is the <a>HTML namespace</a>, and the <var>node</var>'s
     [=Element/local name=] is "<code>template</code>" (this is a [^template^] element), append to
     <var>markup</var> the result of <a>XML serializing a DocumentFragment node</a> given
-    <var>node</var>'s <a>template contents</a> (a <code><a>DocumentFragment</a></code>),
+    <var>node</var>'s <a>template contents</a> (a {{DocumentFragment}}),
     <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>, and
     <var>require well-formed</var>.
 
@@ -719,7 +718,7 @@ dl.domintro::before {
   and return a local default namespace value defined by a default namespace attribute if one
   exists. Otherwise it returns null.</p>
 
-  <p>When <dfn>recording the namespace information</dfn> for an <code><a>Element</a></code>
+  <p>When <dfn>recording the namespace information</dfn> for an {{Element}}
   <var>element</var>, given a <a>namespace prefix map</a> <var>map</var> and a
   <var>local prefixes map</var> (initially empty), run the following steps:
 
@@ -881,7 +880,7 @@ dl.domintro::before {
 <section><h2>Serializing an Element's attributes</h2>
 
   <div class="algorithm">
-  <p>The <dfn>XML serialization of the attributes</dfn> of an <code><a>Element</a></code>
+  <p>The <dfn>XML serialization of the attributes</dfn> of an {{Element}}
   <var>element</var> together with a <a>namespace prefix map</a> <var>map</var>, a
   <a>generated namespace prefix index</a> <var>prefix index</var> reference,
   an [=ordered map=] <var>local prefixes map</var>,
@@ -939,7 +938,7 @@ dl.domintro::before {
 
             <li>the <var>attr</var>'s [=Attr/namespace prefix=] is null and
             <var>ignore namespace definition attribute</var> is true (the
-            <a>Element</a>'s default namespace attribute is to be skipped);
+            {{Element}}'s default namespace attribute is to be skipped);
 
             <li>the <var>attr</var>'s [=Attr/namespace prefix=] is not null and either
             <ul>
@@ -1109,10 +1108,10 @@ dl.domintro::before {
         <var>prefix index</var>, and <var>require well-formed</var>.
       </ol>
 
-      <p class=note>This will serialize any number of {{ProcessingInstruction}} and <a>Comment</a>
+      <p class=note>This will serialize any number of {{ProcessingInstruction}} and {{Comment}}
       nodes both before and after the [=document element=], including
-      at most one {{DocumentType}} node. (<a>Text</a> nodes are not allowed as children of the
-      <a>Document</a>.)</p>
+      at most one {{DocumentType}} node. ({{Text}} nodes are not allowed as children of the
+      {{Document}}.)</p>
 
     <li>Return <var>serialized document</var>.
   </ol>
@@ -1382,19 +1381,6 @@ dl.domintro::before {
     <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-innerhtml">innerHTML</a></dfn> property;
     <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-outerhtml">outerHTML</a></dfn> property;
     <li>The <dfn><a href="https://html.spec.whatwg.org/dynamic-markup-insertion.html#dom-element-insertadjacenthtml">insertAdjacentHTML</a></dfn> method;
-  </ul>
-
-  The DOM specification [[!DOM4]] defines the following terms used in this document:
-
-  <ul>
-    <li>The <dfn data-lt="attribute"><a href="https://www.w3.org/TR/dom/#interface-attr">Attr</a></dfn> interface
-    <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-comment">Comment</a></dfn> interface
-<!--<li>The <dfn><a href="https://www.w3.org/TR/dom/#cdata">CDATASection</a></dfn> interface-->
-    <li>The <dfn><a href="https://www.w3.org/TR/dom/#documentfragment">DocumentFragment</a></dfn> interface
-    <li>The <dfn data-lt="Element|Elements"><a href="https://www.w3.org/TR/dom/#element">Element</a></dfn> interface
-    <li>The <dfn data-lt="Node|Nodes"><a href="https://www.w3.org/TR/dom/#node">Node</a></dfn> interface
-    <li>The <dfn><a href="https://www.w3.org/TR/dom/#range">Range</a></dfn> interface
-    <li>The <dfn><a href="https://www.w3.org/TR/dom/#interface-text">Text</a></dfn> interface
   </ul>
 
   The following terms used in this document are defined by [[DOM]]:
