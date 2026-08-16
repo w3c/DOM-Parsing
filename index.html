@@ -318,12 +318,14 @@ dl.domintro::before {
   a boolean <var>require well-formed</var>, run the following steps:
 
   <ol>
-    <li>Let <var>namespace</var> be a <a>context namespace</a> with value null.
-    The <dfn>context namespace</dfn> tracks the <a>XML serialization</a> algorithm's current default
-    namespace. The <a>context namespace</a> is changed when either an {{Element}} has
-    a default namespace declaration, or the algorithm generates a default namespace declaration for
-    the {{Element}} to match its own namespace. The algorithm assumes no namespace
-    (null) to start.
+    <li>
+      <p>Let |namespace:namespace| be null.
+
+      <p class="note"><var>namespace</var> tracks the <a>XML serialization</a> algorithm's current
+      default namespace. It is changed when either an {{Element}} has a default namespace
+      declaration, or the algorithm generates a default namespace declaration for the {{Element}} to
+      match its own namespace.
+      The algorithm assumes no namespace (null) to start.
 
     <li>Let |prefix map:namespace prefix map| be «» (a <a>namespace prefix map</a>).
 
@@ -519,7 +521,7 @@ dl.domintro::before {
         a locally-defined default namespace declaration attribute) and its value is not the
         <a>XML namespace</a>, then let <var>inherited ns</var> get the value of
         <var>local default namespace</var> unless <var>local default namespace</var> is the empty
-        string in which case let it get null (the <a>context namespace</a> is changed to the
+        string in which case let it get null (the context namespace is changed to the
         declared default, rather than <var>node</var>'s [=Element/namespace=]).
 
         <p class=note>Any default namespace definitions or namespace prefixes that define the
@@ -595,7 +597,7 @@ dl.domintro::before {
         <li>Let <var>inherited ns</var> be <var>ns</var>.
 
         <p class=note>The new default namespace will be used in the serialization to define
-        <var>node</var>'s [=Element/namespace=] and act as the <a>context namespace</a> for its
+        <var>node</var>'s [=Element/namespace=] and act as the context namespace for its
         [=tree/children=].</p>
 
         <li>Append <var>qualified name</var> to <var>markup</var>.
