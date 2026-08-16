@@ -1207,12 +1207,11 @@ dl.domintro::before {
   must run the following steps:
 
   <ol>
-    <li>If <var>require well-formed</var> is true, and <var>node</var>'s [=CharacterData/data=]
-    contains characters that are not matched by the XML <a>Char</a> production, then
-    <a>throw an exception</a>.
-    <span class="note">The serialization of <var>node</var> would not be well-formed.</span>
-
     <li>Let <var>markup</var> be <var>node</var>'s [=CharacterData/data=].
+
+    <li>If <var>require well-formed</var> is true, and <var>markup</var> contains characters that
+    are not matched by the XML <a>Char</a> production, then <a>throw an exception</a>.
+    <span class="note">The serialization of <var>node</var> would not be well-formed.</span>
 
     <li>Replace any occurrences of "<code>&amp;</code>" in <var>markup</var> by
     "<code>&amp;amp;</code>".
