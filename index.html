@@ -1318,11 +1318,7 @@ dl.domintro::before {
 
       <li>"<code> </code>" (U+0020 SPACE);
 
-      <li>"<code>"</code>" (U+0022 QUOTATION MARK);
-
-      <li><var>node</var>'s [=DocumentType/public ID=];
-
-      <li>"<code>"</code>" (U+0022 QUOTATION MARK).
+      <li>the [=serialization of the ID=] <var>node</var>'s [=DocumentType/public ID=].
     </ol>
 
     <li>If <var>node</var>'s [=DocumentType/system ID=] is not the empty string and
@@ -1339,13 +1335,8 @@ dl.domintro::before {
     <ol>
       <li>"<code> </code>" (U+0020 SPACE);
 
-      <li>"<code>"</code>" (U+0022 QUOTATION MARK);
-
-      <li><var>node</var>'s [=DocumentType/system ID=];
-
-      <li>"<code>"</code>" (U+0022 QUOTATION MARK).
+      <li>the [=serialization of the ID=] <var>node</var>'s [=DocumentType/system ID=].
     </ol>
-    <div class="issue" data-number="71"></div>
 
     <!-- Removing internalSubset serialization steps as this property is not supported by DOM4. Also,
          optional requirements don't help improve interoperability:
@@ -1368,6 +1359,16 @@ dl.domintro::before {
     <li>Append "<code>&gt;</code>" (U+003E GREATER-THAN SIGN) to <var>markup</var>.
 
     <li>Return <var>markup</var>.
+  </ol>
+  </div>
+
+  <div class="algorithm">
+  <p>The <dfn>serialization of the ID</dfn> |id:string| is the result of the following steps:
+  <ol>
+    <li>If |id| contains "<code>"</code>" (U+0022 QUOTATION MARK), let |q| be
+    "<code>'</code>" (U+0027 APOSTROPHE), and let |q| be "<code>"</code>" (U+0022 QUOTATION MARK)
+    otherwise.
+    <li>Return the concatenation of |q|, |id|, and |q|.
   </ol>
   </div>
 
