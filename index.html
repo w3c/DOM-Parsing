@@ -315,14 +315,9 @@ dl.domintro::before {
 
   <div class="algorithm">
   <p>To produce an <dfn>XML serialization</dfn> of a {{Node}} <var>node</var> given
-  a boolean <var>require well-formed</var> and an optional null or {{CustomElementRegistry}}
-  <var>registry</var>, run the following steps:
+  a boolean <var>require well-formed</var>, run the following steps:
 
   <ol>
-    <li>If <var>registry</var> was not given, then set <var>registry</var> to the result of
-    <a data-cite="html" data-lt="look up a custom element registry">looking up a custom element registry</a>
-    given <var>node</var>'s [=Node/node document=].
-
     <li>
       <p>Let |namespace:namespace| be null.
 
@@ -345,8 +340,8 @@ dl.domintro::before {
       See the <a>generate a prefix</a> algorithm.
 
     <li>Return the result of running the <a>XML serialization algorithm</a> given <var>node</var>,
-    <var>namespace</var>, <var>prefix map</var>, a mutable reference to <var>prefix index</var>,
-    <var>require well-formed</var>, and <var>registry</var>.
+    <var>namespace</var>, <var>prefix map</var>, a mutable reference to <var>prefix index</var>, and
+    <var>require well-formed</var>.
     If an <dfn data-lt="throw an exception">exception</dfn> occurs during the execution of the
     algorithm, then catch that exception and throw an {{"InvalidStateError"}} {{DOMException}}.
   </ol>
@@ -363,8 +358,8 @@ dl.domintro::before {
   a string |namespace:string|,
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
   a mutable reference to an integer |prefix index:mutable reference to an integer|,
+  and
   a boolean <var>require well-formed</var>,
-  and null or a {{CustomElementRegistry}} <var>registry</var>,
   must run the following steps:
 
   <ol>
@@ -373,11 +368,11 @@ dl.domintro::before {
     <dl class=switch>
       <dt>{{Element}}
       <dd>Run the algorithm for <a>XML serializing an Element node</a> given |node|, |namespace|,
-        |namespace prefix map|, |prefix index|, <var>require well-formed</var>, and <var>registry</var>.
+        |namespace prefix map|, |prefix index| and <var>require well-formed</var>.
 
       <dt>{{Document}}
       <dd>Run the algorithm for <a>XML serializing a Document node</a> given |node|, |namespace|,
-        |namespace prefix map|, |prefix index|, <var>require well-formed</var>, and <var>registry</var>.
+        |namespace prefix map|, |prefix index| and <var>require well-formed</var>.
 
       <dt>{{Comment}}
       <dd>Run the algorithm for <a>XML serializing a Comment node</a> given |node| and
@@ -393,8 +388,7 @@ dl.domintro::before {
 
       <dt>{{DocumentFragment}}
       <dd>Run the algorithm for <a>XML serializing a DocumentFragment node</a> given |node|,
-        |namespace|, |namespace prefix map|, |prefix index|, <var>require well-formed</var>, and
-        <var>registry</var>.
+        |namespace|, |namespace prefix map|, |prefix index| and <var>require well-formed</var>.
 
       <dt>{{DocumentType}}
       <dd>Run the algorithm for <a>XML serializing a DocumentType node</a> given |node| and
@@ -423,8 +417,8 @@ dl.domintro::before {
   a string |namespace:string|,
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
   a mutable reference to an integer |prefix index:mutable reference to an integer|,
+  and
   a boolean <var>require well-formed</var>,
-  and null or a {{CustomElementRegistry}} <var>registry</var>,
   must run the following steps:
 
   <ol>
@@ -684,10 +678,10 @@ dl.domintro::before {
       <li><var>ns</var> is the <a>HTML namespace</a>;
       <li><var>node</var> has no <a data-cite="dom">attribute</a> whose [=Attr/namespace=] is null
       and whose [=Attr/local name=] is "<code>customelementregistry</code>";
-      <li><var>element registry</var> is not <var>registry</var>; and
-      <li><var>element registry</var> is null or its
-      <a href="https://html.spec.whatwg.org/multipage/custom-elements.html#is-scoped">is scoped</a>
-      is true,
+      <li><var>element registry</var> is not the result of
+      <a data-cite="html#get-the-inherited-custom-element-registry">getting the inherited custom
+      element registry</a> given <var>node</var>; and
+      <li><var>element registry</var> is null or its [=CustomElementRegistry/is scoped=] is true,
     </ul>
     then append "<code> customelementregistry=""</code>" to <var>markup</var>.
 
@@ -733,25 +727,22 @@ dl.domintro::before {
     <li>If <var>skip end tag</var> is true, then return <var>markup</var>.
     <span class="note"><var>node</var> is a leaf node.</span>
 
-    <li>Let <var>children node</var> be <var>node</var>.
-
-    <li>If <var>ns</var> is the <a>HTML namespace</a> and <var>node</var>'s
-    [=Element/local name=] is "<code>template</code>", then set <var>children node</var> to
-    <var>node</var>'s <a>template contents</a>.
+    <li>If <var>ns</var> is the <a>HTML namespace</a>, and <var>node</var>'s
+    [=Element/local name=] is "<code>template</code>" (this is a [^template^] element), append to
+    <var>markup</var> the result of <a>XML serializing a DocumentFragment node</a> given
+    <var>node</var>'s <a>template contents</a> (a {{DocumentFragment}}),
+    <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>, and
+    <var>require well-formed</var>.
 
     <p class=note>This allows <a>template content</a> to round-trip, given the rules for
     <a>parsing XHTML documents</a>.</p>
 
-    <li>Let <var>child registry</var> be the result of
-    <a data-cite="html" data-lt="look up a custom element registry">looking up a custom element registry</a>
-    given <var>children node</var>.
-
     <li>
-      <p>[=set/For each=] <var>child</var> of <var>children node</var>'s [=tree/children=]:
+      <p>Otherwise, [=set/for each=] <var>child</var> of <var>node</var>'s [=tree/children=]:
       <ol>
         <li>Append to <var>markup</var> the result of running the <a>XML serialization algorithm</a>
-        given |child|, <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>,
-        <var>require well-formed</var>, and <var>child registry</var>.
+        given |child|, <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>, and
+        <var>require well-formed</var>.
       </ol>
 
     <li>Append the following to <var>markup</var>, in the order listed:
@@ -1175,8 +1166,8 @@ dl.domintro::before {
   a string |namespace:string|,
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
   a mutable reference to an integer |prefix index:mutable reference to an integer|,
+  and
   a boolean <var>require well-formed</var>,
-  and null or a {{CustomElementRegistry}} <var>registry</var>,
   must run the following steps:
 
   <ol>
@@ -1193,7 +1184,7 @@ dl.domintro::before {
         <ol>
           <li>Append to <var>serialized document</var> the result of running the
           <a>XML serialization algorithm</a> given |child|, <var>inherited ns</var>, <var>map</var>,
-          <var>prefix index</var>, <var>require well-formed</var>, and <var>registry</var>.
+          <var>prefix index</var>, and <var>require well-formed</var>.
         </ol>
 
         <p class=note>This will serialize any number of {{ProcessingInstruction}} and {{Comment}}
@@ -1287,8 +1278,8 @@ dl.domintro::before {
   a string |namespace:string|,
   a [=namespace prefix map=] |prefix map:namespace prefix map|,
   a mutable reference to an integer |prefix index:mutable reference to an integer|,
+  and
   a boolean <var>require well-formed</var>,
-  and null or a {{CustomElementRegistry}} <var>registry</var>,
   must run the following steps:
 
   <ol>
@@ -1298,8 +1289,8 @@ dl.domintro::before {
       <p>[=set/For each=] <var>child</var> of <var>node</var>'s [=tree/children=]:
       <ol>
         <li>Append to <var>markup</var> the result of running the <a>XML serialization algorithm</a>
-        given |child|, <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>,
-        <var>require well-formed</var>, and <var>registry</var>.
+        given |child|, <var>inherited ns</var>, <var>map</var>, <var>prefix index</var>, and
+        <var>require well-formed</var>.
       </ol>
 
     <li>Return <var>markup</var>.
