@@ -347,6 +347,11 @@ dl.domintro::before {
   </ol>
   </div>
 
+  <p class="note">A generated <code>customelementregistry</code> attribute records a null or scoped
+  custom element registry boundary, not a scoped registry's identity. On reparsing, the boundary
+  has a null registry that can be initialized with a scoped registry. Global registry boundaries
+  inside null or scoped registry subtrees cannot be represented by this attribute.
+
   <div class="algorithm">
   <p>The <dfn>XML serialization algorithm</dfn>, given
   a {{Node}} |node:Node|,
@@ -663,6 +668,22 @@ dl.domintro::before {
       <var>inherited ns</var> are handled above such that <var>node</var> will be serialized
       preserving its original [=Element/namespace=].</p>
     </ol>
+
+    <li>Let <var>element registry</var> be the result of
+    <a data-cite="html" data-lt="look up a custom element registry">looking up a custom element registry</a>
+    given <var>node</var>.
+
+    <li>If all of the following are true:
+    <ul>
+      <li><var>ns</var> is the <a>HTML namespace</a>;
+      <li><var>node</var> has no <a data-cite="dom">attribute</a> whose [=Attr/namespace=] is null
+      and whose [=Attr/local name=] is "<code>customelementregistry</code>";
+      <li><var>element registry</var> is not the result of
+      <a data-cite="html#get-the-inherited-custom-element-registry">getting the inherited custom
+      element registry</a> given <var>node</var>; and
+      <li><var>element registry</var> is null or its [=CustomElementRegistry/is scoped=] is true,
+    </ul>
+    then append "<code> customelementregistry=""</code>" to <var>markup</var>.
 
     <li>Append to <var>markup</var> the result of the [=XML serialization of the attributes=] of
     <var>node</var> given <var>map</var>, <var>prefix index</var>, <var>local prefixes map</var>,
