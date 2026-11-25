@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en" dir="ltr"><head>
 <meta charset="UTF-8">
-<meta name="generator" content="ReSpec 37.3.6">
+<meta name="generator" content="ReSpec 37.6.1">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <style>
 .issue-label{text-transform:initial}
@@ -35,6 +35,14 @@ dfn{cursor:pointer}
 .dfn-panel ul{padding:0}
 .dfn-panel li{margin-left:1em}
 .dfn-panel.docked{position:fixed;left:.5em;top:unset;bottom:2em;margin:0 auto;max-width:calc(100vw - .75em * 2 - .5em - .2em * 2);max-height:30vh;overflow:auto}
+.dfn-panel .dfn-panel-lt{list-style:none;padding:0}
+.dfn-panel .dfn-panel-lt code{-webkit-user-select:all;user-select:all}
+.dfn-panel .dfn-panel-copy-btn{display:inline-flex;align-items:center;gap:.25em;padding:0;border:0;background:0 0;font:inherit;color:inherit;cursor:pointer;text-align:start}
+.dfn-panel .dfn-panel-copy-btn svg{display:block;box-sizing:content-box;height:.85em;width:auto;padding:0 .2em;border:1px solid color-mix(in srgb,currentColor 30%,transparent);border-radius:.2em;fill:currentColor;opacity:0}
+.dfn-panel .dfn-panel-copy-btn:focus svg,.dfn-panel .dfn-panel-lt li:hover .dfn-panel-copy-btn svg{opacity:1}
+.dfn-panel .dfn-panel-copy-btn:hover svg{background:color-mix(in srgb,currentColor 15%,transparent)}
+.dfn-panel .dfn-panel-copy-btn:active svg{background:color-mix(in srgb,currentColor 30%,transparent);box-shadow:inset 0 1px 2px color-mix(in srgb,currentColor 50%,transparent)}
+.respec-visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 </style>
 
 <title>DOM Parsing and Serialization</title>
@@ -129,7 +137,6 @@ body:has(input[name=color-scheme][value=light]:checked),head:not(:has(meta[name=
 body:has(input[name=color-scheme][value=dark]:checked){color-scheme:dark}
 </style>
 <meta name="color-scheme" content="light">
-<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/dark.css" disabled="">
 <style>
 .hljs,body:has(input[name=color-scheme][value=light]:checked) .hljs,head:not(:has(meta[name=color-scheme][content~=dark]))+body .hljs{--base:#fafafa;--mono-1:#383a42;--mono-2:#686b77;--mono-3:#717277;--hue-1:#0b76c5;--hue-2:#336ae3;--hue-3:#a626a4;--hue-4:#42803c;--hue-5:#ca4706;--hue-5-2:#c91243;--hue-6:#986801;--hue-6-2:#9a6a01}
 @media (prefers-color-scheme:dark){
@@ -255,15 +262,16 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       ]
     }
   ],
-  "publishISODate": "2026-09-02T00:00:00.000Z",
-  "generatedSubtitle": "W3C Editor's Draft 02 September 2026"
+  "publishISODate": "2026-11-25T00:00:00.000Z",
+  "generatedSubtitle": "W3C Editor's Draft 25 November 2026"
 }</script>
-<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED"></head>
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED">
+<link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/2021/dark.css" disabled=""></head>
 <body class="h-entry" data-cite="HTML INFRA URL WEBIDL DOM FETCH"><div class="head">
     <p class="logos"><a class="logo" href="https://www.w3.org/"><img crossorigin="" alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72">
   </a></p>
     <h1 id="title" class="title">DOM Parsing and Serialization</h1> <h2 id="subtitle" class="subtitle">DOMParser, XMLSerializer, innerHTML, and similar APIs</h2>
-    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2026-09-02">02 September 2026</time></p>
+    <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">W3C Editor's Draft</a> <time class="dt-published" datetime="2026-11-25">25 November 2026</time></p>
     <details open="">
       <summary>More details about this document</summary>
       <dl>
@@ -631,7 +639,12 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   </li></ol>
   </div>
 
-  <div class="algorithm">
+  <div class="note" role="note" id="issue-container-generatedID-1"><div class="note-title marker" id="h-note-1"><span>Note</span></div><p class="">A generated <code>customelementregistry</code> attribute records a null or scoped
+  custom element registry boundary, not a scoped registry's identity. On reparsing, the boundary
+  has a null registry that can be initialized with a scoped registry. Global registry boundaries
+  inside null or scoped registry subtrees cannot be represented by this attribute.
+
+  </p></div><div class="algorithm">
   <p>The <dfn id="dfn-xml-serialization-algorithm" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">XML serialization algorithm</dfn>, given
   a <a data-link-type="interface" data-lt="Node" href="https://dom.spec.whatwg.org/#node"><code>Node</code></a> <var data-type="Node">node</var>,
   a string <var data-type="string">namespace</var>,
@@ -686,7 +699,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   </li></ol>
   </div>
 
-  <div class="note" role="note" id="issue-container-generatedID-1"><div class="note-title marker" id="h-note-1"><span>Note</span></div><p class="">Each of the above referenced algorithms are detailed in the sections that follow.</p></div>
+  <div class="note" role="note" id="issue-container-generatedID-2"><div class="note-title marker" id="h-note-2"><span>Note</span></div><p class="">Each of the above referenced algorithms are detailed in the sections that follow.</p></div>
 
 <section id="xml-serializing-an-element-node"><div class="header-wrapper"><h5 id="x5-2-1-1-xml-serializing-an-element-node"><bdi class="secno">5.2.1.1 </bdi>XML serializing an Element node</h5><a class="self-link" href="#xml-serializing-an-element-node" aria-label="Permalink for Section 5.2.1.1"></a></div>
 
@@ -721,10 +734,10 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     </li><li>
     <p>Let <var data-type="map">local prefixes map</var> be « » (an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map">ordered map</a> from strings to strings).
 
-    </p><div class="note" role="note" id="issue-container-generatedID-2"><div class="note-title marker" id="h-note-2"><span>Note</span></div><p class="">Its keys will be prefixes, and its values will be namespaces. In this map,
+    </p><div class="note" role="note" id="issue-container-generatedID-3"><div class="note-title marker" id="h-note-3"><span>Note</span></div><p class="">Its keys will be prefixes, and its values will be namespaces. In this map,
     the null namespace is represented by the empty string.
 
-    </p></div><div class="note" role="note" id="issue-container-generatedID-3"><div class="note-title marker" id="h-note-3"><span>Note</span></div><p class="">This map is local to each element. It is used to ensure there are no conflicting
+    </p></div><div class="note" role="note" id="issue-container-generatedID-4"><div class="note-title marker" id="h-note-4"><span>Note</span></div><p class="">This map is local to each element. It is used to ensure there are no conflicting
     prefixes if a new namespace prefix attribute needs to be
     <a data-lt="generate a prefix" href="#dfn-generating-a-prefix" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-generating-a-prefix-2">generated</a>.
     It is also used to enable skipping of duplicate prefix definitions when
@@ -736,21 +749,21 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <a href="#dfn-recording-the-namespace-information" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-recording-the-namespace-information-1">recording the namespace information</a> for <var data-type="Element">node</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-attribute">attribute list</a>
     given <var data-type="namespace prefix map">map</var> and <var data-type="map">local prefixes map</var>.
 
-    <div class="note" role="note" id="issue-container-generatedID-4"><div class="note-title marker" id="h-note-4"><span>Note</span></div><p class="">The above step will update <var data-type="namespace prefix map">map</var> with any found namespace prefix
+    <div class="note" role="note" id="issue-container-generatedID-5"><div class="note-title marker" id="h-note-5"><span>Note</span></div><p class="">The above step will update <var data-type="namespace prefix map">map</var> with any found namespace prefix
     definitions, add the found prefix definitions to <var data-type="map">local prefixes map</var> and
     return the value of a default namespace attribute (which can be empty) if one exists.
     Otherwise it returns null.</p></div>
 
     </li><li>Let <var>inherited ns</var> be <var data-type="string">namespace</var>.
 
-    <div class="note" role="note" id="issue-container-generatedID-5"><div class="note-title marker" id="h-note-5"><span>Note</span></div><p class=""><var>inherited ns</var> will be passed down as the namespace argument
+    <div class="note" role="note" id="issue-container-generatedID-6"><div class="note-title marker" id="h-note-6"><span>Note</span></div><p class=""><var>inherited ns</var> will be passed down as the namespace argument
     when serializing <var data-type="Element">node</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-tree-child">children</a>.
 
     </p></div></li><li>Let <var>ns</var> be <var data-type="Element">node</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-namespace">namespace</a>.
 
     </li><li>If <var>inherited ns</var> is <var>ns</var>, then:
 
-    <div class="note" role="note" id="issue-container-generatedID-6"><div class="note-title marker" id="h-note-6"><span>Note</span></div><p class=""><var data-type="Element">node</var> is in the current default namespace. The steps below
+    <div class="note" role="note" id="issue-container-generatedID-7"><div class="note-title marker" id="h-note-7"><span>Note</span></div><p class=""><var data-type="Element">node</var> is in the current default namespace. The steps below
     serialize <var data-type="Element">node</var> without a prefix (even if it had one), and drop any default
     namespace declaration. An exception is made if <var data-type="Element">node</var> is in the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xml-namespace">XML namespace</a>,
     in which case the "<code>xml:</code>" prefix is used; this prefix does not need to be declared and no
@@ -770,7 +783,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
     </li><li>Otherwise:
 
-    <div class="note" role="note" id="issue-container-generatedID-7"><div class="note-title marker" id="h-note-7"><span>Note</span></div><p class=""><var>inherited ns</var> is not equal to <var>ns</var>; <var data-type="Element">node</var>'s
+    <div class="note" role="note" id="issue-container-generatedID-8"><div class="note-title marker" id="h-note-8"><span>Note</span></div><p class=""><var>inherited ns</var> is not equal to <var>ns</var>; <var data-type="Element">node</var>'s
     own <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-namespace">namespace</a> is different from the context namespace.
     To differentiate <var data-type="Element">node</var>'s namespace from the context namespace, the steps below
     will use a namespace prefix if one is available; if not, they will use or introduce a
@@ -783,7 +796,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       <a href="#dfn-retrieving-a-preferred-prefix-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-retrieving-a-preferred-prefix-string-1">retrieving a preferred prefix string</a> <var>prefix</var> from <var data-type="namespace prefix map">map</var> given
       <var>ns</var>.
 
-      <div class="note" role="note" id="issue-container-generatedID-8"><div class="note-title marker" id="h-note-8"><span>Note</span></div><p class=""><var>candidate prefix</var> will be null if no prefix was found that maps
+      <div class="note" role="note" id="issue-container-generatedID-9"><div class="note-title marker" id="h-note-9"><span>Note</span></div><p class=""><var>candidate prefix</var> will be null if no prefix was found that maps
       to <var>ns</var> (not even <var>prefix</var>). In that case, this algorithm will
       generate a new <code>xmlns</code> attribute and <a href="#dfn-add" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-add-2">add</a> any new prefix to <var data-type="namespace prefix map">map</var> below.
 
@@ -799,26 +812,28 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       </li><li><dfn id="dfn-found-a-suitable-namespace-prefix" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">Found a suitable namespace prefix</dfn>: if <var>candidate prefix</var> is not
       null, then:
 
-      <div class="note" role="note" id="issue-container-generatedID-9"><div class="note-title marker" id="h-note-9"><span>Note</span></div><p class="">Either <var data-type="Element">node</var> or one of its ancestors defines that
+      <div class="note" role="note" id="issue-container-generatedID-10"><div class="note-title marker" id="h-note-10"><span>Note</span></div><p class="">Either <var data-type="Element">node</var> or one of its ancestors defines that
       <var>candidate prefix</var> maps to <var data-type="Element">node</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-namespace">namespace</a>.
 
-      </p></div><div class="note" role="note" id="issue-container-generatedID-10"><div class="note-title marker" id="h-note-10"><span>Note</span></div><p class="">The following could serialize a different prefix than <var data-type="Element">node</var>'s
+      </p></div><div class="note" role="note" id="issue-container-generatedID-11"><div class="note-title marker" id="h-note-11"><span>Note</span></div><p class="">The following could serialize a different prefix than <var data-type="Element">node</var>'s
       existing <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-namespace-prefix">namespace prefix</a>, if any. However, this only happens if this prefix
       does not map to the correct namespace, as the <a href="#dfn-retrieving-a-preferred-prefix-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-retrieving-a-preferred-prefix-string-2">retrieving a preferred prefix string</a>
       algorithm already tried to match the existing prefix.</p></div>
 
       <div class="issue" id="issue-container-number-52"><div class="issue-title marker" id="h-issue"><a href="https://github.com/w3c/DOM-Parsing/issues/52"><span class="issue-number">Issue 52</span></a><span class="issue-label">: XMLSerializer: Should prefer the default namespace to a prefix declared in an ancestor <a class="respec-gh-label" href="https://github.com/w3c/DOM-Parsing/issues/?q=is%3Aissue+is%3Aopen+label%3A%22xml-serialization%22" style="background-color: rgb(65, 71, 163); color: rgb(255, 255, 255);" aria-label="GitHub label: xml-serialization">xml-serialization</a></span></div><p dir="auto">Suppose that we have the following XML document, parse it, and serialize it.</p>
-<div class="highlight highlight-text-xml notranslate position-relative overflow-auto" dir="auto" data-snippet-clipboard-copy-content="&lt;root xmlns:x=&quot;uri1&quot;&gt;
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="&lt;root xmlns:x=&quot;uri1&quot;&gt;
  &lt;table xmlns=&quot;uri1&quot;/&gt;
-&lt;/root&gt;"><pre class="notranslate" aria-busy="false"><code class="hljs">&lt;root xmlns:x="uri1"&gt;
+&lt;/root&gt;"><pre lang="xml" class="notranslate"><code class="notranslate hljs" aria-busy="false">&lt;root xmlns:x="uri1"&gt;
  &lt;table xmlns="uri1"/&gt;
-&lt;/root&gt;</code></pre></div>
+&lt;/root&gt;
+</code></pre></div>
 <p dir="auto">If we follow the current specification, the serialization result is:</p>
-<div class="highlight highlight-text-xml notranslate position-relative overflow-auto" dir="auto" data-snippet-clipboard-copy-content="&lt;root xmlns:x=&quot;uri1&quot;&gt;
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="&lt;root xmlns:x=&quot;uri1&quot;&gt;
  &lt;x:table xmlns=&quot;uri1&quot;/&gt;
-&lt;/root&gt;"><pre class="notranslate" aria-busy="false"><code class="hljs">&lt;root xmlns:x="uri1"&gt;
+&lt;/root&gt;"><pre lang="xml" class="notranslate"><code class="notranslate hljs" aria-busy="false">&lt;root xmlns:x="uri1"&gt;
  &lt;x:table xmlns="uri1"/&gt;
-&lt;/root&gt;</code></pre></div>
+&lt;/root&gt;
+</code></pre></div>
 <p dir="auto">It's incompatible with Edge, Firefox, Safari, and Chrome 73-.<br>
 (Chrome 74 produces the above result, and we're fixing it.)</p>
 <p dir="auto">I think 12.1 in <a href="https://w3c.github.io/DOM-Parsing/#xml-serializing-an-element-node" rel="nofollow">https://w3c.github.io/DOM-Parsing/#xml-serializing-an-element-node</a> should be changed as following:</p>
@@ -840,10 +855,10 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
           </li><li>Otherwise, set <var>inherited ns</var> to <var>local default namespace</var>.
         </li></ol>
 
-        <div class="note" role="note" id="issue-container-generatedID-11"><div class="note-title marker" id="h-note-11"><span>Note</span></div><p class="">It is possible that <var>inherited ns</var> differs from
+        <div class="note" role="note" id="issue-container-generatedID-12"><div class="note-title marker" id="h-note-12"><span>Note</span></div><p class="">It is possible that <var>inherited ns</var> differs from
         <var data-type="Element">node</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-namespace">namespace</a>.
 
-        </p></div><div class="note" role="note" id="issue-container-generatedID-12"><div class="note-title marker" id="h-note-12"><span>Note</span></div><p class="">Any default namespace definitions or namespace prefixes that define the
+        </p></div><div class="note" role="note" id="issue-container-generatedID-13"><div class="note-title marker" id="h-note-13"><span>Note</span></div><p class="">Any default namespace definitions or namespace prefixes that define the
         <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xml-namespace">XML namespace</a> are omitted when serializing <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute">attributes</a> in
         <var data-type="Element">node</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-attribute">attribute list</a>.</p></div>
 
@@ -852,7 +867,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
       </li><li>Otherwise, if <var>prefix</var> is not null, then:
 
-      <div class="note" role="note" id="issue-container-generatedID-13"><div class="note-title marker" id="h-note-13"><span>Note</span></div><p class="">By this step, there is no namespace or prefix mapping declaration in
+      <div class="note" role="note" id="issue-container-generatedID-14"><div class="note-title marker" id="h-note-14"><span>Note</span></div><p class="">By this step, there is no namespace or prefix mapping declaration in
       <var data-type="Element">node</var> (or any parent <a data-link-type="interface" data-lt="Node" href="https://dom.spec.whatwg.org/#node"><code>Node</code></a> visited by this algorithm) that defines
       a prefix that maps to <var data-type="Element">node</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-namespace">namespace</a>; otherwise the step labelled
       <a href="#dfn-found-a-suitable-namespace-prefix" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-found-a-suitable-namespace-prefix-1">Found a suitable namespace prefix</a> would have been followed. Ideally we would use
@@ -876,7 +891,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
         </li><li>Append the following to <var data-type="string">markup</var>, in the order listed:
 
-        <div class="note" role="note" id="issue-container-generatedID-14"><div class="note-title marker" id="h-note-14"><span>Note</span></div><p class="">The following serializes a namespace prefix declaration for <var>prefix</var>
+        <div class="note" role="note" id="issue-container-generatedID-15"><div class="note-title marker" id="h-note-15"><span>Note</span></div><p class="">The following serializes a namespace prefix declaration for <var>prefix</var>
         which was just added to <var data-type="namespace prefix map">map</var>.</p></div>
 
         <ol>
@@ -908,7 +923,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       <var>local default namespace</var> is not null and its value is not equal
       to <var>ns</var>, then:
 
-      <div class="note" role="note" id="issue-container-generatedID-15"><div class="note-title marker" id="h-note-15"><span>Note</span></div><p class="">At this point, the namespace for this node still needs to be serialized, but
+      <div class="note" role="note" id="issue-container-generatedID-16"><div class="note-title marker" id="h-note-16"><span>Note</span></div><p class="">At this point, the namespace for this node still needs to be serialized, but
       there's no <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-namespace-prefix">namespace prefix</a> (or <var>candidate prefix</var>) available; the
       following uses the default namespace declaration to define the namespace—optionally replacing
       an existing default declaration if present.</p></div>
@@ -920,7 +935,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
         </li><li>Set <var>inherited ns</var> to <var>ns</var>.
 
-        <div class="note" role="note" id="issue-container-generatedID-16"><div class="note-title marker" id="h-note-16"><span>Note</span></div><p class="">The new default namespace will be used in the serialization to define
+        <div class="note" role="note" id="issue-container-generatedID-17"><div class="note-title marker" id="h-note-17"><span>Note</span></div><p class="">The new default namespace will be used in the serialization to define
         <var data-type="Element">node</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-namespace">namespace</a> and act as the context namespace for its
         <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-tree-child">children</a>.</p></div>
 
@@ -928,7 +943,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
         </li><li>Append the following to <var data-type="string">markup</var>, in the order listed:
 
-        <div class="note" role="note" id="issue-container-generatedID-17"><div class="note-title marker" id="h-note-17"><span>Note</span></div><p class="">The following serializes the new (or replacement) default namespace
+        <div class="note" role="note" id="issue-container-generatedID-18"><div class="note-title marker" id="h-note-18"><span>Note</span></div><p class="">The following serializes the new (or replacement) default namespace
         definition.</p></div>
 
         <ol>
@@ -948,7 +963,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
       
       </li><li>Otherwise:
 
-      <div class="note" role="note" id="issue-container-generatedID-18"><div class="note-title marker" id="h-note-18"><span>Note</span></div><p class=""><var>local default namespace</var> is <var>ns</var>.
+      <div class="note" role="note" id="issue-container-generatedID-19"><div class="note-title marker" id="h-note-19"><span>Note</span></div><p class=""><var>local default namespace</var> is <var>ns</var>.
 
       </p></div><ol>
         <li>Append <var data-type="Element">node</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-local-name">local name</a> to <var data-type="string">qualified name</var>.
@@ -958,10 +973,26 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
         </li><li>Append <var data-type="string">qualified name</var> to <var data-type="string">markup</var>.
       </li></ol>
 
-      <div class="note" role="note" id="issue-container-generatedID-19"><div class="note-title marker" id="h-note-19"><span>Note</span></div><p class="">All of the combinations where <var>ns</var> is not equal to
+      <div class="note" role="note" id="issue-container-generatedID-20"><div class="note-title marker" id="h-note-20"><span>Note</span></div><p class="">All of the combinations where <var>ns</var> is not equal to
       <var>inherited ns</var> are handled above such that <var data-type="Element">node</var> will be serialized
       preserving its original <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-namespace">namespace</a>.</p></div>
     </li></ol>
+
+    </li><li>Let <var>element registry</var> be the result of
+    <a data-lt="look up a custom element registry" data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#look-up-a-custom-element-registry">looking up a custom element registry</a>
+    given <var data-type="Element">node</var>.
+
+    </li><li>If all of the following are true:
+    <ul>
+      <li><var>ns</var> is the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#html-namespace">HTML namespace</a>;
+      </li><li><var data-type="Element">node</var> has no <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute">attribute</a> whose <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute-namespace">namespace</a> is null
+      and whose <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute-local-name">local name</a> is "<code>customelementregistry</code>";
+      </li><li><var>element registry</var> is not the result of
+      <a href="https://html.spec.whatwg.org/multipage/#get-the-inherited-custom-element-registry">getting the inherited custom
+      element registry</a> given <var data-type="Element">node</var>; and
+      </li><li><var>element registry</var> is null or its <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/custom-elements.html#is-scoped">is scoped</a> is true,
+    </li></ul>
+    then append "<code> customelementregistry=""</code>" to <var data-type="string">markup</var>.
 
     </li><li>Append to <var data-type="string">markup</var> the result of the <a data-link-type="dfn|abstract-op" href="#dfn-xml-serialization-of-the-attributes" class="internalDFN" id="ref-for-dfn-xml-serialization-of-the-attributes-2">XML serialization of the attributes</a> of
     <var data-type="Element">node</var> given <var data-type="namespace prefix map">map</var>, <var data-type="mutable reference to an integer">prefix index</var>, <var data-type="map">local prefixes map</var>,
@@ -1012,7 +1043,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     <var>inherited ns</var>, <var data-type="namespace prefix map">map</var>, <var data-type="mutable reference to an integer">prefix index</var>, and
     <var>require well-formed</var>.
 
-    <div class="note" role="note" id="issue-container-generatedID-20"><div class="note-title marker" id="h-note-20"><span>Note</span></div><p class="">This allows <a href="#dfn-template-content" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-template-content-2">template content</a> to round-trip, given the rules for
+    <div class="note" role="note" id="issue-container-generatedID-21"><div class="note-title marker" id="h-note-21"><span>Note</span></div><p class="">This allows <a href="#dfn-template-content" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-template-content-2">template content</a> to round-trip, given the rules for
     <a href="#dfn-parsing-xhtml-documents" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-parsing-xhtml-documents-1">parsing XHTML documents</a>.</p></div>
 
     </li><li>
@@ -1039,7 +1070,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 <section id="recording-the-namespace"><div class="header-wrapper"><h6 id="x5-2-1-1-1-recording-the-namespace"><bdi class="secno">5.2.1.1.1 </bdi>Recording the namespace</h6><a class="self-link" href="#recording-the-namespace" aria-label="Permalink for Section 5.2.1.1.1"></a></div>
 
   <div class="algorithm">
-  <div class="note" role="note" id="issue-container-generatedID-21"><div class="note-title marker" id="h-note-21"><span>Note</span></div><p class="">This following algorithm will update the <a href="#dfn-namespace-prefix-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-namespace-prefix-map-5">namespace prefix map</a> with any
+  <div class="note" role="note" id="issue-container-generatedID-22"><div class="note-title marker" id="h-note-22"><span>Note</span></div><p class="">This following algorithm will update the <a href="#dfn-namespace-prefix-map" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-namespace-prefix-map-5">namespace prefix map</a> with any
   found namespace prefix definitions, add the found prefix definitions to
   <var>local prefixes map</var>, and return a local default namespace value defined by a default
   namespace attribute if one exists. Otherwise it returns null.</p></div>
@@ -1053,7 +1084,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
     </li><li><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-iterate">For each</a> <var>attr</var> of <var>attributes</var>:
 
-    <div class="note" role="note" id="issue-container-generatedID-22"><div class="note-title marker" id="h-note-22"><span>Note</span></div><p class="">The following conditional steps find namespace prefixes. Only
+    <div class="note" role="note" id="issue-container-generatedID-23"><div class="note-title marker" id="h-note-23"><span>Note</span></div><p class="">The following conditional steps find namespace prefixes. Only
     <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute">attributes</a> in the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xmlns-namespace">XMLNS namespace</a> are considered (e.g.,
     <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute">attributes</a> made to look like namespace declarations via
     <a data-link-type="method" data-lt="setAttribute(qualifiedName, value)" href="https://dom.spec.whatwg.org/#dom-element-setattribute"><code>setAttribute</code></a><code>(<var>"xmlns:pretend-prefix"</var>, <var>"pretend-namespace"</var>)</code> are not included).</p></div>
@@ -1071,7 +1102,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
         </li><li>Otherwise:
         <ol>
-          <div class="note" role="note" id="issue-container-generatedID-23"><div class="note-title marker" id="h-note-23"><span>Note</span></div><li class=""><var>attribute prefix</var> is not null and <var>attr</var> is a namespace
+          <div class="note" role="note" id="issue-container-generatedID-24"><div class="note-title marker" id="h-note-24"><span>Note</span></div><li class=""><var>attribute prefix</var> is not null and <var>attr</var> is a namespace
           prefix definition.
 
           </li></div><li>Let <var>prefix definition</var> be <var>attr</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute-local-name">local name</a>.
@@ -1081,7 +1112,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
           </li><li>If <var>namespace definition</var> is the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xml-namespace">XML namespace</a>, then
           <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue">continue</a>.
 
-          <div class="note" role="note" id="issue-container-generatedID-24"><div class="note-title marker" id="h-note-24"><span>Note</span></div><p class=""><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xml-namespace">XML namespace</a> definitions in prefixes are completely ignored (in
+          <div class="note" role="note" id="issue-container-generatedID-25"><div class="note-title marker" id="h-note-25"><span>Note</span></div><p class=""><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xml-namespace">XML namespace</a> definitions in prefixes are completely ignored (in
           order to avoid unnecessary work when there might be prefix conflicts).
           <a data-link-type="interface" data-lt="Element" href="https://dom.spec.whatwg.org/#element"><code>Element</code></a>s in the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xml-namespace">XML namespace</a> are always handled uniformly by prefixing (and
           overriding if necessary) the element's <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-element-local-name">local name</a> with the reserved
@@ -1093,7 +1124,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
           </li><li>If <var>prefix definition</var> is <a href="#dfn-found" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-found-1">found</a> in <var>map</var> given
           <var>namespace definition</var>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue">continue</a>.
 
-          <div class="note" role="note" id="issue-container-generatedID-25"><div class="note-title marker" id="h-note-25"><span>Note</span></div><p class="">This step avoids adding duplicate prefix definitions for the same namespace
+          <div class="note" role="note" id="issue-container-generatedID-26"><div class="note-title marker" id="h-note-26"><span>Note</span></div><p class="">This step avoids adding duplicate prefix definitions for the same namespace
           in <var>map</var>. This has the side-effect of avoiding later serialization of
           duplicate namespace prefix declarations in any descendant nodes.</p></div>
 
@@ -1110,7 +1141,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
     </li></ol>
     </li><li>Return <var>default namespace attr value</var>.
 
-    <div class="note" role="note" id="issue-container-generatedID-26"><div class="note-title marker" id="h-note-26"><span>Note</span></div><p class="">The empty string is a legitimate return value and is not converted to
+    <div class="note" role="note" id="issue-container-generatedID-27"><div class="note-title marker" id="h-note-27"><span>Note</span></div><p class="">The empty string is a legitimate return value and is not converted to
     null.</p></div>
   </li></ol>
   </div>
@@ -1122,7 +1153,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   <p>A <dfn id="dfn-namespace-prefix-map" tabindex="0" aria-haspopup="dialog" data-dfn-type="dfn">namespace prefix map</dfn> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map">ordered map</a> from <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string">strings</a> or null
   to <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list">lists</a> of <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#string">strings</a>.</p>
 
-  <div class="note" role="note" id="issue-container-generatedID-27"><div class="note-title marker" id="h-note-27"><span>Note</span></div><div class="">
+  <div class="note" role="note" id="issue-container-generatedID-28"><div class="note-title marker" id="h-note-28"><span>Note</span></div><div class="">
   <p>The keys are namespaces, with null representing no namespace; the values are
   <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list">lists</a> of prefixes that map to that namespace.
 
@@ -1210,7 +1241,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
   </li></ol>
   </div>
 
-  <div class="note" role="note" id="issue-container-generatedID-28"><div class="note-title marker" id="h-note-28"><span>Note</span></div><p class="">The steps in <a href="#dfn-retrieving-a-preferred-prefix-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-retrieving-a-preferred-prefix-string-4">retrieve a preferred prefix string</a> use the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list">list</a> to track
+  <div class="note" role="note" id="issue-container-generatedID-29"><div class="note-title marker" id="h-note-29"><span>Note</span></div><p class="">The steps in <a href="#dfn-retrieving-a-preferred-prefix-string" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-retrieving-a-preferred-prefix-string-4">retrieve a preferred prefix string</a> use the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list">list</a> to track
   the most recently used prefix associated with a given namespace, which will be the prefix at the
   end of the list. This list can contain duplicates of the same prefix seen earlier (and that's
   OK).</p></div>
@@ -1232,7 +1263,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
     </li><li>Let <var>localname set</var> be « » (an empty <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set">ordered set</a>).
 
-    <div class="note" role="note" id="issue-container-generatedID-29"><div class="note-title marker" id="h-note-29"><span>Note</span></div><p class=""><var>localname set</var> will contain tuples of unique attribute
+    <div class="note" role="note" id="issue-container-generatedID-30"><div class="note-title marker" id="h-note-30"><span>Note</span></div><p class=""><var>localname set</var> will contain tuples of unique attribute
     (namespace, local name) pairs, and is populated as each <var>attr</var> is processed. If
     <var>require well-formed</var> is true, it is used to enforce the well-formed constraint
     that an element cannot have two attributes with the same <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute-namespace">namespace</a> and
@@ -1270,7 +1301,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
           <ul>
             <li><var>attr</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute-value">value</a> is the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xml-namespace">XML namespace</a>;
 
-            <div class="note" role="note" id="issue-container-generatedID-30"><div class="note-title marker" id="h-note-30"><span>Note</span></div><p class="">The <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xml-namespace">XML namespace</a> cannot be redeclared and survive
+            <div class="note" role="note" id="issue-container-generatedID-31"><div class="note-title marker" id="h-note-31"><span>Note</span></div><p class="">The <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xml-namespace">XML namespace</a> cannot be redeclared and survive
             <a href="#dfn-round-tripping" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-round-tripping-3">round-tripping</a> (unless it defines the prefix "<code>xml</code>"). To avoid this
             problem, this algorithm always prefixes elements in the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xml-namespace">XML namespace</a> with
             "<code>xml</code>" and drops any related definitions as seen in the above condition.</p></div>
@@ -1299,7 +1330,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
           because the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xmlns-namespace">XMLNS namespace</a> is reserved and cannot be applied as an
           element's namespace via XML parsing.</span>
 
-          <div class="note" role="note" id="issue-container-generatedID-31"><div class="note-title marker" id="h-note-31"><span>Note</span></div><p class="">DOM APIs do allow creation of elements in the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xmlns-namespace">XMLNS namespace</a> but
+          <div class="note" role="note" id="issue-container-generatedID-32"><div class="note-title marker" id="h-note-32"><span>Note</span></div><p class="">DOM APIs do allow creation of elements in the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#xmlns-namespace">XMLNS namespace</a> but
           with strict qualifications.</p></div>
 
           </li><li>If <var>require well-formed</var> is true, and <var>attr</var>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-attribute-value">value</a> is the
@@ -1402,7 +1433,7 @@ var[data-type]:hover::after,var[data-type]:hover::before{opacity:1}
 
       </li><li>U+000D CARRIAGE RETURN (CR) with "<code>&amp;#xD;</code>"
     </li></ol>
-    <div class="note" role="note" id="issue-container-generatedID-32"><div class="note-title marker" id="h-note-32"><span>Note</span></div><p class="">This matches behavior present in browsers, and goes above and beyond the grammar
+    <div class="note" role="note" id="issue-container-generatedID-33"><div class="note-title marker" id="h-note-33"><span>Note</span></div><p class="">This matches behavior present in browsers, and goes above and beyond the grammar
     requirement in the XML specification's <a href="#dfn-attvalue" class="internalDFN" data-link-type="dfn" id="ref-for-dfn-attvalue-1">AttValue</a> production by also replacing
     "<code>&gt;</code>" characters.</p></div>
   </li></ol>
@@ -1473,7 +1504,7 @@ console.log((new XMLSerializer()).serializeToString(root));
           <var data-type="mutable reference to an integer">prefix index</var>, and <var>require well-formed</var>.
         </li></ol>
 
-        <div class="note" role="note" id="issue-container-generatedID-33"><div class="note-title marker" id="h-note-33"><span>Note</span></div><p class="">This will serialize any number of <a data-link-type="interface" data-lt="ProcessingInstruction" href="https://dom.spec.whatwg.org/#processinginstruction"><code>ProcessingInstruction</code></a> and <a data-link-type="interface" data-lt="Comment" href="https://dom.spec.whatwg.org/#comment"><code>Comment</code></a>
+        <div class="note" role="note" id="issue-container-generatedID-34"><div class="note-title marker" id="h-note-34"><span>Note</span></div><p class="">This will serialize any number of <a data-link-type="interface" data-lt="ProcessingInstruction" href="https://dom.spec.whatwg.org/#processinginstruction"><code>ProcessingInstruction</code></a> and <a data-link-type="interface" data-lt="Comment" href="https://dom.spec.whatwg.org/#comment"><code>Comment</code></a>
         nodes both before and after the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#document-element">document element</a>, as well as at most one
         <a data-link-type="interface" data-lt="DocumentType" href="https://dom.spec.whatwg.org/#documenttype"><code>DocumentType</code></a> node. (<a data-link-type="interface" data-lt="Text" href="https://dom.spec.whatwg.org/#text"><code>Text</code></a> nodes are not allowed as children of a <a data-link-type="interface" data-lt="Document" href="https://dom.spec.whatwg.org/#document"><code>Document</code></a>.)
 
@@ -1804,7 +1835,7 @@ console.log((new XMLSerializer()).serializeToString(root));
     </dd></dl>
   </section></section><p role="navigation" id="back-to-top">
     <a href="#title"><abbr title="Back to Top">↑</abbr></a>
-  </p><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-applicable-specification" aria-label="Links in this document to definition: applicable specification">
+  </p><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-applicable-specification" aria-label="Details for definition: applicable specification">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-applicable-specification" aria-label="Permalink for definition: applicable specification. Activate to close this dialog.">Permalink</a>
@@ -1812,10 +1843,17 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
       <li>Not referenced in this document.</li>
+    </ul> <p><b id="dfn-panel-lt-heading-dfn-applicable-specification">Possible linking syntaxes:</b></p><ul class="dfn-panel-lt" aria-labelledby="dfn-panel-lt-heading-dfn-applicable-specification">
+      <li><button type="button" class="dfn-panel-copy-btn">
+    <span class="respec-visually-hidden">Copy </span><code>[=applicable specification=]</code>
+    <svg aria-hidden="true" viewBox="0 0 14 16">
+      <use href="#respec-dfn-panel-copy-icon"></use>
+    </svg>
+  </button></li>
     </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-parsing" aria-label="Links in this document to definition: Parsing">
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-parsing" aria-label="Details for definition: Parsing">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-parsing" aria-label="Permalink for definition: Parsing. Activate to close this dialog.">Permalink</a>
@@ -1823,12 +1861,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-parsing-1" title="§ 3. Introduction">§ 3. Introduction</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-serializing" aria-label="Links in this document to definition: Serializing">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-serializing" aria-label="Details for definition: Serializing">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-serializing" aria-label="Permalink for definition: Serializing. Activate to close this dialog.">Permalink</a>
@@ -1836,12 +1874,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-serializing-1" title="§ 3. Introduction">§ 3. Introduction</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-round-tripping" aria-label="Links in this document to definition: Round-tripping">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-round-tripping" aria-label="Details for definition: Round-tripping">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-round-tripping" aria-label="Permalink for definition: Round-tripping. Activate to close this dialog.">Permalink</a>
@@ -1849,14 +1887,14 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-round-tripping-1" title="§ 3. Introduction">§ 3. Introduction</a> <a href="#ref-for-dfn-round-tripping-2" title="Reference 2">(2)</a> 
     </li><li>
       <a href="#ref-for-dfn-round-tripping-3" title="§ 5.2.1.1.3 Serializing an Element's attributes">§ 5.2.1.1.3 Serializing an Element's attributes</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serialization" aria-label="Links in this document to definition: XML serialization">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serialization" aria-label="Details for definition: XML serialization">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serialization" aria-label="Permalink for definition: XML serialization. Activate to close this dialog.">Permalink</a>
@@ -1864,14 +1902,14 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serialization-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> <a href="#ref-for-dfn-xml-serialization-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-xml-serialization-3" title="Reference 3">(3)</a> 
     </li><li>
       <a href="#ref-for-dfn-xml-serialization-4" title="§ 5.2.1.1.2 The Namespace Prefix Map">§ 5.2.1.1.2 The Namespace Prefix Map</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-throw-an-exception" aria-label="Links in this document to definition: exception">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-throw-an-exception" aria-label="Details for definition: exception">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-throw-an-exception" aria-label="Permalink for definition: exception. Activate to close this dialog.">Permalink</a>
@@ -1879,7 +1917,7 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-throw-an-exception-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> <a href="#ref-for-dfn-throw-an-exception-2" title="Reference 2">(2)</a> 
     </li><li>
@@ -1895,8 +1933,8 @@ console.log((new XMLSerializer()).serializeToString(root));
     </li><li>
       <a href="#ref-for-dfn-throw-an-exception-13" title="§ 5.2.1.8 XML serializing a ProcessingInstruction node">§ 5.2.1.8 XML serializing a ProcessingInstruction node</a> <a href="#ref-for-dfn-throw-an-exception-14" title="Reference 2">(2)</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serialization-algorithm" aria-label="Links in this document to definition: XML serialization algorithm">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serialization-algorithm" aria-label="Details for definition: XML serialization algorithm">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serialization-algorithm" aria-label="Permalink for definition: XML serialization algorithm. Activate to close this dialog.">Permalink</a>
@@ -1904,7 +1942,7 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serialization-algorithm-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li><li>
@@ -1914,8 +1952,8 @@ console.log((new XMLSerializer()).serializeToString(root));
     </li><li>
       <a href="#ref-for-dfn-xml-serialization-algorithm-4" title="§ 5.2.1.6 XML serializing a DocumentFragment node">§ 5.2.1.6 XML serializing a DocumentFragment node</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-an-element-node" aria-label="Links in this document to definition: XML serializing an Element node">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-an-element-node" aria-label="Details for definition: XML serializing an Element node">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serializing-an-element-node" aria-label="Permalink for definition: XML serializing an Element node. Activate to close this dialog.">Permalink</a>
@@ -1923,12 +1961,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serializing-an-element-node-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-found-a-suitable-namespace-prefix" aria-label="Links in this document to definition: Found a suitable namespace prefix">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-found-a-suitable-namespace-prefix" aria-label="Details for definition: Found a suitable namespace prefix">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-found-a-suitable-namespace-prefix" aria-label="Permalink for definition: Found a suitable namespace prefix. Activate to close this dialog.">Permalink</a>
@@ -1936,12 +1974,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-found-a-suitable-namespace-prefix-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-recording-the-namespace-information" aria-label="Links in this document to definition: recording the namespace information">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-recording-the-namespace-information" aria-label="Details for definition: recording the namespace information">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-recording-the-namespace-information" aria-label="Permalink for definition: recording the namespace information. Activate to close this dialog.">Permalink</a>
@@ -1949,14 +1987,14 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-recording-the-namespace-information-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> 
     </li><li>
       <a href="#ref-for-dfn-recording-the-namespace-information-2" title="§ 5.2.1.1.2 The Namespace Prefix Map">§ 5.2.1.1.2 The Namespace Prefix Map</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-namespace-prefix-map" aria-label="Links in this document to definition: namespace prefix map">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-namespace-prefix-map" aria-label="Details for definition: namespace prefix map">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-namespace-prefix-map" aria-label="Permalink for definition: namespace prefix map. Activate to close this dialog.">Permalink</a>
@@ -1964,7 +2002,7 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-namespace-prefix-map-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> <a href="#ref-for-dfn-namespace-prefix-map-2" title="Reference 2">(2)</a> 
     </li><li>
@@ -1982,8 +2020,8 @@ console.log((new XMLSerializer()).serializeToString(root));
     </li><li>
       <a href="#ref-for-dfn-namespace-prefix-map-15" title="§ 5.2.1.6 XML serializing a DocumentFragment node">§ 5.2.1.6 XML serializing a DocumentFragment node</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-copy-a-namespace-prefix-map" aria-label="Links in this document to definition: copy a namespace prefix map">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-copy-a-namespace-prefix-map" aria-label="Details for definition: copy a namespace prefix map">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-copy-a-namespace-prefix-map" aria-label="Permalink for definition: copy a namespace prefix map. Activate to close this dialog.">Permalink</a>
@@ -1991,14 +2029,14 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-copy-a-namespace-prefix-map-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> 
     </li><li>
       <a href="#ref-for-dfn-copy-a-namespace-prefix-map-2" title="§ 5.2.1.1.2 The Namespace Prefix Map">§ 5.2.1.1.2 The Namespace Prefix Map</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-retrieving-a-preferred-prefix-string" aria-label="Links in this document to definition: retrieve a preferred prefix string">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-retrieving-a-preferred-prefix-string" aria-label="Details for definition: retrieve a preferred prefix string">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-retrieving-a-preferred-prefix-string" aria-label="Permalink for definition: retrieve a preferred prefix string. Activate to close this dialog.">Permalink</a>
@@ -2006,7 +2044,7 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-retrieving-a-preferred-prefix-string-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> <a href="#ref-for-dfn-retrieving-a-preferred-prefix-string-2" title="Reference 2">(2)</a> 
     </li><li>
@@ -2014,8 +2052,8 @@ console.log((new XMLSerializer()).serializeToString(root));
     </li><li>
       <a href="#ref-for-dfn-retrieving-a-preferred-prefix-string-5" title="§ 5.2.1.1.3 Serializing an Element's attributes">§ 5.2.1.1.3 Serializing an Element's attributes</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-found" aria-label="Links in this document to definition: found">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-found" aria-label="Details for definition: found">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-found" aria-label="Permalink for definition: found. Activate to close this dialog.">Permalink</a>
@@ -2023,14 +2061,14 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-found-1" title="§ 5.2.1.1.1 Recording the namespace">§ 5.2.1.1.1 Recording the namespace</a> 
     </li><li>
       <a href="#ref-for-dfn-found-2" title="§ 5.2.1.1.3 Serializing an Element's attributes">§ 5.2.1.1.3 Serializing an Element's attributes</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-add" aria-label="Links in this document to definition: add">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-add" aria-label="Details for definition: add">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-add" aria-label="Permalink for definition: add. Activate to close this dialog.">Permalink</a>
@@ -2038,7 +2076,7 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-add-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li><li>
@@ -2050,8 +2088,8 @@ console.log((new XMLSerializer()).serializeToString(root));
     </li><li>
       <a href="#ref-for-dfn-add-6" title="§ 5.2.1.1.4 Generating namespace prefixes">§ 5.2.1.1.4 Generating namespace prefixes</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serialization-of-the-attributes" aria-label="Links in this document to definition: XML serialization of the attributes">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serialization-of-the-attributes" aria-label="Details for definition: XML serialization of the attributes">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serialization-of-the-attributes" aria-label="Permalink for definition: XML serialization of the attributes. Activate to close this dialog.">Permalink</a>
@@ -2059,12 +2097,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serialization-of-the-attributes-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> <a href="#ref-for-dfn-xml-serialization-of-the-attributes-2" title="Reference 2">(2)</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-serializing-an-attribute-value" aria-label="Links in this document to definition: serializing an attribute value">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-serializing-an-attribute-value" aria-label="Details for definition: serializing an attribute value">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-serializing-an-attribute-value" aria-label="Permalink for definition: serializing an attribute value. Activate to close this dialog.">Permalink</a>
@@ -2072,14 +2110,14 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-serializing-an-attribute-value-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> <a href="#ref-for-dfn-serializing-an-attribute-value-2" title="Reference 2">(2)</a> 
     </li><li>
       <a href="#ref-for-dfn-serializing-an-attribute-value-3" title="§ 5.2.1.1.3 Serializing an Element's attributes">§ 5.2.1.1.3 Serializing an Element's attributes</a> <a href="#ref-for-dfn-serializing-an-attribute-value-4" title="Reference 2">(2)</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-generating-a-prefix" aria-label="Links in this document to definition: generate a prefix">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-generating-a-prefix" aria-label="Details for definition: generate a prefix">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-generating-a-prefix" aria-label="Permalink for definition: generate a prefix. Activate to close this dialog.">Permalink</a>
@@ -2087,7 +2125,7 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-generating-a-prefix-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li><li>
@@ -2095,8 +2133,8 @@ console.log((new XMLSerializer()).serializeToString(root));
     </li><li>
       <a href="#ref-for-dfn-generating-a-prefix-5" title="§ 5.2.1.1.3 Serializing an Element's attributes">§ 5.2.1.1.3 Serializing an Element's attributes</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-document-node" aria-label="Links in this document to definition: XML serializing a Document node">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-document-node" aria-label="Details for definition: XML serializing a Document node">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serializing-a-document-node" aria-label="Permalink for definition: XML serializing a Document node. Activate to close this dialog.">Permalink</a>
@@ -2104,12 +2142,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serializing-a-document-node-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-comment-node" aria-label="Links in this document to definition: XML serializing a Comment node">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-comment-node" aria-label="Details for definition: XML serializing a Comment node">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serializing-a-comment-node" aria-label="Permalink for definition: XML serializing a Comment node. Activate to close this dialog.">Permalink</a>
@@ -2117,12 +2155,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serializing-a-comment-node-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-cdatasection-node" aria-label="Links in this document to definition: XML serializing a CDATASection node">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-cdatasection-node" aria-label="Details for definition: XML serializing a CDATASection node">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serializing-a-cdatasection-node" aria-label="Permalink for definition: XML serializing a CDATASection node. Activate to close this dialog.">Permalink</a>
@@ -2130,12 +2168,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serializing-a-cdatasection-node-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-text-node" aria-label="Links in this document to definition: XML serializing a Text node">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-text-node" aria-label="Details for definition: XML serializing a Text node">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serializing-a-text-node" aria-label="Permalink for definition: XML serializing a Text node. Activate to close this dialog.">Permalink</a>
@@ -2143,12 +2181,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serializing-a-text-node-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-documentfragment-node" aria-label="Links in this document to definition: XML serializing a DocumentFragment node">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-documentfragment-node" aria-label="Details for definition: XML serializing a DocumentFragment node">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serializing-a-documentfragment-node" aria-label="Permalink for definition: XML serializing a DocumentFragment node. Activate to close this dialog.">Permalink</a>
@@ -2156,14 +2194,14 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serializing-a-documentfragment-node-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li><li>
       <a href="#ref-for-dfn-xml-serializing-a-documentfragment-node-2" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-documenttype-node" aria-label="Links in this document to definition: XML serializing a DocumentType node">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-documenttype-node" aria-label="Details for definition: XML serializing a DocumentType node">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serializing-a-documenttype-node" aria-label="Permalink for definition: XML serializing a DocumentType node. Activate to close this dialog.">Permalink</a>
@@ -2171,12 +2209,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serializing-a-documenttype-node-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-serialization-of-the-id" aria-label="Links in this document to definition: serialization of the ID">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-serialization-of-the-id" aria-label="Details for definition: serialization of the ID">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-serialization-of-the-id" aria-label="Permalink for definition: serialization of the ID. Activate to close this dialog.">Permalink</a>
@@ -2184,12 +2222,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-serialization-of-the-id-1" title="§ 5.2.1.7 XML serializing a DocumentType node">§ 5.2.1.7 XML serializing a DocumentType node</a> <a href="#ref-for-dfn-serialization-of-the-id-2" title="Reference 2">(2)</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-processinginstruction-node" aria-label="Links in this document to definition: XML serializing a ProcessingInstruction node">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-serializing-a-processinginstruction-node" aria-label="Details for definition: XML serializing a ProcessingInstruction node">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-serializing-a-processinginstruction-node" aria-label="Permalink for definition: XML serializing a ProcessingInstruction node. Activate to close this dialog.">Permalink</a>
@@ -2197,12 +2235,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-serializing-a-processinginstruction-node-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-html-parser" aria-label="Links in this document to definition: HTML parser">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-html-parser" aria-label="Details for definition: HTML parser">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-html-parser" aria-label="Permalink for definition: HTML parser. Activate to close this dialog.">Permalink</a>
@@ -2210,12 +2248,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-html-parser-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-parsing-xhtml-documents" aria-label="Links in this document to definition: parsing XHTML documents">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-parsing-xhtml-documents" aria-label="Details for definition: parsing XHTML documents">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-parsing-xhtml-documents" aria-label="Permalink for definition: parsing XHTML documents. Activate to close this dialog.">Permalink</a>
@@ -2223,12 +2261,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-parsing-xhtml-documents-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-parser" aria-label="Links in this document to definition: XML parser">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-xml-parser" aria-label="Details for definition: XML parser">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-xml-parser" aria-label="Permalink for definition: XML parser. Activate to close this dialog.">Permalink</a>
@@ -2236,12 +2274,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-xml-parser-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-template-content" aria-label="Links in this document to definition: template contents">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-template-content" aria-label="Details for definition: template contents">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-template-content" aria-label="Permalink for definition: template contents. Activate to close this dialog.">Permalink</a>
@@ -2249,12 +2287,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-template-content-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> <a href="#ref-for-dfn-template-content-2" title="Reference 2">(2)</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-innerhtml" aria-label="Links in this document to definition: innerHTML">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-innerhtml" aria-label="Details for definition: innerHTML">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-innerhtml" aria-label="Permalink for definition: innerHTML. Activate to close this dialog.">Permalink</a>
@@ -2262,7 +2300,7 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-innerhtml-1" title="§ 3. Introduction">§ 3. Introduction</a> <a href="#ref-for-dfn-innerhtml-2" title="Reference 2">(2)</a> <a href="#ref-for-dfn-innerhtml-3" title="Reference 3">(3)</a> 
     </li><li>
@@ -2270,8 +2308,8 @@ console.log((new XMLSerializer()).serializeToString(root));
     </li><li>
       <a href="#ref-for-dfn-innerhtml-5" title="§ C. Acknowledgements">§ C. Acknowledgements</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-outerhtml" aria-label="Links in this document to definition: outerHTML">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-outerhtml" aria-label="Details for definition: outerHTML">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-outerhtml" aria-label="Permalink for definition: outerHTML. Activate to close this dialog.">Permalink</a>
@@ -2279,14 +2317,14 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-outerhtml-1" title="§ 4.4 Extensions to the Element interface">§ 4.4 Extensions to the Element interface</a> 
     </li><li>
       <a href="#ref-for-dfn-outerhtml-2" title="§ C. Acknowledgements">§ C. Acknowledgements</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-insertadjacenthtml" aria-label="Links in this document to definition: insertAdjacentHTML">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-insertadjacenthtml" aria-label="Details for definition: insertAdjacentHTML">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-insertadjacenthtml" aria-label="Permalink for definition: insertAdjacentHTML. Activate to close this dialog.">Permalink</a>
@@ -2294,14 +2332,14 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-insertadjacenthtml-1" title="§ 4.4 Extensions to the Element interface">§ 4.4 Extensions to the Element interface</a> 
     </li><li>
       <a href="#ref-for-dfn-insertadjacenthtml-2" title="§ C. Acknowledgements">§ C. Acknowledgements</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-attvalue" aria-label="Links in this document to definition: AttValue">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-attvalue" aria-label="Details for definition: AttValue">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-attvalue" aria-label="Permalink for definition: AttValue. Activate to close this dialog.">Permalink</a>
@@ -2309,12 +2347,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-attvalue-1" title="§ 5.2.1.1.3 Serializing an Element's attributes">§ 5.2.1.1.3 Serializing an Element's attributes</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-char" aria-label="Links in this document to definition: Char">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-char" aria-label="Details for definition: Char">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-char" aria-label="Permalink for definition: Char. Activate to close this dialog.">Permalink</a>
@@ -2322,7 +2360,7 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-char-1" title="§ 5.2.1.1.3 Serializing an Element's attributes">§ 5.2.1.1.3 Serializing an Element's attributes</a> 
     </li><li>
@@ -2334,8 +2372,8 @@ console.log((new XMLSerializer()).serializeToString(root));
     </li><li>
       <a href="#ref-for-dfn-char-5" title="§ 5.2.1.8 XML serializing a ProcessingInstruction node">§ 5.2.1.8 XML serializing a ProcessingInstruction node</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-emptyelemtag" aria-label="Links in this document to definition: EmptyElemTag">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-emptyelemtag" aria-label="Details for definition: EmptyElemTag">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-emptyelemtag" aria-label="Permalink for definition: EmptyElemTag. Activate to close this dialog.">Permalink</a>
@@ -2343,12 +2381,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-emptyelemtag-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-name" aria-label="Links in this document to definition: Name">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-name" aria-label="Details for definition: Name">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-name" aria-label="Permalink for definition: Name. Activate to close this dialog.">Permalink</a>
@@ -2356,7 +2394,7 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-name-1" title="§ 5.2.1.1 XML serializing an Element node">§ 5.2.1.1 XML serializing an Element node</a> 
     </li><li>
@@ -2364,8 +2402,8 @@ console.log((new XMLSerializer()).serializeToString(root));
     </li><li>
       <a href="#ref-for-dfn-name-3" title="§ 5.2.1.7 XML serializing a DocumentType node">§ 5.2.1.7 XML serializing a DocumentType node</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-pubidchar" aria-label="Links in this document to definition: PubidChar">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-pubidchar" aria-label="Details for definition: PubidChar">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-pubidchar" aria-label="Permalink for definition: PubidChar. Activate to close this dialog.">Permalink</a>
@@ -2373,12 +2411,12 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-pubidchar-1" title="§ 5.2.1.7 XML serializing a DocumentType node">§ 5.2.1.7 XML serializing a DocumentType node</a> 
     </li>
-  </ul>
-    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-empty-element-tag" aria-label="Links in this document to definition: empty-element tag">
+  </ul> 
+    </div><div class="dfn-panel" hidden="" role="dialog" aria-modal="true" id="dfn-panel-for-dfn-empty-element-tag" aria-label="Details for definition: empty-element tag">
       <span class="caret"></span>
       <div>
         <a class="self-link" href="#dfn-empty-element-tag" aria-label="Permalink for definition: empty-element tag. Activate to close this dialog.">Permalink</a>
@@ -2386,12 +2424,16 @@ console.log((new XMLSerializer()).serializeToString(root));
         
       </div>
       <p><b>Referenced in:</b></p>
-      <ul>
+      <ul class="dfn-panel-refs">
     <li>
       <a href="#ref-for-dfn-empty-element-tag-1" title="§ 5.2.1 XML Serialization">§ 5.2.1 XML Serialization</a> <a href="#ref-for-dfn-empty-element-tag-2" title="Reference 2">(2)</a> 
     </li>
-  </ul>
-    </div><script id="respec-highlight-vars">(() => {
+  </ul> 
+    </div><svg class="respec-visually-hidden" aria-hidden="true">
+    <symbol id="respec-dfn-panel-copy-icon" viewBox="0 0 14 16">
+      <path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path>
+    </symbol>
+  </svg><script id="respec-highlight-vars">(() => {
 // @ts-check
 
 if (document.respec) {
@@ -2520,6 +2562,7 @@ function setupPanel() {
   const listener = panelListener();
   document.body.addEventListener("keydown", listener);
   document.body.addEventListener("click", listener);
+  setupCopyButtons();
 }
 
 function panelListener() {
@@ -2610,6 +2653,10 @@ function deriveAction(event) {
     return hitALink ? "none" : "show";
   }
   if (target.closest(".dfn-panel")) {
+    // Copy buttons keep the panel open regardless of docked state.
+    if (target.closest(".dfn-panel-copy-btn")) {
+      return "none";
+    }
     if (hitALink) {
       return target.classList.contains("self-link") ? "hide" : "dock";
     }
@@ -2675,16 +2722,18 @@ function displayPanel(dfn, panel, { x, y }) {
  * @returns
  */
 function trapFocus(panel, dfn) {
-  /** @type NodeListOf<HTMLAnchorElement> elements */
-  const anchors = panel.querySelectorAll("a[href]");
+  /** @type NodeListOf<HTMLElement> */
+  const focusableElements = panel.querySelectorAll(
+    "a[href], button:not([disabled])"
+  );
   // No need to trap focus
-  if (!anchors.length) return;
+  if (!focusableElements.length) return;
 
   // Move focus to first anchor element
-  const first = anchors.item(0);
+  const first = focusableElements.item(0);
   first.focus();
 
-  const trapListener = createTrapListener(anchors, panel, dfn);
+  const trapListener = createTrapListener(focusableElements, panel, dfn);
   panel.addEventListener("keydown", trapListener);
 
   // Hiding the panel releases the trap
@@ -2701,14 +2750,13 @@ function trapFocus(panel, dfn) {
 
 /**
  *
- * @param {NodeListOf<HTMLAnchorElement>} anchors
+ * @param {NodeListOf<HTMLElement>} focusableElements
  * @param {HTMLElement} panel
  * @param {HTMLElement} dfn
  * @returns
  */
-function createTrapListener(anchors, panel, dfn) {
-  const lastIndex = anchors.length - 1;
-  let currentIndex = 0;
+function createTrapListener(focusableElements, panel, dfn) {
+  const lastIndex = focusableElements.length - 1;
   /**
    * @param {KeyboardEvent} event
    */
@@ -2717,19 +2765,27 @@ function createTrapListener(anchors, panel, dfn) {
       // Hitting "Tab" traps us in a nice loop around elements.
       case "Tab": {
         event.preventDefault();
-        currentIndex += event.shiftKey ? -1 : +1;
-        if (currentIndex < 0) {
-          currentIndex = lastIndex;
-        } else if (currentIndex > lastIndex) {
-          currentIndex = 0;
+        let index = [...focusableElements].indexOf(
+          /** @type {HTMLElement} */ (document.activeElement)
+        );
+        index += event.shiftKey ? -1 : +1;
+        if (index < 0) {
+          index = lastIndex;
+        } else if (index > lastIndex) {
+          index = 0;
         }
-        anchors.item(currentIndex).focus();
+        focusableElements.item(index).focus();
         break;
       }
 
       // Hitting "Enter" on an anchor releases the trap.
       case "Enter":
-        hidePanel(panel);
+        if (
+          event.target instanceof HTMLElement &&
+          event.target.closest("a[href]")
+        ) {
+          hidePanel(panel);
+        }
         break;
 
       // Hitting "Escape" returns focus to dfn.
@@ -2746,5 +2802,21 @@ function hidePanel(panel) {
   if (!panel) return;
   panel.hidden = true;
   panel.classList.remove("docked");
+}
+
+function setupCopyButtons() {
+  document.body.addEventListener("click", event => {
+    // The icon is an SVG, which is an Element but not an HTMLElement.
+    const target = event.target;
+    const btn =
+      target instanceof Element && target.closest(".dfn-panel-copy-btn");
+    if (!btn) return;
+    const text = btn.querySelector("code")?.textContent;
+    if (!text) return;
+    navigator.clipboard?.writeText(text).then(
+      () => btn.ariaNotify?.("Copied"),
+      () => {}
+    );
+  });
 }
 })()</script><script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script></body></html>
